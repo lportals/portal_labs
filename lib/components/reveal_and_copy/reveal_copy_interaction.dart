@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
-import 'dart:math' as math;
+
 
 /// A customizable, premium interaction widget that allows revealing
 /// and optionally copying sensitive numbers with elegant animations.
@@ -382,7 +382,7 @@ class RectProgressPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final rect = Offset.zero & size;
-    final rrect = RRect.fromRectAndRadius(rect, Radius.circular(borderRadius));
+    // final rrect = RRect.fromRectAndRadius(rect, Radius.circular(borderRadius));
     if (progress <= 0) return;
     final path = Path();
     final double centerX = rect.center.dx;

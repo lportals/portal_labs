@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 import '../models/accordion_item.dart';
 import '../models/accordion_style.dart';
 
@@ -257,7 +256,7 @@ class _AccordionItemWidgetState extends State<AccordionItemWidget>
           RotationTransition(
             turns: _rotationAnimation,
             child: Icon(
-              LucideIcons.chevronDown,
+              Icons.keyboard_arrow_down_rounded,
               color: widget.style.iconColor.withOpacity(0.5),
               size: 20,
             ),

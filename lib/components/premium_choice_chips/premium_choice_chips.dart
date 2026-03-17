@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'models/choice_item.dart';
+import '../common/premium_flip_counter.dart';
 
 /// A premium, high-fidelity interaction component for selecting items or categories.
 /// Features a multi-row horizontal scroller, 3D flip odometer counter, and flying media animations.
@@ -371,13 +371,11 @@ class _BottomActionButton extends StatefulWidget {
 }
 
 class _BottomActionButtonState extends State<_BottomActionButton> {
-  int _lastCount = 0;
   bool _upward = true;
 
   @override
   void initState() {
     super.initState();
-    _lastCount = widget.count;
   }
 
   @override
@@ -386,7 +384,6 @@ class _BottomActionButtonState extends State<_BottomActionButton> {
     if (widget.count != oldWidget.count) {
       setState(() {
         _upward = widget.count > oldWidget.count;
-        _lastCount = widget.count;
       });
     }
   }
@@ -448,101 +445,6 @@ class _BottomActionButtonState extends State<_BottomActionButton> {
               ),
             )
           : const SizedBox.shrink(key: ValueKey('none')),
-    );
-  }
-}
-
-/// A public utility widget that creates a 3D odometer-style flip animation for numbers.
-/// Each digit animates independently when its value changes.
-class PremiumFlipCounter extends StatelessWidget {
-  /// The integer value to be displayed.
-  final int value;
-
-  /// Whether the rotation animation should go upwards (increment) or downwards (decrement).
-  final bool upward;
-
-  /// The text style for the digits.
-  final TextStyle style;
-
-  const PremiumFlipCounter({
-    super.key,
-    required this.value,
-    required this.upward,
-    required this.style,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final String strValue = value.toString();
-    final List<String> digits = strValue.split('');
-
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: digits.asMap().entries.map((entry) {
-        final int index = entry.key;
-        final String digit = entry.value;
-        final int posFromRight = strValue.length - index;
-
-        return ClipRect(
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 500),
-            switchInCurve: Curves.easeOutCubic,
-            switchOutCurve: Curves.easeInCubic,
-            transitionBuilder: (child, animation) {
-              final childKey = child.key as ValueKey<String>;
-              final bool isIncoming = childKey.value == 'digit_$posFromRight\_$digit';
-              
-              final slideTween = isIncoming 
-                  ? Tween<Offset>(
-                      begin: upward ? const Offset(0.0, 1.0) : const Offset(0.0, -1.0),
-                      end: Offset.zero,
-                    )
-                  : Tween<Offset>(
-                      begin: upward ? const Offset(0.0, -1.0) : const Offset(0.0, 1.0),
-                      end: Offset.zero,
-                    );
-
-              return SlideTransition(
-                position: slideTween.animate(animation),
-                child: FadeTransition(
-                  opacity: animation,
-                  child: AnimatedBuilder(
-                    animation: animation,
-                    builder: (context, child) {
-                      final double animValue = animation.value;
-                      double rotation;
-                      if (isIncoming) {
-                        rotation = upward ? (1.0 - animValue) * -1.2 : (1.0 - animValue) * 1.2;
-                      } else {
-                        rotation = upward ? (1.0 - animValue) * 1.2 : (1.0 - animValue) * -1.2;
-                      }
-
-                      return Transform(
-                        transform: Matrix4.identity()
-                          ..setEntry(3, 2, 0.002)
-                          ..rotateX(rotation),
-                        alignment: Alignment.center,
-                        child: child,
-                      );
-                    },
-                    child: child,
-                  ),
-                ),
-              );
-            },
-            child: SizedBox(
-              width: 12,
-              key: ValueKey('digit_$posFromRight\_$digit'),
-              child: Center(
-                child: Text(
-                  digit,
-                  style: style,
-                ),
-              ),
-            ),
-          ),
-        );
-      }).toList(),
     );
   }
 }

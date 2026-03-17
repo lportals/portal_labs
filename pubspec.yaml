@@ -7,11 +7,8 @@ environment:
   sdk: ^3.11.1
 
 dependencies:
-  animations: ^2.1.1
   flutter:
     sdk: flutter
-  google_fonts: ^8.0.2
-  lucide_icons: ^0.257.0
 
 dev_dependencies:
   flutter_test:

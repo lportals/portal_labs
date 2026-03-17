@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../components/reveal_and_copy/reveal_copy_interaction.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 
 class RevealCopyShowcase extends StatefulWidget {
   const RevealCopyShowcase({super.key});
@@ -19,7 +18,7 @@ class _RevealCopyShowcaseState extends State<RevealCopyShowcase> {
         elevation: 0,
         scrolledUnderElevation: 0,
         leading: IconButton(
-          icon: const Icon(LucideIcons.arrowLeft, color: Colors.black, size: 20),
+          icon: const Icon(Icons.arrow_back_rounded, color: Colors.black, size: 20),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: const Text(

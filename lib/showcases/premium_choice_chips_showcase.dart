@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 import '../components/premium_choice_chips/premium_choice_chips.dart';
 import '../components/premium_choice_chips/models/choice_item.dart';
 
@@ -15,7 +14,7 @@ class PremiumChoiceChipsShowcase extends StatelessWidget {
         elevation: 0,
         scrolledUnderElevation: 0,
         leading: IconButton(
-          icon: Icon(LucideIcons.arrowLeft, color: Colors.black, size: 20),
+          icon: Icon(Icons.arrow_back_rounded, color: Colors.black, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
@@ -31,7 +30,7 @@ class PremiumChoiceChipsShowcase extends StatelessWidget {
         child: PremiumChoiceChips(
           items: [
             // Example of how to use Icons or Images:
-            // ChoiceItem(label: 'Design', icon: LucideIcons.palette),
+            // ChoiceItem(label: 'Design', icon: Icons.palette_outlined),
             // ChoiceItem(label: 'Photography', imagePath: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=100'),
             
             ChoiceItem(label: 'Roadtrip', emoji: '🚙'),

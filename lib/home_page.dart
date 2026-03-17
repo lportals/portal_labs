@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 import 'showcases/reveal_copy_showcase.dart';
 import 'showcases/premium_choice_chips_showcase.dart';
 import 'showcases/weight_picker_showcase.dart';
 import 'showcases/card_splitting_accordion_showcase.dart';
+import 'showcases/journal_navigation_showcase.dart';
 
 
 class HomePage extends StatelessWidget {
@@ -35,7 +35,7 @@ class HomePage extends StatelessWidget {
           _ComponentCard(
             title: 'Reveal & Copy',
             subtitle: 'Secure scramble reveal with copy animation',
-            icon: LucideIcons.eye,
+            icon: Icons.visibility_outlined,
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -47,7 +47,7 @@ class HomePage extends StatelessWidget {
           _ComponentCard(
             title: 'Premium Choice Chips',
             subtitle: 'Animated selection with pyramid flying media',
-            icon: LucideIcons.smile,
+            icon: Icons.emoji_emotions_outlined,
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -59,7 +59,7 @@ class HomePage extends StatelessWidget {
           _ComponentCard(
             title: 'Modern Weight Picker',
             subtitle: 'Curved ruler interaction with snapping physics',
-            icon: LucideIcons.gauge,
+            icon: Icons.speed_outlined,
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -71,7 +71,7 @@ class HomePage extends StatelessWidget {
           _ComponentCard(
             title: 'Card Splitting Accordion',
             subtitle: 'Cards that physically split to reveal content',
-            icon: LucideIcons.layers,
+            icon: Icons.layers_outlined,
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -80,8 +80,18 @@ class HomePage extends StatelessWidget {
               );
             },
           ),
-          
-          // Future categories could go here...
+          _ComponentCard(
+            title: 'Journal Navigation',
+            subtitle: 'Aesthetic vertical date navigation with journal previews',
+            icon: Icons.calendar_today_outlined,
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const JournalNavigationShowcase(),
+                ),
+              );
+            },
+          ),
 
 
           // const SizedBox(height: 32),
@@ -186,7 +196,7 @@ class _ComponentCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 const Icon(
-                  LucideIcons.chevronRight,
+                  Icons.chevron_right_rounded,
                   size: 20,
                   color: Color(0xFFCCCCCC),
                 ),

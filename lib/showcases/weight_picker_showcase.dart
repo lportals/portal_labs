@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 import '../components/weight_picker/weight_picker.dart';
 
 class WeightPickerShowcase extends StatefulWidget {
@@ -21,7 +20,7 @@ class _WeightPickerShowcaseState extends State<WeightPickerShowcase> {
         elevation: 0,
         scrolledUnderElevation: 0,
         leading: IconButton(
-          icon: const Icon(LucideIcons.arrowLeft, color: Colors.black, size: 20),
+          icon: const Icon(Icons.arrow_back_rounded, color: Colors.black, size: 20),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: const Text(
