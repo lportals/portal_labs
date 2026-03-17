@@ -11,6 +11,7 @@ This repository acts as a mono-repo for different premium UI components. Each co
 | **[Premium Choice Chips](#-premium-choice-chips)** | Animated selection with flip counter and flying media transitions. | `/lib/components/premium_choice_chips/` |
 | **[Reveal & Copy](#-reveal--copy)** | Secure scramble reveal for sensitive data with a copy-to-clipboard animation. | `/lib/components/reveal_and_copy/` |
 | **[Modern Weight Picker](#-modern-weight-picker)** | Precision scrollable ruler with haptic feedback and magnetic snapping. | `/lib/components/weight_picker/` |
+| **[Card Splitting Accordion](#-card-splitting-accordion)** | Magnetic grouping interaction where items split into standalone cards when expanded. | `/lib/components/card_splitting_accordion/` |
 
 ---
 
@@ -107,6 +108,48 @@ WeightPicker(
   onWeightChanged: (weight) {
     print('Current weight: $weight');
   },
+)
+```
+
+---
+
+### 🗂️ Card Splitting Accordion
+
+![Card Splitting Accordion Showcase](assets/card_splitting_accordion.gif)
+
+A high-end interaction component where collapsed items form cohesive blocks and "split" into individual floating cards when expanded. Designed for premium information hierarchies and learning modules.
+
+#### Features
+- **Magnetic Splitting:** Cards physically separate and group dynamically based on the current expansion state.
+- **Phase-Shifted Rounding:** Corner radii animate faster than the displacement for a perfectly organic, "liquid" feeling.
+- **Context-Aware Grouping:** Items automatically adjust their borders and rounding to form solid blocks when adjacent.
+- **Fully Themeable:** Easily customize colors, radii, spacing, and animation curves via a dedicated style class.
+
+#### Usage
+
+1. Copy the contents of `lib/components/card_splitting_accordion/` into your project.
+2. Use the widget:
+
+```dart
+import 'path/to/card_splitting_accordion.dart';
+
+CardSplittingAccordion(
+  style: AccordionStyle(
+    borderRadius: 22.0,
+    spacing: 16.0,
+  ),
+  items: [
+    AccordionItem(
+      title: 'UX Strategy',
+      content: 'Defining the vision and roadmap for user-centered products.',
+      icon: LucideIcons.mousePointer2,
+    ),
+    AccordionItem(
+      title: 'Visual Identity',
+      content: 'Crafting unique brand languages and design systems.',
+      icon: LucideIcons.palette,
+    ),
+  ],
 )
 ```
 

@@ -3,6 +3,8 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'showcases/reveal_copy_showcase.dart';
 import 'showcases/premium_choice_chips_showcase.dart';
 import 'showcases/weight_picker_showcase.dart';
+import 'showcases/card_splitting_accordion_showcase.dart';
+
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -66,8 +68,22 @@ class HomePage extends StatelessWidget {
               );
             },
           ),
+          _ComponentCard(
+            title: 'Card Splitting Accordion',
+            subtitle: 'Cards that physically split to reveal content',
+            icon: LucideIcons.layers,
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const CardSplittingAccordionShowcase(),
+                ),
+              );
+            },
+          ),
           
           // Future categories could go here...
+
+
           // const SizedBox(height: 32),
           // _buildSubtitle('Widgets'),
         ],
