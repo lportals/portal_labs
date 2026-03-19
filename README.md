@@ -216,7 +216,7 @@ CardSplittingAccordion(
 
 ### 🎚️ Adaptive Slider
 
-![Adaptive Slider Showcase](./assets/adaptive_slider.gif)
+![Adaptive Slider Showcase](./docs/gifs/adaptive_slider.gif)
 
 A premium, custom-painted slider component where the entire visual identity (gradients, values, and thumb) morphs dynamically based on the current value. Perfect for health, fitness, or smart-home applications.
 
