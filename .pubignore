@@ -1,0 +1,29 @@
+# Platform-specific directories (not needed for the package)
+android/
+ios/
+linux/
+macos/
+windows/
+web/
+build/
+
+# Example app (published separately on pub.dev as "example" tab)
+# pub.dev automatically picks up example/ — but we exclude build artifacts
+example/build/
+example/android/
+example/ios/
+example/linux/
+example/macos/
+example/windows/
+
+# Documentation assets (GIFs referenced via GitHub URLs)
+docs/
+
+# IDE and tooling
+.idea/
+.dart_tool/
+*.iml
+.DS_Store
+
+# Assets directory (only GIFs for README, already moved to docs/)
+assets/

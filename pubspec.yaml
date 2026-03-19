@@ -1,10 +1,15 @@
 name: portal_labs
-description: "Experimental lab for premium Flutter UI components and interactions."
-publish_to: 'none'
-version: 0.1.0+1
+description: >
+  A curated collection of premium, zero-dependency Flutter UI components
+  and experimental interactions. Built with 100% vanilla Flutter/Dart.
+version: 0.1.0
+homepage: https://labs.luisportal.com
+repository: https://github.com/luisportal/portal_labs
+issue_tracker: https://github.com/luisportal/portal_labs/issues
 
 environment:
   sdk: ^3.11.1
+  flutter: ">=3.29.0"
 
 dependencies:
   flutter:
