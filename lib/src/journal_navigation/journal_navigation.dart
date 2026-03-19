@@ -171,16 +171,18 @@ class _JournalNavigationState extends State<JournalNavigation> {
         child: Row(
           children: [
             // Left Date Slider (Vertical Pill scroller)
-            _DateSlider(
-              style: style,
-              items: widget.items,
-              selectedIndex: _selectedIndex,
-              scrollController: _scrollController,
-              onSelect: _selectIndex,
-              onScrollEnd: () {
-                // Snap effect when user finishes scrolling.
-                _scrollToSelected();
-              },
+            RepaintBoundary(
+              child: _DateSlider(
+                style: style,
+                items: widget.items,
+                selectedIndex: _selectedIndex,
+                scrollController: _scrollController,
+                onSelect: _selectIndex,
+                onScrollEnd: () {
+                  // Snap effect when user finishes scrolling.
+                  _scrollToSelected();
+                },
+              ),
             ),
 
             // Main Content Area
@@ -239,24 +241,26 @@ class _JournalNavigationState extends State<JournalNavigation> {
                             ),
                           );
                         },
-                        child: KeyedSubtree(
-                          key: ValueKey(_selectedIndex),
-                          child: selectedItem.child ?? Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              if (selectedItem.title.isNotEmpty) ...[
-                                Text(
-                                  selectedItem.title,
-                                  style: style.titleStyle,
-                                ),
-                                const SizedBox(height: 24),
+                        child: RepaintBoundary(
+                          child: KeyedSubtree(
+                            key: ValueKey(_selectedIndex),
+                            child: selectedItem.child ?? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (selectedItem.title.isNotEmpty) ...[
+                                  Text(
+                                    selectedItem.title,
+                                    style: style.titleStyle,
+                                  ),
+                                  const SizedBox(height: 24),
+                                ],
+                                if (selectedItem.content.isNotEmpty)
+                                  Text(
+                                    selectedItem.content,
+                                    style: style.contentStyle,
+                                  ),
                               ],
-                              if (selectedItem.content.isNotEmpty)
-                                Text(
-                                  selectedItem.content,
-                                  style: style.contentStyle,
-                                ),
-                            ],
+                            ),
                           ),
                         ),
                       ),

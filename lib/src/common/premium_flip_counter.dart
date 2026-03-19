@@ -111,11 +111,7 @@ class PremiumFlipCounter extends StatelessWidget {
                     rotation = (upward ? animValue - 1.0 : 1.0 - animValue) * 1.2;
                   }
 
-                  return ImageFiltered(
-                    imageFilter: ImageFilter.blur(
-                      sigmaX: 0,
-                      sigmaY: (1.0 - (animValue - 0.5).abs() * 2.0) * 1.5,
-                    ),
+                  return RepaintBoundary(
                     child: Transform(
                       transform: Matrix4.identity()
                         ..setEntry(3, 2, 0.002) // Perspective
