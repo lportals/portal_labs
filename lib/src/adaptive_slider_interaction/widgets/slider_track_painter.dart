@@ -93,7 +93,7 @@ class SliderTrackPainter extends CustomPainter {
       // A dot is active if it's behind or at the thumb's current center
       final bool isActive = x <= thumbCenterX + 0.1; // Small epsilon for precision
       
-      paint.color = isActive ? activeDotColor.withOpacity(0.5) : inactiveDotColor;
+      paint.color = isActive ? activeDotColor.withValues(alpha: 0.5) : inactiveDotColor;
       canvas.drawCircle(Offset(x, size.height / 2), 2.5, paint);
     }
   }

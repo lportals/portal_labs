@@ -323,7 +323,7 @@ class _ChoiceChip extends StatelessWidget {
           boxShadow: [
             if (isSelected)
               BoxShadow(
-                color: Colors.black.withOpacity(0.04),
+                color: Colors.black.withValues(alpha: 0.04),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
@@ -415,7 +415,7 @@ class _BottomActionButtonState extends State<_BottomActionButton> {
                 border: Border.all(color: const Color(0xFFE5E5EA), width: 1.2),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.08),
+                    color: Colors.black.withValues(alpha: 0.08),
                     blurRadius: 32,
                     offset: const Offset(0, 8),
                   ),
@@ -618,9 +618,9 @@ class _FlyingMediaState extends State<_FlyingMedia> with SingleTickerProviderSta
                               end: Alignment.bottomCenter,
                               stops: const [0.0, 0.3, 0.7, 1.0],
                               colors: [
-                                widget.backgroundColor.withOpacity(0.0),
-                                widget.backgroundColor.withOpacity(0.4),
-                                widget.backgroundColor.withOpacity(0.9),
+                                widget.backgroundColor.withValues(alpha: 0.0),
+                                widget.backgroundColor.withValues(alpha: 0.4),
+                                widget.backgroundColor.withValues(alpha: 0.9),
                                 widget.backgroundColor,
                               ],
                             ),

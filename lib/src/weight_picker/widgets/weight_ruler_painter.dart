@@ -72,7 +72,7 @@ class WeightRulerPainter extends CustomPainter {
 
       // Robust check for integer ticks (Major ticks)
       final isMajor = (i - i.roundToDouble()).abs() < 0.01;
-      paint.color = tickColor.withOpacity(opacity * 0.7);
+      paint.color = tickColor.withValues(alpha: opacity * 0.7);
       paint.strokeWidth = 2.5;
       
       // Responsive tick lengths (9% and 5% of height)
@@ -121,7 +121,7 @@ class WeightRulerPainter extends CustomPainter {
             TextSpan(
               text: label,
               style: TextStyle(
-                color: lerpedColor?.withOpacity(opacity),
+                color: lerpedColor?.withValues(alpha: opacity),
                 fontSize: isLong ? smallFontSize : baseFontSize, 
                 fontWeight: FontWeight.w800,
                 letterSpacing: isLong ? -7 : -5,
@@ -134,7 +134,7 @@ class WeightRulerPainter extends CustomPainter {
               TextSpan(
                 text: ' ${unit.toLowerCase()}',
                 style: TextStyle(
-                  color: lerpedColor?.withOpacity(opacity * (colorT - 0.5) * 2),
+                  color: lerpedColor?.withValues(alpha: opacity * (colorT - 0.5) * 2),
                   fontSize: (isLong ? smallFontSize : baseFontSize) * 0.25,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 0,

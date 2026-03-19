@@ -182,7 +182,7 @@ class _AccordionItemWidgetState extends State<AccordionItemWidget>
               borderRadius: borderRadius,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.04 + (0.04 * expandT)),
+                  color: Colors.black.withValues(alpha: 0.04 + (0.04 * expandT)),
                   blurRadius: 10 + (10 * expandT),
                   offset: Offset(0, 2 + (4 * expandT)),
                 ),
@@ -202,7 +202,7 @@ class _AccordionItemWidgetState extends State<AccordionItemWidget>
               clipBehavior: Clip.antiAlias,
               child: InkWell(
                 onTap: widget.onTap,
-                splashColor: widget.style.borderColor.withOpacity(0.1),
+                splashColor: widget.style.borderColor.withValues(alpha: 0.1),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
                   child: Column(
@@ -257,7 +257,7 @@ class _AccordionItemWidgetState extends State<AccordionItemWidget>
             turns: _rotationAnimation,
             child: Icon(
               Icons.keyboard_arrow_down_rounded,
-              color: widget.style.iconColor.withOpacity(0.5),
+              color: widget.style.iconColor.withValues(alpha: 0.5),
               size: 20,
             ),
           ),

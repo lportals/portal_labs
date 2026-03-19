@@ -203,7 +203,7 @@ class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction> w
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.w800,
-                  color: widget.style.unitColor.withOpacity(0.9),
+                  color: widget.style.unitColor.withValues(alpha: 0.9),
                 ),
               ),
             ],
@@ -295,28 +295,6 @@ class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction> w
   }
 }
 
-/// A simple widget to render text with a linear gradient.
-class _GradientText extends StatelessWidget {
-  final String text;
-  final List<Color> colors;
-  final TextStyle style;
-
-  const _GradientText(this.text, {required this.colors, required this.style});
-
-  @override
-  Widget build(BuildContext context) {
-    return ShaderMask(
-      blendMode: BlendMode.srcIn,
-      shaderCallback: (bounds) => LinearGradient(
-        colors: colors,
-        begin: Alignment.centerLeft,
-        end: Alignment.centerRight,
-      ).createShader(Rect.fromLTWH(0, 0, bounds.width, bounds.height)),
-      child: Text(text, style: style),
-    );
-  }
-}
-
 /// The circular thumb of the slider with a white interior and thick colored border.
 class _SliderThumb extends StatelessWidget {
   final double size;
@@ -334,11 +312,11 @@ class _SliderThumb extends StatelessWidget {
         shape: BoxShape.circle,
         border: Border.all(
           width: 5.0,
-          color: colors.last.withOpacity(0.8), // Dynamic border reflecting progress
+          color: colors.last.withValues(alpha: 0.8), // Dynamic border reflecting progress
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
