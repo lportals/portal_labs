@@ -202,7 +202,10 @@ class _AccordionItemWidgetState extends State<AccordionItemWidget>
               clipBehavior: Clip.antiAlias,
               child: InkWell(
                 onTap: widget.onTap,
-                splashColor: widget.style.borderColor.withValues(alpha: 0.1),
+                highlightColor: Colors.transparent,
+                splashColor: Colors.transparent,
+                hoverColor: Colors.transparent,
+                mouseCursor: SystemMouseCursors.click,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
                   child: Column(

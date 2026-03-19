@@ -322,45 +322,48 @@ class _DateSlider extends StatelessWidget {
                 }
                 return false;
               },
-              child: ListView.builder(
-                controller: scrollController,
-                padding: const EdgeInsets.symmetric(vertical: 135), // Centering factor
-                itemCount: items.length,
-                physics: const BouncingScrollPhysics(),
-                itemBuilder: (context, index) {
-                  final isSelected = index == selectedIndex;
-                  // Manual padding to avoid 'intl' dependency
-                  final day = items[index].date.day.toString().padLeft(2, '0');
+              child: ScrollConfiguration(
+                behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                child: ListView.builder(
+                  controller: scrollController,
+                  padding: const EdgeInsets.symmetric(vertical: 135), // Centering factor
+                  itemCount: items.length,
+                  physics: const BouncingScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    final isSelected = index == selectedIndex;
+                    // Manual padding to avoid 'intl' dependency
+                    final day = items[index].date.day.toString().padLeft(2, '0');
 
-                  return GestureDetector(
-                    onTap: () => onSelect(index),
-                    child: Container(
-                      height: 46,
-                      alignment: Alignment.center,
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                        padding: const EdgeInsets.all(6),
-                        decoration: isSelected
-                            ? BoxDecoration(
-                                color: style.selectedDayColor,
-                                shape: BoxShape.circle,
-                              )
-                            : null,
-                        child: Text(
-                          day,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                            color: isSelected
-                                ? const Color(0xFF4A4A4A)
-                                : const Color(0xFFBCBCBC),
+                    return GestureDetector(
+                      onTap: () => onSelect(index),
+                      child: Container(
+                        height: 46,
+                        alignment: Alignment.center,
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                          padding: const EdgeInsets.all(6),
+                          decoration: isSelected
+                              ? BoxDecoration(
+                                  color: style.selectedDayColor,
+                                  shape: BoxShape.circle,
+                                )
+                              : null,
+                          child: Text(
+                            day,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                              color: isSelected
+                                  ? const Color(0xFF4A4A4A)
+                                  : const Color(0xFFBCBCBC),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ),
 

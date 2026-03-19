@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'widgets/weight_ruler_painter.dart';
@@ -223,14 +224,24 @@ class _ModernWeightPickerState extends State<ModernWeightPicker> {
                 }
                 return false;
               },
-              child: SingleChildScrollView(
-                controller: _scrollController,
-                scrollDirection: Axis.horizontal,
-                physics: const BouncingScrollPhysics(),
-                child: SizedBox(
-                  width: (widget.maxValue - widget.minValue) * _pixelsPerUnit + 
-                         MediaQuery.of(context).size.width,
-                  height: widget.height,
+              child: ScrollConfiguration(
+                behavior: ScrollConfiguration.of(context).copyWith(
+                  dragDevices: {
+                    PointerDeviceKind.touch,
+                    PointerDeviceKind.mouse,
+                    PointerDeviceKind.trackpad,
+                  },
+                  scrollbars: false,
+                ),
+                child: SingleChildScrollView(
+                  controller: _scrollController,
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  child: SizedBox(
+                    width: (widget.maxValue - widget.minValue) * _pixelsPerUnit + 
+                           MediaQuery.of(context).size.width,
+                    height: widget.height,
+                  ),
                 ),
               ),
             ),

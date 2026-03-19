@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'home_page.dart';
 
 void main() {
@@ -20,8 +21,21 @@ class PortalLabsApp extends StatelessWidget {
         useMaterial3: true,
         fontFamily: 'Inter',
       ),
+      // We inject the "Safe Area" mock at the very root of the application.
+      // This ensures that all pages, including showcases, inherit the padding.
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(
+            padding: kIsWeb 
+                ? const EdgeInsets.only(top: 50, bottom: 34) 
+                : null,
+          ),
+          child: child!,
+        );
+      },
       home: const HomePage(),
     );
   }
 }
+
 

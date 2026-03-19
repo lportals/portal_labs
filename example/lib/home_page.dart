@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'showcases/reveal_copy_showcase.dart';
 import 'showcases/premium_choice_chips_showcase.dart';
 import 'showcases/weight_picker_showcase.dart';
 import 'showcases/card_splitting_accordion_showcase.dart';
 import 'showcases/journal_navigation_showcase.dart';
 import 'showcases/adaptive_slider_showcase.dart';
-
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -28,90 +28,88 @@ class HomePage extends StatelessWidget {
         elevation: 0,
         centerTitle: false,
       ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-        children: [
-          _buildSubtitle('Interactions'),
-          const SizedBox(height: 16),
-          _ComponentCard(
-            title: 'Reveal & Copy',
-            subtitle: 'Secure scramble reveal with copy animation',
-            icon: Icons.visibility_outlined,
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => const RevealCopyShowcase(),
-                ),
-              );
-            },
+      body: SafeArea(
+        child: ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+            children: [
+              _buildSubtitle('Interactions'),
+              const SizedBox(height: 16),
+              _ComponentCard(
+                title: 'Reveal & Copy',
+                subtitle: 'Secure scramble reveal with copy animation',
+                icon: Icons.visibility_outlined,
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const RevealCopyShowcase(),
+                    ),
+                  );
+                },
+              ),
+              _ComponentCard(
+                title: 'Premium Choice Chips',
+                subtitle: 'Animated selection with pyramid flying media',
+                icon: Icons.emoji_emotions_outlined,
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const PremiumChoiceChipsShowcase(),
+                    ),
+                  );
+                },
+              ),
+              _ComponentCard(
+                title: 'Modern Weight Picker',
+                subtitle: 'Curved ruler interaction with snapping physics',
+                icon: Icons.speed_outlined,
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const WeightPickerShowcase(),
+                    ),
+                  );
+                },
+              ),
+              _ComponentCard(
+                title: 'Card Splitting Accordion',
+                subtitle: 'Cards that physically split to reveal content',
+                icon: Icons.layers_outlined,
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const CardSplittingAccordionShowcase(),
+                    ),
+                  );
+                },
+              ),
+              _ComponentCard(
+                title: 'Journal Navigation',
+                subtitle: 'Aesthetic vertical date navigation with journal previews',
+                icon: Icons.calendar_today_outlined,
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const JournalNavigationShowcase(),
+                    ),
+                  );
+                },
+              ),
+              _ComponentCard(
+                title: 'Adaptive Slider',
+                subtitle: 'Dynamic gradient slider with real-time value morphing',
+                icon: Icons.tune_rounded,
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const AdaptiveSliderShowcase(),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
-          _ComponentCard(
-            title: 'Premium Choice Chips',
-            subtitle: 'Animated selection with pyramid flying media',
-            icon: Icons.emoji_emotions_outlined,
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => const PremiumChoiceChipsShowcase(),
-                ),
-              );
-            },
-          ),
-          _ComponentCard(
-            title: 'Modern Weight Picker',
-            subtitle: 'Curved ruler interaction with snapping physics',
-            icon: Icons.speed_outlined,
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => const WeightPickerShowcase(),
-                ),
-              );
-            },
-          ),
-          _ComponentCard(
-            title: 'Card Splitting Accordion',
-            subtitle: 'Cards that physically split to reveal content',
-            icon: Icons.layers_outlined,
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => const CardSplittingAccordionShowcase(),
-                ),
-              );
-            },
-          ),
-          _ComponentCard(
-            title: 'Journal Navigation',
-            subtitle: 'Aesthetic vertical date navigation with journal previews',
-            icon: Icons.calendar_today_outlined,
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => const JournalNavigationShowcase(),
-                ),
-              );
-            },
-          ),
-          _ComponentCard(
-            title: 'Adaptive Slider',
-            subtitle: 'Dynamic gradient slider with real-time value morphing',
-            icon: Icons.tune_rounded,
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => const AdaptiveSliderShowcase(),
-                ),
-              );
-            },
-          ),
-
-
-          // const SizedBox(height: 32),
-          // _buildSubtitle('Widgets'),
-        ],
-      ),
-    );
+        ),
+      );
   }
 
   Widget _buildSubtitle(String text) {
@@ -129,6 +127,7 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
 
 class _ComponentCard extends StatelessWidget {
   final String title;
@@ -221,3 +220,5 @@ class _ComponentCard extends StatelessWidget {
     );
   }
 }
+
+
