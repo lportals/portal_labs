@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
 
-
 /// A customizable, premium interaction widget that allows revealing
 /// and optionally copying sensitive numbers with elegant animations.
 class RevealCopyInteraction extends StatefulWidget {
@@ -77,11 +76,11 @@ class _RevealCopyInteractionState extends State<RevealCopyInteraction>
     with TickerProviderStateMixin {
   bool _isRevealed = false;
   bool _isCopied = false;
-  
+
   late AnimationController _progressController;
   late AnimationController _scrambleController;
   late AnimationController _shimmerController;
-  
+
   @override
   void initState() {
     super.initState();
@@ -129,18 +128,18 @@ class _RevealCopyInteractionState extends State<RevealCopyInteraction>
     setState(() {
       _isRevealed = true;
     });
-    
+
     widget.onRevealed?.call();
-    
+
     _progressController.forward(from: 0.0);
     _scrambleController.forward(from: 0.0);
-    
+
     Future.delayed(const Duration(milliseconds: 400), () {
       if (mounted && _isRevealed) {
         _shimmerController.forward(from: 0.0);
       }
     });
-    
+
     HapticFeedback.mediumImpact();
   }
 
@@ -161,13 +160,13 @@ class _RevealCopyInteractionState extends State<RevealCopyInteraction>
 
   void _copyToClipboard() {
     if (!widget.enableCopy) return;
-    
+
     Clipboard.setData(ClipboardData(text: widget.value));
     setState(() {
       _isCopied = true;
     });
     HapticFeedback.vibrate();
-    
+
     widget.onCopied?.call();
 
     Future.delayed(const Duration(milliseconds: 1500), () {
@@ -197,9 +196,7 @@ class _RevealCopyInteractionState extends State<RevealCopyInteraction>
       ),
       child: Row(
         children: [
-          Expanded(
-            child: _buildAnimatedNumbers(),
-          ),
+          Expanded(child: _buildAnimatedNumbers()),
           const SizedBox(width: 4),
           _buildActionButton(),
         ],
@@ -212,7 +209,7 @@ class _RevealCopyInteractionState extends State<RevealCopyInteraction>
       animation: Listenable.merge([_scrambleController, _shimmerController]),
       builder: (context, child) {
         final text = _getScrambledText();
-        
+
         final defaultTextStyle = const TextStyle(
           fontSize: 20,
           color: Color(0xFF111111),
@@ -221,12 +218,10 @@ class _RevealCopyInteractionState extends State<RevealCopyInteraction>
           letterSpacing: 0.8,
         );
 
-        final content = Text(
-          text,
-          style: widget.textStyle ?? defaultTextStyle,
-        );
+        final content = Text(text, style: widget.textStyle ?? defaultTextStyle);
 
-        if (_isRevealed && _shimmerController.isAnimating || _shimmerController.isCompleted) {
+        if (_isRevealed && _shimmerController.isAnimating ||
+            _shimmerController.isCompleted) {
           return ShaderMask(
             blendMode: BlendMode.srcIn,
             shaderCallback: (bounds) {
@@ -234,9 +229,9 @@ class _RevealCopyInteractionState extends State<RevealCopyInteraction>
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  widget.textStyle?.color ?? const Color(0xFF111111), 
-                  Colors.white,      
-                  widget.textStyle?.color ?? const Color(0xFF111111), 
+                  widget.textStyle?.color ?? const Color(0xFF111111),
+                  Colors.white,
+                  widget.textStyle?.color ?? const Color(0xFF111111),
                 ],
                 stops: const [0.35, 0.5, 0.65],
                 transform: SlidingGradientTransform(
@@ -256,12 +251,12 @@ class _RevealCopyInteractionState extends State<RevealCopyInteraction>
   String _getScrambledText() {
     final String fullText = widget.value;
     final String maskedText = _getMaskedString(fullText);
-    
+
     if (!_isRevealed && _scrambleController.isDismissed) return maskedText;
-    
+
     final double progress = _scrambleController.value;
     final int charactersToReveal = (fullText.length * progress).floor();
-    
+
     StringBuffer buffer = StringBuffer();
     for (int i = 0; i < fullText.length; i++) {
       if (i < charactersToReveal) {
@@ -276,12 +271,12 @@ class _RevealCopyInteractionState extends State<RevealCopyInteraction>
   String _getMaskedString(String input) {
     final parts = input.split(' ');
     final mask = widget.maskCharacter;
-    
+
     // Check if it looks like a credit card number (4 blocks of 4)
     if (parts.length == 4) {
       return '${parts[0]} $mask$mask$mask$mask $mask$mask$mask$mask ${parts[3]}';
     }
-    
+
     // Generic masking for other strings
     return input.replaceAll(RegExp(r'\d'), mask);
   }
@@ -290,7 +285,7 @@ class _RevealCopyInteractionState extends State<RevealCopyInteraction>
     return GestureDetector(
       onTap: _handleInteraction,
       child: SizedBox(
-        width: 40, 
+        width: 40,
         height: 40,
         child: Stack(
           alignment: Alignment.center,
@@ -300,8 +295,12 @@ class _RevealCopyInteractionState extends State<RevealCopyInteraction>
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: _isRevealed ? widget.successColor.withValues(alpha: 0.2) : const Color(0xFFF5F5F5),
-                borderRadius: BorderRadius.circular(widget.borderRadius * (10/16)),
+                color: _isRevealed
+                    ? widget.successColor.withValues(alpha: 0.2)
+                    : const Color(0xFFF5F5F5),
+                borderRadius: BorderRadius.circular(
+                  widget.borderRadius * (10 / 16),
+                ),
               ),
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 500),
@@ -310,17 +309,16 @@ class _RevealCopyInteractionState extends State<RevealCopyInteraction>
                 transitionBuilder: (Widget child, Animation<double> animation) {
                   return ScaleTransition(
                     scale: animation,
-                    child: FadeTransition(
-                      opacity: animation,
-                      child: child,
-                    ),
+                    child: FadeTransition(opacity: animation, child: child),
                   );
                 },
                 child: Icon(
                   _getIcon(),
                   key: ValueKey<int>(_isCopied ? 2 : (_isRevealed ? 1 : 0)),
                   size: 18,
-                  color: _isRevealed ? widget.successColor : const Color(0xFF111111),
+                  color: _isRevealed
+                      ? widget.successColor
+                      : const Color(0xFF111111),
                 ),
               ),
             ),
@@ -335,7 +333,7 @@ class _RevealCopyInteractionState extends State<RevealCopyInteraction>
                         progress: 1.0 - _progressController.value,
                         color: widget.successColor,
                         strokeWidth: 3.0,
-                        borderRadius: widget.borderRadius * (10/16),
+                        borderRadius: widget.borderRadius * (10 / 16),
                       ),
                     );
                   },
@@ -349,7 +347,7 @@ class _RevealCopyInteractionState extends State<RevealCopyInteraction>
 
   IconData _getIcon() {
     if (!_isRevealed) return Icons.visibility_outlined;
-    if (!widget.enableCopy) return Icons.visibility_off_outlined; 
+    if (!widget.enableCopy) return Icons.visibility_off_outlined;
     if (_isCopied) return Icons.check_rounded;
     return Icons.content_copy_rounded;
   }
@@ -388,13 +386,25 @@ class RectProgressPainter extends CustomPainter {
     final double centerX = rect.center.dx;
     path.moveTo(centerX, rect.top);
     path.lineTo(rect.right - borderRadius, rect.top);
-    path.arcToPoint(Offset(rect.right, rect.top + borderRadius), radius: Radius.circular(borderRadius));
+    path.arcToPoint(
+      Offset(rect.right, rect.top + borderRadius),
+      radius: Radius.circular(borderRadius),
+    );
     path.lineTo(rect.right, rect.bottom - borderRadius);
-    path.arcToPoint(Offset(rect.right - borderRadius, rect.bottom), radius: Radius.circular(borderRadius));
+    path.arcToPoint(
+      Offset(rect.right - borderRadius, rect.bottom),
+      radius: Radius.circular(borderRadius),
+    );
     path.lineTo(rect.left + borderRadius, rect.bottom);
-    path.arcToPoint(Offset(rect.left, rect.bottom - borderRadius), radius: Radius.circular(borderRadius));
+    path.arcToPoint(
+      Offset(rect.left, rect.bottom - borderRadius),
+      radius: Radius.circular(borderRadius),
+    );
     path.lineTo(rect.left, rect.top + borderRadius);
-    path.arcToPoint(Offset(rect.left + borderRadius, rect.top), radius: Radius.circular(borderRadius));
+    path.arcToPoint(
+      Offset(rect.left + borderRadius, rect.top),
+      radius: Radius.circular(borderRadius),
+    );
     path.lineTo(centerX, rect.top);
     final pathMetrics = path.computeMetrics();
     final activePaint = Paint()

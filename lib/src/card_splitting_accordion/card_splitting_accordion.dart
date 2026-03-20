@@ -6,9 +6,9 @@ import 'widgets/accordion_item_widget.dart';
 export 'models/accordion_item.dart';
 export 'models/accordion_style.dart';
 
-/// A premium accordion component where collapsed items group into solid blocks 
+/// A premium accordion component where collapsed items group into solid blocks
 /// and "split" into individual cards when expanded.
-/// 
+///
 /// This component provides a high-end interaction paradigm common in modern
 /// OS interfaces, ensuring consistent visibility and smooth, organic animations.
 class CardSplittingAccordion extends StatefulWidget {
@@ -68,14 +68,18 @@ class _CardSplittingAccordionState extends State<CardSplittingAccordion> {
         final index = entry.key;
         final item = entry.value;
         final bool isExpanded = _expandedIndex == index;
-        
+
         // Logical blocks: items above or below the split point
-        final bool isUpperSection = _expandedIndex != null && index < _expandedIndex!;
-        final bool isLowerSection = _expandedIndex != null && index > _expandedIndex!;
-        
+        final bool isUpperSection =
+            _expandedIndex != null && index < _expandedIndex!;
+        final bool isLowerSection =
+            _expandedIndex != null && index > _expandedIndex!;
+
         // Split boundaries: These specific items trigger the physical separation
-        final bool isAtEndOfUpperSection = _expandedIndex != null && index == _expandedIndex! - 1;
-        final bool isAtStartOfLowerSection = _expandedIndex != null && index == _expandedIndex! + 1;
+        final bool isAtEndOfUpperSection =
+            _expandedIndex != null && index == _expandedIndex! - 1;
+        final bool isAtStartOfLowerSection =
+            _expandedIndex != null && index == _expandedIndex! + 1;
 
         return AccordionItemWidget(
           key: ValueKey('accordion_item_${item.title}_$index'),

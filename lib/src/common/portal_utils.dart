@@ -1,25 +1,56 @@
 import 'package:flutter/material.dart';
 
 /// A central hub for internal "Zero-Dependency" utilities.
-/// 
-/// These are lightweight, functional helpers designed specifically for 
+///
+/// These are lightweight, functional helpers designed specifically for
 /// the Portal Labs component library to avoid relying on external packages
 /// like 'intl' or 'lucide'.
 class PortalUtils {
   /// Simple list of abbreviated month names.
   static const List<String> shortMonths = [
-    '', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    '',
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
   ];
 
   /// Simple list of full month names.
   static const List<String> fullMonths = [
-    '', 'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
+    '',
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
   ];
 
   /// Simple list of weekday initials.
-  static const List<String> weekdayInitials = ['', 'M', 'T', 'W', 'T', 'F', 'S', 'S'];
+  static const List<String> weekdayInitials = [
+    '',
+    'M',
+    'T',
+    'W',
+    'T',
+    'F',
+    'S',
+    'S',
+  ];
 
   /// Formats a month number (1-12) to its short string representation.
   static String formatMonthShort(int month) {
@@ -47,5 +78,13 @@ class PortalUtils {
       textDirection: TextDirection.ltr,
     )..layout();
     return textPainter.size;
+  }
+
+  /// Formats a number with comma separators.
+  /// Example: 1234567 -> "1,234,567"
+  static String formatNumber(int value) {
+    String str = value.toString();
+    RegExp reg = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
+    return str.replaceAllMapped(reg, (Match m) => '${m[1]},');
   }
 }

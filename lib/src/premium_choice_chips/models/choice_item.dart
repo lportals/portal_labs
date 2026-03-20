@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 /// A flexible data model representing a selection item.
-/// 
+///
 /// The component supports three types of visual representation:
 /// 1. [emoji] - A simple text emoji (best for performance).
 /// 2. [icon] - A Flutter [IconData] object (best for vector designs).
@@ -10,7 +10,7 @@ class ChoiceItem {
   /// The human-readable name of the item (e.g., 'Music', 'Apples').
   final String label;
 
-  /// A text emoji string (e.g., '🎨'). 
+  /// A text emoji string (e.g., '🎨').
   /// Set this to null if using [icon] or [imagePath].
   final String? emoji;
 

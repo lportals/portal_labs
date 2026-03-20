@@ -68,8 +68,5 @@ class AdaptiveColorStep {
   /// The gradient colors for this threshold.
   final List<Color> colors;
 
-  const AdaptiveColorStep({
-    required this.threshold,
-    required this.colors,
-  });
+  const AdaptiveColorStep({required this.threshold, required this.colors});
 }

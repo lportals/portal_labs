@@ -1,212 +1,168 @@
-# 🧪 Portal Labs
+# Portal Labs
 
-A curated collection of **premium, zero-dependency** Flutter UI components and experimental interactions. Built with 100% vanilla Flutter/Dart.
+A specialized collection of **high-performance, dependency-free** Flutter UI components and advanced interactions. Built exclusively with vanilla Flutter and Dart to ensure maximum portability and long-term stability.
 
-## 🚀 The "Zero-Dependency" Promise
+## Design Philosophy
 
-Every component in this repository is built using only the core Flutter and Dart libraries. 
-- **No `intl`**: Manual date logic and formatting centralized in `PortalUtils`.
-- **No `lucide_icons` or `font_awesome`**: Uses standard Material Design rounded icons.
-- **No `google_fonts`**: Uses system default fonts for zero-latency, native performance.
-- **No `animations` package**: All physics and transitions are built with `AnimationController` and `Tween`s.
+The Portal Labs architecture is centered around three core pillars: **performance**, **portability**, and **visual excellence**. By adhering to a strict "zero-dependency" technical policy, we ensure that every component remains lightweight and compatible across all Flutter-supported platforms.
 
-To maintain scalability without external bloat, we use [PortalUtils](/lib/src/common/portal_utils.dart), a lightweight internal utility for text measurement, date formatting, and spacing.
+### Technical Constraints
 
-This makes every component **instantly copy-pasteable** into any Flutter project without adding bloat or versioning conflicts.
+To maintain a clean architecture and eliminate overhead, this repository follows these engineering standards:
 
-## 📖 Component Library
+*   **SDK-Only Foundation**: Components are developed using only core Flutter and Dart libraries.
+*   **Internal Utilites**: Formatting, text measurement, and specialized date logic are centralized in [PortalUtils](/lib/src/common/portal_utils.dart) to avoid external packages like `intl`.
+*   **Custom Design System**: Icons and typography leverage system defaults and Material Design standards, removing the need for `google_fonts` or third-party icon sets.
+*   **Native Animation Engine**: Complex physics and mechanical transitions (e.g., 3D flips, magnetic snapping) are implemented using standard `AnimationController` and `Tween` sequences.
 
-A pub.dev-ready package of premium UI components. Install via `flutter pub add portal_labs` or copy individual components into your project.
+This strategy makes every component **instantly portable**—allowing developers to integrate the full library or copy individual source files without managing external versioning conflicts.
 
-| Component | Description | Complexity | Location |
-|-----------|-------------|------------|----------|
-| **[Reveal & Copy](#-reveal--copy)** | Secure scramble reveal for sensitive data with copy-to-clipboard animation. | Low | `/lib/src/reveal_and_copy/` |
-| **[Modern Weight Picker](#-modern-weight-picker)** | Precision scrollable ruler with haptic feedback and magnetic snapping. | Low-Mid | `/lib/src/weight_picker/` |
-| **[Premium Choice Chips](#-premium-choice-chips)** | Animated selection with flip counter and flying media transitions. | Mid | `/lib/src/premium_choice_chips/` |
-| **[Journal Navigation](#-journal-navigation)** | Aesthetic daily entries with a vertical scroller, 3D flip counter, and snapping. | Mid-High | `/lib/src/journal_navigation/` |
-| **[Card Splitting Accordion](#-card-splitting-accordion)** | Magnetic grouping interaction where items split into standalone cards. | High | `/lib/src/card_splitting_accordion/` |
-| **[Adaptive Slider](#-adaptive-slider)** | Dynamic gradient slider with real-time value morphing and adaptive track. | Mid | `/lib/src/adaptive_slider_interaction/` |
+## Component Library
+
+| Component | Description | Technical Scope | Location |
+| :--- | :--- | :--- | :--- |
+| **[Reveal & Copy](#reveal--copy)** | Secure data masking with scramble reveal and clipboard animation. | Interaction | `/lib/src/reveal_and_copy/` |
+| **[Modern Weight Picker](#modern-weight-picker)** | Precision scrollable ruler with magnetic snapping and haptic feedback. | Numeric Input | `/lib/src/weight_picker/` |
+| **[Premium Choice Chips](#premium-choice-chips)** | Animated multi-selection system with flying media transitions. | Selection | `/lib/src/premium_choice_chips/` |
+| **[Journal Navigation](#journal-navigation)** | Vertical date-based navigation with 3D flip counters and snapping transitions. | Navigation | `/lib/src/journal_navigation/` |
+| **[Card Splitting Accordion](#card-splitting-accordion)** | Dynamic grouping interaction with physical splitting and variable corner radii. | Layout | `/lib/src/card_splitting_accordion/` |
+| **[Adaptive Slider](#adaptive-slider)** | Value-aware gradient slider with real-time color morphing. | Interaction | `/lib/src/adaptive_slider_interaction/` |
+| **[Range Selection Slider](#range-selection-slider)** | Premium bi-directional range selector with mechanical Odometer-style counters and manual input support. | Selection | `/lib/src/range_selection_slider/` |
 
 ---
 
-### 🔒 Reveal & Copy
+### Reveal & Copy
 
 ![Reveal & Copy Showcase](./docs/gifs/reveal_and_copy.gif)
 
-A premium interaction designed for safely displaying and copying sensitive information like credit card numbers, passwords, or API keys. 
+A specialized interaction designed for the secure presentation and acquisition of sensitive data (e.g., credentials, financial accounts).
 
-#### Features
-- **Secure by Default:** Values are masked with a custom character (defaults to '×').
-- **Elegant Animations:** Smooth scramble reveal effect and a premium shimmer pass upon revealing.
-- **Auto-Hide:** Automatically reverts to a masked state after a configurable duration.
-- **Micro-interactions:** Integrated copy-to-clipboard functionality with animated visual feedback.
+#### Key Features
 
-#### Usage
+*   **Secure Masking**: Configurable character masking with an automated shimmer reveal effect.
+*   **Timed Visibility**: Automatic reversion to masked state after a defined duration for enhanced security.
+*   **Integrated Micro-interactions**: Smooth clipboard integration with visual feedback.
 
-1. Add the package: `flutter pub add portal_labs`
-2. Use the widget:
+#### Integration
 
 ```dart
 import 'package:portal_labs/portal_labs.dart';
 
 RevealCopyInteraction(
   value: '4485 2291 0034 7516',
-  onCopied: () {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Copied successfully!')),
-    );
-  },
+  onCopied: () => print('Data copied to clipboard'),
 )
 ```
 
 ---
 
-### ⚖️ Modern Weight Picker
+### Modern Weight Picker
 
 ![Weight Picker Showcase](./docs/gifs/weight_picker.gif)
 
-A sleek, precision-focused ruler input for numeric values, perfect for fitness apps or physical measurements.
+A precision-engineered ruler interface for numeric input, optimized for tactile feedback and high-accuracy selection.
 
-#### Features
-- **Precision Ruler:** Custom-painted interactive ruler with major and minor increments.
-- **Magnetic Snapping:** Smooth snapping to the nearest value for a tactile feel.
-- **Dynamic Feedback:** Real-time value updates as the user scrolls.
-- **Premium Styling:** Gradient-based highlighting and modern typography.
+#### Key Features
 
-#### Usage
+*   **Custom-Painted Ruler**: High-resolution track with distinct major/minor increments.
+*   **Magnetic Snapping**: Centered alignment logic that snaps to the nearest precision point.
+*   **Low-Latency Feedback**: Real-time value synchronization optimized for 60fps interaction.
 
-1. Add the package: `flutter pub add portal_labs`
-2. Use the widget:
+#### Integration
 
 ```dart
 import 'package:portal_labs/portal_labs.dart';
 
 ModernWeightPicker(
   initialValue: 75.0,
-  onValueChanged: (weight) {
-    print('Current weight: $weight');
-  },
+  onValueChanged: (weight) => print('Selection: $weight'),
 )
 ```
 
 ---
 
-### 🎨 Premium Choice Chips
+### Premium Choice Chips
 
 ![Premium Choice Chips Showcase](./docs/gifs/premium_choice_chips.gif)
 
-A playful and engaging interaction component for selections, featuring high-end animations and multi-media support (Emojis, Icons, and Images).
+An engaging multi-selection component supporting diverse media types and dynamic animated transitions.
 
-#### Features
-- **Multi-media Support:** Use text emojis, Flutter icons, or network/asset images as items.
-- **Flying Media Animation:** When an item is selected, a pyramid of 3 media elements (emoji/icon/image) flies up and "lands" in the counter.
-- **3D Flip Counter:** An odometer-style flip animation for counting selections.
-- **Customizable Labels:** Easily change button labels (e.g., "Interest" vs "Interests").
+#### Key Features
 
-#### Usage
+*   **Media Agnostic**: Native support for Unicode emojis, Material icons, and custom images.
+*   **Kinetic Transitions**: Selection events trigger a "landing" animation with flying media particles.
+*   **Directional Counter**: Integrated Odometer-style counter for real-time selection tracking.
 
-1. Add the package: `flutter pub add portal_labs`
-2. Use the widget:
+#### Integration
 
 ```dart
 import 'package:portal_labs/portal_labs.dart';
 
 PremiumChoiceChips(
   items: [
-    ChoiceItem(label: 'Design', icon: Icons.palette_outlined), // Material support
-    ChoiceItem(label: 'Coffee', emoji: '☕'),               // Emoji support
+    ChoiceItem(label: 'Design', icon: Icons.palette_outlined),
+    ChoiceItem(label: 'Coffee', emoji: '☕'),
   ],
-  onSelectionChanged: (selected) {
-    print('Selected: ${selected.length} items');
-  },
+  onSelectionChanged: (selected) => print('Selected count: ${selected.length}'),
 )
 ```
 
 ---
 
-### 📔 Journal Navigation
+### Journal Navigation
 
 ![Journal Navigation Showcase](./docs/gifs/journal_navigation.gif)
 
-A premium, aesthetic interaction designed for daily logging or historical views. Features a vertical date slider on the left and a content area on the right with smooth animations and transitions.
+An aesthetic vertical navigation system designed for chronological content exploration and high-end journal applications.
 
-#### Features
-- **Vertical Date Scroller:** A minimal white-pill scroller with infinite support for months and days.
-- **Magnetic Snapping:** Smooth snapping physics that centers the selected date automatically.
-- **3D Flip Counter:** An odometer-style flip animation for the day number, indicating direction (past/future).
-- **Custom Child Support:** Replace the default title/content with any complex widget (Images, Charts, Videos).
-- **Style Injection:** Fully customizable via `JournalStyle` (colors, borders, shadows, typography).
-- **Smooth Content Transitions:** Fade and slide animations when switching journal entries.
+#### Key Features
 
-#### Usage
+*   **Infinite Vertical Scroll**: Efficient scrolling logic supporting seamless date transitions.
+*   **Direction-Aware Flips**: 3D flip animations that indicate the scroll direction (past/future).
+*   **Modular Content Display**: Decoupled navigation logic allowing for any custom widget as the journal entry.
 
-1. Add the package: `flutter pub add portal_labs`
-2. Use the widget:
+#### Integration
 
 ```dart
 import 'package:portal_labs/portal_labs.dart';
 
 JournalNavigation(
   items: [
-    // Standard text entry
     JournalItem(
       date: DateTime.now(),
-      title: 'A day for deep focus 🧠',
-      content: 'Taking long walks and letting my mind wander.',
-    ),
-    // Custom widget entry
-    JournalItem(
-      date: DateTime.now().add(const Duration(days: 1)),
-      child: Column(
-        children: [
-          Image.network('https://...'),
-          const Text('Custom Media Day'),
-        ],
-      ),
+      title: 'Project Inception',
+      content: 'Core architecture finalized.',
     ),
   ],
-  initialDate: DateTime.now(),
-  onDateChanged: (item) => print("Selected: ${item.title}"),
+  onDateChanged: (item) => print("Current view: ${item.title}"),
 )
 ```
 
 ---
 
-### 🗂️ Card Splitting Accordion
+### Card Splitting Accordion
 
 ![Card Splitting Accordion Showcase](./docs/gifs/card_splitting_accordion.gif)
 
-A high-end interaction component where collapsed items form cohesive blocks and "split" into individual floating cards when expanded. Designed for premium information hierarchies and learning modules.
+A sophisticated layout component where cards dynamically merge and separate based on their expansion state.
 
-#### Features
-- **Magnetic Splitting:** Cards physically separate and group dynamically based on the current expansion state.
-- **Phase-Shifted Rounding:** Corner radii animate faster than the displacement for a perfectly organic, "liquid" feeling.
-- **Context-Aware Grouping:** Items automatically adjust their borders and rounding to form solid blocks when adjacent.
-- **Fully Themeable:** Easily customize colors, radii, spacing, and animation curves via a dedicated style class.
+#### Key Features
 
-#### Usage
+*   **Physical Splitting Logic**: Cards appear to physically separate from a cohesive block into standalone units.
+*   **Phase-Shifted Rounding**: Independent interpolation of corner radii and displacement for a natural feel.
+*   **Adaptive Theme System**: Comprehensive style injection via the `AccordionStyle` configuration.
 
-1. Add the package: `flutter pub add portal_labs`
-2. Use the widget:
+#### Integration
 
 ```dart
 import 'package:portal_labs/portal_labs.dart';
 
 CardSplittingAccordion(
-  style: AccordionStyle(
-    borderRadius: 22.0,
-    spacing: 16.0,
-  ),
   items: [
     AccordionItem(
       title: 'UX Strategy',
-      content: 'Defining the vision and roadmap for user-centered products.',
+      content: 'Finalizing the vision for user-centered design systems.',
       icon: Icons.mouse_rounded,
-    ),
-    AccordionItem(
-      title: 'Visual Identity',
-      content: 'Crafting unique brand languages and design systems.',
-      icon: Icons.palette_outlined,
     ),
   ],
 )
@@ -214,45 +170,60 @@ CardSplittingAccordion(
 
 ---
 
-### 🎚️ Adaptive Slider
+### Adaptive Slider
 
 ![Adaptive Slider Showcase](./docs/gifs/adaptive_slider.gif)
 
-A premium, custom-painted slider component where the entire visual identity (gradients, values, and thumb) morphs dynamically based on the current value. Perfect for health, fitness, or smart-home applications.
+A value-aware interaction component where the visual state adaptively morphs based on input thresholds.
 
-#### Features
-- **Morphing Gradients:** Linear interpolation between custom color steps as you drag.
-- **Visual Context Dots:** Interactive indicator dots that change color based on the slider's progress.
-- **Haptic-Ready Logic:** Built-in hooks for adding haptic feedback at major value thresholds.
-- **Style Injection:** Fully customizable via `AdaptiveSliderStyle` (track height, thumb size, and color steps).
-- **Gradient Value Display:** The numeric label uses the same adaptive gradient as the slider track.
+#### Key Features
 
-#### Usage
+*   **Morphing Gradients**: Linear color interpolation across the track based on defined thresholds.
+*   **Contextual Indicators**: Dynamic indicator points that recalculate their state on every frame.
+*   **Gradient Typography**: Value labels share the adaptive gradient of the active track.
 
-1. Add the package: `flutter pub add portal_labs`
-2. Use the widget:
+#### Integration
 
 ```dart
 import 'package:portal_labs/portal_labs.dart';
 
 AdaptiveSliderInteraction(
-  value: _currentValue,
-  min: 0,
-  max: 100,
-  title: 'Intensity',
-  unit: '%',
-  onChanged: (val) => setState(() => _currentValue = val),
-  style: AdaptiveSliderStyle(
-    colorSteps: [
-      AdaptiveColorStep(threshold: 0.0, colors: [Colors.green, Colors.teal]),
-      AdaptiveColorStep(threshold: 1.0, colors: [Colors.orange, Colors.red]),
-    ],
-  ),
+  value: _val,
+  colorSteps: [
+    AdaptiveColorStep(threshold: 0.0, colors: [Colors.blue, Colors.cyan]),
+    AdaptiveColorStep(threshold: 1.0, colors: [Colors.red, Colors.orange]),
+  ],
+  onChanged: (val) => setState(() => _val = val),
 )
 ```
 
 ---
 
-## 🤝 Contributing
+### Range Selection Slider
 
-Feel free to open issues or submit pull requests if you have ideas for new interactions or improvements to existing ones!
+![Range Selection Slider Showcase](./docs/gifs/range_slider.gif)
+
+A high-end range selection component featuring a stylized slider and mechanical 3D counters with manual input support.
+
+#### Key Features
+
+*   **Mechanical 3D Flip Counters**: Independent digit animations responding to range adjustments.
+*   **Manual Input Support**: Seamlessly transition from flip counters to manual text entry on tap.
+*   **Adaptive Formatting**: Built-in support for localized numeric formatting and currency symbols.
+
+#### Integration
+
+```dart
+import 'package:portal_labs/portal_labs.dart';
+
+RangeSelectionSlider(
+  values: const RangeValues(640, 2380),
+  onChanged: (values) => print("Range adjusted"),
+)
+```
+
+---
+
+## Contributing
+
+Contributions focusing on performance optimization, new interaction patterns, or accessibility improvements are welcome. Please ensure all submissions adhere to the SDK-only dependency policy.

@@ -5,12 +5,12 @@ import 'models/adaptive_slider_style.dart';
 import 'widgets/slider_track_painter.dart';
 
 /// A premium, highly customizable [Slider] alternative.
-/// 
+///
 /// This component features a dynamic design where the look and feel (gradients, thumb style)
-/// adapts dynamically based on the current value. It includes a 3D odometer-style 
+/// adapts dynamically based on the current value. It includes a 3D odometer-style
 /// counter for the number display and a custom-painted track with decorative dots.
-/// 
-/// All values, dots, and colors are calculated dynamically based on the provided 
+///
+/// All values, dots, and colors are calculated dynamically based on the provided
 /// [min], [max], [step], and [dotCount] parameters.
 class AdaptiveSliderInteraction extends StatefulWidget {
   /// The current value of the slider (between 0.0 and 1.0).
@@ -55,17 +55,19 @@ class AdaptiveSliderInteraction extends StatefulWidget {
   });
 
   @override
-  State<AdaptiveSliderInteraction> createState() => _AdaptiveSliderInteractionState();
+  State<AdaptiveSliderInteraction> createState() =>
+      _AdaptiveSliderInteractionState();
 }
 
 /// Internal state for [AdaptiveSliderInteraction] handling animations and gesture math.
-class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction> with TickerProviderStateMixin {
+class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction>
+    with TickerProviderStateMixin {
   late AnimationController _scaleController;
   late AnimationController _progressController;
   late Animation<double> _thumbScaleAnimation;
-  
+
   final GlobalKey _trackKey = GlobalKey();
-  
+
   // Track previous value to determine flip direction
   double _lastReportedValue = 0;
   bool _isDragging = false;
@@ -74,12 +76,12 @@ class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction> w
   void initState() {
     super.initState();
     _lastReportedValue = widget.value;
-    
+
     _scaleController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 150),
     );
-    
+
     _progressController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 400),
@@ -87,7 +89,10 @@ class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction> w
     );
 
     _thumbScaleAnimation = Tween<double>(begin: 1.0, end: 1.1).animate(
-      CurvedAnimation(parent: _scaleController, curve: const _SubtleBounceCurve()),
+      CurvedAnimation(
+        parent: _scaleController,
+        curve: const _SubtleBounceCurve(),
+      ),
     );
   }
 
@@ -96,7 +101,7 @@ class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction> w
     super.didUpdateWidget(oldWidget);
     if (widget.value != oldWidget.value) {
       _lastReportedValue = oldWidget.value;
-      
+
       // If the value changed from outside (not dragging), we animate it with a bounce
       if (!_isDragging) {
         _progressController.animateTo(
@@ -118,7 +123,7 @@ class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction> w
     super.dispose();
   }
 
-  double _getNormalized(double value) => 
+  double _getNormalized(double value) =>
       ((value - widget.min) / (widget.max - widget.min)).clamp(0.0, 1.0);
 
   /// Interpolates current colors based on the current animated value.
@@ -129,16 +134,18 @@ class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction> w
     AdaptiveColorStep upper = widget.style.colorSteps.last;
 
     for (int i = 0; i < widget.style.colorSteps.length - 1; i++) {
-        if (t >= widget.style.colorSteps[i].threshold && t <= widget.style.colorSteps[i+1].threshold) {
-            lower = widget.style.colorSteps[i];
-            upper = widget.style.colorSteps[i+1];
-            break;
-        }
+      if (t >= widget.style.colorSteps[i].threshold &&
+          t <= widget.style.colorSteps[i + 1].threshold) {
+        lower = widget.style.colorSteps[i];
+        upper = widget.style.colorSteps[i + 1];
+        break;
+      }
     }
 
     if (lower == upper) return lower.colors;
-    final double rangeT = (t - lower.threshold) / (upper.threshold - lower.threshold);
-    
+    final double rangeT =
+        (t - lower.threshold) / (upper.threshold - lower.threshold);
+
     final List<Color> interpolated = [];
     for (int i = 0; i < lower.colors.length; i++) {
       interpolated.add(Color.lerp(lower.colors[i], upper.colors[i], rangeT)!);
@@ -147,7 +154,11 @@ class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction> w
   }
 
   /// Handles touch interaction by mapping a local offset to a slider value.
-  void _handleInteraction(Offset localOffset, double totalWidth, {bool isDragging = false}) {
+  void _handleInteraction(
+    Offset localOffset,
+    double totalWidth, {
+    bool isDragging = false,
+  }) {
     final double trackHeight = widget.style.trackHeight;
     final double startX = trackHeight / 2;
     final double endX = totalWidth - trackHeight / 2;
@@ -157,14 +168,14 @@ class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction> w
 
     final double t = ((localOffset.dx - startX) / range).clamp(0.0, 1.0);
     double newValue = widget.min + (t * (widget.max - widget.min));
-    
+
     // Snap to the defined step
     newValue = (newValue / widget.step).round() * widget.step;
     newValue = newValue.clamp(widget.min, widget.max);
-    
+
     if (newValue != widget.value) {
       HapticFeedback.selectionClick();
-      
+
       // We manually update the controller here for an even faster visual response
       if (isDragging) {
         _progressController.value = _getNormalized(newValue);
@@ -175,7 +186,7 @@ class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction> w
           curve: const _SubtleBounceCurve(),
         );
       }
-      
+
       widget.onChanged(newValue);
     }
   }
@@ -187,11 +198,17 @@ class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction> w
       builder: (context, _) {
         final double normalized = _progressController.value;
         final colors = _getCurrentColors(normalized);
-        final int effectiveDotCount = widget.dotCount ?? 
+        final int effectiveDotCount =
+            widget.dotCount ??
             ((widget.max - widget.min) / widget.step).round() + 1;
 
         return Padding(
-          padding: const EdgeInsets.only(left: 24, right: 24, top: 32, bottom: 0),
+          padding: const EdgeInsets.only(
+            left: 24,
+            right: 24,
+            top: 32,
+            bottom: 0,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -214,9 +231,8 @@ class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction> w
                 textBaseline: TextBaseline.alphabetic,
                 children: [
                   ShaderMask(
-                    shaderCallback: (bounds) => LinearGradient(
-                      colors: colors,
-                    ).createShader(bounds),
+                    shaderCallback: (bounds) =>
+                        LinearGradient(colors: colors).createShader(bounds),
                     child: PremiumFlipCounter(
                       value: widget.value.round(),
                       upward: widget.value >= _lastReportedValue,
@@ -246,8 +262,8 @@ class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction> w
               // 3. Interactive Slider Track
               GestureDetector(
                 onPanStart: (details) {
-                   _isDragging = true;
-                   _scaleController.forward();
+                  _isDragging = true;
+                  _scaleController.forward();
                 },
                 onPanEnd: (_) {
                   _isDragging = false;
@@ -255,16 +271,27 @@ class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction> w
                 },
                 onTapDown: (details) {
                   _scaleController.forward();
-                  final RenderBox? box = _trackKey.currentContext?.findRenderObject() as RenderBox?;
+                  final RenderBox? box =
+                      _trackKey.currentContext?.findRenderObject()
+                          as RenderBox?;
                   if (box != null) {
-                    _handleInteraction(box.globalToLocal(details.globalPosition), box.size.width);
+                    _handleInteraction(
+                      box.globalToLocal(details.globalPosition),
+                      box.size.width,
+                    );
                   }
                 },
                 onTapUp: (_) => _scaleController.reverse(),
                 onPanUpdate: (details) {
-                  final RenderBox? box = _trackKey.currentContext?.findRenderObject() as RenderBox?;
+                  final RenderBox? box =
+                      _trackKey.currentContext?.findRenderObject()
+                          as RenderBox?;
                   if (box != null) {
-                    _handleInteraction(box.globalToLocal(details.globalPosition), box.size.width, isDragging: true);
+                    _handleInteraction(
+                      box.globalToLocal(details.globalPosition),
+                      box.size.width,
+                      isDragging: true,
+                    );
                   }
                 },
                 child: Container(
@@ -278,8 +305,10 @@ class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction> w
                       final double trackHeight = widget.style.trackHeight;
 
                       // Fill calculation
-                      final double activeWidth = trackHeight + (normalized * (width - trackHeight));
-                      final double thumbCenterX = activeWidth - (trackHeight / 2);
+                      final double activeWidth =
+                          trackHeight + (normalized * (width - trackHeight));
+                      final double thumbCenterX =
+                          activeWidth - (trackHeight / 2);
 
                       return SizedBox(
                         height: trackHeight,
@@ -297,7 +326,8 @@ class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction> w
                                   borderRadius: widget.style.trackBorderRadius,
                                   dotCount: effectiveDotCount,
                                   activeDotColor: widget.style.activeDotColor,
-                                  inactiveDotColor: widget.style.inactiveDotColor,
+                                  inactiveDotColor:
+                                      widget.style.inactiveDotColor,
                                   thumbSize: thumbSize,
                                   trackHeight: trackHeight,
                                 ),
@@ -345,7 +375,9 @@ class _SliderThumb extends StatelessWidget {
         shape: BoxShape.circle,
         border: Border.all(
           width: 5.0,
-          color: colors.last.withValues(alpha: 0.8), // Dynamic border reflecting progress
+          color: colors.last.withValues(
+            alpha: 0.8,
+          ), // Dynamic border reflecting progress
         ),
         boxShadow: [
           BoxShadow(

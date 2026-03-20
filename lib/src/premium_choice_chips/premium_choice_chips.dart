@@ -5,7 +5,7 @@ import '../common/premium_flip_counter.dart';
 
 /// A premium, high-fidelity interaction component for selecting items or categories.
 /// Features a multi-row horizontal scroller, 3D flip odometer counter, and flying media animations.
-/// 
+///
 /// Supports [ChoiceItem] items which can contain emojis, icons, or images.
 class PremiumChoiceChips extends StatefulWidget {
   /// The title displayed at the top of the component.
@@ -48,7 +48,8 @@ class PremiumChoiceChips extends StatefulWidget {
   State<PremiumChoiceChips> createState() => _PremiumChoiceChipsState();
 }
 
-class _PremiumChoiceChipsState extends State<PremiumChoiceChips> with TickerProviderStateMixin {
+class _PremiumChoiceChipsState extends State<PremiumChoiceChips>
+    with TickerProviderStateMixin {
   final Set<ChoiceItem> _selectedItems = {};
   final List<_FlyingMediaData> _activeFlyingMedia = [];
   final LayerLink _buttonLayerLink = LayerLink();
@@ -56,7 +57,7 @@ class _PremiumChoiceChipsState extends State<PremiumChoiceChips> with TickerProv
 
   void _onChipTapped(ChoiceItem item) {
     if (_activeFlyingMedia.isNotEmpty) return;
-    
+
     setState(() {
       final isSelected = _selectedItems.contains(item);
       if (isSelected) {
@@ -74,11 +75,14 @@ class _PremiumChoiceChipsState extends State<PremiumChoiceChips> with TickerProv
     Offset? buttonPos;
     try {
       final RenderBox? stackBox = context.findRenderObject() as RenderBox?;
-      final RenderBox? targetBox = _buttonTargetKey.currentContext?.findRenderObject() as RenderBox?;
-      
+      final RenderBox? targetBox =
+          _buttonTargetKey.currentContext?.findRenderObject() as RenderBox?;
+
       if (stackBox != null) {
         if (targetBox != null) {
-          buttonPos = stackBox.globalToLocal(targetBox.localToGlobal(targetBox.size.center(Offset.zero)));
+          buttonPos = stackBox.globalToLocal(
+            targetBox.localToGlobal(targetBox.size.center(Offset.zero)),
+          );
         } else {
           // Fallback if button is not yet rendered (first click)
           final Size size = stackBox.size;
@@ -88,12 +92,14 @@ class _PremiumChoiceChipsState extends State<PremiumChoiceChips> with TickerProv
     } catch (_) {}
 
     setState(() {
-      _activeFlyingMedia.add(_FlyingMediaData(
-        id: id,
-        item: item,
-        startPosition: buttonPos,
-        targetPosition: buttonPos,
-      ));
+      _activeFlyingMedia.add(
+        _FlyingMediaData(
+          id: id,
+          item: item,
+          startPosition: buttonPos,
+          targetPosition: buttonPos,
+        ),
+      );
     });
   }
 
@@ -157,28 +163,28 @@ class _PremiumChoiceChipsState extends State<PremiumChoiceChips> with TickerProv
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   physics: const BouncingScrollPhysics(),
                   child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: rows.map((rowItems) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: Row(
-                        children: rowItems.map((item) {
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 12),
-                            child: _ChoiceChip(
-                              item: item,
-                              isSelected: _selectedItems.contains(item),
-                              accentColor: widget.accentColor,
-                              onTap: () => _onChipTapped(item),
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    );
-                  }).toList(),
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: rows.map((rowItems) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Row(
+                          children: rowItems.map((item) {
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 12),
+                              child: _ChoiceChip(
+                                item: item,
+                                isSelected: _selectedItems.contains(item),
+                                accentColor: widget.accentColor,
+                                onTap: () => _onChipTapped(item),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      );
+                    }).toList(),
+                  ),
                 ),
               ),
-            ),
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 12, bottom: 40),
@@ -197,15 +203,19 @@ class _PremiumChoiceChipsState extends State<PremiumChoiceChips> with TickerProv
         Positioned.fill(
           child: Stack(
             clipBehavior: Clip.none,
-            children: _activeFlyingMedia.map((anim) => _FlyingMedia(
-              key: ValueKey(anim.id),
-              item: anim.item,
-              startPosition: anim.startPosition,
-              targetPosition: anim.targetPosition,
-              backgroundColor: widget.backgroundColor,
-              accentColor: widget.accentColor,
-              onComplete: () => _removeFlyingMedia(anim.id),
-            )).toList(),
+            children: _activeFlyingMedia
+                .map(
+                  (anim) => _FlyingMedia(
+                    key: ValueKey(anim.id),
+                    item: anim.item,
+                    startPosition: anim.startPosition,
+                    targetPosition: anim.targetPosition,
+                    backgroundColor: widget.backgroundColor,
+                    accentColor: widget.accentColor,
+                    onComplete: () => _removeFlyingMedia(anim.id),
+                  ),
+                )
+                .toList(),
           ),
         ),
 
@@ -241,9 +251,9 @@ class _FlyingMediaData {
   final Offset? startPosition;
   final Offset? targetPosition;
   _FlyingMediaData({
-    required this.id, 
-    required this.item, 
-    this.startPosition, 
+    required this.id,
+    required this.item,
+    this.startPosition,
     this.targetPosition,
   });
 }
@@ -253,25 +263,14 @@ class _ChoiceMedia extends StatelessWidget {
   final double size;
   final Color? color;
 
-  const _ChoiceMedia({
-    required this.item,
-    this.size = 20,
-    this.color,
-  });
+  const _ChoiceMedia({required this.item, this.size = 20, this.color});
 
   @override
   Widget build(BuildContext context) {
     if (item.emoji != null) {
-      return Text(
-        item.emoji!,
-        style: TextStyle(fontSize: size),
-      );
+      return Text(item.emoji!, style: TextStyle(fontSize: size));
     } else if (item.icon != null) {
-      return Icon(
-        item.icon,
-        size: size,
-        color: color,
-      );
+      return Icon(item.icon, size: size, color: color);
     } else if (item.imagePath != null) {
       final isNetwork = item.imagePath!.startsWith('http');
       return Container(
@@ -280,9 +279,9 @@ class _ChoiceMedia extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(size * 0.2),
           image: DecorationImage(
-            image: isNetwork 
-              ? NetworkImage(item.imagePath!) as ImageProvider
-              : AssetImage(item.imagePath!),
+            image: isNetwork
+                ? NetworkImage(item.imagePath!) as ImageProvider
+                : AssetImage(item.imagePath!),
             fit: BoxFit.cover,
           ),
         ),
@@ -471,7 +470,8 @@ class _FlyingMedia extends StatefulWidget {
   State<_FlyingMedia> createState() => _FlyingMediaState();
 }
 
-class _FlyingMediaState extends State<_FlyingMedia> with SingleTickerProviderStateMixin {
+class _FlyingMediaState extends State<_FlyingMedia>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -483,7 +483,7 @@ class _FlyingMediaState extends State<_FlyingMedia> with SingleTickerProviderSta
       duration: const Duration(milliseconds: 2000),
     );
     _animation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
-    
+
     // Use a post-frame callback to start the animation.
     // This ensures the first frame is rendered with t=0 (scale 0).
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -507,39 +507,57 @@ class _FlyingMediaState extends State<_FlyingMedia> with SingleTickerProviderSta
           final Size stackSize = constraints.biggest;
           final double centerX = stackSize.width / 2;
           final double centerY = stackSize.height / 2 - 60;
-          
-          if (stackSize.width < 10 || stackSize.height < 10) return const SizedBox.shrink();
-          
+
+          if (stackSize.width < 10 || stackSize.height < 10)
+            return const SizedBox.shrink();
+
           return AnimatedBuilder(
             animation: _animation,
             builder: (context, child) {
               final double t = _animation.value;
-              final Offset startOrigin = widget.startPosition ?? Offset(centerX, stackSize.height - 40);
-              final Offset endTarget = widget.targetPosition ?? Offset(centerX, stackSize.height - 40);
-              
+              final Offset startOrigin =
+                  widget.startPosition ??
+                  Offset(centerX, stackSize.height - 40);
+              final Offset endTarget =
+                  widget.targetPosition ??
+                  Offset(centerX, stackSize.height - 40);
+
               _EmojiAnimParams getParams(int index) {
                 double upStart, upEnd, downStart, downEnd;
                 double targetX, targetY;
 
                 switch (index) {
                   case 0: // Left
-                    upStart = 0.0; upEnd = 0.3;
-                    downStart = 0.7; downEnd = 1.0;
-                    targetX = centerX - 60; targetY = centerY + 30;
+                    upStart = 0.0;
+                    upEnd = 0.3;
+                    downStart = 0.7;
+                    downEnd = 1.0;
+                    targetX = centerX - 60;
+                    targetY = centerY + 30;
                     break;
                   case 2: // Middle
-                    upStart = 0.05; upEnd = 0.35;
-                    downStart = 0.65; downEnd = 0.95;
-                    targetX = centerX; targetY = centerY - 60;
+                    upStart = 0.05;
+                    upEnd = 0.35;
+                    downStart = 0.65;
+                    downEnd = 0.95;
+                    targetX = centerX;
+                    targetY = centerY - 60;
                     break;
                   case 1: // Right
-                    upStart = 0.1; upEnd = 0.4;
-                    downStart = 0.6; downEnd = 0.9;
-                    targetX = centerX + 60; targetY = centerY + 30;
+                    upStart = 0.1;
+                    upEnd = 0.4;
+                    downStart = 0.6;
+                    downEnd = 0.9;
+                    targetX = centerX + 60;
+                    targetY = centerY + 30;
                     break;
                   default:
-                    upStart = 0; upEnd = 0; downStart = 0; downEnd = 0;
-                    targetX = 0; targetY = 0;
+                    upStart = 0;
+                    upEnd = 0;
+                    downStart = 0;
+                    downEnd = 0;
+                    targetX = 0;
+                    targetY = 0;
                 }
 
                 double opacity = 0.0;
@@ -554,22 +572,26 @@ class _FlyingMediaState extends State<_FlyingMedia> with SingleTickerProviderSta
                     scale = 0.0;
                     blur = 0.0;
                   } else {
-                    double localT = ((t - upStart) / (upEnd - upStart)).clamp(0.0, 1.0);
+                    double localT = ((t - upStart) / (upEnd - upStart)).clamp(
+                      0.0,
+                      1.0,
+                    );
                     // Smooth ascent
                     double posEased = Curves.easeOutCubic.transform(localT);
-                    
+
                     curY = lerpDouble(startOrigin.dy, targetY, posEased)!;
                     curX = lerpDouble(startOrigin.dx, targetX, posEased)!;
-                    
+
                     // MANDATORY: No fade-in during ascent to ensure visibility from the button
                     opacity = 1.0;
                     scale = 2.0 * localT;
-                    
+
                     // Rapid blur clear-up
                     blur = 10.0 * (1.0 - (localT / 0.25)).clamp(0.0, 1.0);
                   }
                 } else if (t > downStart) {
-                  double localT = ((t - downStart) / (downEnd - downStart)).clamp(0.0, 1.0);
+                  double localT = ((t - downStart) / (downEnd - downStart))
+                      .clamp(0.0, 1.0);
                   double eased = Curves.easeInCubic.transform(localT);
                   curY = lerpDouble(targetY, endTarget.dy, eased)!;
                   curX = lerpDouble(targetX, endTarget.dx, eased)!;
@@ -594,11 +616,15 @@ class _FlyingMediaState extends State<_FlyingMedia> with SingleTickerProviderSta
 
               double overlayOpacity = 0.0;
               if (t < 0.2) {
-                overlayOpacity = Curves.easeOut.transform((t / 0.2).clamp(0.0, 1.0));
+                overlayOpacity = Curves.easeOut.transform(
+                  (t / 0.2).clamp(0.0, 1.0),
+                );
               } else if (t < 0.8) {
                 overlayOpacity = 1.0;
               } else {
-                overlayOpacity = Curves.easeIn.transform((1.0 - ((t - 0.8) / 0.2)).clamp(0.0, 1.0));
+                overlayOpacity = Curves.easeIn.transform(
+                  (1.0 - ((t - 0.8) / 0.2)).clamp(0.0, 1.0),
+                );
               }
 
               return Stack(
@@ -640,7 +666,13 @@ class _FlyingMediaState extends State<_FlyingMedia> with SingleTickerProviderSta
     );
   }
 
-  Widget _buildMedia(double x, double y, double scale, double opacity, double blur) {
+  Widget _buildMedia(
+    double x,
+    double y,
+    double scale,
+    double opacity,
+    double blur,
+  ) {
     if (opacity <= 0) return const SizedBox.shrink();
     return Positioned(
       left: x - 30,

@@ -51,7 +51,7 @@ class _JournalNavigationState extends State<JournalNavigation> {
   late int _selectedIndex;
   late int _prevIndex;
   late final ScrollController _scrollController;
-  
+
   /// Flag to prevent recursion between human interaction and programmatic scroll.
   bool _isAutoScrolling = false;
 
@@ -61,7 +61,7 @@ class _JournalNavigationState extends State<JournalNavigation> {
     _selectedIndex = _getInitialIndex();
     _prevIndex = _selectedIndex;
     _scrollController = ScrollController();
-    
+
     _scrollController.addListener(_onScroll);
 
     // Initial scroll position to center the current date.
@@ -78,7 +78,9 @@ class _JournalNavigationState extends State<JournalNavigation> {
     // Each date item has a height of 46px.
     final int newIndex = (offset / 46.0).round();
 
-    if (newIndex >= 0 && newIndex < widget.items.length && newIndex != _selectedIndex) {
+    if (newIndex >= 0 &&
+        newIndex < widget.items.length &&
+        newIndex != _selectedIndex) {
       if (mounted) {
         setState(() {
           _prevIndex = _selectedIndex;
@@ -92,10 +94,12 @@ class _JournalNavigationState extends State<JournalNavigation> {
   /// Find index of the [initialDate] in the [items] list.
   int _getInitialIndex() {
     if (widget.initialDate == null) return 0;
-    final index = widget.items.indexWhere((item) => 
-      item.date.year == widget.initialDate!.year &&
-      item.date.month == widget.initialDate!.month &&
-      item.date.day == widget.initialDate!.day);
+    final index = widget.items.indexWhere(
+      (item) =>
+          item.date.year == widget.initialDate!.year &&
+          item.date.month == widget.initialDate!.month &&
+          item.date.day == widget.initialDate!.day,
+    );
     return index != -1 ? index : 0;
   }
 
@@ -104,7 +108,7 @@ class _JournalNavigationState extends State<JournalNavigation> {
     if (!_scrollController.hasClients) return;
 
     final double targetOffset = _selectedIndex * 46.0;
-    
+
     // GUARD: Avoid redundant animations leading to Stack Overflow loops.
     if ((_scrollController.offset - targetOffset).abs() < 0.5) return;
 
@@ -118,7 +122,7 @@ class _JournalNavigationState extends State<JournalNavigation> {
     } else {
       _scrollController.jumpTo(targetOffset);
     }
-    
+
     // Short grace period to settle events before re-enabling listener.
     await Future.delayed(const Duration(milliseconds: 50));
     _isAutoScrolling = false;
@@ -126,7 +130,8 @@ class _JournalNavigationState extends State<JournalNavigation> {
 
   /// Explicitly select a date (via tap or arrows).
   void _selectIndex(int index) {
-    if (index < 0 || index >= widget.items.length || index == _selectedIndex) return;
+    if (index < 0 || index >= widget.items.length || index == _selectedIndex)
+      return;
     if (mounted) {
       setState(() {
         _prevIndex = _selectedIndex;
@@ -148,9 +153,11 @@ class _JournalNavigationState extends State<JournalNavigation> {
   Widget build(BuildContext context) {
     final style = widget.style;
     final selectedItem = widget.items[_selectedIndex];
-    
+
     // Manual date formatting using central PortalUtils
-    final String monthString = PortalUtils.formatMonthShort(selectedItem.date.month);
+    final String monthString = PortalUtils.formatMonthShort(
+      selectedItem.date.month,
+    );
 
     return Container(
       width: double.infinity,
@@ -158,13 +165,15 @@ class _JournalNavigationState extends State<JournalNavigation> {
       decoration: BoxDecoration(
         color: style.backgroundColor,
         borderRadius: BorderRadius.circular(style.borderRadius),
-        boxShadow: style.shadows ?? [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 20,
-            offset: const Offset(0, 10),
-          ),
-        ],
+        boxShadow:
+            style.shadows ??
+            [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.05),
+                blurRadius: 20,
+                offset: const Offset(0, 10),
+              ),
+            ],
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(style.borderRadius),
@@ -226,41 +235,47 @@ class _JournalNavigationState extends State<JournalNavigation> {
                     Expanded(
                       child: AnimatedSwitcher(
                         duration: const Duration(milliseconds: 400),
-                        transitionBuilder: (Widget child, Animation<double> animation) {
-                          return FadeTransition(
-                            opacity: animation,
-                            child: SlideTransition(
-                              position: Tween<Offset>(
-                                begin: const Offset(0, 0.05),
-                                end: Offset.zero,
-                              ).animate(CurvedAnimation(
-                                parent: animation,
-                                curve: Curves.easeOutCubic,
-                              )),
-                              child: child,
-                            ),
-                          );
-                        },
+                        transitionBuilder:
+                            (Widget child, Animation<double> animation) {
+                              return FadeTransition(
+                                opacity: animation,
+                                child: SlideTransition(
+                                  position:
+                                      Tween<Offset>(
+                                        begin: const Offset(0, 0.05),
+                                        end: Offset.zero,
+                                      ).animate(
+                                        CurvedAnimation(
+                                          parent: animation,
+                                          curve: Curves.easeOutCubic,
+                                        ),
+                                      ),
+                                  child: child,
+                                ),
+                              );
+                            },
                         child: RepaintBoundary(
                           child: KeyedSubtree(
                             key: ValueKey(_selectedIndex),
-                            child: selectedItem.child ?? Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                if (selectedItem.title.isNotEmpty) ...[
-                                  Text(
-                                    selectedItem.title,
-                                    style: style.titleStyle,
-                                  ),
-                                  const SizedBox(height: 24),
-                                ],
-                                if (selectedItem.content.isNotEmpty)
-                                  Text(
-                                    selectedItem.content,
-                                    style: style.contentStyle,
-                                  ),
-                              ],
-                            ),
+                            child:
+                                selectedItem.child ??
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    if (selectedItem.title.isNotEmpty) ...[
+                                      Text(
+                                        selectedItem.title,
+                                        style: style.titleStyle,
+                                      ),
+                                      const SizedBox(height: 24),
+                                    ],
+                                    if (selectedItem.content.isNotEmpty)
+                                      Text(
+                                        selectedItem.content,
+                                        style: style.contentStyle,
+                                      ),
+                                  ],
+                                ),
                           ),
                         ),
                       ),
@@ -323,16 +338,23 @@ class _DateSlider extends StatelessWidget {
                 return false;
               },
               child: ScrollConfiguration(
-                behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                behavior: ScrollConfiguration.of(
+                  context,
+                ).copyWith(scrollbars: false),
                 child: ListView.builder(
                   controller: scrollController,
-                  padding: const EdgeInsets.symmetric(vertical: 135), // Centering factor
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 135,
+                  ), // Centering factor
                   itemCount: items.length,
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
                     final isSelected = index == selectedIndex;
                     // Manual padding to avoid 'intl' dependency
-                    final day = items[index].date.day.toString().padLeft(2, '0');
+                    final day = items[index].date.day.toString().padLeft(
+                      2,
+                      '0',
+                    );
 
                     return GestureDetector(
                       onTap: () => onSelect(index),
@@ -353,7 +375,9 @@ class _DateSlider extends StatelessWidget {
                             day,
                             style: TextStyle(
                               fontSize: 14,
-                              fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                              fontWeight: isSelected
+                                  ? FontWeight.bold
+                                  : FontWeight.w500,
                               color: isSelected
                                   ? const Color(0xFF4A4A4A)
                                   : const Color(0xFFBCBCBC),
@@ -482,11 +506,7 @@ class _ArrowButton extends StatelessWidget {
           ],
         ),
         child: Center(
-          child: Icon(
-            icon,
-            size: 18,
-            color: isEnabled ? color : disabledColor,
-          ),
+          child: Icon(icon, size: 18, color: isEnabled ? color : disabledColor),
         ),
       ),
     );

@@ -12,9 +12,5 @@ class AccordionItem {
   final IconData? icon;
 
   /// Creates a new [AccordionItem].
-  const AccordionItem({
-    required this.title,
-    required this.content,
-    this.icon,
-  });
+  const AccordionItem({required this.title, required this.content, this.icon});
 }

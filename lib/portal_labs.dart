@@ -33,3 +33,7 @@ export 'src/card_splitting_accordion/models/accordion_style.dart';
 // Adaptive Slider
 export 'src/adaptive_slider_interaction/adaptive_slider_interaction.dart';
 export 'src/adaptive_slider_interaction/models/adaptive_slider_style.dart';
+
+// Range Selection Slider
+export 'src/range_selection_slider/range_selection_slider.dart';
+export 'src/range_selection_slider/models/range_slider_style.dart';

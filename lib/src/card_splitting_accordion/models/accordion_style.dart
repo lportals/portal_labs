@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// Configuration class for styling the [CardSplittingAccordion].
-/// 
+///
 /// Allows customization of colors, radii, spacing, and animation durations.
 class AccordionStyle {
   /// The background color of each card.

@@ -31,7 +31,6 @@ class PremiumChoiceChipsShowcase extends StatelessWidget {
             // Example of how to use Icons or Images:
             // ChoiceItem(label: 'Design', icon: Icons.palette_outlined),
             // ChoiceItem(label: 'Photography', imagePath: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=100'),
-            
             ChoiceItem(label: 'Roadtrip', emoji: '🚙'),
             ChoiceItem(label: 'Football', emoji: '⚽'),
             ChoiceItem(label: 'Music', emoji: '🎵'),

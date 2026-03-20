@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// Style configuration for the [JournalNavigation] component.
-/// 
+///
 ///
 /// Allows customizing colors, dimensions, and text styles to match
 /// your application's design system.

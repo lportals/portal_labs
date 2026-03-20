@@ -2,7 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 /// A premium [CustomPainter] that draws a curved ruler with numbers for scale selection.
-/// 
+///
 /// This painter handles the visual representation of the arc, the scaling of numbers
 /// near the center, and the smooth color interpolation between active and inactive states.
 class WeightRulerPainter extends CustomPainter {
@@ -45,10 +45,10 @@ class WeightRulerPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     // 1. Arc Configuration
     // The center is pushed far down to create a shallow, elegant curve.
-    final center = Offset(size.width / 2, size.height * 1.8); 
+    final center = Offset(size.width / 2, size.height * 1.8);
     final numberRadius = size.height * 1.45;
     final tickRadius = size.height * 1.15;
-    
+
     // Number of neighbors to draw around the center for performance.
     const int visibleNeighbors = 3;
 
@@ -65,7 +65,7 @@ class WeightRulerPainter extends CustomPainter {
 
       final angle = (i - currentValue) * anglePerUnit - (math.pi / 2);
       final distanceFromCenter = (i - currentValue).abs();
-      
+
       // Fade opacity based on distance from the center.
       final opacity = (1.5 - (distanceFromCenter / 1.5)).clamp(0.0, 1.0);
       if (opacity <= 0) continue;
@@ -74,7 +74,7 @@ class WeightRulerPainter extends CustomPainter {
       final isMajor = (i - i.roundToDouble()).abs() < 0.01;
       paint.color = tickColor.withValues(alpha: opacity * 0.7);
       paint.strokeWidth = 2.5;
-      
+
       // Responsive tick lengths (9% and 5% of height)
       final tickLength = isMajor ? (size.height * 0.09) : (size.height * 0.05);
 
@@ -100,7 +100,7 @@ class WeightRulerPainter extends CustomPainter {
 
       final angle = (i - currentValue) * anglePerUnit - (math.pi / 2);
       final distanceFromCenter = (i - currentValue).abs();
-      
+
       // Control opacity for numerical labels
       final opacity = (1.0 - (distanceFromCenter / 2.2)).clamp(0.0, 1.0);
       if (opacity <= 0.1) continue;
@@ -110,7 +110,7 @@ class WeightRulerPainter extends CustomPainter {
       final lerpedColor = Color.lerp(inactiveColor, activeColor, colorT);
 
       // Subtle scaling as numbers approach the center.
-      final scaleFactor = 1.0 + (0.08 * colorT); 
+      final scaleFactor = 1.0 + (0.08 * colorT);
 
       final String label = i.toString();
       final bool isLong = label.length >= 3;
@@ -122,7 +122,7 @@ class WeightRulerPainter extends CustomPainter {
               text: label,
               style: TextStyle(
                 color: lerpedColor?.withValues(alpha: opacity),
-                fontSize: isLong ? smallFontSize : baseFontSize, 
+                fontSize: isLong ? smallFontSize : baseFontSize,
                 fontWeight: FontWeight.w800,
                 letterSpacing: isLong ? -7 : -5,
                 height: 1.0,
@@ -163,8 +163,8 @@ class WeightRulerPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant WeightRulerPainter oldDelegate) {
     return oldDelegate.currentValue != currentValue ||
-           oldDelegate.activeColor != activeColor ||
-           oldDelegate.inactiveColor != inactiveColor ||
-           oldDelegate.tickColor != tickColor;
+        oldDelegate.activeColor != activeColor ||
+        oldDelegate.inactiveColor != inactiveColor ||
+        oldDelegate.tickColor != tickColor;
   }
 }

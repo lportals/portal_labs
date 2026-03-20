@@ -3,7 +3,7 @@ import '../models/accordion_item.dart';
 import '../models/accordion_style.dart';
 
 /// A premium, context-aware widget that displays a single [AccordionItem].
-/// 
+///
 /// This widget handles the complex logic of "splitting" cards when expanded
 /// and grouping them into solid blocks when collapsed, using smooth animations
 /// and precise corner rounding.
@@ -19,7 +19,7 @@ class AccordionItemWidget extends StatefulWidget {
 
   /// The visual configuration for the accordion.
   final AccordionStyle style;
-  
+
   /// The index of this item in the collection.
   final int index;
 
@@ -65,19 +65,19 @@ class _AccordionItemWidgetState extends State<AccordionItemWidget>
     with TickerProviderStateMixin {
   late AnimationController _expansionController;
   late AnimationController _neighborController;
-  
+
   late Animation<double> _expansionAnimation;
   late Animation<double> _neighborAnimation;
-  
+
   late Animation<double> _rotationAnimation;
   late Animation<double> _contentOpacityAnimation;
 
   @override
   void initState() {
     super.initState();
-    
+
     _expansionController = AnimationController(
-                                                                                               vsync: this,
+      vsync: this,
       duration: widget.style.animationDuration,
       reverseDuration: widget.style.animationDuration,
     );
@@ -102,8 +102,11 @@ class _AccordionItemWidgetState extends State<AccordionItemWidget>
       curve: curve,
       reverseCurve: reverseCurve,
     );
-    
-    _rotationAnimation = Tween<double>(begin: 0, end: 0.5).animate(_expansionAnimation);
+
+    _rotationAnimation = Tween<double>(
+      begin: 0,
+      end: 0.5,
+    ).animate(_expansionAnimation);
 
     _contentOpacityAnimation = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
@@ -122,9 +125,11 @@ class _AccordionItemWidgetState extends State<AccordionItemWidget>
   @override
   void didUpdateWidget(AccordionItemWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    
+
     if (widget.isExpanded != oldWidget.isExpanded) {
-      widget.isExpanded ? _expansionController.forward() : _expansionController.reverse();
+      widget.isExpanded
+          ? _expansionController.forward()
+          : _expansionController.reverse();
     }
 
     if (widget.isUpperSection || widget.isLowerSection) {
@@ -148,26 +153,33 @@ class _AccordionItemWidgetState extends State<AccordionItemWidget>
       builder: (context, child) {
         final double expandT = _expansionAnimation.value;
         final double neighborT = _neighborAnimation.value;
-        
+
         // Premium Phase Shifting: the rounding happens much faster than displacement
         final double rExpandT = Curves.easeOutQuint.transform(expandT);
         final double rNeighborT = Curves.easeOutQuint.transform(neighborT);
-        
+
         final double maxR = widget.style.borderRadius;
-        
+
         // Calculate dynamic rounding for each corner based on proximity to a "break point"
-        final double topR = widget.isFirst ? maxR : 
-                          (widget.isExpanded ? maxR * rExpandT : 
-                          (widget.isAtStartOfLowerSection ? maxR * rNeighborT : 0.0));
-                          
-        final double bottomR = widget.isLast ? maxR : 
-                             (widget.isExpanded ? maxR * rExpandT : 
-                             (widget.isAtEndOfUpperSection ? maxR * rNeighborT : 0.0));
+        final double topR = widget.isFirst
+            ? maxR
+            : (widget.isExpanded
+                  ? maxR * rExpandT
+                  : (widget.isAtStartOfLowerSection ? maxR * rNeighborT : 0.0));
+
+        final double bottomR = widget.isLast
+            ? maxR
+            : (widget.isExpanded
+                  ? maxR * rExpandT
+                  : (widget.isAtEndOfUpperSection ? maxR * rNeighborT : 0.0));
 
         // Interaction gap when cards are separated
-        final double marginB = (widget.isExpanded ? widget.style.spacing * expandT : 0.0) +
-                              (widget.isAtEndOfUpperSection ? widget.style.spacing * neighborT : 0.0);
-        
+        final double marginB =
+            (widget.isExpanded ? widget.style.spacing * expandT : 0.0) +
+            (widget.isAtEndOfUpperSection
+                ? widget.style.spacing * neighborT
+                : 0.0);
+
         final borderRadius = BorderRadius.vertical(
           top: Radius.circular(topR),
           bottom: Radius.circular(bottomR),
@@ -182,13 +194,18 @@ class _AccordionItemWidgetState extends State<AccordionItemWidget>
               borderRadius: borderRadius,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.04 + (0.04 * expandT)),
+                  color: Colors.black.withValues(
+                    alpha: 0.04 + (0.04 * expandT),
+                  ),
                   blurRadius: 10 + (10 * expandT),
                   offset: Offset(0, 2 + (4 * expandT)),
                 ),
               ],
               border: Border(
-                top: (widget.isFirst || widget.isAtStartOfLowerSection || widget.isExpanded) 
+                top:
+                    (widget.isFirst ||
+                        widget.isAtStartOfLowerSection ||
+                        widget.isExpanded)
                     ? BorderSide(color: widget.style.borderColor, width: 1.0)
                     : BorderSide.none,
                 bottom: BorderSide(color: widget.style.borderColor, width: 1.0),
@@ -207,7 +224,10 @@ class _AccordionItemWidgetState extends State<AccordionItemWidget>
                 hoverColor: Colors.transparent,
                 mouseCursor: SystemMouseCursors.click,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 18,
+                  ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -236,11 +256,7 @@ class _AccordionItemWidgetState extends State<AccordionItemWidget>
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (widget.item.icon != null) ...[
-            Icon(
-              widget.item.icon,
-              color: widget.style.iconColor,
-              size: 22,
-            ),
+            Icon(widget.item.icon, color: widget.style.iconColor, size: 22),
             const SizedBox(width: 14),
           ],
           Expanded(

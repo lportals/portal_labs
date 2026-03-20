@@ -1,10 +1,8 @@
-
-
 import 'package:flutter/material.dart';
 
 /// Model representing a single entry in the [JournalNavigation].
 ///
-/// By default, it displays a [title] and [content] string, but can be 
+/// By default, it displays a [title] and [content] string, but can be
 /// extended with a [child] widget for completely custom entry layouts.
 class JournalItem {
   /// The specific date associated with this journal entry.

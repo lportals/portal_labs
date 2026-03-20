@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'widgets/weight_ruler_painter.dart';
 
 /// A premium, minimalist weight picker component.
-/// 
+///
 /// Replicates a high-fidelity analog scale with haptic feedback,
 /// curved ruler interaction, and organic transitions.
 class ModernWeightPicker extends StatefulWidget {
@@ -24,7 +24,7 @@ class ModernWeightPicker extends StatefulWidget {
   final ValueChanged<double> onValueChanged;
 
   /// The unit to display alongside the weight (e.g., 'kg', 'lb').
-  /// NOTE: The visual display of the unit is currently disabled in the 
+  /// NOTE: The visual display of the unit is currently disabled in the
   /// painter but can be re-enabled in [WeightRulerPainter].
   final String unit;
 
@@ -73,17 +73,17 @@ class ModernWeightPicker extends StatefulWidget {
 class _ModernWeightPickerState extends State<ModernWeightPicker> {
   late double _currentValue;
   final ScrollController _scrollController = ScrollController();
-  
+
   /// Controls the precision and feel of the scroll.
-  static const double _pixelsPerUnit = 105.0; 
+  static const double _pixelsPerUnit = 105.0;
 
   @override
   void initState() {
     super.initState();
     _currentValue = widget.initialValue;
-    
+
     final initialOffset = (_currentValue - widget.minValue) * _pixelsPerUnit;
-    
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
         _scrollController.jumpTo(initialOffset);
@@ -99,12 +99,12 @@ class _ModernWeightPickerState extends State<ModernWeightPicker> {
     final offset = _scrollController.offset;
     final newValue = (offset / _pixelsPerUnit) + widget.minValue;
     final clampedValue = newValue.clamp(widget.minValue, widget.maxValue);
-    
+
     if ((clampedValue - _currentValue).abs() > 0.001) {
       if (widget.enableHaptics) {
         final int oldStep = (_currentValue * 10).round();
         final int newStep = (clampedValue * 10).round();
-        
+
         if (oldStep != newStep) {
           // Intelligent Haptics:
           if (newStep % 10 == 0) {
@@ -121,7 +121,7 @@ class _ModernWeightPickerState extends State<ModernWeightPicker> {
       setState(() {
         _currentValue = clampedValue;
       });
-      
+
       widget.onValueChanged(_currentValue);
     }
   }
@@ -194,29 +194,33 @@ class _ModernWeightPickerState extends State<ModernWeightPicker> {
               painter: _TriangleIndicatorPainter(widget.activeColor),
             ),
           ),
-          
+
           // 4. Invisible Interaction Layer (Scrollable Area)
           Positioned.fill(
             child: NotificationListener<ScrollNotification>(
               onNotification: (notification) {
                 if (notification is ScrollEndNotification) {
                   // Soft Snapping Effect:
-                  // Only snap if we are "close enough" to an integer to avoid 
+                  // Only snap if we are "close enough" to an integer to avoid
                   // feeling forced or restrictive.
-                  final double exactValue = (_scrollController.offset / _pixelsPerUnit) + widget.minValue;
+                  final double exactValue =
+                      (_scrollController.offset / _pixelsPerUnit) +
+                      widget.minValue;
                   final double nearestInteger = exactValue.roundToDouble();
                   final double distance = (exactValue - nearestInteger).abs();
-                  
+
                   // Only snap if within 0.15 units of an integer
                   if (distance > 0.001 && distance < 0.15) {
-                    final double targetOffset = (nearestInteger - widget.minValue) * _pixelsPerUnit;
+                    final double targetOffset =
+                        (nearestInteger - widget.minValue) * _pixelsPerUnit;
 
                     Future.delayed(const Duration(milliseconds: 30), () {
                       if (_scrollController.hasClients) {
                         _scrollController.animateTo(
                           targetOffset,
                           duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeOutCubic, // Smoother, more natural deceleration
+                          curve: Curves
+                              .easeOutCubic, // Smoother, more natural deceleration
                         );
                       }
                     });
@@ -238,8 +242,9 @@ class _ModernWeightPickerState extends State<ModernWeightPicker> {
                   scrollDirection: Axis.horizontal,
                   physics: const BouncingScrollPhysics(),
                   child: SizedBox(
-                    width: (widget.maxValue - widget.minValue) * _pixelsPerUnit + 
-                           MediaQuery.of(context).size.width,
+                    width:
+                        (widget.maxValue - widget.minValue) * _pixelsPerUnit +
+                        MediaQuery.of(context).size.width,
                     height: widget.height,
                   ),
                 ),
@@ -264,15 +269,11 @@ class _TriangleIndicatorPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     // Draw the balance-style point (circle) on top
-    canvas.drawCircle(
-      Offset(size.width / 2, 4), 
-      4, 
-      paint,
-    );
+    canvas.drawCircle(Offset(size.width / 2, 4), 4, paint);
 
     // Draw the needle body (elongated triangle) with a gap
     final path = Path()
-      ..moveTo(size.width / 2, 14) 
+      ..moveTo(size.width / 2, 14)
       ..lineTo(size.width, size.height)
       ..lineTo(0, size.height)
       ..close();

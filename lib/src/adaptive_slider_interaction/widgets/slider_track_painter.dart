@@ -58,8 +58,9 @@ class SliderTrackPainter extends CustomPainter {
 
     // To be perfectly concentric, the filling is a stadium from 0 to [activeWidth].
     // activeWidth ranges from [trackHeight] to [size.width].
-    final double activeWidth = trackHeight + (progress * (size.width - trackHeight));
-    
+    final double activeWidth =
+        trackHeight + (progress * (size.width - trackHeight));
+
     paint.shader = LinearGradient(
       colors: colors,
       begin: Alignment.centerLeft,
@@ -72,14 +73,14 @@ class SliderTrackPainter extends CustomPainter {
     );
 
     canvas.drawRRect(activeRRect, paint);
-    
+
     paint.shader = null;
   }
 
   void _drawDots(Canvas canvas, Size size, Paint paint) {
     if (dotCount <= 1) return;
 
-    // To be consistent with the stadium geometry, dots should be positioned 
+    // To be consistent with the stadium geometry, dots should be positioned
     // where the thumb center can actually go.
     // Thumb center ranges from [trackHeight/2] to [size.width - trackHeight/2].
     final double startX = trackHeight / 2;
@@ -89,11 +90,14 @@ class SliderTrackPainter extends CustomPainter {
     for (int i = 0; i < dotCount; i++) {
       final double dotProgress = i / (dotCount - 1);
       final double x = startX + (dotProgress * (endX - startX));
-      
+
       // A dot is active if it's behind or at the thumb's current center
-      final bool isActive = x <= thumbCenterX + 0.1; // Small epsilon for precision
-      
-      paint.color = isActive ? activeDotColor.withValues(alpha: 0.5) : inactiveDotColor;
+      final bool isActive =
+          x <= thumbCenterX + 0.1; // Small epsilon for precision
+
+      paint.color = isActive
+          ? activeDotColor.withValues(alpha: 0.5)
+          : inactiveDotColor;
       canvas.drawCircle(Offset(x, size.height / 2), 2.5, paint);
     }
   }
@@ -101,9 +105,9 @@ class SliderTrackPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant SliderTrackPainter oldDelegate) {
     return oldDelegate.progress != progress ||
-           oldDelegate.colors != colors ||
-           oldDelegate.inactiveColor != inactiveColor ||
-           oldDelegate.borderRadius != borderRadius ||
-           oldDelegate.thumbSize != thumbSize;
+        oldDelegate.colors != colors ||
+        oldDelegate.inactiveColor != inactiveColor ||
+        oldDelegate.borderRadius != borderRadius ||
+        oldDelegate.thumbSize != thumbSize;
   }
 }
