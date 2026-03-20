@@ -59,24 +59,35 @@ class AdaptiveSliderInteraction extends StatefulWidget {
 }
 
 /// Internal state for [AdaptiveSliderInteraction] handling animations and gesture math.
-class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction> with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
+class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction> with TickerProviderStateMixin {
+  late AnimationController _scaleController;
+  late AnimationController _progressController;
   late Animation<double> _thumbScaleAnimation;
+  
   final GlobalKey _trackKey = GlobalKey();
   
   // Track previous value to determine flip direction
   double _lastReportedValue = 0;
+  bool _isDragging = false;
 
   @override
   void initState() {
     super.initState();
     _lastReportedValue = widget.value;
-    _animationController = AnimationController(
+    
+    _scaleController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 150),
     );
+    
+    _progressController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+      value: _getNormalized(widget.value),
+    );
+
     _thumbScaleAnimation = Tween<double>(begin: 1.0, end: 1.1).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.easeOutBack),
+      CurvedAnimation(parent: _scaleController, curve: const _SubtleBounceCurve()),
     );
   }
 
@@ -84,25 +95,36 @@ class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction> w
   void didUpdateWidget(covariant AdaptiveSliderInteraction oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.value != oldWidget.value) {
-      _lastReportedValue = oldWidget.value; // Store the old value for flip direction
+      _lastReportedValue = oldWidget.value;
+      
+      // If the value changed from outside (not dragging), we animate it with a bounce
+      if (!_isDragging) {
+        _progressController.animateTo(
+          _getNormalized(widget.value),
+          duration: const Duration(milliseconds: 450),
+          curve: const _SubtleBounceCurve(),
+        );
+      } else {
+        // While dragging, we jump to ensure precision
+        _progressController.value = _getNormalized(widget.value);
+      }
     }
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
+    _scaleController.dispose();
+    _progressController.dispose();
     super.dispose();
   }
 
-  /// Calculates the proportional value (0.0 to 1.0) based on the min/max range.
-  double get _normalizedValue => ((widget.value - widget.min) / (widget.max - widget.min)).clamp(0.0, 1.0);
+  double _getNormalized(double value) => 
+      ((value - widget.min) / (widget.max - widget.min)).clamp(0.0, 1.0);
 
-  /// Interpolates current colors based on the value.
-  List<Color> _getCurrentColors() {
-    final t = _normalizedValue;
+  /// Interpolates current colors based on the current animated value.
+  List<Color> _getCurrentColors(double t) {
     if (widget.style.colorSteps.isEmpty) return [Colors.orange, Colors.red];
 
-    // Find the current and next color steps.
     AdaptiveColorStep lower = widget.style.colorSteps.first;
     AdaptiveColorStep upper = widget.style.colorSteps.last;
 
@@ -115,10 +137,8 @@ class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction> w
     }
 
     if (lower == upper) return lower.colors;
-
     final double rangeT = (t - lower.threshold) / (upper.threshold - lower.threshold);
     
-    // Interpolate each color in the gradient.
     final List<Color> interpolated = [];
     for (int i = 0; i < lower.colors.length; i++) {
       interpolated.add(Color.lerp(lower.colors[i], upper.colors[i], rangeT)!);
@@ -127,16 +147,14 @@ class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction> w
   }
 
   /// Handles touch interaction by mapping a local offset to a slider value.
-  void _handleInteraction(Offset localOffset, double totalWidth) {
+  void _handleInteraction(Offset localOffset, double totalWidth, {bool isDragging = false}) {
     final double trackHeight = widget.style.trackHeight;
-    // The active range for the thumb center is [trackHeight/2] to [width - trackHeight/2].
     final double startX = trackHeight / 2;
     final double endX = totalWidth - trackHeight / 2;
     final double range = endX - startX;
 
     if (range <= 0) return;
 
-    // Normalize t relative to the active range
     final double t = ((localOffset.dx - startX) / range).clamp(0.0, 1.0);
     double newValue = widget.min + (t * (widget.max - widget.min));
     
@@ -146,151 +164,166 @@ class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction> w
     
     if (newValue != widget.value) {
       HapticFeedback.selectionClick();
+      
+      // We manually update the controller here for an even faster visual response
+      if (isDragging) {
+        _progressController.value = _getNormalized(newValue);
+      } else {
+        _progressController.animateTo(
+          _getNormalized(newValue),
+          duration: const Duration(milliseconds: 400),
+          curve: const _SubtleBounceCurve(),
+        );
+      }
+      
       widget.onChanged(newValue);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final colors = _getCurrentColors();
-    final int effectiveDotCount = widget.dotCount ?? 
-        ((widget.max - widget.min) / widget.step).round() + 1;
+    return AnimatedBuilder(
+      animation: Listenable.merge([_scaleController, _progressController]),
+      builder: (context, _) {
+        final double normalized = _progressController.value;
+        final colors = _getCurrentColors(normalized);
+        final int effectiveDotCount = widget.dotCount ?? 
+            ((widget.max - widget.min) / widget.step).round() + 1;
 
-    return Padding(
-      padding: const EdgeInsets.only(left: 24, right: 24, top: 32, bottom: 0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // 1. Title
-          Text(
-            widget.title,
-            style: TextStyle(
-              color: widget.style.titleColor,
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-              letterSpacing: -0.5,
-            ),
-          ),
-          const SizedBox(height: 12),
-          // 2. Value Display (Number + Unit)
-          Row(
+        return Padding(
+          padding: const EdgeInsets.only(left: 24, right: 24, top: 32, bottom: 0),
+          child: Column(
             mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.baseline,
-            textBaseline: TextBaseline.alphabetic,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Premium Flip Counter for the number
-              ShaderMask(
-                shaderCallback: (bounds) => LinearGradient(
-                  colors: colors,
-                ).createShader(bounds),
-                child: PremiumFlipCounter(
-                  value: widget.value.round(),
-                  upward: widget.value >= _lastReportedValue,
-                  padWithZero: false,
-                  style: TextStyle(
-                    fontSize: 64,
-                    fontWeight: FontWeight.w800, // Softer than w900 for a rounded look
-                    color: Colors.white, // Masked by shader
-                    letterSpacing: -1.5,
-                    fontFamily: widget.style.fontFamily ?? 'SF Pro Rounded', // Use custom or default
-                  ),
+              // 1. Title
+              Text(
+                widget.title,
+                style: TextStyle(
+                  color: widget.style.titleColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: -0.5,
                 ),
               ),
-              const SizedBox(width: 8),
-              Text(
-                widget.unit,
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.w800,
-                  color: widget.style.unitColor.withValues(alpha: 0.9),
+              const SizedBox(height: 12),
+              // 2. Value Display (Number + Unit)
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                textBaseline: TextBaseline.alphabetic,
+                children: [
+                  ShaderMask(
+                    shaderCallback: (bounds) => LinearGradient(
+                      colors: colors,
+                    ).createShader(bounds),
+                    child: PremiumFlipCounter(
+                      value: widget.value.round(),
+                      upward: widget.value >= _lastReportedValue,
+                      padWithZero: false,
+                      style: TextStyle(
+                        fontSize: 64,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.white,
+                        letterSpacing: -1.5,
+                        fontFamily: widget.style.fontFamily ?? 'SF Pro Rounded',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    widget.unit,
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.w800,
+                      color: widget.style.unitColor.withValues(alpha: 0.9),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+
+              // 3. Interactive Slider Track
+              GestureDetector(
+                onPanStart: (details) {
+                   _isDragging = true;
+                   _scaleController.forward();
+                },
+                onPanEnd: (_) {
+                  _isDragging = false;
+                  _scaleController.reverse();
+                },
+                onTapDown: (details) {
+                  _scaleController.forward();
+                  final RenderBox? box = _trackKey.currentContext?.findRenderObject() as RenderBox?;
+                  if (box != null) {
+                    _handleInteraction(box.globalToLocal(details.globalPosition), box.size.width);
+                  }
+                },
+                onTapUp: (_) => _scaleController.reverse(),
+                onPanUpdate: (details) {
+                  final RenderBox? box = _trackKey.currentContext?.findRenderObject() as RenderBox?;
+                  if (box != null) {
+                    _handleInteraction(box.globalToLocal(details.globalPosition), box.size.width, isDragging: true);
+                  }
+                },
+                child: Container(
+                  key: _trackKey,
+                  color: Colors.transparent,
+                  padding: const EdgeInsets.only(top: 20, bottom: 32),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      final double width = constraints.maxWidth;
+                      final double thumbSize = widget.style.thumbSize;
+                      final double trackHeight = widget.style.trackHeight;
+
+                      // Fill calculation
+                      final double activeWidth = trackHeight + (normalized * (width - trackHeight));
+                      final double thumbCenterX = activeWidth - (trackHeight / 2);
+
+                      return SizedBox(
+                        height: trackHeight,
+                        width: double.infinity,
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          alignment: Alignment.centerLeft,
+                          children: [
+                            Positioned.fill(
+                              child: CustomPaint(
+                                painter: SliderTrackPainter(
+                                  progress: normalized,
+                                  colors: colors,
+                                  inactiveColor: widget.style.inactiveColor,
+                                  borderRadius: widget.style.trackBorderRadius,
+                                  dotCount: effectiveDotCount,
+                                  activeDotColor: widget.style.activeDotColor,
+                                  inactiveDotColor: widget.style.inactiveDotColor,
+                                  thumbSize: thumbSize,
+                                  trackHeight: trackHeight,
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              left: thumbCenterX - (thumbSize / 2),
+                              child: ScaleTransition(
+                                scale: _thumbScaleAnimation,
+                                child: _SliderThumb(
+                                  size: thumbSize,
+                                  colors: colors,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 12), // Compact spacing to allow more hit area
-
-          // 3. Interactive Slider Track
-          GestureDetector(
-            onPanStart: (_) => _animationController.forward(),
-            onPanEnd: (_) => _animationController.reverse(),
-            onTapDown: (details) {
-              _animationController.forward();
-              final RenderBox? box = _trackKey.currentContext?.findRenderObject() as RenderBox?;
-              if (box != null) {
-                _handleInteraction(box.globalToLocal(details.globalPosition), box.size.width);
-              }
-            },
-            onTapUp: (_) => _animationController.reverse(),
-            onPanUpdate: (details) {
-              final RenderBox? box = _trackKey.currentContext?.findRenderObject() as RenderBox?;
-              if (box != null) {
-                _handleInteraction(box.globalToLocal(details.globalPosition), box.size.width);
-              }
-            },
-            child: Container(
-              key: _trackKey,
-              color: Colors.transparent, // Expand hit area
-              // Massive hit area: 20px top + 32px bottom = 52px + track height
-              // Bottom: 32px from the track center to the card edge for perfect symmetry
-              padding: const EdgeInsets.only(top: 20, bottom: 32),
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  final double width = constraints.maxWidth;
-                  final double thumbSize = widget.style.thumbSize;
-                  final double trackHeight = widget.style.trackHeight;
-                  final double normalized = _normalizedValue;
-
-                  // To be perfectly concentric, the filling is a stadium from 0 to [activeWidth].
-                  // The thumb is centered at [activeWidth - trackHeight/2].
-                  // activeWidth ranges from [trackHeight] to [width].
-                  final double activeWidth = trackHeight + (normalized * (width - trackHeight));
-                  final double thumbCenterX = activeWidth - (trackHeight / 2);
-
-                  return SizedBox(
-                    height: trackHeight,
-                    width: double.infinity,
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      alignment: Alignment.centerLeft,
-                      children: [
-                        // 1. Track and Overlay Dots (Fills the track)
-                        Positioned.fill(
-                          child: CustomPaint(
-                            painter: SliderTrackPainter(
-                              progress: normalized,
-                              colors: colors,
-                              inactiveColor: widget.style.inactiveColor,
-                              borderRadius: widget.style.trackBorderRadius,
-                              dotCount: effectiveDotCount,
-                              activeDotColor: widget.style.activeDotColor,
-                              inactiveDotColor: widget.style.inactiveDotColor,
-                              thumbSize: thumbSize,
-                              trackHeight: trackHeight,
-                            ),
-                          ),
-                        ),
-
-                        // 2. Thumb (Selector)
-                        Positioned(
-                          left: thumbCenterX - (thumbSize / 2),
-                          child: ScaleTransition(
-                            scale: _thumbScaleAnimation,
-                            child: _SliderThumb(
-                              size: thumbSize,
-                              colors: colors,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -330,5 +363,20 @@ class _SliderThumb extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+/// A custom Curve that provides a subtle "Back Out" effect with less overshoot than
+/// the standard [Curves.easeOutBack].
+class _SubtleBounceCurve extends Curve {
+  const _SubtleBounceCurve();
+
+  @override
+  double transformInternal(double t) {
+    // Standard back-out overshoot constant (s) is ~1.70158.
+    // We use 1.2 to make the bounce more visible but still premium.
+    const double s = 1.2;
+    t -= 1.0;
+    return t * t * ((s + 1) * t + s) + 1.0;
   }
 }
