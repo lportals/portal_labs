@@ -87,4 +87,11 @@ class PortalUtils {
     RegExp reg = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
     return str.replaceAllMapped(reg, (Match m) => '${m[1]},');
   }
+
+  /// Formats a number as a currency string.
+  /// Example: 9.99 -> "$9.99", 0.0 -> "$0.00"
+  static String formatCurrency(double value) {
+    return '\$${value.toStringAsFixed(2)}';
+  }
 }
+

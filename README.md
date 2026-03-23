@@ -28,6 +28,7 @@ This strategy makes every component **instantly portable**—allowing developers
 | **[Card Splitting Accordion](#card-splitting-accordion)** | Dynamic grouping interaction with physical splitting and variable corner radii. | Layout | `/lib/src/card_splitting_accordion/` |
 | **[Adaptive Slider](#adaptive-slider)** | Value-aware gradient slider with real-time color morphing. | Interaction | `/lib/src/adaptive_slider_interaction/` |
 | **[Range Selection Slider](#range-selection-slider)** | Premium bi-directional range selector with mechanical Odometer-style counters and manual input support. | Selection | `/lib/src/range_selection_slider/` |
+| **[Subscription Picker](#subscription-picker)** | High-fidelity pricing selector with minimalist monthly/yearly toggle logic. | Selection | `/lib/src/subscription_pricing_picker/` |
 
 ---
 
@@ -219,6 +220,39 @@ import 'package:portal_labs/portal_labs.dart';
 RangeSelectionSlider(
   values: const RangeValues(640, 2380),
   onChanged: (values) => print("Range adjusted"),
+)
+```
+
+---
+
+### Subscription Picker
+
+![Subscription Picker Showcase](./docs/gifs/subscription_picker.gif)
+
+A high-fidelity pricing selection component designed for SaaS and modern application subscription flows, fully integrated with the Portal Design System.
+
+#### Key Features
+
+*   **Period Toggle**: Smooth, animated transition between billing periods (e.g., Monthly/Yearly) using weighted physics.
+*   **Minimalist Cards**: Clean typography and selection states with animated toggles and premium border highlights.
+*   **Popular Badge & Haptics**: Built-in support for "Popular" badges and integrated haptic feedback for selection events.
+*   **Theme Aware**: Native support for light/dark modes via the `PortalTheme` system.
+
+#### Integration
+
+```dart
+import 'package:portal_labs/portal_labs.dart';
+
+SubscriptionPricingPicker(
+  monthlyPlans: [
+    PricingPlan(id: 'free', title: 'Free', price: 0.0, periodText: 'month'),
+    PricingPlan(id: 'starter', title: 'Starter', price: 9.99, periodText: 'month', isPopular: true),
+  ],
+  yearlyPlans: [
+    PricingPlan(id: 'free_year', title: 'Free', price: 0.0, periodText: 'year'),
+    PricingPlan(id: 'starter_year', title: 'Starter', price: 99.9, periodText: 'year', isPopular: true),
+  ],
+  onSelect: (plan, period) => print("Selected ${plan.title}"),
 )
 ```
 

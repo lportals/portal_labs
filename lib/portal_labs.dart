@@ -10,6 +10,11 @@ library;
 export 'src/common/portal_utils.dart';
 export 'src/common/premium_flip_counter.dart';
 
+// Theme & Design System
+export 'src/theme/portal_theme.dart';
+export 'src/theme/portal_colors.dart';
+export 'src/theme/portal_typography.dart';
+
 // Reveal & Copy
 export 'src/reveal_and_copy/reveal_copy_interaction.dart';
 
@@ -37,3 +42,7 @@ export 'src/adaptive_slider_interaction/models/adaptive_slider_style.dart';
 // Range Selection Slider
 export 'src/range_selection_slider/range_selection_slider.dart';
 export 'src/range_selection_slider/models/range_slider_style.dart';
+
+// Subscription Pricing Picker
+export 'src/subscription_pricing_picker/subscription_pricing_picker.dart';
+export 'src/subscription_pricing_picker/models/pricing_plan.dart';

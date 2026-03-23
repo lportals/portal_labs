@@ -6,6 +6,7 @@ import 'showcases/card_splitting_accordion_showcase.dart';
 import 'showcases/journal_navigation_showcase.dart';
 import 'showcases/adaptive_slider_showcase.dart';
 import 'showcases/range_selection_slider_showcase.dart';
+import 'showcases/subscription_pricing_picker_showcase.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -32,15 +33,29 @@ class HomePage extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
           children: [
-            _buildSubtitle('Interactions'),
+            _buildSubtitle('Inputs & Selections'),
             const SizedBox(height: 16),
             _ComponentCard(
-              title: 'Reveal & Copy',
-              subtitle: 'Secure scramble reveal with copy animation',
-              icon: Icons.visibility_outlined,
+              title: 'Range Selection Slider',
+              subtitle: 'Premium price range selector with 3D flip counters',
+              icon: Icons.linear_scale, // Used linear_scale instead of linear_scale_rounded for better Web support
               onTap: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const RevealCopyShowcase()),
+                  MaterialPageRoute(
+                    builder: (_) => const RangeSelectionSliderShowcase(),
+                  ),
+                );
+              },
+            ),
+            _ComponentCard(
+              title: 'Subscription Picker',
+              subtitle: 'Minimalist pricing selector with monthly/yearly toggle',
+              icon: Icons.unfold_more_rounded,
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const SubscriptionPricingPickerShowcase(),
+                  ),
                 );
               },
             ),
@@ -69,17 +84,20 @@ class HomePage extends StatelessWidget {
               },
             ),
             _ComponentCard(
-              title: 'Card Splitting Accordion',
-              subtitle: 'Cards that physically split to reveal content',
-              icon: Icons.layers_outlined,
+              title: 'Adaptive Slider',
+              subtitle: 'Dynamic gradient slider with real-time value morphing',
+              icon: Icons.tune_rounded,
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => const CardSplittingAccordionShowcase(),
+                    builder: (_) => const AdaptiveSliderShowcase(),
                   ),
                 );
               },
             ),
+            const SizedBox(height: 24),
+            _buildSubtitle('Navigation & Layout'),
+            const SizedBox(height: 16),
             _ComponentCard(
               title: 'Journal Navigation',
               subtitle:
@@ -94,26 +112,27 @@ class HomePage extends StatelessWidget {
               },
             ),
             _ComponentCard(
-              title: 'Adaptive Slider',
-              subtitle: 'Dynamic gradient slider with real-time value morphing',
-              icon: Icons.tune_rounded,
+              title: 'Card Splitting Accordion',
+              subtitle: 'Cards that physically split to reveal content',
+              icon: Icons.layers_outlined,
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => const AdaptiveSliderShowcase(),
+                    builder: (_) => const CardSplittingAccordionShowcase(),
                   ),
                 );
               },
             ),
+            const SizedBox(height: 24),
+            _buildSubtitle('Interactions'),
+            const SizedBox(height: 16),
             _ComponentCard(
-              title: 'Range Selection Slider',
-              subtitle: 'Premium price range selector with 3D flip counters',
-              icon: Icons.linear_scale_rounded,
+              title: 'Reveal & Copy',
+              subtitle: 'Secure scramble reveal with copy animation',
+              icon: Icons.visibility_outlined,
               onTap: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => const RangeSelectionSliderShowcase(),
-                  ),
+                  MaterialPageRoute(builder: (_) => const RevealCopyShowcase()),
                 );
               },
             ),
