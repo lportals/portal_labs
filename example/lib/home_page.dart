@@ -38,7 +38,7 @@ class HomePage extends StatelessWidget {
             _ComponentCard(
               title: 'Range Selection Slider',
               subtitle: 'Premium price range selector with 3D flip counters',
-              icon: Icons.linear_scale, // Used linear_scale instead of linear_scale_rounded for better Web support
+              icon: Icons.straighten, 
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -50,7 +50,7 @@ class HomePage extends StatelessWidget {
             _ComponentCard(
               title: 'Subscription Picker',
               subtitle: 'Minimalist pricing selector with monthly/yearly toggle',
-              icon: Icons.unfold_more_rounded,
+              icon: Icons.workspace_premium_outlined,
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -86,7 +86,7 @@ class HomePage extends StatelessWidget {
             _ComponentCard(
               title: 'Adaptive Slider',
               subtitle: 'Dynamic gradient slider with real-time value morphing',
-              icon: Icons.tune_rounded,
+              icon: Icons.tune,
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
