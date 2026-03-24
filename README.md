@@ -29,6 +29,7 @@ This strategy makes every component **instantly portable**—allowing developers
 | **[Adaptive Slider](#adaptive-slider)** | Value-aware gradient slider with real-time color morphing. | Interaction | `/lib/src/adaptive_slider_interaction/` |
 | **[Range Selection Slider](#range-selection-slider)** | Premium bi-directional range selector with mechanical Odometer-style counters and manual input support. | Selection | `/lib/src/range_selection_slider/` |
 | **[Subscription Picker](#subscription-picker)** | High-fidelity pricing selector with minimalist monthly/yearly toggle logic. | Selection | `/lib/src/subscription_pricing_picker/` |
+| **[Media Collapsible View](#media-collapsible-view)** | Reels-inspired video background with dynamic collapsible interactive sheet. | Interaction | `/lib/src/media_collapsible_view/` |
 
 ---
 
@@ -253,6 +254,46 @@ SubscriptionPricingPicker(
     PricingPlan(id: 'starter_year', title: 'Starter', price: 99.9, periodText: 'year', isPopular: true),
   ],
   onSelect: (plan, period) => print("Selected ${plan.title}"),
+)
+```
+
+---
+
+### Media Collapsible View
+
+![Media Collapsible View Showcase](./docs/gifs/media_collapsible_view.gif)
+
+A high-fidelity, Reels-inspired interaction component that transitions between a full-screen media view and a detailed, gesture-driven interactive comment sheet.
+
+#### Key Features
+
+*   **Fluid Coordinate Scaling**: Mathematical transition between full-frame and scaled-down media layouts using a shared stack architecture.
+*   **Dual-Phase Gesture Handling**: Integrated gesture handover between bottom-sheet dragging and internal list scrolling for a seamless "hand-off" feel.
+*   **Dynamic Blur Layering**: High-performance background blur layering that simulates real-time color bleeding without GPU overhead.
+*   **Zero-Dependency Media Builder**: Decoupled architecture using `mediaBuilder` to inject any video or interaction engine without adding external library debt.
+
+#### Integration
+
+```dart
+import 'package:portal_labs/portal_labs.dart';
+
+MediaCollapsibleView(
+  mediaUrl: 'https://example.com/thumbnail.jpg', // Used for background blur
+  userAvatarUrl: 'https://example.com/user_avatar.jpg',
+  comments: [
+    MediaComment(
+      id: '1', 
+      userName: 'dev_cat', 
+      text: 'This UI is purrr-fect! 🐾', 
+      avatarUrl: 'https://example.com/cat.jpg', 
+      createdAt: DateTime.now()
+    ),
+  ],
+  style: MediaViewStyle(
+    accentColor: Colors.blueAccent,
+    sheetBackgroundColor: Color(0xFF141416),
+  ),
+  onSendComment: (text) => print('New meow: $text'),
 )
 ```
 

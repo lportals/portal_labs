@@ -7,6 +7,8 @@ import 'showcases/journal_navigation_showcase.dart';
 import 'showcases/adaptive_slider_showcase.dart';
 import 'showcases/range_selection_slider_showcase.dart';
 import 'showcases/subscription_pricing_picker_showcase.dart';
+import 'showcases/media_collapsible_view_showcase.dart';
+
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -123,6 +125,19 @@ class HomePage extends StatelessWidget {
                 );
               },
             ),
+            _ComponentCard(
+              title: 'Media Collapsible View',
+              subtitle: 'Reels-style video background with interactive sheet',
+              icon: Icons.video_library_outlined,
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const MediaCollapsibleViewShowcase(),
+                  ),
+                );
+              },
+            ),
+
             const SizedBox(height: 24),
             _buildSubtitle('Interactions'),
             const SizedBox(height: 16),

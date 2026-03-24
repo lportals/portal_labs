@@ -46,3 +46,8 @@ export 'src/range_selection_slider/models/range_slider_style.dart';
 // Subscription Pricing Picker
 export 'src/subscription_pricing_picker/subscription_pricing_picker.dart';
 export 'src/subscription_pricing_picker/models/pricing_plan.dart';
+
+// Media Collapsible View
+export 'src/media_collapsible_view/media_collapsible_view.dart';
+export 'src/media_collapsible_view/models/media_comment.dart';
+export 'src/media_collapsible_view/models/media_view_style.dart';
