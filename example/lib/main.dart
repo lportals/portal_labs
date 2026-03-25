@@ -26,7 +26,7 @@ class PortalLabsApp extends StatelessWidget {
       builder: (context, child) {
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(
-            padding: kIsWeb ? const EdgeInsets.only(top: 50, bottom: 34) : null,
+            padding: kIsWeb ? const EdgeInsets.only(top: 20, bottom: 34) : null,
           ),
           child: child!,
         );

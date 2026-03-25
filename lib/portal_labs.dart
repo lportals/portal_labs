@@ -51,3 +51,7 @@ export 'src/subscription_pricing_picker/models/pricing_plan.dart';
 export 'src/media_collapsible_view/media_collapsible_view.dart';
 export 'src/media_collapsible_view/models/media_comment.dart';
 export 'src/media_collapsible_view/models/media_view_style.dart';
+
+// Knob Slider
+export 'src/knob_slider/knob_slider.dart';
+export 'src/knob_slider/models/knob_slider_style.dart';

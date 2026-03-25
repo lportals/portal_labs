@@ -30,6 +30,7 @@ This strategy makes every component **instantly portable**—allowing developers
 | **[Range Selection Slider](#range-selection-slider)** | Premium bi-directional range selector with mechanical Odometer-style counters and manual input support. | Selection | `/lib/src/range_selection_slider/` |
 | **[Subscription Picker](#subscription-picker)** | High-fidelity pricing selector with minimalist monthly/yearly toggle logic. | Selection | `/lib/src/subscription_pricing_picker/` |
 | **[Media Collapsible View](#media-collapsible-view)** | Reels-inspired video background with dynamic collapsible interactive sheet. | Interaction | `/lib/src/media_collapsible_view/` |
+| **[High-Fidelity Knob Slider](#high-fidelity-knob-slider)** | Premium tactile knob with mathematical delta tracking and mechanical reel digits. | Interaction | `/lib/src/knob_slider/` |
 
 ---
 
@@ -294,6 +295,40 @@ MediaCollapsibleView(
     sheetBackgroundColor: Color(0xFF141416),
   ),
   onSendComment: (text) => print('New meow: $text'),
+)
+```
+
+---
+
+### High-Fidelity Knob Slider
+
+![Knob Slider Showcase](./docs/gifs/knob_slider.gif)
+
+A production-ready, interactive dial with a hardware-inspired aesthetic and a mechanical odometer-style numeric display.
+
+#### Key Features
+
+*   **Mechanical Reel Animated Counter**: Odometer-style vertical scrolling for numbers with dynamic motion blur that scales with rotation velocity.
+*   **Delta-Based Rotation Logic**: High-fidelity gesture tracking that calculates relative angular changes, eliminating the "dead-zone" jump common in standard circular sliders.
+*   **3D Depth Perception**: Digits fade and tilt as they "rotate" through the 3D window, creating a tactile depth effect without external assets.
+*   **Fully Customizable Style**: Every aspect of the knob—from tick frequency and thickness to shadow depth and ring colors—is configurable via `KnobSliderStyle`.
+
+#### Integration
+
+```dart
+import 'package:portal_labs/portal_labs.dart';
+
+KnobSlider(
+  value: _currentValue,
+  min: 0,
+  max: 100,
+  step: 1,
+  onChanged: (val) => setState(() => _currentValue = val),
+  style: KnobSliderStyle(
+    activeTickColor: Colors.blueAccent,
+    knobScale: 0.6,
+    totalTicks: 60,
+  ),
 )
 ```
 
