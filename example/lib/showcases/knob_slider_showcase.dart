@@ -36,29 +36,32 @@ class _KnobSliderShowcaseState extends State<KnobSliderShowcase> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              // 1. The main demo
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 60.0),
-                child: Center(
-                  child: KnobSlider(
-                    value: _value,
-                    min: 0,
-                    max: 100,
-                    step: 1,
-                    onChanged: (val) {
-                      setState(() {
-                        _value = val;
-                      });
-                    },
+      body: SafeArea(
+        bottom: true,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                // 1. The main demo
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 60.0),
+                  child: Center(
+                    child: KnobSlider(
+                      value: _value,
+                      min: 0,
+                      max: 100,
+                      step: 1,
+                      onChanged: (val) {
+                        setState(() {
+                          _value = val;
+                        });
+                      },
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

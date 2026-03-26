@@ -82,33 +82,36 @@ class _SubscriptionPricingPickerShowcaseState
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              SubscriptionPricingPicker(
-                monthlyPlans: _monthlyPlans,
-                yearlyPlans: _yearlyPlans,
-                onSelect: (plan, period) {
-                  debugPrint('Selection change: ${plan.title} - ${period.name}');
-                },
-                onActionPressed: (plan, period) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'Selected: ${plan.title} (${period.name})',
+      body: SafeArea(
+        bottom: true,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                SubscriptionPricingPicker(
+                  monthlyPlans: _monthlyPlans,
+                  yearlyPlans: _yearlyPlans,
+                  onSelect: (plan, period) {
+                    debugPrint('Selection change: ${plan.title} - ${period.name}');
+                  },
+                  onActionPressed: (plan, period) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Selected: ${plan.title} (${period.name})',
+                        ),
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
-                      behavior: SnackBarBehavior.floating,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: 40),
-            ],
+                    );
+                  },
+                ),
+                const SizedBox(height: 40),
+              ],
+            ),
           ),
         ),
       ),

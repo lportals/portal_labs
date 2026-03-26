@@ -38,35 +38,38 @@ class _RangeSelectionSliderShowcaseState
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              // 1. The main demo matching the provided image
-              _demoSection(
-                child: RangeSelectionSlider(
-                  values: _priceRange,
-                  min: 0,
-                  max: 5000,
-                  onChanged: (values) => setState(() => _priceRange = values),
-                  onApply: (values) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          'Applied range: \$${values.start.round()} - \$${values.end.round()}',
+      body: SafeArea(
+        bottom: true,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                // 1. The main demo matching the provided image
+                _demoSection(
+                  child: RangeSelectionSlider(
+                    values: _priceRange,
+                    min: 0,
+                    max: 5000,
+                    onChanged: (values) => setState(() => _priceRange = values),
+                    onApply: (values) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Applied range: \$${values.start.round()} - \$${values.end.round()}',
+                          ),
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
-                        behavior: SnackBarBehavior.floating,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                    );
-                  },
-                  onCancel: () => Navigator.of(context).pop(),
+                      );
+                    },
+                    onCancel: () => Navigator.of(context).pop(),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

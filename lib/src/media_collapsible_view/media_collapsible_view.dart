@@ -120,13 +120,13 @@ class _MediaCollapsibleViewState extends State<MediaCollapsibleView> with Ticker
             fit: StackFit.expand,
             children: [
               _buildBackground(),
-              _buildMediaFrame(size, currentTopOffset, videoTargetHeight, videoTargetWidth, t),
+              _buildMediaFrame(size, currentTopOffset, videoTargetHeight, videoTargetWidth, t, padding),
               if (_currentExtent > 0.01)
                 Positioned(
                   left: 0, right: 0, bottom: 0, height: currentSheetHeight,
                   child: _buildInteractiveSheet(context, size, padding, currentSheetHeight),
                 ),
-              _buildHeaderActions(padding.top, t),
+              _buildHeaderActions(padding, t),
             ],
           ),
         ),
@@ -149,7 +149,7 @@ class _MediaCollapsibleViewState extends State<MediaCollapsibleView> with Ticker
     );
   }
 
-  Widget _buildMediaFrame(Size size, double currentTop, double targetH, double targetW, double t) {
+  Widget _buildMediaFrame(Size size, double currentTop, double targetH, double targetW, double t, EdgeInsets padding) {
     final double currentW = (size.width - (t * (size.width - targetW))).clamp(targetW, size.width);
     final double currentH = (size.height - (t * (size.height - targetH))).clamp(targetH, size.height);
     final double radius = (t * 28).clamp(0.0, 28.0);
@@ -167,7 +167,8 @@ class _MediaCollapsibleViewState extends State<MediaCollapsibleView> with Ticker
             widget.mediaBuilder?.call(context) ?? Image.network(widget.mediaUrl, fit: BoxFit.cover),
             if (_currentExtent < 0.1)
               Positioned(
-                right: 16, bottom: 40,
+                right: 16 + (padding.right > 0 ? padding.right : 0), 
+                bottom: 40,
                 child: Column(
                   children: [
                     _buildActionBtn(Icons.favorite_outline, "124K", widget.onLike),
@@ -184,9 +185,12 @@ class _MediaCollapsibleViewState extends State<MediaCollapsibleView> with Ticker
     );
   }
 
-  Widget _buildHeaderActions(double top, double t) {
+  Widget _buildHeaderActions(EdgeInsets padding, double t) {
+    // WEB/DESKTOP STABILIZATION: ensure some baseline margin if top safe area is 0
+    final double activeTop = (padding.top > 0) ? padding.top : 20.0;
+    
     return Positioned(
-      top: top + 6, left: 16,
+      top: activeTop + 8, left: 16 + (padding.left > 0 ? padding.left : 0),
       child: Opacity(
         opacity: (1.0 - (t * 2.5)).clamp(0.0, 1.0),
         child: IconButton(
@@ -204,7 +208,10 @@ class _MediaCollapsibleViewState extends State<MediaCollapsibleView> with Ticker
       child: Opacity(
         opacity: (_currentExtent * 10).clamp(0.0, 1.0),
         child: Container(
-          decoration: BoxDecoration(color: widget.style.sheetBackgroundColor, borderRadius: const BorderRadius.vertical(top: Radius.circular(28))),
+          decoration: BoxDecoration(
+            color: widget.style.sheetBackgroundColor, 
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+          ),
           child: currentHeight < 50 ? const SizedBox.shrink() : Stack(
             children: [
               if (currentHeight > 160)
@@ -215,8 +222,16 @@ class _MediaCollapsibleViewState extends State<MediaCollapsibleView> with Ticker
                     child: ListView.builder(
                       controller: _scrollController,
                       physics: _currentExtent >= 0.6 ? const AlwaysScrollableScrollPhysics() : const NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.only(
+                        left: padding.left > 0 ? padding.left : 0,
+                        right: padding.right > 0 ? padding.right : 0,
+                      ),
                       itemCount: widget.comments.length,
-                      itemBuilder: (context, i) => _CommentTile(comment: widget.comments[i], textColor: widget.style.textColor, secondaryTextColor: widget.style.secondaryTextColor),
+                      itemBuilder: (context, i) => _CommentTile(
+                        comment: widget.comments[i], 
+                        textColor: widget.style.textColor, 
+                        secondaryTextColor: widget.style.secondaryTextColor,
+                      ),
                     ),
                   ),
                 ),
@@ -224,7 +239,10 @@ class _MediaCollapsibleViewState extends State<MediaCollapsibleView> with Ticker
                 top: 0, left: 0, right: 0,
                 child: Column(
                   children: [
-                    Container(height: 4, width: 40, margin: const EdgeInsets.symmetric(vertical: 12), decoration: BoxDecoration(color: widget.style.textColor.withOpacity(0.2), borderRadius: BorderRadius.circular(2))),
+                    Container(
+                      height: 4, width: 40, margin: const EdgeInsets.symmetric(vertical: 12), 
+                      decoration: BoxDecoration(color: widget.style.textColor.withOpacity(0.2), borderRadius: BorderRadius.circular(2)),
+                    ),
                     if (currentHeight > 80) ...[
                       Text("Comments", style: TextStyle(color: widget.style.textColor, fontWeight: FontWeight.bold, fontSize: 16)),
                       const SizedBox(height: 12),
@@ -233,7 +251,7 @@ class _MediaCollapsibleViewState extends State<MediaCollapsibleView> with Ticker
                   ],
                 ),
               ),
-              if (currentHeight > 140) Positioned(bottom: 0, left: 0, right: 0, child: _buildInputSection(padding.bottom)),
+              if (currentHeight > 140) Positioned(bottom: 0, left: 0, right: 0, child: _buildInputSection(padding)),
             ],
           ),
         ),
@@ -241,14 +259,30 @@ class _MediaCollapsibleViewState extends State<MediaCollapsibleView> with Ticker
     );
   }
 
-  Widget _buildInputSection(double bottom) {
+  Widget _buildInputSection(EdgeInsets padding) {
+    // WEB/DESKTOP STABILIZATION: ensure some baseline margin if bottom safe area is 0
+    final double bottomPadding = (padding.bottom > 0) ? padding.bottom : 12.0;
+
     return Container(
-      padding: EdgeInsets.fromLTRB(16, 12, 16, bottom + 12),
-      decoration: BoxDecoration(color: widget.style.sheetBackgroundColor, border: Border(top: BorderSide(color: widget.style.dividerColor))),
+      padding: EdgeInsets.fromLTRB(
+        16 + (padding.left > 0 ? padding.left : 0), 
+        12, 
+        16 + (padding.right > 0 ? padding.right : 0), 
+        bottomPadding + 12,
+      ),
+      decoration: BoxDecoration(
+        color: widget.style.sheetBackgroundColor, 
+        border: Border(top: BorderSide(color: widget.style.dividerColor)),
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: ["❤️", "🙌", "🔥", "👏", "😢", "😍", "😮", "😂"].map((e) => GestureDetector(onTap: () => _textController.text += e, child: Text(e, style: const TextStyle(fontSize: 20)))).toList()),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround, 
+            children: ["❤️", "🙌", "🔥", "👏", "😢", "😍", "😮", "😂"].map((e) => GestureDetector(
+              onTap: () => _textController.text += e, child: Text(e, style: const TextStyle(fontSize: 20)),
+            )).toList(),
+          ),
           const SizedBox(height: 12),
           Row(
             children: [
@@ -261,7 +295,11 @@ class _MediaCollapsibleViewState extends State<MediaCollapsibleView> with Ticker
                   child: TextField(
                     controller: _textController, onSubmitted: (_) => _handleSend(),
                     style: TextStyle(color: widget.style.textColor, fontSize: 14),
-                    decoration: InputDecoration(hintText: widget.style.commentHintText, border: InputBorder.none, hintStyle: TextStyle(color: widget.style.textColor.withOpacity(0.3))),
+                    decoration: InputDecoration(
+                      hintText: widget.style.commentHintText, 
+                      border: InputBorder.none, 
+                      hintStyle: TextStyle(color: widget.style.textColor.withOpacity(0.3)),
+                    ),
                   ),
                 ),
               ),
@@ -274,7 +312,15 @@ class _MediaCollapsibleViewState extends State<MediaCollapsibleView> with Ticker
   }
 
   Widget _buildActionBtn(IconData icon, String label, VoidCallback? onTap) {
-    return GestureDetector(onTap: onTap, child: Column(children: [Icon(icon, color: widget.style.textColor, size: 30), if (label.isNotEmpty) Text(label, style: TextStyle(color: widget.style.textColor, fontSize: 12, fontWeight: FontWeight.bold))]));
+    return GestureDetector(
+      onTap: onTap, 
+      child: Column(
+        children: [
+          Icon(icon, color: widget.style.textColor, size: 30), 
+          if (label.isNotEmpty) Text(label, style: TextStyle(color: widget.style.textColor, fontSize: 12, fontWeight: FontWeight.bold)),
+        ],
+      ),
+    );
   }
 }
 

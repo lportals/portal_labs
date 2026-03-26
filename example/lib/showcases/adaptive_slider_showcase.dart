@@ -36,24 +36,27 @@ class _AdaptiveSliderShowcaseState extends State<AdaptiveSliderShowcase> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              // 1. Calories Slider (The original design)
-              _buildDemoCard(
-                child: AdaptiveSliderInteraction(
-                  value: _currentCalories,
-                  min: 0,
-                  max: 350,
-                  onChanged: (val) => setState(() => _currentCalories = val),
-                  title: 'Calories',
-                  unit: 'kCal',
-                  step: 50,
+      body: SafeArea(
+        bottom: true,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                // 1. Calories Slider (The original design)
+                _buildDemoCard(
+                  child: AdaptiveSliderInteraction(
+                    value: _currentCalories,
+                    min: 0,
+                    max: 350,
+                    onChanged: (val) => setState(() => _currentCalories = val),
+                    title: 'Calories',
+                    unit: 'kCal',
+                    step: 50,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

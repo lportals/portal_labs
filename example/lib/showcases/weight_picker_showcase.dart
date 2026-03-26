@@ -36,22 +36,25 @@ class _WeightPickerShowcaseState extends State<WeightPickerShowcase> {
           ),
         ),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Column(
-            children: [
-              const Spacer(flex: 2), // Optical adjustment to push it up
-              ModernWeightPicker(
-                initialValue: _weight,
-                onValueChanged: (value) {
-                  setState(() {
-                    _weight = value;
-                  });
-                },
-              ),
-              const Spacer(flex: 3), // More space at the bottom than the top
-            ],
+      body: SafeArea(
+        bottom: true,
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              children: [
+                const Spacer(flex: 2), // Optical adjustment to push it up
+                ModernWeightPicker(
+                  initialValue: _weight,
+                  onValueChanged: (value) {
+                    setState(() {
+                      _weight = value;
+                    });
+                  },
+                ),
+                const Spacer(flex: 3), // More space at the bottom than the top
+              ],
+            ),
           ),
         ),
       ),

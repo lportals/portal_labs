@@ -41,13 +41,16 @@ class JournalNavigationShowcase extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
-        child: Column(
-          children: [
-            JournalNavigation(items: items, initialDate: now),
-            const SizedBox(height: 100),
-          ],
+      body: SafeArea(
+        bottom: true,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
+          child: Column(
+            children: [
+              JournalNavigation(items: items, initialDate: now),
+              const SizedBox(height: 100),
+            ],
+          ),
         ),
       ),
     );

@@ -34,25 +34,28 @@ class _RevealCopyShowcaseState extends State<RevealCopyShowcase> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: Column(
-          children: [
-            const Spacer(flex: 2),
-            RevealCopyInteraction(
-              value: '4485 2291 0034 7516',
-              onCopied: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Copied to clipboard!'),
-                    behavior: SnackBarBehavior.floating,
-                    duration: Duration(seconds: 2),
-                  ),
-                );
-              },
-            ),
-            const Spacer(flex: 3),
-          ],
+      body: SafeArea(
+        bottom: true,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            children: [
+              const Spacer(flex: 2),
+              RevealCopyInteraction(
+                value: '4485 2291 0034 7516',
+                onCopied: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Copied to clipboard!'),
+                      behavior: SnackBarBehavior.floating,
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                },
+              ),
+              const Spacer(flex: 3),
+            ],
+          ),
         ),
       ),
     );
