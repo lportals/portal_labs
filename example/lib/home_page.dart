@@ -10,6 +10,7 @@ import 'showcases/subscription_pricing_picker_showcase.dart';
 import 'showcases/media_collapsible_view_showcase.dart';
 import 'showcases/knob_slider_showcase.dart';
 import 'showcases/card_stack_interaction_showcase.dart';
+import 'showcases/discrete_tabs_showcase.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -177,6 +178,12 @@ class _HomePageState extends State<HomePage> {
         icon: Icons.layers_outlined,
         category: 'Interactions',
         page: CardStackInteractionShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Discrete Tabs',
+        icon: Icons.linear_scale_rounded,
+        category: 'Interactions',
+        page: DiscreteTabsShowcase(),
       ),
     ];
 

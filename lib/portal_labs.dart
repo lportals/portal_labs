@@ -60,3 +60,8 @@ export 'src/knob_slider/models/knob_slider_style.dart';
 export 'src/card_stack_interaction/card_stack_interaction.dart';
 export 'src/card_stack_interaction/models/card_stack_item.dart';
 export 'src/card_stack_interaction/models/card_stack_style.dart';
+
+// Discrete Tabs
+export 'src/discrete_tabs/discrete_tabs.dart';
+export 'src/discrete_tabs/models/discrete_tab.dart';
+export 'src/discrete_tabs/models/discrete_tabs_style.dart';

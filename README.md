@@ -32,6 +32,7 @@ This strategy makes every component **instantly portable**—allowing developers
 | **[Media Collapsible View](#media-collapsible-view)** | Reels-inspired video background with dynamic collapsible interactive sheet. | Interaction | `/lib/src/media_collapsible_view/` |
 | **[High-Fidelity Knob Slider](#high-fidelity-knob-slider)** | Premium tactile knob with mathematical delta tracking and mechanical reel digits. | Interaction | `/lib/src/knob_slider/` |
 | **[Card Stack Interaction](#card-stack-interaction)** | Premium chronological card stack with symmetric expansion and high-fidelity transitions. | Interaction | `/lib/src/card_stack_interaction/` |
+| **[Discrete Tabs](#discrete-tabs)** | Minimalist pill expanding tabs with aesthetic bounce, shimmer text, and managed state. | Interaction | `/lib/src/discrete_tabs/` |
 
 ---
 
@@ -337,7 +338,7 @@ KnobSlider(
 
 ### Card Stack Interaction
 
-![Card Stack Interaction Showcase](docs/gifs/card_stack.gif)
+![Card Stack Interaction Showcase](./docs/gifs/card_stack.gif)
 
 A premium, interactive card stack designed for chronological content, featuring a minimal "deck" aesthetic and a high-fidelity symmetric expansion animation.
 
@@ -378,6 +379,41 @@ CardStackInteraction(
 ```
 
 ---
+
+### Discrete Tabs
+
+![Discrete Tabs Showcase](./docs/gifs/discrete_tabs.gif)
+
+A premium, zero-dependency minimalist navigation widget that expands like a pill and features a subtle shimmer and slide effect on selection.
+
+#### Key Features
+
+*   **Aesthetic Expansion**: High-fidelity bounce expansion curves transitioning seamlessly from a compact circle into a detailed pill.
+*   **Slide & Fade Shimmer**: Smooth linear gradient shimmer and sub-pixel slide interpolation that triggers elegantly across the label upon tab selection.
+*   **Controlled State**: Built with robust architecture offering both internal state for quick implementation and an external `currentIndex` for complete synchronization with other views.
+
+#### Integration
+
+```dart
+import 'package:portal_labs/portal_labs.dart';
+
+DiscreteTabs(
+  currentIndex: _selectedPage, // Optional: for external control
+  tabs: [
+    DiscreteTab(
+      label: 'Inbox',
+      icon: Icons.mark_email_unread_rounded,
+      activeColor: Color(0xFF007AFF),
+    ),
+    DiscreteTab(
+      label: 'Planner',
+      icon: Icons.grid_view_rounded,
+      activeColor: Color(0xFFFF2D55),
+    ),
+  ],
+  onSelect: (index) => setState(() => _selectedPage = index),
+)
+```
 
 ## Contributing
 
