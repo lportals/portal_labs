@@ -31,6 +31,7 @@ This strategy makes every component **instantly portable**—allowing developers
 | **[Subscription Picker](#subscription-picker)** | High-fidelity pricing selector with minimalist monthly/yearly toggle logic. | Selection | `/lib/src/subscription_pricing_picker/` |
 | **[Media Collapsible View](#media-collapsible-view)** | Reels-inspired video background with dynamic collapsible interactive sheet. | Interaction | `/lib/src/media_collapsible_view/` |
 | **[High-Fidelity Knob Slider](#high-fidelity-knob-slider)** | Premium tactile knob with mathematical delta tracking and mechanical reel digits. | Interaction | `/lib/src/knob_slider/` |
+| **[Card Stack Interaction](#card-stack-interaction)** | Premium chronological card stack with symmetric expansion and high-fidelity transitions. | Interaction | `/lib/src/card_stack_interaction/` |
 
 ---
 
@@ -329,6 +330,50 @@ KnobSlider(
     knobScale: 0.6,
     totalTicks: 60,
   ),
+)
+```
+
+---
+
+### Card Stack Interaction
+
+![Card Stack Interaction Showcase](docs/gifs/card_stack.gif)
+
+A premium, interactive card stack designed for chronological content, featuring a minimal "deck" aesthetic and a high-fidelity symmetric expansion animation.
+
+#### Key Features
+
+*   **Symmetric Center Expansion**: Cards expand outwards from the center of the stack with an elastic `easeOutBack` curve for a tactile "pop" effect.
+*   **Layered Stacking Logic**: A specialized 3-level visual hierarchy that hides extra items behind the stack until expanded, maintaining a clean interface.
+*   **Synchronized Transitions**: Integrated `AnimatedCrossFade` and `AnimatedRotation` for the action button, ensuring smooth layout shifts and icon turns.
+*   **Fully Themeable**: Comprehensive style injection via `CardStackStyle` allowing complete control over card dimensions, spacing, offsets, and colors.
+
+#### Integration
+
+```dart
+import 'package:portal_labs/portal_labs.dart';
+
+CardStackInteraction(
+  items: [
+    CardStackItem(
+      title: 'Camping',
+      subtitle: 'Yosemite Park',
+      date: '5 August',
+      icon: Icons.terrain_rounded,
+    ),
+    CardStackItem(
+      title: 'Boating',
+      subtitle: 'Lake Tahoe Park',
+      date: '2 August',
+      icon: Icons.directions_boat_rounded,
+    ),
+  ],
+  style: CardStackStyle(
+    cardHeight: 90.0,
+    cardSpacing: 16.0,
+    buttonBackgroundColor: Colors.white,
+  ),
+  onExpansionChanged: (isExpanded) => print('Stack is $isExpanded'),
 )
 ```
 

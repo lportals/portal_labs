@@ -9,6 +9,7 @@ import 'showcases/range_selection_slider_showcase.dart';
 import 'showcases/subscription_pricing_picker_showcase.dart';
 import 'showcases/media_collapsible_view_showcase.dart';
 import 'showcases/knob_slider_showcase.dart';
+import 'showcases/card_stack_interaction_showcase.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -170,6 +171,12 @@ class _HomePageState extends State<HomePage> {
         'icon': Icons.visibility_outlined,
         'category': 'Interactions',
         'page': const RevealCopyShowcase()
+      },
+      {
+        'title': 'Card Stack',
+        'icon': Icons.layers_outlined,
+        'category': 'Interactions',
+        'page': const CardStackInteractionShowcase()
       },
     ];
 

@@ -55,3 +55,8 @@ export 'src/media_collapsible_view/models/media_view_style.dart';
 // Knob Slider
 export 'src/knob_slider/knob_slider.dart';
 export 'src/knob_slider/models/knob_slider_style.dart';
+
+// Card Stack Interaction
+export 'src/card_stack_interaction/card_stack_interaction.dart';
+export 'src/card_stack_interaction/models/card_stack_item.dart';
+export 'src/card_stack_interaction/models/card_stack_style.dart';
