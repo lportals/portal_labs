@@ -111,81 +111,81 @@ class _HomePageState extends State<HomePage> {
   }
 
   List<Widget> _filteredIcons(BuildContext context) {
-    final List<Map<String, dynamic>> allItems = [
-      {
-        'title': 'Knob Slider',
-        'icon': Icons.track_changes_outlined,
-        'category': 'Inputs',
-        'page': const KnobSliderShowcase()
-      },
-      {
-        'title': 'Range Slider',
-        'icon': Icons.straighten,
-        'category': 'Inputs',
-        'page': const RangeSelectionSliderShowcase()
-      },
-      {
-        'title': 'Pricing Picker',
-        'icon': Icons.workspace_premium_outlined,
-        'category': 'Inputs',
-        'page': const SubscriptionPricingPickerShowcase()
-      },
-      {
-        'title': 'Choice Chips',
-        'icon': Icons.style_outlined,
-        'category': 'Inputs',
-        'page': const PremiumChoiceChipsShowcase()
-      },
-      {
-        'title': 'Weight Picker',
-        'icon': Icons.speed_outlined,
-        'category': 'Inputs',
-        'page': const WeightPickerShowcase()
-      },
-      {
-        'title': 'Color Slider',
-        'icon': Icons.tune,
-        'category': 'Inputs',
-        'page': const AdaptiveSliderShowcase()
-      },
-      {
-        'title': 'Journal Nav',
-        'icon': Icons.calendar_today_outlined,
-        'category': 'Layout',
-        'page': const JournalNavigationShowcase()
-      },
-      {
-        'title': 'Card Split',
-        'icon': Icons.layers_outlined,
-        'category': 'Layout',
-        'page': const CardSplittingAccordionShowcase()
-      },
-      {
-        'title': 'Video Reels',
-        'icon': Icons.video_library_outlined,
-        'category': 'Layout',
-        'page': const MediaCollapsibleViewShowcase()
-      },
-      {
-        'title': 'Secure Reveal',
-        'icon': Icons.visibility_outlined,
-        'category': 'Interactions',
-        'page': const RevealCopyShowcase()
-      },
-      {
-        'title': 'Card Stack',
-        'icon': Icons.layers_outlined,
-        'category': 'Interactions',
-        'page': const CardStackInteractionShowcase()
-      },
+  final List<_ComponentItem> allItems = const [
+      _ComponentItem(
+        title: 'Knob Slider',
+        icon: Icons.track_changes_outlined,
+        category: 'Inputs',
+        page: KnobSliderShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Range Slider',
+        icon: Icons.straighten,
+        category: 'Inputs',
+        page: RangeSelectionSliderShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Pricing Picker',
+        icon: Icons.workspace_premium_outlined,
+        category: 'Inputs',
+        page: SubscriptionPricingPickerShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Choice Chips',
+        icon: Icons.style_outlined,
+        category: 'Inputs',
+        page: PremiumChoiceChipsShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Weight Picker',
+        icon: Icons.speed_outlined,
+        category: 'Inputs',
+        page: WeightPickerShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Color Slider',
+        icon: Icons.tune,
+        category: 'Inputs',
+        page: AdaptiveSliderShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Journal Nav',
+        icon: Icons.calendar_today_outlined,
+        category: 'Layout',
+        page: JournalNavigationShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Card Split',
+        icon: Icons.layers_outlined,
+        category: 'Layout',
+        page: CardSplittingAccordionShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Video Reels',
+        icon: Icons.video_library_outlined,
+        category: 'Layout',
+        page: MediaCollapsibleViewShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Secure Reveal',
+        icon: Icons.visibility_outlined,
+        category: 'Interactions',
+        page: RevealCopyShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Card Stack',
+        icon: Icons.layers_outlined,
+        category: 'Interactions',
+        page: CardStackInteractionShowcase(),
+      ),
     ];
 
     return allItems
-        .where((item) => _selectedCategory == 'All' || item['category'] == _selectedCategory)
+        .where((item) => _selectedCategory == 'All' || item.category == _selectedCategory)
         .map((item) => _ComponentIcon(
-              title: item['title'],
-              icon: item['icon'],
-              onTap: () => _push(context, item['page']),
+              title: item.title,
+              icon: item.icon,
+              onTap: () => _push(context, item.page),
             ))
         .toList();
   }
@@ -268,4 +268,18 @@ class _ComponentIcon extends StatelessWidget {
       ],
     );
   }
+}
+
+class _ComponentItem {
+  final String title;
+  final IconData icon;
+  final String category;
+  final Widget page;
+
+  const _ComponentItem({
+    required this.title,
+    required this.icon,
+    required this.category,
+    required this.page,
+  });
 }
