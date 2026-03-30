@@ -9,7 +9,8 @@ class CardStackInteractionShowcase extends StatefulWidget {
       _CardStackInteractionShowcaseState();
 }
 
-class _CardStackInteractionShowcaseState extends State<CardStackInteractionShowcase> {
+class _CardStackInteractionShowcaseState
+    extends State<CardStackInteractionShowcase> {
   final List<CardStackItem> _items = const [
     CardStackItem(
       title: 'Camping',
@@ -60,13 +61,10 @@ class _CardStackInteractionShowcaseState extends State<CardStackInteractionShowc
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
-            child: CardStackInteraction(
-              items: _items,
-            ),
+            child: CardStackInteraction(items: _items),
           ),
         ),
       ),
     );
   }
 }
-

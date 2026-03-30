@@ -11,7 +11,7 @@ import 'showcases/media_collapsible_view_showcase.dart';
 import 'showcases/knob_slider_showcase.dart';
 import 'showcases/card_stack_interaction_showcase.dart';
 import 'showcases/discrete_tabs_showcase.dart';
-
+import 'showcases/split_button_interaction_showcase.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -23,12 +23,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String _selectedCategory = 'All';
 
-  final List<String> _categories = [
-    'All',
-    'Inputs',
-    'Layout',
-    'Interactions',
-  ];
+  final List<String> _categories = ['All', 'Inputs', 'Layout', 'Interactions'];
 
   @override
   Widget build(BuildContext context) {
@@ -75,15 +70,21 @@ class _HomePageState extends State<HomePage> {
                       },
                       labelStyle: TextStyle(
                         fontSize: 13,
-                        fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                        color: isSelected ? Colors.white : const Color(0xFF666666),
+                        fontWeight: isSelected
+                            ? FontWeight.w700
+                            : FontWeight.w500,
+                        color: isSelected
+                            ? Colors.white
+                            : const Color(0xFF666666),
                       ),
                       selectedColor: const Color(0xFF111111),
                       backgroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                         side: BorderSide(
-                          color: isSelected ? Colors.transparent : const Color(0xFFEEEEEE),
+                          color: isSelected
+                              ? Colors.transparent
+                              : const Color(0xFFEEEEEE),
                         ),
                       ),
                       showCheckmark: false,
@@ -112,7 +113,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   List<Widget> _filteredIcons(BuildContext context) {
-  final List<_ComponentItem> allItems = const [
+    final List<_ComponentItem> allItems = const [
       _ComponentItem(
         title: 'Knob Slider',
         icon: Icons.track_changes_outlined,
@@ -185,22 +186,31 @@ class _HomePageState extends State<HomePage> {
         category: 'Interactions',
         page: DiscreteTabsShowcase(),
       ),
+      _ComponentItem(
+        title: 'Split Button',
+        icon: Icons.menu_open_rounded,
+        category: 'Interactions',
+        page: SplitButtonInteractionShowcase(),
+      ),
     ];
 
     return allItems
-        .where((item) => _selectedCategory == 'All' || item.category == _selectedCategory)
-        .map((item) => _ComponentIcon(
-              title: item.title,
-              icon: item.icon,
-              onTap: () => _push(context, item.page),
-            ))
+        .where(
+          (item) =>
+              _selectedCategory == 'All' || item.category == _selectedCategory,
+        )
+        .map(
+          (item) => _ComponentIcon(
+            title: item.title,
+            icon: item.icon,
+            onTap: () => _push(context, item.page),
+          ),
+        )
         .toList();
   }
 
   void _push(BuildContext context, Widget page) {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => page),
-    );
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) => page));
   }
 
   Widget _buildSubtitle(String text) {
@@ -251,11 +261,7 @@ class _ComponentIcon extends StatelessWidget {
                 onTap: onTap,
                 borderRadius: BorderRadius.circular(22),
                 child: Center(
-                  child: Icon(
-                    icon,
-                    size: 28,
-                    color: const Color(0xFF111111),
-                  ),
+                  child: Icon(icon, size: 28, color: const Color(0xFF111111)),
                 ),
               ),
             ),

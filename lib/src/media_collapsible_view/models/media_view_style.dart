@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 
 /// Style configuration for the [MediaCollapsibleView].
-/// 
+///
 /// Allows customizing colors, blur intensity, and text labels for
 /// a consistent premium look throughout the application.
 class MediaViewStyle {
   /// Background color behind the video/blur frame.
   final Color backgroundColor;
-  
+
   /// Background color of the interactive bottom sheet.
   final Color sheetBackgroundColor;
-  
+
   /// Main text color for comments and title.
   final Color textColor;
-  
+
   /// Secondary text color for usernames and subtending labels.
   final Color secondaryTextColor;
-  
+
   /// Accent color for action icons, send button, and interactive elements.
   final Color accentColor;
-  
+
   /// Color of the divider line and input field border in the sheet.
   final Color dividerColor;
 

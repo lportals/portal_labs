@@ -1,4 +1,3 @@
-
 /// A model representing a subscription pricing plan.
 class PricingPlan {
   /// Unique identifier for the plan.

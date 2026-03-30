@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'portal_utils.dart';
 
 /// A high-performance, odometer-style counter with motion blur.
-/// 
+///
 /// It's designed to handle fast value changes by showing every intermediate
 /// state with a dynamic blur effect, creating a "1 to 1" tactile feel.
 class PremiumFlipCounter extends StatelessWidget {
@@ -53,7 +53,7 @@ class PremiumFlipCounter extends StatelessWidget {
         final int index = entry.key;
         final String digitStr = entry.value;
         final int digit = int.tryParse(digitStr) ?? 0;
-        
+
         // Calculate stable key by position from the right (Units = 1, Tens = 2, etc.)
         final int posFromRight = strValue.length - index;
 
@@ -88,10 +88,11 @@ class _ReelDigit extends StatefulWidget {
   State<_ReelDigit> createState() => _ReelDigitState();
 }
 
-class _ReelDigitState extends State<_ReelDigit> with SingleTickerProviderStateMixin {
+class _ReelDigitState extends State<_ReelDigit>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
-  
+
   // Internal continuous value (e.g., 25.0 means digit 5 in the 3rd cycle)
   double _currentValue = 0;
   double _lastFiredValue = 0;
@@ -102,7 +103,7 @@ class _ReelDigitState extends State<_ReelDigit> with SingleTickerProviderStateMi
     super.initState();
     _currentValue = widget.digit.toDouble();
     _lastFiredValue = _currentValue;
-    
+
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 350),
@@ -135,10 +136,14 @@ class _ReelDigitState extends State<_ReelDigit> with SingleTickerProviderStateMi
 
     // ODOMETER LOGIC: Find target value in the continuous space
     final double diff = (end - (start % 10)).remainder(10);
-    final double shortestDiff = (diff > 5) ? diff - 10 : (diff < -5) ? diff + 10 : diff;
-    
+    final double shortestDiff = (diff > 5)
+        ? diff - 10
+        : (diff < -5)
+        ? diff + 10
+        : diff;
+
     end = start + shortestDiff;
-    
+
     setState(() {
       _animation = Tween<double>(begin: start, end: end).animate(
         CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
@@ -176,7 +181,12 @@ class _ReelDigitState extends State<_ReelDigit> with SingleTickerProviderStateMi
           return const LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Colors.transparent, Colors.black, Colors.black, Colors.transparent],
+            colors: [
+              Colors.transparent,
+              Colors.black,
+              Colors.black,
+              Colors.transparent,
+            ],
             stops: [0.0, 0.3, 0.7, 1.0], // Sharper center for better clarity
           ).createShader(rect);
         },
@@ -257,7 +267,9 @@ class _DigitView extends StatelessWidget {
               // Force height to 1.0 to eliminate internal font padding
               height: 1.0,
               // Fade out numbers as they "recede" into the 3D depth
-              color: style.color?.withOpacity((1.0 - normalizedOffset.abs()).clamp(0.2, 1.0)),
+              color: style.color?.withOpacity(
+                (1.0 - normalizedOffset.abs()).clamp(0.2, 1.0),
+              ),
             ),
           ),
         ),

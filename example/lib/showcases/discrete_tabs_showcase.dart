@@ -64,7 +64,7 @@ class _DiscreteTabsShowcaseState extends State<DiscreteTabsShowcase> {
                   debugPrint('Selected tab index: $index');
                 },
               ),
-              
+
               const SizedBox(height: 100),
             ],
           ),

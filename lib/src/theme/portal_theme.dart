@@ -13,7 +13,7 @@ class PortalThemeData {
     required this.colors,
     required this.typography,
     this.borderRadius = 25.0, // Default Button Radius
-    this.cardRadius = 20.0,   // Default Internal Card Radius
+    this.cardRadius = 20.0, // Default Internal Card Radius
   });
 
   /// Constructs a Light Theme Data
@@ -45,19 +45,15 @@ class PortalThemeData {
 class PortalTheme extends InheritedWidget {
   final PortalThemeData data;
 
-  const PortalTheme({
-    super.key,
-    required this.data,
-    required super.child,
-  });
+  const PortalTheme({super.key, required this.data, required super.child});
 
   /// Resolves the nearest [PortalThemeData] in the widget tree.
   /// If none is found, it automatically falls back to [PortalThemeData.light]
   /// or [PortalThemeData.dark] based on device settings.
   static PortalThemeData of(BuildContext context) {
-    final PortalTheme? theme =
-        context.dependOnInheritedWidgetOfExactType<PortalTheme>();
-    
+    final PortalTheme? theme = context
+        .dependOnInheritedWidgetOfExactType<PortalTheme>();
+
     if (theme != null) return theme.data;
 
     // Fallback if not wrapped in PortalTheme

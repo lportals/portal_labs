@@ -94,4 +94,3 @@ class PortalUtils {
     return '\$${value.toStringAsFixed(2)}';
   }
 }
-

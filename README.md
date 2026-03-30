@@ -33,6 +33,7 @@ This strategy makes every component **instantly portable**—allowing developers
 | **[High-Fidelity Knob Slider](#high-fidelity-knob-slider)** | Premium tactile knob with mathematical delta tracking and mechanical reel digits. | Interaction | `/lib/src/knob_slider/` |
 | **[Card Stack Interaction](#card-stack-interaction)** | Premium chronological card stack with symmetric expansion and high-fidelity transitions. | Interaction | `/lib/src/card_stack_interaction/` |
 | **[Discrete Tabs](#discrete-tabs)** | Minimalist pill expanding tabs with aesthetic bounce, shimmer text, and managed state. | Interaction | `/lib/src/discrete_tabs/` |
+| **[Split Button Interaction](#split-button-interaction)** | Premium morphing action menu with synchronized action slide, elastic pop bounce, and motion blur emergence. | Navigation | `/lib/src/split_button_interaction/` |
 
 ---
 
@@ -412,6 +413,46 @@ DiscreteTabs(
     ),
   ],
   onSelect: (index) => setState(() => _selectedPage = index),
+)
+```
+
+---
+
+### Split Button Interaction
+
+![Split Button Interaction Showcase](./docs/gifs/nested_pill_menu.gif)
+
+A high-fidelity, zero-dependency action menu that seamlessly morphs from a primary button into a horizontal navigation pill with synchronized micro-animations.
+
+#### Key Features
+
+*   **Dynamic Morphing Transition**: High-performance transformation from a primary action label into a back-navigation icon with a fluid, symmetric expansion.
+*   **Synchronized Action Slide**: Supplemental action items slide out from behind the main button with coordinated opacity, blur, and width interpolation.
+*   **Elastic Pop Bounce**: Symmetrical bidirectional "pop" effect upon menu closure, providing a tactile, hardware-inspired physical interaction.
+*   **Sophisticated Text Emergence**: High-end motion blur and clarify effect as the main label reappears during the closing transition, preventing visual artifacts.
+*   **Managed Controller API**: Built-in `SplitButtonController` for programmatic expansion, collapse, and toggle events.
+
+#### Integration
+
+```dart
+import 'package:portal_labs/portal_labs.dart';
+
+SplitButtonInteraction(
+  initialLabel: 'New Project',
+  onBack: () => print('Menu collapsed'),
+  actions: [
+    SplitAction(
+      label: 'iOS',
+      icon: Icons.apple_rounded,
+      onTap: () => print('Creating iOS project'),
+      closeOnTap: true,
+    ),
+    SplitAction(
+      label: 'Web',
+      icon: Icons.language_rounded,
+      onTap: () => print('Creating Web project'),
+    ),
+  ],
 )
 ```
 

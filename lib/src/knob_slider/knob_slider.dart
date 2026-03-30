@@ -33,7 +33,7 @@ class KnobSlider extends StatefulWidget {
   /// Whether to enable haptic feedback.
   final bool enableHaptics;
 
-  /// The size of the widget. If null, it will try to expand to fit 
+  /// The size of the widget. If null, it will try to expand to fit
   /// constraints, or fallback to a default size.
   final double? size;
 
@@ -94,14 +94,20 @@ class _KnobSliderState extends State<KnobSlider> {
 
       // Map the angular rotation delta to the value range
       // A full circle (2PI) represents the entire value range
-      final double deltaValue = (deltaAngle / (2 * math.pi)) * (widget.max - widget.min);
-      final double newValue = (_currentValue + deltaValue).clamp(widget.min, widget.max);
+      final double deltaValue =
+          (deltaAngle / (2 * math.pi)) * (widget.max - widget.min);
+      final double newValue = (_currentValue + deltaValue).clamp(
+        widget.min,
+        widget.max,
+      );
 
       if (newValue != _currentValue) {
         // Snapped value for the numeric readout and onChanged
-        final double snappedValue = (newValue / widget.step).roundToDouble() * widget.step;
-        
-        if (snappedValue.round() != _currentValue.round() && widget.enableHaptics) {
+        final double snappedValue =
+            (newValue / widget.step).roundToDouble() * widget.step;
+
+        if (snappedValue.round() != _currentValue.round() &&
+            widget.enableHaptics) {
           HapticFeedback.selectionClick();
         }
 
@@ -109,11 +115,14 @@ class _KnobSliderState extends State<KnobSlider> {
           _isIncreasing = newValue > _currentValue;
           _currentValue = newValue;
         });
-        
+
         // Only fire onChanged if we actually cross a step boundary
-        final double lastSnapped = (_currentValue / widget.step).roundToDouble() * widget.step;
-        if (snappedValue != lastSnapped || newValue == widget.min || newValue == widget.max) {
-           widget.onChanged(snappedValue);
+        final double lastSnapped =
+            (_currentValue / widget.step).roundToDouble() * widget.step;
+        if (snappedValue != lastSnapped ||
+            newValue == widget.min ||
+            newValue == widget.max) {
+          widget.onChanged(snappedValue);
         }
       }
     }
@@ -125,11 +134,12 @@ class _KnobSliderState extends State<KnobSlider> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        // Sizing logic: 
+        // Sizing logic:
         // 1. Use widget.size if provided.
         // 2. Otherwise, use the minimum of available width/height.
         // Fallback to 220.0 (smaller default size)
-        double size = widget.size ??
+        double size =
+            widget.size ??
             math.min(
               constraints.maxWidth.isFinite ? constraints.maxWidth : 220.0,
               constraints.maxHeight.isFinite ? constraints.maxHeight : 220.0,
@@ -189,10 +199,7 @@ class _KnobSliderState extends State<KnobSlider> {
                     gradient: const LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.white,
-                        Color(0xFFF9F9F9),
-                      ],
+                      colors: [Colors.white, Color(0xFFF9F9F9)],
                     ),
                     boxShadow: [
                       BoxShadow(
@@ -246,10 +253,15 @@ class _KnobRingPainter extends CustomPainter {
     final baseWhitePaint = Paint()
       ..color = Colors.white
       ..style = PaintingStyle.fill;
-    
+
     final baseShadowPath = Path()
       ..addOval(Rect.fromCircle(center: center, radius: radius));
-    canvas.drawShadow(baseShadowPath, Colors.black.withValues(alpha: 0.05), 10, true);
+    canvas.drawShadow(
+      baseShadowPath,
+      Colors.black.withValues(alpha: 0.05),
+      10,
+      true,
+    );
     canvas.drawCircle(center, radius, baseWhitePaint);
 
     // Border: 1px Black (from style)
@@ -269,7 +281,7 @@ class _KnobRingPainter extends CustomPainter {
     // 2. Draw Ticks (Centered between the knob and outer ring)
     final knobRadius = radius * style.knobScale;
     final tickAreaCenter = (radius + knobRadius) / 2;
-    
+
     for (int i = 0; i < style.totalTicks; i++) {
       // FIX: Use i / style.totalTicks for closed-loop spacing (prevents advance error)
       final tickPercent = i / style.totalTicks;
@@ -316,30 +328,32 @@ class _KnobRingPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     // Even Fatter Rounded Pointer (Cone style)
-    const tipLength = 12.0; 
+    const tipLength = 12.0;
     final pointerPath = Path()
       ..moveTo(knobRadius - 2, -12) // Even wider base
-      ..lineTo(knobRadius + tipLength - 4, -6) 
+      ..lineTo(knobRadius + tipLength - 4, -6)
       ..quadraticBezierTo(
-        knobRadius + tipLength, 
-        0, 
-        knobRadius + tipLength - 4, 
-        6
-      ) 
-      ..lineTo(knobRadius - 2, 12) 
+        knobRadius + tipLength,
+        0,
+        knobRadius + tipLength - 4,
+        6,
+      )
+      ..lineTo(knobRadius - 2, 12)
       ..close();
 
     // Subtle centered shadow to avoid angular shift perception
     canvas.drawShadow(
-       pointerPath,
-       Colors.black.withValues(alpha: 0.3), 
-       3, 
-       true
+      pointerPath,
+      Colors.black.withValues(alpha: 0.3),
+      3,
+      true,
     );
     canvas.drawPath(pointerPath, handlePaint);
 
     // Subtle white dot on the pointer handle
-    final dotPaint = Paint()..color = Colors.white..style = PaintingStyle.fill;
+    final dotPaint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.fill;
     canvas.drawCircle(Offset(knobRadius + tipLength / 2, 0), 1.5, dotPaint);
 
     canvas.restore();

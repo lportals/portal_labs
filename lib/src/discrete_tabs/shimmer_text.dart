@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-/// A custom shimmer text widget designed for premium, zero-dependency 
+/// A custom shimmer text widget designed for premium, zero-dependency
 /// UI components.
 ///
-/// It uses a [ShaderMask] with a moving [LinearGradient] to create a 
+/// It uses a [ShaderMask] with a moving [LinearGradient] to create a
 /// subtle shimmering light effect across the text.
 class ShimmerText extends StatefulWidget {
   final String text;

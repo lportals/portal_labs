@@ -8,7 +8,7 @@ import 'models/card_stack_style.dart';
 /// it shows the most recent card with a stacked visual hint of the items underneath.
 /// Upon interaction, it expands to reveal the full list of up to three items.
 class CardStackInteraction extends StatefulWidget {
-  /// The list of items to display in the stack. 
+  /// The list of items to display in the stack.
   /// Max 3 items are shown according to design constraints.
   final List<CardStackItem> items;
 
@@ -29,11 +29,10 @@ class CardStackInteraction extends StatefulWidget {
   State<CardStackInteraction> createState() => _CardStackInteractionState();
 }
 
-class _CardStackInteractionState extends State<CardStackInteraction> 
+class _CardStackInteractionState extends State<CardStackInteraction>
     with SingleTickerProviderStateMixin {
   bool _isExpanded = false;
-  
-  
+
   // Layout properties are now derived from widget.style
 
   void _toggleExpansion() {
@@ -48,13 +47,17 @@ class _CardStackInteractionState extends State<CardStackInteraction>
     // Current design is optimized for a maximum of 3 items in the stack.
     final displayItems = widget.items.take(3).toList();
     final middleIndex = (displayItems.length - 1) / 2.0;
-    
+
     // Calculate heights for the layout
-    final expandedHeight = (displayItems.length * widget.style.cardHeight) + 
-                          ((displayItems.length - 1) * widget.style.cardSpacing);
-    final collapsedHeight = widget.style.cardHeight + 
-                           (displayItems.length > 1 ? (displayItems.length - 1) * widget.style.collapsedOffset * 2 : 0);
-    
+    final expandedHeight =
+        (displayItems.length * widget.style.cardHeight) +
+        ((displayItems.length - 1) * widget.style.cardSpacing);
+    final collapsedHeight =
+        widget.style.cardHeight +
+        (displayItems.length > 1
+            ? (displayItems.length - 1) * widget.style.collapsedOffset * 2
+            : 0);
+
     final currentHeight = _isExpanded ? expandedHeight : collapsedHeight;
 
     return Column(
@@ -102,7 +105,10 @@ class _CardStackInteractionState extends State<CardStackInteraction>
 
     if (_isExpanded) {
       // All items expanded symmetrically
-      top = centerY + (index - middleIndex) * (widget.style.cardHeight + widget.style.cardSpacing);
+      top =
+          centerY +
+          (index - middleIndex) *
+              (widget.style.cardHeight + widget.style.cardSpacing);
       scale = 1.0;
     } else {
       if (index < visibleLimit) {
@@ -112,11 +118,13 @@ class _CardStackInteractionState extends State<CardStackInteraction>
       } else {
         // Items beyond 3 hide behind the last visible card (index 2)
         final lastVisibleIndex = visibleLimit - 1;
-        top = centerY + (lastVisibleIndex - middleIndex) * widget.style.collapsedOffset;
+        top =
+            centerY +
+            (lastVisibleIndex - middleIndex) * widget.style.collapsedOffset;
         scale = 0.95 - (lastVisibleIndex * widget.style.collapsedScaleDelta);
       }
     }
-    
+
     // Always opaque to avoid "fade" look; they hide behind each other by position/order
     opacity = 1.0;
 
@@ -135,10 +143,7 @@ class _CardStackInteractionState extends State<CardStackInteraction>
           duration: const Duration(milliseconds: 400),
           curve: Curves.easeIn,
           opacity: opacity,
-          child: _CardItem(
-            item: item,
-            style: widget.style,
-          ),
+          child: _CardItem(item: item, style: widget.style),
         ),
       ),
     );
@@ -160,10 +165,7 @@ class _CardStackInteractionState extends State<CardStackInteraction>
               offset: const Offset(0, 4),
             ),
           ],
-          border: Border.all(
-            color: const Color(0xFFEEEEEE),
-            width: 0.5,
-          ),
+          border: Border.all(color: const Color(0xFFEEEEEE), width: 0.5),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -185,7 +187,9 @@ class _CardStackInteractionState extends State<CardStackInteraction>
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              crossFadeState: _isExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+              crossFadeState: _isExpanded
+                  ? CrossFadeState.showSecond
+                  : CrossFadeState.showFirst,
               duration: const Duration(milliseconds: 200),
               sizeCurve: Curves.easeInOut,
             ),
@@ -211,10 +215,7 @@ class _CardItem extends StatelessWidget {
   final CardStackItem item;
   final CardStackStyle style;
 
-  const _CardItem({
-    required this.item,
-    required this.style,
-  });
+  const _CardItem({required this.item, required this.style});
 
   @override
   Widget build(BuildContext context) {
@@ -229,10 +230,7 @@ class _CardItem extends StatelessWidget {
             offset: const Offset(0, 4),
           ),
         ],
-        border: Border.all(
-          color: const Color(0xFFEEEEEE),
-          width: 0.5,
-        ),
+        border: Border.all(color: const Color(0xFFEEEEEE), width: 0.5),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Row(
@@ -244,11 +242,7 @@ class _CardItem extends StatelessWidget {
               color: item.iconBackgroundColor ?? style.iconContainerColor,
               borderRadius: BorderRadius.circular(14),
             ),
-            child: Icon(
-              item.icon,
-              color: style.iconColor,
-              size: 24,
-            ),
+            child: Icon(item.icon, color: style.iconColor, size: 24),
           ),
           const SizedBox(width: 16),
           Expanded(

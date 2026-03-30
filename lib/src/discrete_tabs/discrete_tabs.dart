@@ -61,7 +61,7 @@ class _DiscreteTabsState extends State<DiscreteTabs> {
 
   void _handleTabSelect(int index) {
     if (_selectedIndex == index) return;
-    
+
     // Aesthetic haptic feedback
     HapticFeedback.lightImpact();
 
@@ -123,7 +123,7 @@ class _DiscreteTabItem extends StatelessWidget {
         height: 56,
         padding: const EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
-          color: isSelected 
+          color: isSelected
               ? (style.activeBackgroundColor ?? style.backgroundColor)
               : style.backgroundColor,
           borderRadius: style.borderRadius,
@@ -146,7 +146,7 @@ class _DiscreteTabItem extends StatelessWidget {
               size: 24,
               color: isSelected ? tab.activeColor : style.inactiveIconColor,
             ),
-            
+
             // Text expands with clipping and fade logic
             ClipRect(
               child: AnimatedSize(
@@ -179,11 +179,13 @@ class _DiscreteTabItem extends StatelessWidget {
                               color: tab.activeColor,
                             ),
                             baseColor: tab.activeColor,
-                            highlightColor: Color.lerp(
-                              tab.activeColor,
-                              Colors.white,
-                              0.8, // Subtle highlight
-                            ) ?? Colors.white,
+                            highlightColor:
+                                Color.lerp(
+                                  tab.activeColor,
+                                  Colors.white,
+                                  0.8, // Subtle highlight
+                                ) ??
+                                Colors.white,
                           ),
                         ),
                       ),

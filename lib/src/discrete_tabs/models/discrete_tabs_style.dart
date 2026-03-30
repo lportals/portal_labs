@@ -25,7 +25,9 @@ class DiscreteTabsStyle {
   const DiscreteTabsStyle({
     this.backgroundColor = Colors.white,
     this.activeBackgroundColor,
-    this.shadowColor = const Color(0x0F000000), // black with 0.06 opacity usually
+    this.shadowColor = const Color(
+      0x0F000000,
+    ), // black with 0.06 opacity usually
     this.border,
     this.inactiveIconColor = Colors.black,
     this.borderRadius = const BorderRadius.all(Radius.circular(100)),
@@ -42,7 +44,8 @@ class DiscreteTabsStyle {
   }) {
     return DiscreteTabsStyle(
       backgroundColor: backgroundColor ?? this.backgroundColor,
-      activeBackgroundColor: activeBackgroundColor ?? this.activeBackgroundColor,
+      activeBackgroundColor:
+          activeBackgroundColor ?? this.activeBackgroundColor,
       shadowColor: shadowColor ?? this.shadowColor,
       border: border ?? this.border,
       inactiveIconColor: inactiveIconColor ?? this.inactiveIconColor,

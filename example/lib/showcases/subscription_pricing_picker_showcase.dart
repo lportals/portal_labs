@@ -12,12 +12,7 @@ class SubscriptionPricingPickerShowcase extends StatefulWidget {
 class _SubscriptionPricingPickerShowcaseState
     extends State<SubscriptionPricingPickerShowcase> {
   final List<PricingPlan> _monthlyPlans = const [
-    PricingPlan(
-      id: 'free',
-      title: 'Free',
-      price: 0.0,
-      periodText: 'month',
-    ),
+    PricingPlan(id: 'free', title: 'Free', price: 0.0, periodText: 'month'),
     PricingPlan(
       id: 'starter',
       title: 'Starter',
@@ -26,21 +21,11 @@ class _SubscriptionPricingPickerShowcaseState
       isPopular: true,
       badgeText: 'Popular',
     ),
-    PricingPlan(
-      id: 'pro',
-      title: 'Pro',
-      price: 19.99,
-      periodText: 'month',
-    ),
+    PricingPlan(id: 'pro', title: 'Pro', price: 19.99, periodText: 'month'),
   ];
 
   final List<PricingPlan> _yearlyPlans = const [
-    PricingPlan(
-      id: 'free_year',
-      title: 'Free',
-      price: 0.0,
-      periodText: 'year',
-    ),
+    PricingPlan(id: 'free_year', title: 'Free', price: 0.0, periodText: 'year'),
     PricingPlan(
       id: 'starter_year',
       title: 'Starter',
@@ -93,7 +78,9 @@ class _SubscriptionPricingPickerShowcaseState
                   monthlyPlans: _monthlyPlans,
                   yearlyPlans: _yearlyPlans,
                   onSelect: (plan, period) {
-                    debugPrint('Selection change: ${plan.title} - ${period.name}');
+                    debugPrint(
+                      'Selection change: ${plan.title} - ${period.name}',
+                    );
                   },
                   onActionPressed: (plan, period) {
                     ScaffoldMessenger.of(context).showSnackBar(

@@ -69,7 +69,8 @@ class PortalTypography {
       labelButton: TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w600,
-        color: textPrimary, // Depending on button background, this may be overridden
+        color:
+            textPrimary, // Depending on button background, this may be overridden
         letterSpacing: -0.2,
       ),
     );

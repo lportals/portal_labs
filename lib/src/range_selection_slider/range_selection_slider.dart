@@ -160,7 +160,8 @@ class _RangeSelectionSliderState extends State<RangeSelectionSlider> {
             const SizedBox(height: 24),
 
             // Action Buttons
-            if (widget.showActions && (widget.onApply != null || widget.onCancel != null))
+            if (widget.showActions &&
+                (widget.onApply != null || widget.onCancel != null))
               Row(
                 children: [
                   if (widget.onApply != null)
@@ -173,7 +174,8 @@ class _RangeSelectionSliderState extends State<RangeSelectionSlider> {
                         height: style.buttonHeight,
                       ),
                     ),
-                  if (widget.onApply != null && widget.onCancel != null) const SizedBox(width: 12),
+                  if (widget.onApply != null && widget.onCancel != null)
+                    const SizedBox(width: 12),
                   if (widget.onCancel != null)
                     Expanded(
                       child: _ActionButton(

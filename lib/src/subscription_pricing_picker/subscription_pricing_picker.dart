@@ -129,22 +129,22 @@ class _SubscriptionPricingPickerState extends State<SubscriptionPricingPicker> {
               ),
             );
           }),
-  
-            const SizedBox(height: 12),
-  
-            // 3. CTA Action Button
-            _ActionButton(
-              label: widget.actionButtonLabel,
-              onPressed: () => widget.onActionPressed?.call(
-                currentPlans[_selectedIndex],
-                _currentPeriod,
-              ),
+
+          const SizedBox(height: 12),
+
+          // 3. CTA Action Button
+          _ActionButton(
+            label: widget.actionButtonLabel,
+            onPressed: () => widget.onActionPressed?.call(
+              currentPlans[_selectedIndex],
+              _currentPeriod,
             ),
-          ],
-        ),
-      );
-    }
+          ),
+        ],
+      ),
+    );
   }
+}
 
 class _PricingToggle extends StatelessWidget {
   final PricingPeriod period;
@@ -303,10 +303,7 @@ class _PricingCardState extends State<_PricingCard> {
                 children: [
                   Row(
                     children: [
-                      Text(
-                        widget.plan.title,
-                        style: theme.typography.h4,
-                      ),
+                      Text(widget.plan.title, style: theme.typography.h4),
                       if (widget.plan.isPopular) ...[
                         const SizedBox(width: 8),
                         Container(
@@ -336,24 +333,32 @@ class _PricingCardState extends State<_PricingCard> {
                     children: [
                       Text(
                         "\$",
-                        style: theme.typography.bodyLarge.copyWith(fontWeight: FontWeight.w700),
+                        style: theme.typography.bodyLarge.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                       PremiumFlipCounter(
                         value: intPart,
                         upward: _upward,
                         padWithZero: false,
-                        style: theme.typography.bodyLarge.copyWith(fontWeight: FontWeight.w700),
+                        style: theme.typography.bodyLarge.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                       if (decPart > 0 || widget.plan.price == 0) ...[
                         Text(
                           ".",
-                          style: theme.typography.bodyLarge.copyWith(fontWeight: FontWeight.w700),
+                          style: theme.typography.bodyLarge.copyWith(
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                         PremiumFlipCounter(
                           value: decPart,
                           upward: _upward,
                           padWithZero: true,
-                          style: theme.typography.bodyLarge.copyWith(fontWeight: FontWeight.w700),
+                          style: theme.typography.bodyLarge.copyWith(
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ],
                       Text(
@@ -398,18 +403,17 @@ class _SelectionIndicator extends StatelessWidget {
         duration: const Duration(milliseconds: 300),
         transitionBuilder: (child, animation) {
           return ScaleTransition(
-            scale: CurvedAnimation(parent: animation, curve: Curves.easeOutBack),
+            scale: CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeOutBack,
+            ),
             child: FadeTransition(opacity: animation, child: child),
           );
         },
         child: isSelected
             ? const Center(
                 key: ValueKey('check_icon'),
-                child: Icon(
-                  Icons.check,
-                  size: 16,
-                  color: Colors.white,
-                ),
+                child: Icon(Icons.check, size: 16, color: Colors.white),
               )
             : const SizedBox.shrink(key: ValueKey('empty_icon')),
       ),
@@ -450,10 +454,14 @@ class _ActionButtonState extends State<_ActionButton> {
           height: 50,
           decoration: BoxDecoration(
             color: PortalTheme.of(context).colors.primary,
-            borderRadius: BorderRadius.circular(PortalTheme.of(context).borderRadius),
+            borderRadius: BorderRadius.circular(
+              PortalTheme.of(context).borderRadius,
+            ),
             boxShadow: [
               BoxShadow(
-                color: PortalTheme.of(context).colors.primary.withValues(alpha: 0.2),
+                color: PortalTheme.of(
+                  context,
+                ).colors.primary.withValues(alpha: 0.2),
                 blurRadius: 15,
                 offset: const Offset(0, 6),
               ),
@@ -463,8 +471,8 @@ class _ActionButtonState extends State<_ActionButton> {
             child: Text(
               widget.label,
               style: PortalTheme.of(context).typography.labelButton.copyWith(
-                    color: PortalTheme.of(context).colors.surface,
-                  ),
+                color: PortalTheme.of(context).colors.surface,
+              ),
             ),
           ),
         ),
