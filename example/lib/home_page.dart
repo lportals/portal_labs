@@ -11,6 +11,8 @@ import 'showcases/media_collapsible_view_showcase.dart';
 import 'showcases/knob_slider_showcase.dart';
 import 'showcases/card_stack_interaction_showcase.dart';
 import 'showcases/discrete_tabs_showcase.dart';
+import 'showcases/morphing_input_button_showcase.dart';
+
 
 
 class HomePage extends StatefulWidget {
@@ -181,9 +183,15 @@ class _HomePageState extends State<HomePage> {
       ),
       _ComponentItem(
         title: 'Discrete Tabs',
-        icon: Icons.linear_scale_rounded,
+        icon: Icons.more_horiz_rounded,
         category: 'Interactions',
         page: DiscreteTabsShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Morphing Input',
+        icon: Icons.bolt_rounded,
+        category: 'Interactions',
+        page: MorphingInputButtonShowcase(),
       ),
     ];
 

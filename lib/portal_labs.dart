@@ -65,3 +65,6 @@ export 'src/card_stack_interaction/models/card_stack_style.dart';
 export 'src/discrete_tabs/discrete_tabs.dart';
 export 'src/discrete_tabs/models/discrete_tab.dart';
 export 'src/discrete_tabs/models/discrete_tabs_style.dart';
+
+// Morphing Input Button
+export 'src/morphing_input_button/morphing_input_button.dart';
