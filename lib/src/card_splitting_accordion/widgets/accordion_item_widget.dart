@@ -8,6 +8,22 @@ import '../models/accordion_style.dart';
 /// and grouping them into solid blocks when collapsed, using smooth animations
 /// and precise corner rounding.
 class AccordionItemWidget extends StatefulWidget {
+
+  /// Creates a new [AccordionItemWidget] with the required state flags.
+  const AccordionItemWidget({
+    super.key,
+    required this.item,
+    required this.index,
+    required this.isExpanded,
+    required this.onTap,
+    required this.style,
+    required this.isFirst,
+    required this.isLast,
+    required this.isUpperSection,
+    required this.isLowerSection,
+    required this.isAtEndOfUpperSection,
+    required this.isAtStartOfLowerSection,
+  });
   /// The data model for this accordion item.
   final AccordionItem item;
 
@@ -40,22 +56,6 @@ class AccordionItemWidget extends StatefulWidget {
 
   /// Whether this item is the point where the lower block "starts" during expansion.
   final bool isAtStartOfLowerSection;
-
-  /// Creates a new [AccordionItemWidget] with the required state flags.
-  const AccordionItemWidget({
-    super.key,
-    required this.item,
-    required this.index,
-    required this.isExpanded,
-    required this.onTap,
-    required this.style,
-    required this.isFirst,
-    required this.isLast,
-    required this.isUpperSection,
-    required this.isLowerSection,
-    required this.isAtEndOfUpperSection,
-    required this.isAtStartOfLowerSection,
-  });
 
   @override
   State<AccordionItemWidget> createState() => _AccordionItemWidgetState();
@@ -206,11 +206,11 @@ class _AccordionItemWidgetState extends State<AccordionItemWidget>
                     (widget.isFirst ||
                         widget.isAtStartOfLowerSection ||
                         widget.isExpanded)
-                    ? BorderSide(color: widget.style.borderColor, width: 1.0)
+                    ? BorderSide(color: widget.style.borderColor)
                     : BorderSide.none,
-                bottom: BorderSide(color: widget.style.borderColor, width: 1.0),
-                left: BorderSide(color: widget.style.borderColor, width: 1.0),
-                right: BorderSide(color: widget.style.borderColor, width: 1.0),
+                bottom: BorderSide(color: widget.style.borderColor),
+                left: BorderSide(color: widget.style.borderColor),
+                right: BorderSide(color: widget.style.borderColor),
               ),
             ),
             child: Material(
@@ -253,7 +253,6 @@ class _AccordionItemWidgetState extends State<AccordionItemWidget>
     return Container(
       constraints: const BoxConstraints(minHeight: 32),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (widget.item.icon != null) ...[
             Icon(widget.item.icon, color: widget.style.iconColor, size: 22),
@@ -276,7 +275,7 @@ class _AccordionItemWidgetState extends State<AccordionItemWidget>
             turns: _rotationAnimation,
             child: Icon(
               Icons.keyboard_arrow_down_rounded,
-              color: widget.style.iconColor.withValues(alpha: 0.5),
+              color: widget.style.iconColor.withOpacity(0.5),
               size: 20,
             ),
           ),

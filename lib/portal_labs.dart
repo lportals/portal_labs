@@ -20,6 +20,7 @@ export 'src/reveal_and_copy/reveal_copy_interaction.dart';
 
 // Weight Picker
 export 'src/weight_picker/weight_picker.dart';
+export 'src/weight_picker/models/weight_picker_style.dart';
 
 // Premium Choice Chips
 export 'src/premium_choice_chips/premium_choice_chips.dart';
@@ -71,3 +72,4 @@ export 'src/split_button_interaction/split_button_interaction.dart';
 
 // Morphing Input Button
 export 'src/morphing_input_button/morphing_input_button.dart';
+export 'src/morphing_input_button/models/morphing_input_button_style.dart';

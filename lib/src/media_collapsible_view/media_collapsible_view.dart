@@ -10,15 +10,8 @@ export 'package:portal_labs/src/media_collapsible_view/models/media_view_style.d
 
 /// A high-fidelity Reels-inspired view with MATHEMATICAL Safe Area transitions.
 class MediaCollapsibleView extends StatefulWidget {
-  final String mediaUrl;
-  final String userAvatarUrl;
-  final List<MediaComment> comments;
-  final WidgetBuilder? mediaBuilder;
-  final MediaViewStyle style;
-  final Function(String)? onSendComment;
-  final VoidCallback? onLike;
-  final VoidCallback? onShare;
 
+  /// Creates a [MediaCollapsibleView] with the given media content and callbacks.
   const MediaCollapsibleView({
     super.key,
     required this.mediaUrl,
@@ -30,6 +23,31 @@ class MediaCollapsibleView extends StatefulWidget {
     this.onLike,
     this.onShare,
   });
+
+  /// The URL for the main media content (image or video).
+  final String mediaUrl;
+
+  /// The URL for the user's avatar displayed in the UI.
+  final String userAvatarUrl;
+
+  /// The list of comments to display in the collapsible sheet.
+  final List<MediaComment> comments;
+
+  /// An optional builder for a custom media widget.
+  /// If provided, this replaces the default network image renderer.
+  final WidgetBuilder? mediaBuilder;
+
+  /// Style configuration for the component.
+  final MediaViewStyle style;
+
+  /// Callback invoked when the user submits a new comment.
+  final Function(String)? onSendComment;
+
+  /// Callback invoked when the user taps the like button.
+  final VoidCallback? onLike;
+
+  /// Callback invoked when the user taps the share button.
+  final VoidCallback? onShare;
 
   @override
   State<MediaCollapsibleView> createState() => _MediaCollapsibleViewState();
@@ -102,14 +120,16 @@ class _MediaCollapsibleViewState extends State<MediaCollapsibleView>
   void _handleVerticalDragEnd(DragEndDetails details) {
     if (_currentExtent >= 1.0 &&
         _scrollController.hasClients &&
-        _scrollController.offset > 0)
+        _scrollController.offset > 0) {
       return;
+    }
     final double velocity = -details.primaryVelocity! / 1000;
     double target = 0.0;
-    if (_sheetController.value + (velocity * 0.1) > 0.85)
+    if (_sheetController.value + (velocity * 0.1) > 0.85) {
       target = _fullPhase;
-    else if (_sheetController.value + (velocity * 0.1) > 0.3)
+    } else if (_sheetController.value + (velocity * 0.1) > 0.3) {
       target = _mainPhase;
+    }
     _sheetController.animateTo(target, curve: Curves.easeOutCubic);
   }
 
@@ -234,17 +254,17 @@ class _MediaCollapsibleViewState extends State<MediaCollapsibleView>
                   children: [
                     _buildActionBtn(
                       Icons.favorite_outline,
-                      "124K",
+                      '124K',
                       widget.onLike,
                     ),
                     const SizedBox(height: 16),
                     _buildActionBtn(
                       Icons.chat_bubble_outline,
-                      "${widget.comments.length}",
+                      '${widget.comments.length}',
                       () => _sheetController.animateTo(_mainPhase),
                     ),
                     const SizedBox(height: 16),
-                    _buildActionBtn(Icons.send_outlined, "", widget.onShare),
+                    _buildActionBtn(Icons.send_outlined, '', widget.onShare),
                   ],
                 ),
               ),
@@ -339,7 +359,7 @@ class _MediaCollapsibleViewState extends State<MediaCollapsibleView>
                           ),
                           if (currentHeight > 80) ...[
                             Text(
-                              "Comments",
+                              'Comments',
                               style: TextStyle(
                                 color: widget.style.textColor,
                                 fontWeight: FontWeight.bold,
@@ -389,7 +409,7 @@ class _MediaCollapsibleViewState extends State<MediaCollapsibleView>
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: ["❤️", "🙌", "🔥", "👏", "😢", "😍", "😮", "😂"]
+            children: ['❤️', '🙌', '🔥', '👏', '😢', '😍', '😮', '😂']
                 .map(
                   (e) => GestureDetector(
                     onTap: () => _textController.text += e,
@@ -468,14 +488,14 @@ class _MediaCollapsibleViewState extends State<MediaCollapsibleView>
 }
 
 class _CommentTile extends StatelessWidget {
-  final MediaComment comment;
-  final Color textColor;
-  final Color secondaryTextColor;
   const _CommentTile({
     required this.comment,
     required this.textColor,
     required this.secondaryTextColor,
   });
+  final MediaComment comment;
+  final Color textColor;
+  final Color secondaryTextColor;
   @override
   Widget build(BuildContext context) {
     return Padding(

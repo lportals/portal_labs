@@ -5,6 +5,21 @@ import 'package:flutter/material.dart';
 /// Allows customizing colors, blur intensity, and text labels for
 /// a consistent premium look throughout the application.
 class MediaViewStyle {
+
+  /// Creates a [MediaViewStyle] with the given appearance properties.
+  const MediaViewStyle({
+    this.backgroundColor = Colors.black,
+    this.sheetBackgroundColor = const Color(0xFF141416),
+    this.textColor = Colors.white,
+    this.secondaryTextColor = Colors.white70,
+    this.accentColor = Colors.blueAccent,
+    this.dividerColor = const Color(0x14FFFFFF),
+    this.blurAmount = 50.0,
+    this.commentHintText = 'Meow something...',
+  });
+
+  /// The default visual theme for Portal LabsMedia components.
+  factory MediaViewStyle.portalLabs() => const MediaViewStyle();
   /// Background color behind the video/blur frame.
   final Color backgroundColor;
 
@@ -28,18 +43,4 @@ class MediaViewStyle {
 
   /// Placeholder text for the comment input field.
   final String commentHintText;
-
-  const MediaViewStyle({
-    this.backgroundColor = Colors.black,
-    this.sheetBackgroundColor = const Color(0xFF141416),
-    this.textColor = Colors.white,
-    this.secondaryTextColor = Colors.white70,
-    this.accentColor = Colors.blueAccent,
-    this.dividerColor = const Color(0x14FFFFFF),
-    this.blurAmount = 50.0,
-    this.commentHintText = "Meow something...",
-  });
-
-  /// The default visual theme for Portal LabsMedia components.
-  factory MediaViewStyle.portalLabs() => const MediaViewStyle();
 }

@@ -5,6 +5,27 @@ import 'package:flutter/material.dart';
 /// Allows customizing the layout's visual properties, including text styles,
 /// container colors, and interaction button appearances.
 class CardStackStyle {
+
+  /// Creates a [CardStackStyle] with the given appearance properties.
+  const CardStackStyle({
+    this.cardBackgroundColor = Colors.white,
+    this.cardShadowColor = const Color(0x14000000),
+    this.titleColor = const Color(0xFF1D1D1F),
+    this.subtitleColor = const Color(0xFF8E8E93),
+    this.dateColor = const Color(0xFF8E8E93),
+    this.iconContainerColor = const Color(0xFF1D1D1F),
+    this.iconColor = Colors.white,
+    this.borderRadius = 22.0,
+    this.buttonBackgroundColor = Colors.white,
+    this.buttonTextColor = const Color(0xFF1D1D1F),
+    this.cardHeight = 90.0,
+    this.cardSpacing = 16.0,
+    this.collapsedOffset = 10.0,
+    this.collapsedScaleDelta = 0.08,
+  });
+
+  /// The default high-fidelity theme for Portal Labs Stack.
+  factory CardStackStyle.portalLabs() => const CardStackStyle();
   /// The background color of each individual card.
   final Color cardBackgroundColor;
 
@@ -46,24 +67,4 @@ class CardStackStyle {
 
   /// The amount of scale reduction for each card underneath the top card.
   final double collapsedScaleDelta;
-
-  const CardStackStyle({
-    this.cardBackgroundColor = Colors.white,
-    this.cardShadowColor = const Color(0x14000000),
-    this.titleColor = const Color(0xFF1D1D1F),
-    this.subtitleColor = const Color(0xFF8E8E93),
-    this.dateColor = const Color(0xFF8E8E93),
-    this.iconContainerColor = const Color(0xFF1D1D1F),
-    this.iconColor = Colors.white,
-    this.borderRadius = 22.0,
-    this.buttonBackgroundColor = Colors.white,
-    this.buttonTextColor = const Color(0xFF1D1D1F),
-    this.cardHeight = 90.0,
-    this.cardSpacing = 16.0,
-    this.collapsedOffset = 10.0,
-    this.collapsedScaleDelta = 0.08,
-  });
-
-  /// The default high-fidelity theme for Portal Labs Stack.
-  factory CardStackStyle.portalLabs() => const CardStackStyle();
 }

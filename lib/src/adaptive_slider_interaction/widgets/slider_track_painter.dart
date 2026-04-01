@@ -2,6 +2,19 @@ import 'package:flutter/material.dart';
 
 /// Paints the slider track with a background, active gradient, and internal indicator dots.
 class SliderTrackPainter extends CustomPainter {
+
+  /// Creates a [SliderTrackPainter] with the given visual configuration.
+  SliderTrackPainter({
+    required this.progress,
+    required this.colors,
+    required this.inactiveColor,
+    required this.borderRadius,
+    required this.dotCount,
+    required this.thumbSize,
+    required this.trackHeight,
+    required this.activeDotColor,
+    required this.inactiveDotColor,
+  });
   /// Proportional progress of the slider (0.0 to 1.0).
   final double progress;
 
@@ -20,23 +33,15 @@ class SliderTrackPainter extends CustomPainter {
   /// Size of the thumb to account for its radius in track drawing.
   final double thumbSize;
 
+  /// Height of the track, used for geometry of the stadium shape.
   final double trackHeight;
 
   /// Custom colors for the decorative dots.
+  /// Color of the dot when it is behind (covered by) the thumb.
   final Color activeDotColor;
-  final Color inactiveDotColor;
 
-  SliderTrackPainter({
-    required this.progress,
-    required this.colors,
-    required this.inactiveColor,
-    required this.borderRadius,
-    required this.dotCount,
-    required this.thumbSize,
-    required this.trackHeight,
-    required this.activeDotColor,
-    required this.inactiveDotColor,
-  });
+  /// Color of the dot when it is ahead of the thumb.
+  final Color inactiveDotColor;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -63,8 +68,6 @@ class SliderTrackPainter extends CustomPainter {
 
     paint.shader = LinearGradient(
       colors: colors,
-      begin: Alignment.centerLeft,
-      end: Alignment.centerRight,
     ).createShader(Rect.fromLTWH(0, 0, activeWidth, size.height));
 
     final RRect activeRRect = RRect.fromRectAndRadius(
@@ -96,7 +99,7 @@ class SliderTrackPainter extends CustomPainter {
           x <= thumbCenterX + 0.1; // Small epsilon for precision
 
       paint.color = isActive
-          ? activeDotColor.withValues(alpha: 0.5)
+          ? activeDotColor.withOpacity(0.5)
           : inactiveDotColor;
       canvas.drawCircle(Offset(x, size.height / 2), 2.5, paint);
     }

@@ -1,4 +1,3 @@
-import 'dart:math' as math;
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'portal_utils.dart';
@@ -8,6 +7,16 @@ import 'portal_utils.dart';
 /// It's designed to handle fast value changes by showing every intermediate
 /// state with a dynamic blur effect, creating a "1 to 1" tactile feel.
 class PremiumFlipCounter extends StatelessWidget {
+
+  /// Creates a [PremiumFlipCounter] with a [value], direction, and [style].
+  const PremiumFlipCounter({
+    super.key,
+    required this.value,
+    required this.upward,
+    required this.style,
+    this.digitWidth,
+    this.padWithZero = true,
+  });
   /// The integer value to be displayed.
   final int value;
 
@@ -24,15 +33,6 @@ class PremiumFlipCounter extends StatelessWidget {
   /// Whether to pad single digits with a leading zero.
   final bool padWithZero;
 
-  const PremiumFlipCounter({
-    super.key,
-    required this.value,
-    required this.upward,
-    required this.style,
-    this.digitWidth,
-    this.padWithZero = true,
-  });
-
   @override
   Widget build(BuildContext context) {
     // Measure the widest possible digit ('8') to determine column width
@@ -48,7 +48,6 @@ class PremiumFlipCounter extends StatelessWidget {
 
     return Row(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: digits.asMap().entries.map((entry) {
         final int index = entry.key;
         final String digitStr = entry.value;
@@ -71,10 +70,6 @@ class PremiumFlipCounter extends StatelessWidget {
 
 /// A stateful widget that manages the vertical "reel" of a single digit.
 class _ReelDigit extends StatefulWidget {
-  final int digit;
-  final TextStyle style;
-  final double width;
-  final double height;
 
   const _ReelDigit({
     super.key,
@@ -83,6 +78,10 @@ class _ReelDigit extends StatefulWidget {
     required this.width,
     required this.height,
   });
+  final int digit;
+  final TextStyle style;
+  final double width;
+  final double height;
 
   @override
   State<_ReelDigit> createState() => _ReelDigitState();
@@ -193,7 +192,7 @@ class _ReelDigitState extends State<_ReelDigit>
         blendMode: BlendMode.dstIn,
         child: ClipRect(
           child: ImageFiltered(
-            imageFilter: ui.ImageFilter.blur(sigmaX: 0, sigmaY: _blurSigma),
+            imageFilter: ui.ImageFilter.blur(sigmaY: _blurSigma),
             child: Center(
               child: SizedBox(
                 height: widget.height,
@@ -234,10 +233,6 @@ class _ReelDigitState extends State<_ReelDigit>
 
 /// A simple helper to draw a digit at a specific vertical offset.
 class _DigitView extends StatelessWidget {
-  final int digit;
-  final TextStyle style;
-  final double offset;
-  final double height;
 
   const _DigitView({
     required this.digit,
@@ -245,6 +240,10 @@ class _DigitView extends StatelessWidget {
     required this.offset,
     required this.height,
   });
+  final int digit;
+  final TextStyle style;
+  final double offset;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
@@ -255,7 +254,7 @@ class _DigitView extends StatelessWidget {
     return Transform(
       transform: Matrix4.identity()
         ..setEntry(3, 2, 0.0015) // Perspective
-        ..translate(0.0, offset, 0.0)
+        ..translate(0.0, offset)
         ..rotateX(rotation),
       alignment: Alignment.center,
       child: SizedBox(

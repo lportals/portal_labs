@@ -6,6 +6,45 @@ import 'package:flutter/material.dart';
 /// Allows customizing colors, dimensions, and text styles to match
 /// your application's design system.
 class JournalStyle {
+
+  /// Creates a [JournalStyle] with the given visual properties.
+  const JournalStyle({
+    this.backgroundColor = const Color(0xFFF2EFE8),
+    this.borderRadius = 32.0,
+    this.sliderWidth = 44.0,
+    this.sliderColor = Colors.white,
+    this.selectedDayColor = const Color(0xFFF2EFE8),
+    this.unselectedDayColor = const Color(0xFFBCBCBC),
+    this.navArrowBackgroundColor = Colors.white,
+    this.navArrowColor = const Color(0xFF8E8E8E),
+    this.navArrowDisabledColor = const Color(0xFFDCDCDC),
+    this.headerMonthStyle = const TextStyle(
+      fontSize: 18,
+      fontWeight: FontWeight.bold,
+      color: Color(0xFF8E8E8E),
+    ),
+    this.headerDayStyle = const TextStyle(
+      fontSize: 18,
+      fontWeight: FontWeight.bold,
+      color: Color(0xFF8E8E8E),
+    ),
+    this.titleStyle = const TextStyle(
+      fontSize: 20,
+      height: 1.5,
+      fontWeight: FontWeight.w600,
+      color: Color(0xFF1A1A1A),
+    ),
+    this.contentStyle = const TextStyle(
+      fontSize: 20,
+      height: 1.5,
+      fontWeight: FontWeight.w600,
+      color: Color(0xFF1A1A1A),
+    ),
+    this.shadows,
+  });
+
+  /// Factory for the default premium Portal Labs theme.
+  factory JournalStyle.portalLabs() => const JournalStyle();
   /// Background color of the main container.
   final Color backgroundColor;
 
@@ -47,42 +86,4 @@ class JournalStyle {
 
   /// Shadow color and properties for the main container.
   final List<BoxShadow>? shadows;
-
-  const JournalStyle({
-    this.backgroundColor = const Color(0xFFF2EFE8),
-    this.borderRadius = 32.0,
-    this.sliderWidth = 44.0,
-    this.sliderColor = Colors.white,
-    this.selectedDayColor = const Color(0xFFF2EFE8),
-    this.unselectedDayColor = const Color(0xFFBCBCBC),
-    this.navArrowBackgroundColor = Colors.white,
-    this.navArrowColor = const Color(0xFF8E8E8E),
-    this.navArrowDisabledColor = const Color(0xFFDCDCDC),
-    this.headerMonthStyle = const TextStyle(
-      fontSize: 18,
-      fontWeight: FontWeight.bold,
-      color: Color(0xFF8E8E8E),
-    ),
-    this.headerDayStyle = const TextStyle(
-      fontSize: 18,
-      fontWeight: FontWeight.bold,
-      color: Color(0xFF8E8E8E),
-    ),
-    this.titleStyle = const TextStyle(
-      fontSize: 20,
-      height: 1.5,
-      fontWeight: FontWeight.w600,
-      color: Color(0xFF1A1A1A),
-    ),
-    this.contentStyle = const TextStyle(
-      fontSize: 20,
-      height: 1.5,
-      fontWeight: FontWeight.w600,
-      color: Color(0xFF1A1A1A),
-    ),
-    this.shadows,
-  });
-
-  /// Factory for the default premium Portal Labs theme.
-  factory JournalStyle.portalLabs() => const JournalStyle();
 }

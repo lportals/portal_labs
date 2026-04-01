@@ -12,6 +12,19 @@ import 'models/knob_slider_style.dart';
 /// - **Plug and Play:** Highly configurable with style and range settings.
 /// - **Tactile Feedback:** Built-in haptic vibrations when values change.
 class KnobSlider extends StatefulWidget {
+
+  /// Creates a [KnobSlider] with the given configuration.
+  const KnobSlider({
+    super.key,
+    required this.value,
+    this.min = 0.0,
+    this.max = 100.0,
+    this.step = 1.0,
+    required this.onChanged,
+    this.style = const KnobSliderStyle(),
+    this.enableHaptics = true,
+    this.size,
+  });
   /// The current value of the slider.
   final double value;
 
@@ -36,18 +49,6 @@ class KnobSlider extends StatefulWidget {
   /// The size of the widget. If null, it will try to expand to fit
   /// constraints, or fallback to a default size.
   final double? size;
-
-  const KnobSlider({
-    super.key,
-    required this.value,
-    this.min = 0.0,
-    this.max = 100.0,
-    this.step = 1.0,
-    required this.onChanged,
-    this.style = const KnobSliderStyle(),
-    this.enableHaptics = true,
-    this.size,
-  });
 
   @override
   State<KnobSlider> createState() => _KnobSliderState();
@@ -166,7 +167,7 @@ class _KnobSliderState extends State<KnobSlider> {
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: widget.style.shadowColor.withValues(alpha: 0.05),
+                        color: widget.style.shadowColor.withOpacity(0.05),
                         blurRadius: size * 0.1,
                         spreadRadius: 2,
                       ),
@@ -194,7 +195,6 @@ class _KnobSliderState extends State<KnobSlider> {
                     shape: BoxShape.circle,
                     border: Border.all(
                       color: widget.style.borderColor,
-                      width: 1,
                     ),
                     gradient: const LinearGradient(
                       begin: Alignment.topCenter,
@@ -203,7 +203,7 @@ class _KnobSliderState extends State<KnobSlider> {
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: widget.style.shadowColor.withValues(alpha: 0.12),
+                        color: widget.style.shadowColor.withOpacity(0.12),
                         blurRadius: 25,
                         offset: const Offset(0, 12),
                       ),
@@ -228,10 +228,6 @@ class _KnobSliderState extends State<KnobSlider> {
 }
 
 class _KnobRingPainter extends CustomPainter {
-  final double value;
-  final double min;
-  final double max;
-  final KnobSliderStyle style;
 
   _KnobRingPainter({
     required this.value,
@@ -239,6 +235,10 @@ class _KnobRingPainter extends CustomPainter {
     required this.max,
     required this.style,
   });
+  final double value;
+  final double min;
+  final double max;
+  final KnobSliderStyle style;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -258,7 +258,7 @@ class _KnobRingPainter extends CustomPainter {
       ..addOval(Rect.fromCircle(center: center, radius: radius));
     canvas.drawShadow(
       baseShadowPath,
-      Colors.black.withValues(alpha: 0.05),
+      Colors.black.withOpacity(0.05),
       10,
       true,
     );
@@ -290,7 +290,7 @@ class _KnobRingPainter extends CustomPainter {
       final isTickActive = tickPercent <= percentage;
       final tickColor = isTickActive
           ? style.activeTickColor
-          : style.inactiveTickColor.withValues(alpha: 0.3);
+          : style.inactiveTickColor.withOpacity(0.3);
 
       final tickPaint = Paint()
         ..color = tickColor
@@ -344,7 +344,7 @@ class _KnobRingPainter extends CustomPainter {
     // Subtle centered shadow to avoid angular shift perception
     canvas.drawShadow(
       pointerPath,
-      Colors.black.withValues(alpha: 0.3),
+      Colors.black.withOpacity(0.3),
       3,
       true,
     );

@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
 
+/// A collection of color tokens used throughout the Portal Labs design system.
 class PortalColors {
-  // Brand / Action
-  final Color primary;
-  final Color background;
-  final Color surface;
-  final Color textPrimary;
-  final Color textSecondary;
-  final Color border;
-  final Color error;
-  final Color warning;
 
+  /// Creates a [PortalColors] instance with all required color tokens.
   const PortalColors({
     required this.primary,
     required this.background,
@@ -49,4 +42,27 @@ class PortalColors {
       warning: Color(0xFFD4B300),
     );
   }
+  /// The primary brand or action color.
+  final Color primary;
+
+  /// The standard background color for screens and pages.
+  final Color background;
+
+  /// The surface color for cards, buttons, and elevated elements.
+  final Color surface;
+
+  /// The primary text color, typically for headings and body content.
+  final Color textPrimary;
+
+  /// The secondary text color, typically for captions and placeholders.
+  final Color textSecondary;
+
+  /// The standard border color for containers and inputs.
+  final Color border;
+
+  /// The color used to indicate error states.
+  final Color error;
+
+  /// The color used for warning states or highlight badges.
+  final Color warning;
 }

@@ -8,6 +8,14 @@ import 'models/card_stack_style.dart';
 /// it shows the most recent card with a stacked visual hint of the items underneath.
 /// Upon interaction, it expands to reveal the full list of up to three items.
 class CardStackInteraction extends StatefulWidget {
+
+  /// Creates a [CardStackInteraction] with the given [items] and optional [style].
+  const CardStackInteraction({
+    super.key,
+    required this.items,
+    this.style = const CardStackStyle(),
+    this.onExpansionChanged,
+  });
   /// The list of items to display in the stack.
   /// Max 3 items are shown according to design constraints.
   final List<CardStackItem> items;
@@ -17,13 +25,6 @@ class CardStackInteraction extends StatefulWidget {
 
   /// Callback triggered when the expansion state changes.
   final ValueChanged<bool>? onExpansionChanged;
-
-  const CardStackInteraction({
-    super.key,
-    required this.items,
-    this.style = const CardStackStyle(),
-    this.onExpansionChanged,
-  });
 
   @override
   State<CardStackInteraction> createState() => _CardStackInteractionState();
@@ -212,10 +213,10 @@ class _CardStackInteractionState extends State<CardStackInteraction>
 }
 
 class _CardItem extends StatelessWidget {
-  final CardStackItem item;
-  final CardStackStyle style;
 
   const _CardItem({required this.item, required this.style});
+  final CardStackItem item;
+  final CardStackStyle style;
 
   @override
   Widget build(BuildContext context) {

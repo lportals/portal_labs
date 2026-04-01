@@ -13,6 +13,20 @@ import 'models/pricing_plan.dart';
 /// *   Customizable popular badges.
 /// *   Tactile feedback on selection.
 class SubscriptionPricingPicker extends StatefulWidget {
+
+  /// Creates a [SubscriptionPricingPicker] with the required plan lists.
+  const SubscriptionPricingPicker({
+    super.key,
+    required this.monthlyPlans,
+    required this.yearlyPlans,
+    this.onSelect,
+    this.onActionPressed,
+    this.monthlyLabel = 'Monthly',
+    this.yearlyLabel = 'Yearly',
+    this.actionButtonLabel = 'Get Started',
+    this.initialSelectedIndex = 1,
+    this.initialPeriod = PricingPeriod.monthly,
+  });
   /// The list of plans available for the 'monthly' period.
   final List<PricingPlan> monthlyPlans;
 
@@ -39,19 +53,6 @@ class SubscriptionPricingPicker extends StatefulWidget {
 
   /// The initial pricing period.
   final PricingPeriod initialPeriod;
-
-  const SubscriptionPricingPicker({
-    super.key,
-    required this.monthlyPlans,
-    required this.yearlyPlans,
-    this.onSelect,
-    this.onActionPressed,
-    this.monthlyLabel = 'Monthly',
-    this.yearlyLabel = 'Yearly',
-    this.actionButtonLabel = 'Get Started',
-    this.initialSelectedIndex = 1,
-    this.initialPeriod = PricingPeriod.monthly,
-  });
 
   @override
   State<SubscriptionPricingPicker> createState() =>
@@ -147,10 +148,6 @@ class _SubscriptionPricingPickerState extends State<SubscriptionPricingPicker> {
 }
 
 class _PricingToggle extends StatelessWidget {
-  final PricingPeriod period;
-  final String monthlyLabel;
-  final String yearlyLabel;
-  final ValueChanged<PricingPeriod> onToggle;
 
   const _PricingToggle({
     required this.period,
@@ -158,6 +155,10 @@ class _PricingToggle extends StatelessWidget {
     required this.yearlyLabel,
     required this.onToggle,
   });
+  final PricingPeriod period;
+  final String monthlyLabel;
+  final String yearlyLabel;
+  final ValueChanged<PricingPeriod> onToggle;
 
   @override
   Widget build(BuildContext context) {
@@ -186,7 +187,7 @@ class _PricingToggle extends StatelessWidget {
                   borderRadius: BorderRadius.circular(22),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.05),
+                      color: Colors.black.withOpacity(0.05),
                       blurRadius: 8,
                       offset: const Offset(0, 2),
                     ),
@@ -244,10 +245,6 @@ class _PricingToggle extends StatelessWidget {
 }
 
 class _PricingCard extends StatefulWidget {
-  final PricingPlan plan;
-  final bool isSelected;
-  final VoidCallback onTap;
-  final PricingPeriod period;
 
   const _PricingCard({
     required this.plan,
@@ -255,6 +252,10 @@ class _PricingCard extends StatefulWidget {
     required this.onTap,
     required this.period,
   });
+  final PricingPlan plan;
+  final bool isSelected;
+  final VoidCallback onTap;
+  final PricingPeriod period;
 
   @override
   State<_PricingCard> createState() => _PricingCardState();
@@ -332,7 +333,7 @@ class _PricingCardState extends State<_PricingCard> {
                     textBaseline: TextBaseline.alphabetic,
                     children: [
                       Text(
-                        "\$",
+                        '\$',
                         style: theme.typography.bodyLarge.copyWith(
                           fontWeight: FontWeight.w700,
                         ),
@@ -347,7 +348,7 @@ class _PricingCardState extends State<_PricingCard> {
                       ),
                       if (decPart > 0 || widget.plan.price == 0) ...[
                         Text(
-                          ".",
+                          '.',
                           style: theme.typography.bodyLarge.copyWith(
                             fontWeight: FontWeight.w700,
                           ),
@@ -355,7 +356,6 @@ class _PricingCardState extends State<_PricingCard> {
                         PremiumFlipCounter(
                           value: decPart,
                           upward: _upward,
-                          padWithZero: true,
                           style: theme.typography.bodyLarge.copyWith(
                             fontWeight: FontWeight.w700,
                           ),
@@ -379,9 +379,9 @@ class _PricingCardState extends State<_PricingCard> {
 }
 
 class _SelectionIndicator extends StatelessWidget {
-  final bool isSelected;
 
   const _SelectionIndicator({required this.isSelected});
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -422,10 +422,10 @@ class _SelectionIndicator extends StatelessWidget {
 }
 
 class _ActionButton extends StatefulWidget {
-  final String label;
-  final VoidCallback? onPressed;
 
   const _ActionButton({required this.label, this.onPressed});
+  final String label;
+  final VoidCallback? onPressed;
 
   @override
   State<_ActionButton> createState() => _ActionButtonState();
@@ -461,7 +461,7 @@ class _ActionButtonState extends State<_ActionButton> {
               BoxShadow(
                 color: PortalTheme.of(
                   context,
-                ).colors.primary.withValues(alpha: 0.2),
+                ).colors.primary.withOpacity(0.2),
                 blurRadius: 15,
                 offset: const Offset(0, 6),
               ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:portal_labs/src/media_collapsible_view/media_collapsible_view.dart';
+import 'package:portal_labs/portal_labs.dart';
 
 class MediaCollapsibleViewShowcase extends StatefulWidget {
   const MediaCollapsibleViewShowcase({super.key});
@@ -88,20 +88,8 @@ class _MediaCollapsibleViewShowcaseState
       ),
       onSendComment: (text) {
         _addNewComment(text);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: const Color(0xFF3B82F6),
-            content: Text(
-              'Meow sent: $text',
-              style: const TextStyle(color: Colors.white),
-            ),
-            duration: const Duration(seconds: 1),
-          ),
-        );
       },
-      onLike: () {
-        print('Liked!');
-      },
+      onLike: () {},
     );
   }
 }

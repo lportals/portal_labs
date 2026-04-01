@@ -1,5 +1,15 @@
 /// A model representing a subscription pricing plan.
 class PricingPlan {
+
+  /// Creates a [PricingPlan] with the given pricing attributes.
+  const PricingPlan({
+    required this.id,
+    required this.title,
+    required this.price,
+    required this.periodText,
+    this.isPopular = false,
+    this.badgeText = 'Popular',
+  });
   /// Unique identifier for the plan.
   final String id;
 
@@ -17,16 +27,13 @@ class PricingPlan {
 
   /// Custom text for the popular badge. Defaults to 'Popular'.
   final String badgeText;
-
-  const PricingPlan({
-    required this.id,
-    required this.title,
-    required this.price,
-    required this.periodText,
-    this.isPopular = false,
-    this.badgeText = 'Popular',
-  });
 }
 
 /// Supported pricing periods for the picker.
-enum PricingPeriod { monthly, yearly }
+enum PricingPeriod {
+  /// Billed on a month-by-month basis.
+  monthly,
+
+  /// Billed once for the entire year.
+  yearly,
+}

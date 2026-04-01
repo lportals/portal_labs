@@ -10,6 +10,17 @@ import 'shimmer_text.dart';
 /// transitions from a simple icon to a detailed pill with text
 /// through a smooth bounce animation.
 class DiscreteTabs extends StatefulWidget {
+
+  /// Creates a [DiscreteTabs] widget with the given [tabs] configuration.
+  const DiscreteTabs({
+    super.key,
+    required this.tabs,
+    this.onSelect,
+    this.currentIndex,
+    this.initialIndex = 0,
+    this.spacing = 10.0,
+    this.style = const DiscreteTabsStyle(),
+  }) : assert(tabs.length > 0);
   /// The list of tabs to display.
   final List<DiscreteTab> tabs;
 
@@ -27,16 +38,6 @@ class DiscreteTabs extends StatefulWidget {
 
   /// Aesthetic customization including colors, shadows, and borders.
   final DiscreteTabsStyle style;
-
-  const DiscreteTabs({
-    super.key,
-    required this.tabs,
-    this.onSelect,
-    this.currentIndex,
-    this.initialIndex = 0,
-    this.spacing = 10.0,
-    this.style = const DiscreteTabsStyle(),
-  }) : assert(tabs.length > 0);
 
   @override
   State<DiscreteTabs> createState() => _DiscreteTabsState();
@@ -99,10 +100,6 @@ class _DiscreteTabsState extends State<DiscreteTabs> {
 }
 
 class _DiscreteTabItem extends StatelessWidget {
-  final DiscreteTab tab;
-  final bool isSelected;
-  final VoidCallback onTap;
-  final DiscreteTabsStyle style;
 
   const _DiscreteTabItem({
     required this.tab,
@@ -110,6 +107,10 @@ class _DiscreteTabItem extends StatelessWidget {
     required this.onTap,
     required this.style,
   });
+  final DiscreteTab tab;
+  final bool isSelected;
+  final VoidCallback onTap;
+  final DiscreteTabsStyle style;
 
   @override
   Widget build(BuildContext context) {
@@ -132,14 +133,12 @@ class _DiscreteTabItem extends StatelessWidget {
             BoxShadow(
               color: style.shadowColor,
               blurRadius: 10,
-              spreadRadius: 0,
               offset: const Offset(0, 4),
             ),
           ],
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Icon(
               tab.icon,

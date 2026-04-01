@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'models/weight_picker_style.dart';
+import '../theme/portal_theme.dart';
 import 'widgets/weight_ruler_painter.dart';
 
 /// A premium, minimalist weight picker component.
@@ -8,6 +10,20 @@ import 'widgets/weight_ruler_painter.dart';
 /// Replicates a high-fidelity analog scale with haptic feedback,
 /// curved ruler interaction, and organic transitions.
 class ModernWeightPicker extends StatefulWidget {
+
+  /// Creates a [ModernWeightPicker] with the given configuration.
+  const ModernWeightPicker({
+    super.key,
+    this.minValue = 10.0,
+    this.maxValue = 300.0,
+    this.initialValue = 25.0,
+    this.title = 'Weight',
+    this.unit = 'kg',
+    this.enableHaptics = true,
+    required this.onValueChanged,
+    this.height = 320,
+    this.style,
+  });
   /// The minimum scrollable value.
   final double minValue;
 
@@ -31,40 +47,11 @@ class ModernWeightPicker extends StatefulWidget {
   /// Whether to enable haptic feedback during scrolling.
   final bool enableHaptics;
 
-  /// Primary color for the active value and indicator.
-  final Color activeColor;
-
-  /// Secondary color for inactive values.
-  final Color inactiveColor;
-
-  /// Color for the ruler tick marks.
-  final Color tickColor;
-
-  /// Background color of the picker container.
-  final Color backgroundColor;
-
-  /// Border radius of the picker container.
-  final double borderRadius;
-
   /// Total height of the picker component.
   final double height;
 
-  const ModernWeightPicker({
-    super.key,
-    this.minValue = 10.0,
-    this.maxValue = 300.0,
-    this.initialValue = 25.0,
-    this.title = 'Weight',
-    this.unit = 'kg',
-    this.enableHaptics = true,
-    required this.onValueChanged,
-    this.activeColor = const Color(0xFF1D1D1F),
-    this.inactiveColor = const Color(0xFFC7C7CC),
-    this.tickColor = const Color(0xFFD1D1D6),
-    this.backgroundColor = Colors.white,
-    this.borderRadius = 44,
-    this.height = 320,
-  });
+  /// Style configuration for the component.
+  final WeightPickerStyle? style;
 
   @override
   State<ModernWeightPicker> createState() => _ModernWeightPickerState();
@@ -134,16 +121,23 @@ class _ModernWeightPickerState extends State<ModernWeightPicker> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = PortalTheme.of(context);
+    final activeColor = widget.style?.activeColor ?? theme.colors.primary;
+    final inactiveColor = widget.style?.inactiveColor ?? theme.colors.textSecondary;
+    final tickColor = widget.style?.tickColor ?? theme.colors.border;
+    final bgColor = widget.style?.backgroundColor ?? theme.colors.surface;
+    final borderRadius = widget.style?.borderRadius ?? (widget.height / 7.27); // Standardize radius (44 / 320 ≈ 1/7.27)
+
     return Container(
       height: widget.height,
       width: double.infinity,
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        color: widget.backgroundColor,
-        borderRadius: BorderRadius.circular(widget.borderRadius),
+        color: bgColor,
+        borderRadius: BorderRadius.circular(borderRadius),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: Colors.black.withOpacity(0.04),
             blurRadius: 40,
             offset: const Offset(0, 20),
           ),
@@ -160,7 +154,7 @@ class _ModernWeightPickerState extends State<ModernWeightPicker> {
               style: TextStyle(
                 fontSize: widget.height * 0.065, // Relative font size
                 fontWeight: FontWeight.w700,
-                color: widget.inactiveColor,
+                color: inactiveColor,
                 letterSpacing: -0.8,
               ),
             ),
@@ -176,9 +170,9 @@ class _ModernWeightPickerState extends State<ModernWeightPicker> {
                     currentValue: _currentValue,
                     minValue: widget.minValue,
                     maxValue: widget.maxValue,
-                    activeColor: widget.activeColor,
-                    inactiveColor: widget.inactiveColor,
-                    tickColor: widget.tickColor,
+                    activeColor: activeColor,
+                    inactiveColor: inactiveColor,
+                    tickColor: tickColor,
                     unit: widget.unit,
                   ),
                 ),
@@ -191,7 +185,7 @@ class _ModernWeightPickerState extends State<ModernWeightPicker> {
             bottom: widget.height * 0.01, // Relative to height
             child: CustomPaint(
               size: Size(8, widget.height * 0.125), // Relative needle height
-              painter: _TriangleIndicatorPainter(widget.activeColor),
+              painter: _TriangleIndicatorPainter(activeColor),
             ),
           ),
 
@@ -259,8 +253,8 @@ class _ModernWeightPickerState extends State<ModernWeightPicker> {
 
 /// Draws an elongated triangle needle with a point on top for the scale indicator.
 class _TriangleIndicatorPainter extends CustomPainter {
-  final Color color;
   _TriangleIndicatorPainter(this.color);
+  final Color color;
 
   @override
   void paint(Canvas canvas, Size size) {

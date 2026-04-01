@@ -34,6 +34,14 @@ class SplitButtonController extends ChangeNotifier {
 
 /// A configuration object for an individual action within the [SplitButtonInteraction].
 class SplitAction {
+
+  /// Creates a [SplitAction] with a [label] and [onTap] callback.
+  const SplitAction({
+    required this.label,
+    required this.onTap,
+    this.icon,
+    this.closeOnTap = true,
+  });
   /// The label displayed when expanded.
   final String label;
 
@@ -45,26 +53,12 @@ class SplitAction {
 
   /// Whether the menu should close upon tapping this action. Defaults to true.
   final bool closeOnTap;
-
-  const SplitAction({
-    required this.label,
-    required this.onTap,
-    this.icon,
-    this.closeOnTap = true,
-  });
 }
 
 /// Aesthetic styling for [SplitButtonInteraction].
 class SplitButtonStyle {
-  final Color backgroundColor;
-  final Color foregroundColor;
-  final Color activeBackgroundColor;
-  final Color activeForegroundColor;
-  final BorderRadius borderRadius;
-  final Border? border;
-  final double height;
-  final TextStyle textStyle;
 
+  /// Creates a [SplitButtonStyle] with the given appearance properties.
   const SplitButtonStyle({
     this.backgroundColor = const Color(0xFFE5E5EA), // iOS style gray
     this.foregroundColor = const Color(0xFF1C1C1E),
@@ -79,6 +73,29 @@ class SplitButtonStyle {
       letterSpacing: -0.3,
     ),
   });
+  /// Background color of the button in its collapsed state.
+  final Color backgroundColor;
+
+  /// Text/icon color of the button in its collapsed state.
+  final Color foregroundColor;
+
+  /// Background color of the action pills when the menu is expanded.
+  final Color activeBackgroundColor;
+
+  /// Text/icon color of the action pills when the menu is expanded.
+  final Color activeForegroundColor;
+
+  /// The border radius for the pills.
+  final BorderRadius borderRadius;
+
+  /// Optional border to draw around the pills.
+  final Border? border;
+
+  /// The height of all button pills.
+  final double height;
+
+  /// The text style for all labels.
+  final TextStyle textStyle;
 }
 
 /// A premium, zero-dependency "Split Button Interaction" animation.
@@ -87,6 +104,16 @@ class SplitButtonStyle {
 /// transitions into a row of nested actions with a back button,
 /// using smooth bounce expansion, motion blur emergence, and a tactile pop bounce.
 class SplitButtonInteraction extends StatefulWidget {
+
+  /// Creates a [SplitButtonInteraction] with an [initialLabel] and list of [actions].
+  const SplitButtonInteraction({
+    super.key,
+    required this.initialLabel,
+    required this.actions,
+    this.controller,
+    this.spacing = 8.0,
+    this.style = const SplitButtonStyle(),
+  }) : assert(actions.length > 0);
   /// The initial label of the main button.
   final String initialLabel;
 
@@ -101,15 +128,6 @@ class SplitButtonInteraction extends StatefulWidget {
 
   /// Space between individual action buttons when expanded.
   final double spacing;
-
-  const SplitButtonInteraction({
-    super.key,
-    required this.initialLabel,
-    required this.actions,
-    this.controller,
-    this.spacing = 8.0,
-    this.style = const SplitButtonStyle(),
-  }) : assert(actions.length > 0);
 
   @override
   State<SplitButtonInteraction> createState() => _SplitButtonInteractionState();
@@ -269,7 +287,6 @@ class _SplitButtonInteractionState extends State<SplitButtonInteraction>
         button: true,
         label: widget.initialLabel,
         child: _buildPillDecoration(
-          isActive: false,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Center(
@@ -316,7 +333,6 @@ class _SplitButtonInteractionState extends State<SplitButtonInteraction>
         button: true,
         label: action.label,
         child: _buildPillDecoration(
-          isActive: false,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Center(
@@ -395,7 +411,6 @@ class _SplitButtonInteractionState extends State<SplitButtonInteraction>
           }
           return Transform.scale(
             scale: scale,
-            alignment: Alignment.center,
             child: child,
           );
         },
@@ -405,7 +420,6 @@ class _SplitButtonInteractionState extends State<SplitButtonInteraction>
           children: [
             Row(
               mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 AnimatedBuilder(
                   animation: _expandAnimation,

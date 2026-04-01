@@ -1,1 +1,31 @@
 include: package:flutter_lints/flutter.yaml
+
+linter:
+  rules:
+    - public_member_api_docs
+    - curly_braces_in_flow_control_structures
+    - prefer_const_constructors
+    - avoid_print
+    - always_declare_return_types
+    - prefer_final_fields
+    - avoid_unnecessary_containers
+    - prefer_single_quotes
+    - sort_constructors_first
+    - sort_unnamed_constructors_first
+    - annotate_overrides
+    - use_key_in_widget_constructors
+    - unnecessary_this
+    - unnecessary_new
+    - avoid_redundant_argument_values
+    - use_full_hex_values_for_flutter_colors
+
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+  errors:
+    missing_required_param: error
+    missing_return: error
+    todo: ignore
+    deprecated_member_use: warning
+

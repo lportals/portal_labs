@@ -5,6 +5,23 @@ import 'dart:async';
 /// A customizable, premium interaction widget that allows revealing
 /// and optionally copying sensitive numbers with elegant animations.
 class RevealCopyInteraction extends StatefulWidget {
+
+  /// Creates a [RevealCopyInteraction] with the given [value] to mask and reveal.
+  const RevealCopyInteraction({
+    super.key,
+    required this.value,
+    this.maskCharacter = '×',
+    this.revealDuration = const Duration(seconds: 4),
+    this.successColor = const Color(0xFF10B981),
+    this.backgroundColor = Colors.white,
+    this.borderColor = const Color(0x0F000000),
+    this.textStyle,
+    this.maskedTextStyle,
+    this.borderRadius = 16.0,
+    this.enableCopy = true,
+    this.onCopied,
+    this.onRevealed,
+  });
   /// The sensitive text to display (e.g., a credit card number).
   final String value;
 
@@ -51,22 +68,6 @@ class RevealCopyInteraction extends StatefulWidget {
 
   /// Callback triggered when the text is initially revealed.
   final VoidCallback? onRevealed;
-
-  const RevealCopyInteraction({
-    super.key,
-    required this.value,
-    this.maskCharacter = '×',
-    this.revealDuration = const Duration(seconds: 4),
-    this.successColor = const Color(0xFF10B981),
-    this.backgroundColor = Colors.white,
-    this.borderColor = const Color(0x0F000000),
-    this.textStyle,
-    this.maskedTextStyle,
-    this.borderRadius = 16.0,
-    this.enableCopy = true,
-    this.onCopied,
-    this.onRevealed,
-  });
 
   @override
   State<RevealCopyInteraction> createState() => _RevealCopyInteractionState();
@@ -185,7 +186,7 @@ class _RevealCopyInteractionState extends State<RevealCopyInteraction>
       decoration: BoxDecoration(
         color: widget.backgroundColor,
         borderRadius: BorderRadius.circular(widget.borderRadius),
-        border: Border.all(color: widget.borderColor, width: 1.0),
+        border: Border.all(color: widget.borderColor),
         boxShadow: const [
           BoxShadow(
             color: Color(0x05000000),
@@ -296,7 +297,7 @@ class _RevealCopyInteractionState extends State<RevealCopyInteraction>
               height: 40,
               decoration: BoxDecoration(
                 color: _isRevealed
-                    ? widget.successColor.withValues(alpha: 0.2)
+                    ? widget.successColor.withOpacity(0.2)
                     : const Color(0xFFF5F5F5),
                 borderRadius: BorderRadius.circular(
                   widget.borderRadius * (10 / 16),
@@ -353,10 +354,15 @@ class _RevealCopyInteractionState extends State<RevealCopyInteraction>
   }
 }
 
+/// A [GradientTransform] that translates a gradient horizontally based on an [offset]
+/// value ranging from 0.0 to 1.0. Used to create a shimmer sweep effect.
 class SlidingGradientTransform extends GradientTransform {
-  final double offset;
 
+  /// Creates a [SlidingGradientTransform] with the given normalized [offset].
   const SlidingGradientTransform({required this.offset});
+
+  /// The normalized horizontal position of the shimmer highlight (0.0 to 1.0).
+  final double offset;
 
   @override
   Matrix4? transform(Rect bounds, {TextDirection? textDirection}) {
@@ -364,18 +370,29 @@ class SlidingGradientTransform extends GradientTransform {
   }
 }
 
+/// A [CustomPainter] that draws a rounded-rectangle progress border starting
+/// from the top center and sweeping clockwise based on [progress].
 class RectProgressPainter extends CustomPainter {
-  final double progress;
-  final Color color;
-  final double strokeWidth;
-  final double borderRadius;
 
+  /// Creates a [RectProgressPainter] with the given display properties.
   RectProgressPainter({
     required this.progress,
     required this.color,
     required this.strokeWidth,
     required this.borderRadius,
   });
+
+  /// The fraction (0.0–1.0) of the perimeter to draw.
+  final double progress;
+
+  /// The color of the progress stroke.
+  final Color color;
+
+  /// The width of the progress stroke in logical pixels.
+  final double strokeWidth;
+
+  /// The corner radius of the rectangle.
+  final double borderRadius;
 
   @override
   void paint(Canvas canvas, Size size) {

@@ -13,6 +13,20 @@ import 'widgets/slider_track_painter.dart';
 /// All values, dots, and colors are calculated dynamically based on the provided
 /// [min], [max], [step], and [dotCount] parameters.
 class AdaptiveSliderInteraction extends StatefulWidget {
+
+  /// Creates an [AdaptiveSliderInteraction] with the given configuration.
+  const AdaptiveSliderInteraction({
+    super.key,
+    required this.value,
+    required this.onChanged,
+    this.min = 0.0,
+    this.max = 350.0,
+    this.title = 'Calories',
+    this.unit = 'kCal',
+    this.style = const AdaptiveSliderStyle(),
+    this.dotCount,
+    this.step = 50.0,
+  });
   /// The current value of the slider (between 0.0 and 1.0).
   final double value;
 
@@ -40,19 +54,6 @@ class AdaptiveSliderInteraction extends StatefulWidget {
 
   /// The increment by which the value snaps.
   final double step;
-
-  const AdaptiveSliderInteraction({
-    super.key,
-    required this.value,
-    required this.onChanged,
-    this.min = 0.0,
-    this.max = 350.0,
-    this.title = 'Calories',
-    this.unit = 'kCal',
-    this.style = const AdaptiveSliderStyle(),
-    this.dotCount,
-    this.step = 50.0,
-  });
 
   @override
   State<AdaptiveSliderInteraction> createState() =>
@@ -207,11 +208,9 @@ class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction>
             left: 24,
             right: 24,
             top: 32,
-            bottom: 0,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // 1. Title
               Text(
@@ -252,7 +251,7 @@ class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction>
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.w800,
-                      color: widget.style.unitColor.withValues(alpha: 0.9),
+                      color: widget.style.unitColor.withOpacity(0.9),
                     ),
                   ),
                 ],
@@ -360,10 +359,10 @@ class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction>
 
 /// The circular thumb of the slider with a white interior and thick colored border.
 class _SliderThumb extends StatelessWidget {
-  final double size;
-  final List<Color> colors;
 
   const _SliderThumb({required this.size, required this.colors});
+  final double size;
+  final List<Color> colors;
 
   @override
   Widget build(BuildContext context) {
@@ -381,7 +380,7 @@ class _SliderThumb extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
+            color: Colors.black.withOpacity(0.1),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),

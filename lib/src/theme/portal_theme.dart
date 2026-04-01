@@ -4,11 +4,8 @@ import 'portal_typography.dart';
 
 /// Central theme data class for the Portal Labs UI Library.
 class PortalThemeData {
-  final PortalColors colors;
-  final PortalTypography typography;
-  final double borderRadius;
-  final double cardRadius;
 
+  /// Creates a [PortalThemeData] with the required color and typography tokens.
   const PortalThemeData({
     required this.colors,
     required this.typography,
@@ -39,13 +36,27 @@ class PortalThemeData {
       ),
     );
   }
+  /// The full set of color tokens for this theme.
+  final PortalColors colors;
+
+  /// The full set of typography tokens for this theme.
+  final PortalTypography typography;
+
+  /// The default border radius applied to buttons and pill-shaped components.
+  final double borderRadius;
+
+  /// The border radius applied to internal cards and container widgets.
+  final double cardRadius;
 }
 
 /// The InheritedWidget used to propagate [PortalThemeData] down the tree.
 class PortalTheme extends InheritedWidget {
-  final PortalThemeData data;
 
+  /// Creates a [PortalTheme] with the given [data] and [child].
   const PortalTheme({super.key, required this.data, required super.child});
+
+  /// The theme data to propagate down the widget tree.
+  final PortalThemeData data;
 
   /// Resolves the nearest [PortalThemeData] in the widget tree.
   /// If none is found, it automatically falls back to [PortalThemeData.light]

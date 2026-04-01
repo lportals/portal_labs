@@ -6,6 +6,18 @@ import 'package:flutter/material.dart';
 /// This painter handles the visual representation of the arc, the scaling of numbers
 /// near the center, and the smooth color interpolation between active and inactive states.
 class WeightRulerPainter extends CustomPainter {
+
+  /// Creates a [WeightRulerPainter] with all required layout and styling parameters.
+  WeightRulerPainter({
+    required this.currentValue,
+    required this.minValue,
+    required this.maxValue,
+    required this.activeColor,
+    required this.inactiveColor,
+    required this.tickColor,
+    required this.unit,
+    this.anglePerUnit = math.pi / 9.0,
+  });
   /// The current value being pointed at in the center.
   final double currentValue;
 
@@ -29,17 +41,6 @@ class WeightRulerPainter extends CustomPainter {
 
   /// The unit to display alongside the number (e.g. 'kg').
   final String unit;
-
-  WeightRulerPainter({
-    required this.currentValue,
-    required this.minValue,
-    required this.maxValue,
-    required this.activeColor,
-    required this.inactiveColor,
-    required this.tickColor,
-    required this.unit,
-    this.anglePerUnit = math.pi / 9.0,
-  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -72,7 +73,7 @@ class WeightRulerPainter extends CustomPainter {
 
       // Robust check for integer ticks (Major ticks)
       final isMajor = (i - i.roundToDouble()).abs() < 0.01;
-      paint.color = tickColor.withValues(alpha: opacity * 0.7);
+      paint.color = tickColor.withOpacity(opacity * 0.7);
       paint.strokeWidth = 2.5;
 
       // Responsive tick lengths (9% and 5% of height)
@@ -121,7 +122,7 @@ class WeightRulerPainter extends CustomPainter {
             TextSpan(
               text: label,
               style: TextStyle(
-                color: lerpedColor?.withValues(alpha: opacity),
+                color: lerpedColor?.withOpacity(opacity),
                 fontSize: isLong ? smallFontSize : baseFontSize,
                 fontWeight: FontWeight.w800,
                 letterSpacing: isLong ? -7 : -5,
@@ -134,7 +135,7 @@ class WeightRulerPainter extends CustomPainter {
               TextSpan(
                 text: ' ${unit.toLowerCase()}',
                 style: TextStyle(
-                  color: lerpedColor?.withValues(alpha: opacity * (colorT - 0.5) * 2),
+                  color: lerpedColor?.withOpacity(opacity * (colorT - 0.5) * 2),
                   fontSize: (isLong ? smallFontSize : baseFontSize) * 0.25,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 0,

@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../theme/portal_theme.dart';
+import 'models/morphing_input_button_style.dart';
 
 /// A premium, zero-dependency "Morphing Input Button" widget.
 ///
@@ -8,6 +10,16 @@ import 'package:flutter/services.dart';
 /// morphs into a detailed text input field. Designed for waitlists, 
 /// notifications, and minimal signup flows.
 class MorphingInputButton extends StatefulWidget {
+
+  /// Creates a [MorphingInputButton] with a [buttonText] and [placeholder].
+  const MorphingInputButton({
+    super.key,
+    required this.buttonText,
+    required this.placeholder,
+    this.icon,
+    this.onSubmitted,
+    this.style = const MorphingInputButtonStyle(),
+  });
   /// The text displayed on the initial button (e.g., "Notify Me").
   final String buttonText;
 
@@ -20,43 +32,8 @@ class MorphingInputButton extends StatefulWidget {
   /// Callback triggered when the input is submitted.
   final ValueChanged<String>? onSubmitted;
 
-  /// The background color of the outer container.
-  /// Defaults to a light gray if null.
-  final Color? backgroundColor;
-
-  /// The color of the button/input surface. 
-  /// Defaults to white if null.
-  final Color? buttonColor;
-
-  /// The width of the button in its initial state.
-  final double initialWidth;
-
-  /// The width of the input field when expanded.
-  final double expandedWidth;
-
-  /// The height of the entire component.
-  final double height;
-
-  /// The curve used for the morphing animation.
-  final Curve curve;
-
-  /// The duration of the entire morphing transition.
-  final Duration duration;
-
-  const MorphingInputButton({
-    super.key,
-    required this.buttonText,
-    required this.placeholder,
-    this.icon,
-    this.onSubmitted,
-    this.backgroundColor,
-    this.buttonColor,
-    this.initialWidth = 140.0,
-    this.expandedWidth = 320.0,
-    this.height = 56.0,
-    this.curve = Curves.easeOutBack,
-    this.duration = const Duration(milliseconds: 500),
-  });
+  /// Style configuration for the component.
+  final MorphingInputButtonStyle style;
 
   @override
   State<MorphingInputButton> createState() => _MorphingInputButtonState();
@@ -91,36 +68,42 @@ class _MorphingInputButtonState extends State<MorphingInputButton> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final portalTheme = PortalTheme.of(context);
     
-    // Default palette if not provided
-    final bgColor = widget.backgroundColor ?? const Color(0xFFF2F2F2);
-    final btnSurfaceColor = widget.buttonColor ?? Colors.white;
+    // Default palette if not provided in style
+    final bgColor = widget.style.backgroundColor ?? portalTheme.colors.background;
+    final btnSurfaceColor = widget.style.buttonColor ?? portalTheme.colors.surface;
+    final height = widget.style.height;
+    final duration = widget.style.duration;
+    final curve = widget.style.curve;
+    final initialWidth = widget.style.initialWidth;
+    final expandedWidth = widget.style.expandedWidth;
 
     return Center(
       child: AnimatedContainer(
-        duration: widget.duration,
-        curve: _isExpanded ? widget.curve : Curves.easeOutCubic,
-        width: _isExpanded ? widget.expandedWidth : widget.initialWidth,
-        height: widget.height,
+        duration: duration,
+        curve: _isExpanded ? curve : Curves.easeOutCubic,
+        width: _isExpanded ? expandedWidth : initialWidth,
+        height: height,
         decoration: BoxDecoration(
           color: bgColor,
-          borderRadius: BorderRadius.circular(widget.height / 2),
+          borderRadius: BorderRadius.circular(height / 2),
         ),
         child: Stack(
           alignment: Alignment.center,
           children: [
             // Input Field: Soft focus reveal during transition, razor-sharp once finished
             AnimatedPositioned(
-              duration: widget.duration,
+              duration: duration,
               curve: Curves.easeOutQuart,
               left: _isExpanded ? 24 : 0,
-              right: _isExpanded ? 130 : widget.initialWidth,
+              right: _isExpanded ? 130 : initialWidth,
               child: TweenAnimationBuilder<double>(
                 tween: Tween<double>(
                   begin: 0.0, 
                   end: _isExpanded ? 1.0 : 0.0,
                 ),
-                duration: widget.duration,
+                duration: duration,
                 builder: (context, value, child) {
                   // Momentary peaking blur (0.0 -> 1.5 -> 0.0)
                   final double blur = (1.0 - (value - 0.5).abs() * 2).clamp(0.0, 1.0) * 1.5;
@@ -166,10 +149,10 @@ class _MorphingInputButtonState extends State<MorphingInputButton> {
 
             // Morphing Button: Flat and stable
             AnimatedPositioned(
-              duration: widget.duration,
-              curve: _isExpanded ? widget.curve : Curves.easeOutCubic,
+              duration: duration,
+              curve: _isExpanded ? curve : Curves.easeOutCubic,
               right: _isExpanded ? 5 : 0,
-              left: _isExpanded ? widget.expandedWidth - 128 : 0,
+              left: _isExpanded ? expandedWidth - 128 : 0,
               top: _isExpanded ? 5 : 0,
               bottom: _isExpanded ? 5 : 0,
               child: MouseRegion(
@@ -186,7 +169,7 @@ class _MorphingInputButtonState extends State<MorphingInputButton> {
                     curve: Curves.easeInOut,
                     decoration: BoxDecoration(
                       color: _isExpanded ? btnSurfaceColor : btnSurfaceColor.withOpacity(0.0),
-                      borderRadius: BorderRadius.circular(widget.height / 2),
+                      borderRadius: BorderRadius.circular(height / 2),
                     ),
                     child: Center(
                       child: SingleChildScrollView(

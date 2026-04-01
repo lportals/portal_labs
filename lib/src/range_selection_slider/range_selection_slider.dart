@@ -15,6 +15,21 @@ import 'models/range_slider_style.dart';
 /// - **Adaptive Formatting:** Automatic comma separation and currency prefixing.
 /// - **Zero-Dependency:** Using only vanilla Flutter components and internal utils.
 class RangeSelectionSlider extends StatefulWidget {
+
+  /// Creates a [RangeSelectionSlider] with the given configuration.
+  const RangeSelectionSlider({
+    super.key,
+    required this.values,
+    this.min = 0,
+    this.max = 5000,
+    this.onChanged,
+    this.onApply,
+    this.onCancel,
+    this.style = const RangeSliderStyle(),
+    this.divisions,
+    this.title = 'Price Range',
+    this.showActions = true,
+  });
   /// The current range values.
   final RangeValues values;
 
@@ -45,20 +60,6 @@ class RangeSelectionSlider extends StatefulWidget {
   /// Whether to show the action buttons (Apply/Cancel).
   /// If [onApply] and [onCancel] are both null, they won't be shown even if this is true.
   final bool showActions;
-
-  const RangeSelectionSlider({
-    super.key,
-    required this.values,
-    this.min = 0,
-    this.max = 5000,
-    this.onChanged,
-    this.onApply,
-    this.onCancel,
-    this.style = const RangeSliderStyle(),
-    this.divisions,
-    this.title = 'Price Range',
-    this.showActions = true,
-  });
 
   @override
   State<RangeSelectionSlider> createState() => _RangeSelectionSliderState();
@@ -206,7 +207,7 @@ class _RangeSelectionSliderState extends State<RangeSelectionSlider> {
         rangeThumbShape: _CustomRangeThumbShape(
           borderColor: style.thumbBorderColor,
         ),
-        overlayColor: style.activeTrackColor.withValues(alpha: 0.1),
+        overlayColor: style.activeTrackColor.withOpacity(0.1),
         overlayShape: const RoundSliderOverlayShape(overlayRadius: 20),
       ),
       child: RangeSlider(
@@ -223,11 +224,6 @@ class _RangeSelectionSliderState extends State<RangeSelectionSlider> {
 /// A specialized internal field for displaying "From/To" values with flip animation.
 /// Now supports manual editing via TextField on tap.
 class _ValueField extends StatefulWidget {
-  final String label;
-  final int value;
-  final bool isIncreasing;
-  final RangeSliderStyle style;
-  final ValueChanged<int> onSubmitted;
 
   const _ValueField({
     super.key,
@@ -237,6 +233,11 @@ class _ValueField extends StatefulWidget {
     required this.style,
     required this.onSubmitted,
   });
+  final String label;
+  final int value;
+  final bool isIncreasing;
+  final RangeSliderStyle style;
+  final ValueChanged<int> onSubmitted;
 
   @override
   State<_ValueField> createState() => _ValueFieldState();
@@ -312,7 +313,7 @@ class _ValueFieldState extends State<_ValueField> {
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: _isFocused
-                ? style.thumbColor.withValues(alpha: 0.5)
+                ? style.thumbColor.withOpacity(0.5)
                 : Colors.transparent,
             width: 2,
           ),
@@ -358,15 +359,15 @@ class _ValueFieldState extends State<_ValueField> {
 
 /// Complex price display that handles commas and animates digits.
 class _PriceFlipDisplay extends StatelessWidget {
-  final int value;
-  final bool upward;
-  final TextStyle textStyle;
 
   const _PriceFlipDisplay({
     required this.value,
     required this.upward,
     required this.textStyle,
   });
+  final int value;
+  final bool upward;
+  final TextStyle textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -396,12 +397,6 @@ class _PriceFlipDisplay extends StatelessWidget {
 }
 
 class _ActionButton extends StatelessWidget {
-  final String label;
-  final VoidCallback? onPressed;
-  final Color backgroundColor;
-  final Color textColor;
-  final Color? borderColor;
-  final double height;
 
   const _ActionButton({
     required this.label,
@@ -411,6 +406,12 @@ class _ActionButton extends StatelessWidget {
     this.borderColor,
     required this.height,
   });
+  final String label;
+  final VoidCallback? onPressed;
+  final Color backgroundColor;
+  final Color textColor;
+  final Color? borderColor;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
@@ -532,11 +533,11 @@ class _CustomRangeTrackShape extends RangeSliderTrackShape {
 /// A custom thumb shape for the range slider displaying a white circle
 /// with a colored border and a shadow.
 class _CustomRangeThumbShape extends RangeSliderThumbShape {
-  /// The color of the thumb's border.
-  final Color borderColor;
 
   /// Creates a [const] instance of [_CustomRangeThumbShape] with the given [borderColor].
   const _CustomRangeThumbShape({required this.borderColor});
+  /// The color of the thumb's border.
+  final Color borderColor;
 
   @override
   Size getPreferredSize(bool isEnabled, bool isDiscrete) => const Size(28, 28);

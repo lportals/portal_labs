@@ -19,6 +19,16 @@ import '../common/premium_flip_counter.dart';
 /// )
 /// ```
 class JournalNavigation extends StatefulWidget {
+
+  /// Creates a [JournalNavigation] with the given [items] and optional configuration.
+  const JournalNavigation({
+    super.key,
+    required this.items,
+    this.initialDate,
+    this.onDateChanged,
+    this.style = const JournalStyle(),
+    this.height = 340.0,
+  });
   /// The list of items to display.
   final List<JournalItem> items;
 
@@ -33,15 +43,6 @@ class JournalNavigation extends StatefulWidget {
 
   /// Total height of the component.
   final double height;
-
-  const JournalNavigation({
-    super.key,
-    required this.items,
-    this.initialDate,
-    this.onDateChanged,
-    this.style = const JournalStyle(),
-    this.height = 340.0,
-  });
 
   @override
   State<JournalNavigation> createState() => _JournalNavigationState();
@@ -130,8 +131,9 @@ class _JournalNavigationState extends State<JournalNavigation> {
 
   /// Explicitly select a date (via tap or arrows).
   void _selectIndex(int index) {
-    if (index < 0 || index >= widget.items.length || index == _selectedIndex)
+    if (index < 0 || index >= widget.items.length || index == _selectedIndex) {
       return;
+    }
     if (mounted) {
       setState(() {
         _prevIndex = _selectedIndex;
@@ -169,7 +171,7 @@ class _JournalNavigationState extends State<JournalNavigation> {
             style.shadows ??
             [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
+                color: Colors.black.withOpacity(0.05),
                 blurRadius: 20,
                 offset: const Offset(0, 10),
               ),
@@ -208,7 +210,7 @@ class _JournalNavigationState extends State<JournalNavigation> {
                         Row(
                           children: [
                             Text(
-                              "$monthString ",
+                              '$monthString ',
                               style: style.headerMonthStyle,
                             ),
                             PremiumFlipCounter(
@@ -293,12 +295,6 @@ class _JournalNavigationState extends State<JournalNavigation> {
 
 /// Private helper widget for the vertical date slider.
 class _DateSlider extends StatelessWidget {
-  final JournalStyle style;
-  final List<JournalItem> items;
-  final int selectedIndex;
-  final ScrollController scrollController;
-  final ValueChanged<int> onSelect;
-  final VoidCallback onScrollEnd;
 
   const _DateSlider({
     required this.style,
@@ -308,6 +304,12 @@ class _DateSlider extends StatelessWidget {
     required this.onSelect,
     required this.onScrollEnd,
   });
+  final JournalStyle style;
+  final List<JournalItem> items;
+  final int selectedIndex;
+  final ScrollController scrollController;
+  final ValueChanged<int> onSelect;
+  final VoidCallback onScrollEnd;
 
   @override
   Widget build(BuildContext context) {
@@ -319,7 +321,7 @@ class _DateSlider extends StatelessWidget {
         borderRadius: BorderRadius.circular(style.borderRadius),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
+            color: Colors.black.withOpacity(0.03),
             blurRadius: 10,
             offset: const Offset(2, 0),
           ),
@@ -405,7 +407,7 @@ class _DateSlider extends StatelessWidget {
                       end: Alignment.bottomCenter,
                       colors: [
                         style.sliderColor,
-                        style.sliderColor.withValues(alpha: 0),
+                        style.sliderColor.withOpacity(0),
                       ],
                     ),
                   ),
@@ -427,7 +429,7 @@ class _DateSlider extends StatelessWidget {
                       end: Alignment.topCenter,
                       colors: [
                         style.sliderColor,
-                        style.sliderColor.withValues(alpha: 0),
+                        style.sliderColor.withOpacity(0),
                       ],
                     ),
                   ),
@@ -443,11 +445,11 @@ class _DateSlider extends StatelessWidget {
 
 /// Navigation arrows widget with style injection.
 class _NavigationArrows extends StatelessWidget {
+
+  const _NavigationArrows({required this.style, this.onPrevious, this.onNext});
   final JournalStyle style;
   final VoidCallback? onPrevious;
   final VoidCallback? onNext;
-
-  const _NavigationArrows({required this.style, this.onPrevious, this.onNext});
 
   @override
   Widget build(BuildContext context) {
@@ -472,10 +474,6 @@ class _NavigationArrows extends StatelessWidget {
 }
 
 class _ArrowButton extends StatelessWidget {
-  final IconData icon;
-  final VoidCallback? onPressed;
-  final Color color;
-  final Color disabledColor;
 
   const _ArrowButton({
     required this.icon,
@@ -483,6 +481,10 @@ class _ArrowButton extends StatelessWidget {
     required this.color,
     required this.disabledColor,
   });
+  final IconData icon;
+  final VoidCallback? onPressed;
+  final Color color;
+  final Color disabledColor;
 
   @override
   Widget build(BuildContext context) {
@@ -499,7 +501,7 @@ class _ArrowButton extends StatelessWidget {
           boxShadow: [
             if (isEnabled)
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.04),
+                color: Colors.black.withOpacity(0.04),
                 blurRadius: 4,
                 offset: const Offset(0, 2),
               ),

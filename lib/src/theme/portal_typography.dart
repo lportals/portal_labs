@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 
+/// A collection of [TextStyle] tokens following the Portal Labs design scale.
 class PortalTypography {
-  final TextStyle h1;
-  final TextStyle h2;
-  final TextStyle h3;
-  final TextStyle h4;
-  final TextStyle bodyLarge;
-  final TextStyle bodyMedium;
-  final TextStyle caption;
-  final TextStyle labelButton;
 
+  /// Creates a [PortalTypography] instance with all required text style scale tokens.
   const PortalTypography({
     required this.h1,
     required this.h2,
@@ -75,4 +69,27 @@ class PortalTypography {
       ),
     );
   }
+  /// The primary heading style for page titles.
+  final TextStyle h1;
+
+  /// The secondary heading style for main sections.
+  final TextStyle h2;
+
+  /// The tertiary heading style for subsections.
+  final TextStyle h3;
+
+  /// The small heading style for card titles and details.
+  final TextStyle h4;
+
+  /// The large body text style.
+  final TextStyle bodyLarge;
+
+  /// The standard body text style.
+  final TextStyle bodyMedium;
+
+  /// The caption or helper text style.
+  final TextStyle caption;
+
+  /// The text style used inside primary buttons.
+  final TextStyle labelButton;
 }

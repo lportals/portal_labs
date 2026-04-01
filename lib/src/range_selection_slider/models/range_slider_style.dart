@@ -5,6 +5,49 @@ import 'package:flutter/material.dart';
 /// Allows customizing colors, typography, borders, and animations for
 /// the premium price range selector.
 class RangeSliderStyle {
+
+  /// Creates a [RangeSliderStyle] with the given appearance properties.
+  const RangeSliderStyle({
+    this.backgroundColor = Colors.white,
+    this.borderRadius = 32.0,
+    this.title = 'Price Range',
+    this.titleStyle = const TextStyle(
+      fontSize: 17,
+      fontWeight: FontWeight.w700,
+      color: Colors.black,
+      letterSpacing: -0.4,
+    ),
+    this.fromLabel = 'From',
+    this.toLabel = 'To',
+    this.fieldLabelStyle = const TextStyle(
+      fontSize: 11,
+      fontWeight: FontWeight.w500,
+      color: Color(0xFFACACAC),
+      letterSpacing: 0.1,
+    ),
+    this.fieldValueStyle = const TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+      color: Colors.black,
+      letterSpacing: -0.4,
+    ),
+    this.fieldBackgroundColor = const Color(0xFFF9FAFD),
+    this.currencySymbol = '\$',
+    this.activeTrackColor = Colors.black,
+    this.inactiveTrackColor = const Color(0xFFF0F1F7),
+    this.thumbColor = Colors.white,
+    this.thumbBorderColor = Colors.black,
+    this.applyLabel = 'Apply',
+    this.cancelLabel = 'Cancel',
+    this.primaryButtonColor = Colors.black,
+    this.primaryButtonTextColor = Colors.white,
+    this.secondaryButtonBorderColor = const Color(0xFFF0F1F7),
+    this.secondaryButtonTextColor = const Color(0xFF8E8E93),
+    this.buttonHeight = 44.0,
+  });
+
+  /// The default visual theme for Portal Labs components.
+  factory RangeSliderStyle.portalLabs() => const RangeSliderStyle();
   /// The background color of the entire component.
   final Color backgroundColor;
 
@@ -67,46 +110,4 @@ class RangeSliderStyle {
 
   /// Height for the action buttons.
   final double buttonHeight;
-
-  const RangeSliderStyle({
-    this.backgroundColor = Colors.white,
-    this.borderRadius = 32.0,
-    this.title = 'Price Range',
-    this.titleStyle = const TextStyle(
-      fontSize: 17,
-      fontWeight: FontWeight.w700,
-      color: Colors.black,
-      letterSpacing: -0.4,
-    ),
-    this.fromLabel = 'From',
-    this.toLabel = 'To',
-    this.fieldLabelStyle = const TextStyle(
-      fontSize: 11,
-      fontWeight: FontWeight.w500,
-      color: Color(0xFFACACAC),
-      letterSpacing: 0.1,
-    ),
-    this.fieldValueStyle = const TextStyle(
-      fontSize: 20,
-      fontWeight: FontWeight.bold,
-      color: Colors.black,
-      letterSpacing: -0.4,
-    ),
-    this.fieldBackgroundColor = const Color(0xFFF9FAFD),
-    this.currencySymbol = '\$',
-    this.activeTrackColor = Colors.black,
-    this.inactiveTrackColor = const Color(0xFFF0F1F7),
-    this.thumbColor = Colors.white,
-    this.thumbBorderColor = Colors.black,
-    this.applyLabel = 'Apply',
-    this.cancelLabel = 'Cancel',
-    this.primaryButtonColor = Colors.black,
-    this.primaryButtonTextColor = Colors.white,
-    this.secondaryButtonBorderColor = const Color(0xFFF0F1F7),
-    this.secondaryButtonTextColor = const Color(0xFF8E8E93),
-    this.buttonHeight = 44.0,
-  });
-
-  /// The default visual theme for Portal Labs components.
-  factory RangeSliderStyle.portalLabs() => const RangeSliderStyle();
 }

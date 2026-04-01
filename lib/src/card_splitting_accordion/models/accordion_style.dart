@@ -4,6 +4,18 @@ import 'package:flutter/material.dart';
 ///
 /// Allows customization of colors, radii, spacing, and animation durations.
 class AccordionStyle {
+
+  /// Creating a theme for the accordion.
+  const AccordionStyle({
+    this.backgroundColor = Colors.white,
+    this.titleColor = const Color(0xFF1A1A1A),
+    this.contentColor = const Color(0x99111111),
+    this.borderColor = const Color(0xFFEEEEEE),
+    this.iconColor = const Color(0xFF333333),
+    this.borderRadius = 22.0,
+    this.spacing = 16.0,
+    this.animationDuration = const Duration(milliseconds: 400),
+  });
   /// The background color of each card.
   final Color backgroundColor;
 
@@ -27,18 +39,6 @@ class AccordionStyle {
 
   /// The duration of the expansion animation.
   final Duration animationDuration;
-
-  /// Creating a theme for the accordion.
-  const AccordionStyle({
-    this.backgroundColor = Colors.white,
-    this.titleColor = const Color(0xFF1A1A1A),
-    this.contentColor = const Color(0x99111111),
-    this.borderColor = const Color(0xFFEEEEEE),
-    this.iconColor = const Color(0xFF333333),
-    this.borderRadius = 22.0,
-    this.spacing = 16.0,
-    this.animationDuration = const Duration(milliseconds: 400),
-  });
 
   /// Default clean style.
   static const defaultStyle = AccordionStyle();

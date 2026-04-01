@@ -8,6 +8,19 @@ import '../common/premium_flip_counter.dart';
 ///
 /// Supports [ChoiceItem] items which can contain emojis, icons, or images.
 class PremiumChoiceChips extends StatefulWidget {
+
+  /// Creates a [PremiumChoiceChips] with the given items and configuration.
+  const PremiumChoiceChips({
+    super.key,
+    this.title = 'Selection',
+    required this.items,
+    this.onSelectionChanged,
+    this.onActionPressed,
+    this.backgroundColor = const Color(0xFFFAFAFA),
+    this.accentColor = const Color(0xFF1D1D1F),
+    this.buttonLabel = 'Item',
+    this.buttonPluralLabel = 'Items',
+  });
   /// The title displayed at the top of the component.
   final String title;
 
@@ -31,18 +44,6 @@ class PremiumChoiceChips extends StatefulWidget {
 
   /// The label used for plural counts (e.g., 'Items').
   final String buttonPluralLabel;
-
-  const PremiumChoiceChips({
-    super.key,
-    this.title = 'Selection',
-    required this.items,
-    this.onSelectionChanged,
-    this.onActionPressed,
-    this.backgroundColor = const Color(0xFFFAFAFA),
-    this.accentColor = const Color(0xFF1D1D1F),
-    this.buttonLabel = 'Item',
-    this.buttonPluralLabel = 'Items',
-  });
 
   @override
   State<PremiumChoiceChips> createState() => _PremiumChoiceChipsState();
@@ -146,8 +147,6 @@ class _PremiumChoiceChipsState extends State<PremiumChoiceChips>
               ShaderMask(
                 shaderCallback: (Rect bounds) {
                   return const LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
                     colors: [
                       Colors.transparent,
                       Colors.black,
@@ -246,24 +245,24 @@ class _PremiumChoiceChipsState extends State<PremiumChoiceChips>
 }
 
 class _FlyingMediaData {
-  final String id;
-  final ChoiceItem item;
-  final Offset? startPosition;
-  final Offset? targetPosition;
   _FlyingMediaData({
     required this.id,
     required this.item,
     this.startPosition,
     this.targetPosition,
   });
+  final String id;
+  final ChoiceItem item;
+  final Offset? startPosition;
+  final Offset? targetPosition;
 }
 
 class _ChoiceMedia extends StatelessWidget {
+
+  const _ChoiceMedia({required this.item, this.size = 20, this.color});
   final ChoiceItem item;
   final double size;
   final Color? color;
-
-  const _ChoiceMedia({required this.item, this.size = 20, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -292,10 +291,6 @@ class _ChoiceMedia extends StatelessWidget {
 }
 
 class _ChoiceChip extends StatelessWidget {
-  final ChoiceItem item;
-  final bool isSelected;
-  final Color accentColor;
-  final VoidCallback onTap;
 
   const _ChoiceChip({
     required this.item,
@@ -303,6 +298,10 @@ class _ChoiceChip extends StatelessWidget {
     required this.accentColor,
     required this.onTap,
   });
+  final ChoiceItem item;
+  final bool isSelected;
+  final Color accentColor;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -322,7 +321,7 @@ class _ChoiceChip extends StatelessWidget {
           boxShadow: [
             if (isSelected)
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.04),
+                color: Colors.black.withOpacity(0.04),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
@@ -333,7 +332,6 @@ class _ChoiceChip extends StatelessWidget {
           children: [
             _ChoiceMedia(
               item: item,
-              size: 20,
               color: isSelected ? accentColor : const Color(0xFF48484A),
             ),
             const SizedBox(width: 10),
@@ -353,10 +351,6 @@ class _ChoiceChip extends StatelessWidget {
 }
 
 class _BottomActionButton extends StatefulWidget {
-  final int count;
-  final Color accentColor;
-  final String label;
-  final String pluralLabel;
 
   const _BottomActionButton({
     required this.count,
@@ -364,6 +358,10 @@ class _BottomActionButton extends StatefulWidget {
     required this.label,
     required this.pluralLabel,
   });
+  final int count;
+  final Color accentColor;
+  final String label;
+  final String pluralLabel;
 
   @override
   State<_BottomActionButton> createState() => _BottomActionButtonState();
@@ -414,7 +412,7 @@ class _BottomActionButtonState extends State<_BottomActionButton> {
                 border: Border.all(color: const Color(0xFFE5E5EA), width: 1.2),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.08),
+                    color: Colors.black.withOpacity(0.08),
                     blurRadius: 32,
                     offset: const Offset(0, 8),
                   ),
@@ -449,12 +447,6 @@ class _BottomActionButtonState extends State<_BottomActionButton> {
 }
 
 class _FlyingMedia extends StatefulWidget {
-  final ChoiceItem item;
-  final Offset? startPosition;
-  final Offset? targetPosition;
-  final Color backgroundColor;
-  final Color accentColor;
-  final VoidCallback onComplete;
 
   const _FlyingMedia({
     super.key,
@@ -465,6 +457,12 @@ class _FlyingMedia extends StatefulWidget {
     required this.accentColor,
     required this.onComplete,
   });
+  final ChoiceItem item;
+  final Offset? startPosition;
+  final Offset? targetPosition;
+  final Color backgroundColor;
+  final Color accentColor;
+  final VoidCallback onComplete;
 
   @override
   State<_FlyingMedia> createState() => _FlyingMediaState();
@@ -508,8 +506,9 @@ class _FlyingMediaState extends State<_FlyingMedia>
           final double centerX = stackSize.width / 2;
           final double centerY = stackSize.height / 2 - 60;
 
-          if (stackSize.width < 10 || stackSize.height < 10)
+          if (stackSize.width < 10 || stackSize.height < 10) {
             return const SizedBox.shrink();
+          }
 
           return AnimatedBuilder(
             animation: _animation,
@@ -644,9 +643,9 @@ class _FlyingMediaState extends State<_FlyingMedia>
                               end: Alignment.bottomCenter,
                               stops: const [0.0, 0.3, 0.7, 1.0],
                               colors: [
-                                widget.backgroundColor.withValues(alpha: 0.0),
-                                widget.backgroundColor.withValues(alpha: 0.4),
-                                widget.backgroundColor.withValues(alpha: 0.9),
+                                widget.backgroundColor.withOpacity(0.0),
+                                widget.backgroundColor.withOpacity(0.4),
+                                widget.backgroundColor.withOpacity(0.9),
                                 widget.backgroundColor,
                               ],
                             ),
@@ -696,6 +695,6 @@ class _FlyingMediaState extends State<_FlyingMedia>
 }
 
 class _EmojiAnimParams {
-  final double x, y, scale, opacity, blur;
   _EmojiAnimParams(this.x, this.y, this.scale, this.opacity, this.blur);
+  final double x, y, scale, opacity, blur;
 }

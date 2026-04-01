@@ -4,6 +4,18 @@ import 'package:flutter/material.dart';
 /// Allows customization of backgrounds, borders, shadows, and default colors
 /// to integrate seamlessly with any design system.
 class DiscreteTabsStyle {
+
+  /// Creates a [DiscreteTabsStyle] with the given appearance properties.
+  const DiscreteTabsStyle({
+    this.backgroundColor = Colors.white,
+    this.activeBackgroundColor,
+    this.shadowColor = const Color(
+      0x0F000000,
+    ), // black with 0.06 opacity usually
+    this.border,
+    this.inactiveIconColor = Colors.black,
+    this.borderRadius = const BorderRadius.all(Radius.circular(100)),
+  });
   /// Background color of the tab pill.
   final Color backgroundColor;
 
@@ -21,17 +33,6 @@ class DiscreteTabsStyle {
 
   /// The rounding radius of the pill.
   final BorderRadiusGeometry borderRadius;
-
-  const DiscreteTabsStyle({
-    this.backgroundColor = Colors.white,
-    this.activeBackgroundColor,
-    this.shadowColor = const Color(
-      0x0F000000,
-    ), // black with 0.06 opacity usually
-    this.border,
-    this.inactiveIconColor = Colors.black,
-    this.borderRadius = const BorderRadius.all(Radius.circular(100)),
-  });
 
   /// Allows inheriting properties and overriding specific ones.
   DiscreteTabsStyle copyWith({

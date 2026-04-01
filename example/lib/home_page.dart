@@ -220,17 +220,7 @@ class _HomePageState extends State<HomePage> {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) => page));
   }
 
-  Widget _buildSubtitle(String text) {
-    return Text(
-      text.toUpperCase(),
-      style: const TextStyle(
-        fontSize: 12,
-        fontWeight: FontWeight.bold,
-        letterSpacing: 1.2,
-        color: Color(0xFF999999),
-      ),
-    );
-  }
+
 }
 
 class _ComponentIcon extends StatelessWidget {
