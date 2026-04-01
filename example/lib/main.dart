@@ -20,6 +20,31 @@ class PortalLabsApp extends StatelessWidget {
         scaffoldBackgroundColor: const Color(0xFFFAFAFA),
         useMaterial3: true,
         fontFamily: 'Inter',
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFFFAFAFA),
+          elevation: 0,
+          scrolledUnderElevation: 0,
+          centerTitle: true,
+          iconTheme: IconThemeData(
+            color: Colors.black,
+            size: 20,
+          ),
+          titleTextStyle: TextStyle(
+            color: Colors.black,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            fontFamily: 'Inter',
+          ),
+        ),
+        actionIconTheme: ActionIconThemeData(
+          backButtonIconBuilder: (BuildContext context) => const Icon(
+            Icons.arrow_back_rounded,
+            size: 20,
+          ),
+        ),
+        splashFactory: NoSplash.splashFactory,
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
       ),
       // We inject the "Safe Area" mock at the very root of the application.
       // This ensures that all pages, including showcases, inherit the padding.

@@ -68,3 +68,6 @@ export 'src/discrete_tabs/models/discrete_tabs_style.dart';
 
 // Split Button Interaction
 export 'src/split_button_interaction/split_button_interaction.dart';
+
+// Morphing Input Button
+export 'src/morphing_input_button/morphing_input_button.dart';
