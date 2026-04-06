@@ -73,3 +73,8 @@ export 'src/split_button_interaction/split_button_interaction.dart';
 // Morphing Input Button
 export 'src/morphing_input_button/morphing_input_button.dart';
 export 'src/morphing_input_button/models/morphing_input_button_style.dart';
+
+// Scratch to Reveal
+export 'src/scratch_to_reveal/scratch_to_reveal.dart';
+export 'src/scratch_to_reveal/models/scratch_to_reveal_style.dart';
+

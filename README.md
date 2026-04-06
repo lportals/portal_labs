@@ -35,6 +35,8 @@ This strategy makes every component **instantly portable**—allowing developers
 | **[Discrete Tabs](#discrete-tabs)** | Minimalist pill expanding tabs with aesthetic bounce, shimmer text, and managed state. | Interaction | `/lib/src/discrete_tabs/` |
 | **[Split Button Interaction](#split-button-interaction)** | Premium morphing action menu with synchronized action slide, elastic pop bounce, and motion blur emergence. | Navigation | `/lib/src/split_button_interaction/` |
 | **[Morphing Input Button](#morphing-input-button)** | Premium button that morphs into a text input with a soft-focus reveal effect. | Interaction | `/lib/src/morphing_input_button/` |
+| **[Scratch to Reveal](#scratch-to-reveal)** | High-fidelity physical scratching simulation to disclose hidden rewards. | Interaction | `/lib/src/scratch_to_reveal/` |
+
 
 ---
 
@@ -487,6 +489,40 @@ MorphingInputButton(
 )
 ```
 
+---
+
+### Scratch to Reveal
+
+![Scratch to Reveal Showcase](./docs/gifs/scratch_to_reveal.gif)
+
+A high-fidelity interaction that simulates the physical act of scratching a surface to reveal hidden content, optimized for rewards programs and "surprise-and-delight" features.
+
+#### Key Features
+
+*   **Layered Blend Modes**: Uses advanced mathematical clearing of a custom-painted layer to reveal content in high-performance stacks.
+*   **Tactile Textures**: Features a procedurally generated diagonal grid pattern on the surface to mimic the appearance of physical scratch cards.
+*   **Intelligent Auto-Reveal**: Tracks scratch coverage and automatically fades out the remaining surface once a configurable success threshold is reached.
+*   **Integrated Action Header**: Includes a premium card layout with a brandable header and a smooth "Start again" reset mechanism.
+
+#### Integration
+
+```dart
+import 'package:portal_labs/portal_labs.dart';
+
+ScratchToReveal(
+  title: 'Apple Credits',
+  icon: Icons.apple_rounded,
+  child: Center(
+    child: Text(
+      'You won \$24',
+      style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+    ),
+  ),
+  onCompleted: () => print('Reward revealed!'),
+)
+```
+
 ## Contributing
+
 
 Contributions focusing on performance optimization, new interaction patterns, or accessibility improvements are welcome. Please ensure all submissions adhere to the SDK-only dependency policy.

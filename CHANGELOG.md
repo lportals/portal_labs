@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.0
+
+- New Component: **Scratch to Reveal** — High-fidelity physical scratching simulation with layered blend modes and diagonal grid textures.
+- Maintenance: Fixed all `withValues` and `translate` deprecation warnings to ensure compatibility with Flutter 3.29.
+
+
+
 ## 0.1.0
 
 - Initial release with 14 premium, zero-dependency UI components:

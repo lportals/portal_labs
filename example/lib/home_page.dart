@@ -13,6 +13,8 @@ import 'showcases/card_stack_interaction_showcase.dart';
 import 'showcases/discrete_tabs_showcase.dart';
 import 'showcases/split_button_interaction_showcase.dart';
 import 'showcases/morphing_input_button_showcase.dart';
+import 'showcases/scratch_to_reveal_showcase.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -199,7 +201,14 @@ class _HomePageState extends State<HomePage> {
         category: 'Interactions',
         page: MorphingInputButtonShowcase(),
       ),
+      _ComponentItem(
+        title: 'Scratch Reveal',
+        icon: Icons.draw_rounded,
+        category: 'Interactions',
+        page: ScratchToRevealShowcase(),
+      ),
     ];
+
 
     return allItems
         .where(
