@@ -187,7 +187,7 @@ class _PricingToggle extends StatelessWidget {
                   borderRadius: BorderRadius.circular(22),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
+                      color: Colors.black.withValues(alpha: 0.05),
                       blurRadius: 8,
                       offset: const Offset(0, 2),
                     ),
@@ -461,7 +461,7 @@ class _ActionButtonState extends State<_ActionButton> {
               BoxShadow(
                 color: PortalTheme.of(
                   context,
-                ).colors.primary.withOpacity(0.2),
+                ).colors.primary.withValues(alpha: 0.2),
                 blurRadius: 15,
                 offset: const Offset(0, 6),
               ),

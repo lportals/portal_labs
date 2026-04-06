@@ -167,7 +167,7 @@ class _KnobSliderState extends State<KnobSlider> {
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: widget.style.shadowColor.withOpacity(0.05),
+                        color: widget.style.shadowColor.withValues(alpha: 0.05),
                         blurRadius: size * 0.1,
                         spreadRadius: 2,
                       ),
@@ -203,7 +203,7 @@ class _KnobSliderState extends State<KnobSlider> {
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: widget.style.shadowColor.withOpacity(0.12),
+                        color: widget.style.shadowColor.withValues(alpha: 0.12),
                         blurRadius: 25,
                         offset: const Offset(0, 12),
                       ),
@@ -258,7 +258,7 @@ class _KnobRingPainter extends CustomPainter {
       ..addOval(Rect.fromCircle(center: center, radius: radius));
     canvas.drawShadow(
       baseShadowPath,
-      Colors.black.withOpacity(0.05),
+      Colors.black.withValues(alpha: 0.05),
       10,
       true,
     );
@@ -290,7 +290,7 @@ class _KnobRingPainter extends CustomPainter {
       final isTickActive = tickPercent <= percentage;
       final tickColor = isTickActive
           ? style.activeTickColor
-          : style.inactiveTickColor.withOpacity(0.3);
+          : style.inactiveTickColor.withValues(alpha: 0.3);
 
       final tickPaint = Paint()
         ..color = tickColor
@@ -344,7 +344,7 @@ class _KnobRingPainter extends CustomPainter {
     // Subtle centered shadow to avoid angular shift perception
     canvas.drawShadow(
       pointerPath,
-      Colors.black.withOpacity(0.3),
+      Colors.black.withValues(alpha: 0.3),
       3,
       true,
     );

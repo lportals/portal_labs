@@ -171,7 +171,7 @@ class _JournalNavigationState extends State<JournalNavigation> {
             style.shadows ??
             [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.black.withValues(alpha: 0.05),
                 blurRadius: 20,
                 offset: const Offset(0, 10),
               ),
@@ -321,7 +321,7 @@ class _DateSlider extends StatelessWidget {
         borderRadius: BorderRadius.circular(style.borderRadius),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: Colors.black.withValues(alpha: 0.03),
             blurRadius: 10,
             offset: const Offset(2, 0),
           ),
@@ -407,7 +407,7 @@ class _DateSlider extends StatelessWidget {
                       end: Alignment.bottomCenter,
                       colors: [
                         style.sliderColor,
-                        style.sliderColor.withOpacity(0),
+                        style.sliderColor.withValues(alpha: 0),
                       ],
                     ),
                   ),
@@ -429,7 +429,7 @@ class _DateSlider extends StatelessWidget {
                       end: Alignment.topCenter,
                       colors: [
                         style.sliderColor,
-                        style.sliderColor.withOpacity(0),
+                        style.sliderColor.withValues(alpha: 0),
                       ],
                     ),
                   ),
@@ -501,7 +501,7 @@ class _ArrowButton extends StatelessWidget {
           boxShadow: [
             if (isEnabled)
               BoxShadow(
-                color: Colors.black.withOpacity(0.04),
+                color: Colors.black.withValues(alpha: 0.04),
                 blurRadius: 4,
                 offset: const Offset(0, 2),
               ),

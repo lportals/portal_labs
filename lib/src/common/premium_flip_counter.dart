@@ -254,7 +254,7 @@ class _DigitView extends StatelessWidget {
     return Transform(
       transform: Matrix4.identity()
         ..setEntry(3, 2, 0.0015) // Perspective
-        ..translate(0.0, offset)
+        ..translateByDouble(0.0, offset, 0.0, 1.0)
         ..rotateX(rotation),
       alignment: Alignment.center,
       child: SizedBox(
@@ -266,7 +266,7 @@ class _DigitView extends StatelessWidget {
               // Force height to 1.0 to eliminate internal font padding
               height: 1.0,
               // Fade out numbers as they "recede" into the 3D depth
-              color: style.color?.withOpacity(
+              color: style.color?.withValues(alpha: 
                 (1.0 - normalizedOffset.abs()).clamp(0.2, 1.0),
               ),
             ),

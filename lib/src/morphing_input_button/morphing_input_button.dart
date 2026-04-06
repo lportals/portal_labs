@@ -126,7 +126,7 @@ class _MorphingInputButtonState extends State<MorphingInputButton> {
                     decoration: InputDecoration(
                       hintText: widget.placeholder,
                       hintStyle: TextStyle(
-                        color: theme.colorScheme.onSurface.withOpacity(0.25),
+                        color: theme.colorScheme.onSurface.withValues(alpha: 0.25),
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
@@ -168,7 +168,7 @@ class _MorphingInputButtonState extends State<MorphingInputButton> {
                     duration: const Duration(milliseconds: 300),
                     curve: Curves.easeInOut,
                     decoration: BoxDecoration(
-                      color: _isExpanded ? btnSurfaceColor : btnSurfaceColor.withOpacity(0.0),
+                      color: _isExpanded ? btnSurfaceColor : btnSurfaceColor.withValues(alpha: 0.0),
                       borderRadius: BorderRadius.circular(height / 2),
                     ),
                     child: Center(

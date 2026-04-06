@@ -207,7 +207,7 @@ class _RangeSelectionSliderState extends State<RangeSelectionSlider> {
         rangeThumbShape: _CustomRangeThumbShape(
           borderColor: style.thumbBorderColor,
         ),
-        overlayColor: style.activeTrackColor.withOpacity(0.1),
+        overlayColor: style.activeTrackColor.withValues(alpha: 0.1),
         overlayShape: const RoundSliderOverlayShape(overlayRadius: 20),
       ),
       child: RangeSlider(
@@ -313,7 +313,7 @@ class _ValueFieldState extends State<_ValueField> {
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: _isFocused
-                ? style.thumbColor.withOpacity(0.5)
+                ? style.thumbColor.withValues(alpha: 0.5)
                 : Colors.transparent,
             width: 2,
           ),

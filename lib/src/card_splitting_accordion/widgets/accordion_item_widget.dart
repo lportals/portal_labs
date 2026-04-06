@@ -275,7 +275,7 @@ class _AccordionItemWidgetState extends State<AccordionItemWidget>
             turns: _rotationAnimation,
             child: Icon(
               Icons.keyboard_arrow_down_rounded,
-              color: widget.style.iconColor.withOpacity(0.5),
+              color: widget.style.iconColor.withValues(alpha: 0.5),
               size: 20,
             ),
           ),

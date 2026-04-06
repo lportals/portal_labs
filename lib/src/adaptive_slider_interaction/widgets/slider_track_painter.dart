@@ -99,7 +99,7 @@ class SliderTrackPainter extends CustomPainter {
           x <= thumbCenterX + 0.1; // Small epsilon for precision
 
       paint.color = isActive
-          ? activeDotColor.withOpacity(0.5)
+          ? activeDotColor.withValues(alpha: 0.5)
           : inactiveDotColor;
       canvas.drawCircle(Offset(x, size.height / 2), 2.5, paint);
     }

@@ -251,7 +251,7 @@ class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction>
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.w800,
-                      color: widget.style.unitColor.withOpacity(0.9),
+                      color: widget.style.unitColor.withValues(alpha: 0.9),
                     ),
                   ),
                 ],
@@ -380,7 +380,7 @@ class _SliderThumb extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),

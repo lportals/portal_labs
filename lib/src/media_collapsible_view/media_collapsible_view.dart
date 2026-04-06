@@ -208,7 +208,7 @@ class _MediaCollapsibleViewState extends State<MediaCollapsibleView>
               sigmaY: widget.style.blurAmount,
             ),
             child: Container(
-              color: widget.style.backgroundColor.withOpacity(0.5),
+              color: widget.style.backgroundColor.withValues(alpha: 0.5),
             ),
           ),
         ],
@@ -353,7 +353,7 @@ class _MediaCollapsibleViewState extends State<MediaCollapsibleView>
                             width: 40,
                             margin: const EdgeInsets.symmetric(vertical: 12),
                             decoration: BoxDecoration(
-                              color: widget.style.textColor.withOpacity(0.2),
+                              color: widget.style.textColor.withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(2),
                             ),
                           ),
@@ -431,7 +431,7 @@ class _MediaCollapsibleViewState extends State<MediaCollapsibleView>
                   height: 42,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
-                    color: widget.style.textColor.withOpacity(0.05),
+                    color: widget.style.textColor.withValues(alpha: 0.05),
                     borderRadius: BorderRadius.circular(21),
                   ),
                   child: TextField(
@@ -445,7 +445,7 @@ class _MediaCollapsibleViewState extends State<MediaCollapsibleView>
                       hintText: widget.style.commentHintText,
                       border: InputBorder.none,
                       hintStyle: TextStyle(
-                        color: widget.style.textColor.withOpacity(0.3),
+                        color: widget.style.textColor.withValues(alpha: 0.3),
                       ),
                     ),
                   ),
@@ -518,7 +518,7 @@ class _CommentTile extends StatelessWidget {
         trailing: Icon(
           Icons.favorite_border,
           size: 16,
-          color: textColor.withOpacity(0.3),
+          color: textColor.withValues(alpha: 0.3),
         ),
       ),
     );

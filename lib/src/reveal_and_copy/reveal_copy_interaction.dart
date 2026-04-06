@@ -297,7 +297,7 @@ class _RevealCopyInteractionState extends State<RevealCopyInteraction>
               height: 40,
               decoration: BoxDecoration(
                 color: _isRevealed
-                    ? widget.successColor.withOpacity(0.2)
+                    ? widget.successColor.withValues(alpha: 0.2)
                     : const Color(0xFFF5F5F5),
                 borderRadius: BorderRadius.circular(
                   widget.borderRadius * (10 / 16),
