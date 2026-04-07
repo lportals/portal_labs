@@ -14,6 +14,8 @@ import 'showcases/discrete_tabs_showcase.dart';
 import 'showcases/split_button_interaction_showcase.dart';
 import 'showcases/morphing_input_button_showcase.dart';
 import 'showcases/scratch_to_reveal_showcase.dart';
+import 'showcases/split_to_edit_showcase.dart';
+
 
 
 class HomePage extends StatefulWidget {
@@ -207,6 +209,13 @@ class _HomePageState extends State<HomePage> {
         category: 'Interactions',
         page: ScratchToRevealShowcase(),
       ),
+      _ComponentItem(
+        title: 'Split Edit',
+        icon: Icons.unfold_more_rounded,
+        category: 'Interactions',
+        page: SplitToEditShowcase(),
+      ),
+
     ];
 
 

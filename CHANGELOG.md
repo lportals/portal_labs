@@ -1,10 +1,14 @@
 # Changelog
 
+## 0.3.0
+
+- New Component: **Split to Edit** — Premium duration picker that morphs from a unified state into editable segments with elastic bounce transitions and integrated time validation.
+- Upgrade: **Morphing Input Button** — Redesigned with a high-contrast premium palette (black/white) and fixed alpha-interpolation blinking for absolute fluidity in Light & Dark mode.
+
 ## 0.2.0
 
 - New Component: **Scratch to Reveal** — High-fidelity physical scratching simulation with layered blend modes and diagonal grid textures.
 - Maintenance: Fixed all `withValues` and `translate` deprecation warnings to ensure compatibility with Flutter 3.29.
-
 
 
 ## 0.1.0

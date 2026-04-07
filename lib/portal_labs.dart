@@ -78,3 +78,8 @@ export 'src/morphing_input_button/models/morphing_input_button_style.dart';
 export 'src/scratch_to_reveal/scratch_to_reveal.dart';
 export 'src/scratch_to_reveal/models/scratch_to_reveal_style.dart';
 
+// Split to Edit
+export 'src/split_to_edit/split_to_edit.dart';
+export 'src/split_to_edit/models/split_to_edit_style.dart';
+
+

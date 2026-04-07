@@ -36,6 +36,8 @@ This strategy makes every component **instantly portable**—allowing developers
 | **[Split Button Interaction](#split-button-interaction)** | Premium morphing action menu with synchronized action slide, elastic pop bounce, and motion blur emergence. | Navigation | `/lib/src/split_button_interaction/` |
 | **[Morphing Input Button](#morphing-input-button)** | Premium button that morphs into a text input with a soft-focus reveal effect. | Interaction | `/lib/src/morphing_input_button/` |
 | **[Scratch to Reveal](#scratch-to-reveal)** | High-fidelity physical scratching simulation to disclose hidden rewards. | Interaction | `/lib/src/scratch_to_reveal/` |
+| **[Split to Edit](#split-to-edit)** | Premium duration picker that splits into editable segments with a bounce transition. | Interaction | `/lib/src/split_to_edit/` |
+
 
 
 ---
@@ -521,6 +523,32 @@ ScratchToReveal(
   onCompleted: () => print('Reward revealed!'),
 )
 ```
+
+---
+
+### Split to Edit
+
+![Split to Edit Showcase](./docs/gifs/split_to_edit.gif)
+
+A premium, highly interactive duration picker that "splits" from a unified view into separate editable segments with a high-fidelity bounce transition.
+
+#### Key Features
+
+*   **Bounce Split Transition**: Uses a specialized `ElasticOutCurve` to create a tactile "splitting" effect.
+*   **Segmented Morphing**: Backgrounds and corner radii dynamically interpolate between unified and standalone states.
+*   **Haptic Integration**: Subtle selection and impact haptics provide a premium "mechanical" feel.
+
+#### Integration
+
+```dart
+import 'package:portal_labs/portal_labs.dart';
+
+SplitToEditDuration(
+  hours: 2,
+  minutes: 30,
+)
+```
+
 
 ## Contributing
 

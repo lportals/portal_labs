@@ -67,12 +67,15 @@ class _MorphingInputButtonState extends State<MorphingInputButton> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final portalTheme = PortalTheme.of(context);
+    // Outer pill is always a soft grey.
+    // Inner button is transparent white when closed, and turns pure white when expanded.
+    // This prevents the dark grey flicker during AnimatedContainer color interpolation.
+    const defaultBgColor = Color(0xFFF2F2F5); 
+    final defaultBtnColor = _isExpanded ? Colors.white : Colors.white.withValues(alpha: 0.0);
     
-    // Default palette if not provided in style
-    final bgColor = widget.style.backgroundColor ?? portalTheme.colors.background;
-    final btnSurfaceColor = widget.style.buttonColor ?? portalTheme.colors.surface;
+    final bgColor = widget.style.backgroundColor ?? defaultBgColor;
+    final btnSurfaceColor = widget.style.buttonColor ?? defaultBtnColor;
+    
     final height = widget.style.height;
     final duration = widget.style.duration;
     final curve = widget.style.curve;
@@ -88,11 +91,12 @@ class _MorphingInputButtonState extends State<MorphingInputButton> {
         decoration: BoxDecoration(
           color: bgColor,
           borderRadius: BorderRadius.circular(height / 2),
+          // Cleaned up shadow to keep the very flat aesthetic from the image
         ),
         child: Stack(
           alignment: Alignment.center,
           children: [
-            // Input Field: Soft focus reveal during transition, razor-sharp once finished
+            // Input Field: Soft focus reveal during transition
             AnimatedPositioned(
               duration: duration,
               curve: Curves.easeOutQuart,
@@ -105,10 +109,7 @@ class _MorphingInputButtonState extends State<MorphingInputButton> {
                 ),
                 duration: duration,
                 builder: (context, value, child) {
-                  // Momentary peaking blur (0.0 -> 1.5 -> 0.0)
                   final double blur = (1.0 - (value - 0.5).abs() * 2).clamp(0.0, 1.0) * 1.5;
-                  
-                  // Surgical escape: physically remove ImageFiltered when blur is negligible
                   if (blur < 0.05) return child!;
                   
                   return ImageFiltered(
@@ -122,21 +123,22 @@ class _MorphingInputButtonState extends State<MorphingInputButton> {
                   child: TextField(
                     controller: _controller,
                     focusNode: _focusNode,
-                    cursorColor: theme.colorScheme.primary,
+                    cursorColor: Colors.black,
                     decoration: InputDecoration(
                       hintText: widget.placeholder,
                       hintStyle: TextStyle(
-                        color: theme.colorScheme.onSurface.withValues(alpha: 0.25),
+                        color: Colors.black.withValues(alpha: 0.3),
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.zero,
                     ),
-                    style: TextStyle(
-                      color: theme.colorScheme.onSurface,
+                    style: const TextStyle(
+                      color: Colors.black,
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
+                      letterSpacing: 0.1,
                     ),
                     onSubmitted: (value) {
                       widget.onSubmitted?.call(value);
@@ -147,12 +149,12 @@ class _MorphingInputButtonState extends State<MorphingInputButton> {
               ),
             ),
 
-            // Morphing Button: Flat and stable
+            // Morphing Button
             AnimatedPositioned(
               duration: duration,
               curve: _isExpanded ? curve : Curves.easeOutCubic,
               right: _isExpanded ? 5 : 0,
-              left: _isExpanded ? expandedWidth - 128 : 0,
+              left: _isExpanded ? expandedWidth - 130 : 0,
               top: _isExpanded ? 5 : 0,
               bottom: _isExpanded ? 5 : 0,
               child: MouseRegion(
@@ -168,7 +170,7 @@ class _MorphingInputButtonState extends State<MorphingInputButton> {
                     duration: const Duration(milliseconds: 300),
                     curve: Curves.easeInOut,
                     decoration: BoxDecoration(
-                      color: _isExpanded ? btnSurfaceColor : btnSurfaceColor.withValues(alpha: 0.0),
+                      color: btnSurfaceColor,
                       borderRadius: BorderRadius.circular(height / 2),
                     ),
                     child: Center(
@@ -189,7 +191,7 @@ class _MorphingInputButtonState extends State<MorphingInputButton> {
                                   child: widget.icon != null && !_isExpanded
                                     ? Row(
                                         children: [
-                                          Icon(widget.icon, color: theme.colorScheme.onSurface, size: 20),
+                                          Icon(widget.icon, color: Colors.black, size: 20),
                                           const SizedBox(width: 8),
                                         ],
                                       )
@@ -198,10 +200,11 @@ class _MorphingInputButtonState extends State<MorphingInputButton> {
                               ),
                               Text(
                                 widget.buttonText,
-                                style: TextStyle(
-                                  color: theme.colorScheme.onSurface,
+                                style: const TextStyle(
+                                  color: Colors.black, // Dark text, as seen in the image
                                   fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w700, 
+                                  letterSpacing: 0.2,
                                 ),
                               ),
                             ],
