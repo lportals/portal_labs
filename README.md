@@ -37,6 +37,7 @@ This strategy makes every component **instantly portable**—allowing developers
 | **[Morphing Input Button](#morphing-input-button)** | Premium button that morphs into a text input with a soft-focus reveal effect. | Interaction | `/lib/src/morphing_input_button/` |
 | **[Scratch to Reveal](#scratch-to-reveal)** | High-fidelity physical scratching simulation to disclose hidden rewards. | Interaction | `/lib/src/scratch_to_reveal/` |
 | **[Split to Edit](#split-to-edit)** | Premium duration picker that splits into editable segments with a bounce transition. | Interaction | `/lib/src/split_to_edit/` |
+| **[Modern Fractional Picker](#modern-fractional-picker)** | Precision horizontal ruler for numeric input with support for integer/decimal steps and magnetic snapping. | Numeric Input | `/lib/src/fractional_picker/` |
 
 
 
@@ -530,7 +531,7 @@ ScratchToReveal(
 
 ![Split to Edit Showcase](./docs/gifs/split_to_edit.gif)
 
-A premium, highly interactive duration picker that "splits" from a unified view into separate editable segments with a high-fidelity bounce transition.
+A premium duration picker that "splits" from a unified view into separate editable segments with a high-fidelity bounce transition.
 
 #### Key Features
 
@@ -544,8 +545,43 @@ A premium, highly interactive duration picker that "splits" from a unified view 
 import 'package:portal_labs/portal_labs.dart';
 
 SplitToEditDuration(
-  hours: 2,
-  minutes: 30,
+  hours: 1,
+  minutes: 42,
+  onChanged: (h, m) => print('New time: $h:$m'),
+)
+```
+
+---
+
+### Modern Fractional Picker
+
+![Fractional Picker Showcase](./docs/gifs/fractional_picker.gif)
+
+A high-fidelity horizontal ruler for precise numeric selection. Features predictive magnetic snapping, customizable physics, and high-performance rendering.
+
+#### Key Features
+
+*   **Predictive Snap Landing**: Calculates the natural landing spot based on velocity and snaps to the nearest integer/decimal.
+*   **Customizable Physics**: Exposes `friction` and `snapStiffness` for a tailored tactile feel.
+*   **Performance Optimized**: Uses `AnimatedBuilder` and local painting cache for constant 60/120 FPS.
+*   **Haptic Precision**: Integrated selection haptics that fire exactly as the ruler crosses threshold points.
+
+#### Integration
+
+```dart
+import 'package:portal_labs/portal_labs.dart';
+
+ModernFractionalPicker(
+  initialValue: 18.0,
+  minValue: 0.0,
+  maxValue: 100.0,
+  decimalPlaces: 0,
+  onValueChanged: (val) => print('Selected: $val'),
+  style: FractionalPickerStyle(
+    activeColor: Color(0xFF1D1D1F),
+    friction: 0.22,
+    snapStiffness: 100.0,
+  ),
 )
 ```
 

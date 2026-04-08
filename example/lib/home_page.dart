@@ -15,6 +15,7 @@ import 'showcases/split_button_interaction_showcase.dart';
 import 'showcases/morphing_input_button_showcase.dart';
 import 'showcases/scratch_to_reveal_showcase.dart';
 import 'showcases/split_to_edit_showcase.dart';
+import 'showcases/fractional_picker_showcase.dart';
 
 
 
@@ -127,7 +128,7 @@ class _HomePageState extends State<HomePage> {
       ),
       _ComponentItem(
         title: 'Range Slider',
-        icon: Icons.straighten,
+        icon: Icons.linear_scale_rounded,
         category: 'Inputs',
         page: RangeSelectionSliderShowcase(),
       ),
@@ -211,9 +212,15 @@ class _HomePageState extends State<HomePage> {
       ),
       _ComponentItem(
         title: 'Split Edit',
-        icon: Icons.unfold_more_rounded,
+        icon: Icons.compare_arrows_rounded,
         category: 'Interactions',
         page: SplitToEditShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Fractional Picker',
+        icon: Icons.straighten,
+        category: 'Inputs',
+        page: FractionalPickerShowcase(),
       ),
 
     ];

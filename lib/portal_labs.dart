@@ -82,4 +82,6 @@ export 'src/scratch_to_reveal/models/scratch_to_reveal_style.dart';
 export 'src/split_to_edit/split_to_edit.dart';
 export 'src/split_to_edit/models/split_to_edit_style.dart';
 
-
+// Fractional Picker
+export 'src/fractional_picker/fractional_picker.dart';
+export 'src/fractional_picker/models/fractional_picker_style.dart';

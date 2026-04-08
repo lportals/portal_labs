@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.0
+
+- New Component: **Modern Fractional Picker** — Precision horizontal ruler for numeric input with support for integer/decimal steps, magnetic snapping, and a premium minimalist aesthetic.
+
 ## 0.3.0
 
 - New Component: **Split to Edit** — Premium duration picker that morphs from a unified state into editable segments with elastic bounce transitions and integrated time validation.
