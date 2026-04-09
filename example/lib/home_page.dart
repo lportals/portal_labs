@@ -16,6 +16,7 @@ import 'showcases/morphing_input_button_showcase.dart';
 import 'showcases/scratch_to_reveal_showcase.dart';
 import 'showcases/split_to_edit_showcase.dart';
 import 'showcases/fractional_picker_showcase.dart';
+import 'showcases/discovery_bar_showcase.dart';
 
 
 
@@ -222,7 +223,12 @@ class _HomePageState extends State<HomePage> {
         category: 'Inputs',
         page: FractionalPickerShowcase(),
       ),
-
+      _ComponentItem(
+        title: 'Discovery Bar',
+        icon: Icons.manage_search_rounded,
+        category: 'Inputs',
+        page: DiscoveryBarShowcase(),
+      ),
     ];
 
 

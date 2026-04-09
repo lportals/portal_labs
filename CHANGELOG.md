@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.0
+
+- New Component: **Discovery Bar** — Premium morphing search and discovery component with elastic containers, custom micro-bounce physics, and zero-overflow layout architecture.
+
 ## 0.4.0
 
 - New Component: **Modern Fractional Picker** — Precision horizontal ruler for numeric input with support for integer/decimal steps, magnetic snapping, and a premium minimalist aesthetic.

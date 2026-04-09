@@ -85,3 +85,7 @@ export 'src/split_to_edit/models/split_to_edit_style.dart';
 // Fractional Picker
 export 'src/fractional_picker/fractional_picker.dart';
 export 'src/fractional_picker/models/fractional_picker_style.dart';
+
+// Discovery Bar
+export 'src/discovery_bar/discovery_bar.dart';
+export 'src/discovery_bar/models/discovery_bar_models.dart';

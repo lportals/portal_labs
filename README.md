@@ -38,6 +38,7 @@ This strategy makes every component **instantly portable**—allowing developers
 | **[Scratch to Reveal](#scratch-to-reveal)** | High-fidelity physical scratching simulation to disclose hidden rewards. | Interaction | `/lib/src/scratch_to_reveal/` |
 | **[Split to Edit](#split-to-edit)** | Premium duration picker that splits into editable segments with a bounce transition. | Interaction | `/lib/src/split_to_edit/` |
 | **[Modern Fractional Picker](#modern-fractional-picker)** | Precision horizontal ruler for numeric input with support for integer/decimal steps and magnetic snapping. | Numeric Input | `/lib/src/fractional_picker/` |
+| **[Discovery Bar](#discovery-bar)** | Premium morphing search and discovery component with elastic containers and micro-scale interactions. | Interaction | `/lib/src/discovery_bar/` |
 
 
 
@@ -585,6 +586,33 @@ ModernFractionalPicker(
 )
 ```
 
+---
+
+### Discovery Bar
+
+![Discovery Bar Showcase](docs/gifs/discovery_bar.gif)
+
+A premium morphing search and discovery component that transitions between discovery categories and a search input with fluid, elastic containers.
+
+#### Key Features
+
+*   **Morphing Containers**: Dual containers that physically expand and shrink in place for a seamless transition.
+*   **Micro-Bounce Physics**: Custom-tuned cubic curves with 10% overshoot for a premium tactile feel.
+*   **Micro-Scale Interactions**: High-performance tap feedback on all text and icons for a "bouncy" experience.
+*   **Zero-Dependency Semantic Support**: Intelligent focus management and Material semantics without third-party debt.
+
+#### Integration
+
+```dart
+DiscoveryBar(
+  options: const [
+    DiscoveryOption(label: 'Popular', icon: Icons.local_fire_department_rounded),
+    DiscoveryOption(label: 'Favorites', icon: Icons.favorite_rounded),
+  ],
+  onOptionSelected: (option) => print('Selected: ${option.label}'),
+  onSearchSubmitted: (query) => print('Searching for: $query'),
+)
+```
 
 ## Contributing
 
