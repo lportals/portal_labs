@@ -89,3 +89,8 @@ export 'src/fractional_picker/models/fractional_picker_style.dart';
 // Discovery Bar
 export 'src/discovery_bar/discovery_bar.dart';
 export 'src/discovery_bar/models/discovery_bar_models.dart';
+
+// Labeled Progress Indicator
+export 'src/labeled_progress_indicator/labeled_progress_indicator.dart';
+export 'src/labeled_progress_indicator/models/labeled_progress_indicator_style.dart';
+export 'src/labeled_progress_indicator/models/progress_stage.dart';

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.0
+
+- New Component: **Labeled Progress Indicator** — Premium sequential loading flow with tranquil label transitions (Skew/Blur/Bounce), progress-aware stages, size-independent shimmer, and robust error state handling.
+
 ## 0.5.0
 
 - New Component: **Discovery Bar** — Premium morphing search and discovery component with elastic containers, custom micro-bounce physics, and zero-overflow layout architecture.

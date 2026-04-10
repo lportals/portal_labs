@@ -39,6 +39,7 @@ This strategy makes every component **instantly portable**—allowing developers
 | **[Split to Edit](#split-to-edit)** | Premium duration picker that splits into editable segments with a bounce transition. | Interaction | `/lib/src/split_to_edit/` |
 | **[Modern Fractional Picker](#modern-fractional-picker)** | Precision horizontal ruler for numeric input with support for integer/decimal steps and magnetic snapping. | Numeric Input | `/lib/src/fractional_picker/` |
 | **[Discovery Bar](#discovery-bar)** | Premium morphing search and discovery component with elastic containers and micro-scale interactions. | Interaction | `/lib/src/discovery_bar/` |
+| **[Labeled Progress Indicator](#labeled-progress-indicator)** | Premium labeled progress indicator with tranquil transitions and customizable stages. | Interaction | `/lib/src/labeled_progress_indicator/` |
 
 
 
@@ -611,6 +612,44 @@ DiscoveryBar(
   ],
   onOptionSelected: (option) => print('Selected: ${option.label}'),
   onSearchSubmitted: (query) => print('Searching for: $query'),
+)
+```
+
+---
+
+### Labeled Progress Indicator
+
+![Labeled Progress Indicator Showcase](docs/gifs/labeled_progress_indicator.gif)
+
+A production-ready, high-fidelity progress indicator designed for sequential loading flows (onboarding, processing) with a focus on tranquil label transitions.
+
+#### Key Features
+
+*   **Dynamic Stage Management**: Support for `ProgressStage` objects allowing for non-uniform loading thresholds and custom labels.
+*   **Tranquil Transitions**: Labels enter/exit using a sophisticated combination of **Skew-X**, **Motion Blur**, and **Elastic Bounce** for a premium "air-focus" feel.
+*   **Size-Independent Shimmer**: A global-coordinate shimmer system that remains consistent in speed and scale regardless of the progress bar width.
+*   **Robust State Handling**: Integrated support for `onComplete` callbacks and customizable `isError` states with fallback labels.
+*   **Deep Customization**: Fully configurable typography, shimmer colors, height, and optional percentage display via `LabeledProgressIndicatorStyle`.
+
+#### Integration
+
+```dart
+import 'package:portal_labs/portal_labs.dart';
+
+LabeledProgressIndicator(
+  progress: _currentProgress,
+  stages: [
+    ProgressStage(label: 'Consulting', endProgress: 0.1),
+    ProgressStage(label: 'Processing', endProgress: 0.8),
+    ProgressStage(label: 'Completed', endProgress: 1.0),
+  ],
+  onComplete: () => print('Done!'),
+  isError: _hasFailed,
+  errorLabel: 'Connection timed out',
+  style: LabeledProgressIndicatorStyle(
+    progressColor: Color(0xFF007AFF),
+    shimmerColor: Color(0xFF00FBFF),
+  ),
 )
 ```
 

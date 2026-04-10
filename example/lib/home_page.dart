@@ -17,6 +17,7 @@ import 'showcases/scratch_to_reveal_showcase.dart';
 import 'showcases/split_to_edit_showcase.dart';
 import 'showcases/fractional_picker_showcase.dart';
 import 'showcases/discovery_bar_showcase.dart';
+import 'showcases/labeled_progress_indicator_showcase.dart';
 
 
 
@@ -228,6 +229,12 @@ class _HomePageState extends State<HomePage> {
         icon: Icons.manage_search_rounded,
         category: 'Inputs',
         page: DiscoveryBarShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Labeled Progress',
+        icon: Icons.hourglass_top_rounded,
+        category: 'Layout',
+        page: LabeledProgressIndicatorShowcase(),
       ),
     ];
 
