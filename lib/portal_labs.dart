@@ -94,3 +94,8 @@ export 'src/discovery_bar/models/discovery_bar_models.dart';
 export 'src/labeled_progress_indicator/labeled_progress_indicator.dart';
 export 'src/labeled_progress_indicator/models/labeled_progress_indicator_style.dart';
 export 'src/labeled_progress_indicator/models/progress_stage.dart';
+
+// Quick Switcher
+export 'src/quick_switcher/quick_switcher.dart';
+export 'src/quick_switcher/models/quick_switcher_option.dart';
+export 'src/quick_switcher/models/quick_switcher_style.dart';

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.7.0
+
+- New Component: **QuickSwitcher** — High-fidelity AI/Search bar with tactile **Sink-and-Bounce** physics, atmospheric soft-focus blur transitions, and a glassmorphic **Quick-Select** menu for power users. Optimized for zero interaction latency and pure aesthetic transitions.
+
+
 ## 0.6.0
 
 - New Component: **Labeled Progress Indicator** — Premium sequential loading flow with tranquil label transitions (Skew/Blur/Bounce), progress-aware stages, size-independent shimmer, and robust error state handling.

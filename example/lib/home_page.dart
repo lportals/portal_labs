@@ -18,6 +18,7 @@ import 'showcases/split_to_edit_showcase.dart';
 import 'showcases/fractional_picker_showcase.dart';
 import 'showcases/discovery_bar_showcase.dart';
 import 'showcases/labeled_progress_indicator_showcase.dart';
+import 'showcases/quick_switcher_showcase.dart';
 
 
 
@@ -235,6 +236,12 @@ class _HomePageState extends State<HomePage> {
         icon: Icons.hourglass_top_rounded,
         category: 'Layout',
         page: LabeledProgressIndicatorShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Quick Switcher',
+        icon: Icons.swap_horiz_rounded,
+        category: 'Inputs',
+        page: QuickSwitcherShowcase(),
       ),
     ];
 
