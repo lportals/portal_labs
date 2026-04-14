@@ -19,6 +19,8 @@ import 'showcases/fractional_picker_showcase.dart';
 import 'showcases/discovery_bar_showcase.dart';
 import 'showcases/labeled_progress_indicator_showcase.dart';
 import 'showcases/quick_switcher_showcase.dart';
+import 'showcases/stacked_toast_showcase.dart';
+
 
 
 
@@ -242,6 +244,12 @@ class _HomePageState extends State<HomePage> {
         icon: Icons.swap_horiz_rounded,
         category: 'Inputs',
         page: QuickSwitcherShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Toast Stack',
+        icon: Icons.notification_important_outlined,
+        category: 'Interactions',
+        page: StackedToastShowcase(),
       ),
     ];
 

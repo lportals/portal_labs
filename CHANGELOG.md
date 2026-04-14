@@ -1,9 +1,15 @@
 # Changelog
 
+## [0.8.0] - 2024-04-13
+
+- New Component: **Stacked Toast Interaction** — A premium, top-aligned notification system with 3D stacking physics.
+- Features custom UI builders for total layout freedom.
+- Integrated action callbacks (Retry, Undo, etc.) with configurable labels.
+- Deep styling support for icons, typography (TextStyle), and background shapes.
+
 ## 0.7.0
 
 - New Component: **QuickSwitcher** — High-fidelity AI/Search bar with tactile **Sink-and-Bounce** physics, atmospheric soft-focus blur transitions, and a glassmorphic **Quick-Select** menu for power users. Optimized for zero interaction latency and pure aesthetic transitions.
-
 
 ## 0.6.0
 
@@ -26,7 +32,6 @@
 
 - New Component: **Scratch to Reveal** — High-fidelity physical scratching simulation with layered blend modes and diagonal grid textures.
 - Maintenance: Fixed all `withValues` and `translate` deprecation warnings to ensure compatibility with Flutter 3.29.
-
 
 ## 0.1.0
 

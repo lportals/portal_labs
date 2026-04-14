@@ -99,3 +99,8 @@ export 'src/labeled_progress_indicator/models/progress_stage.dart';
 export 'src/quick_switcher/quick_switcher.dart';
 export 'src/quick_switcher/models/quick_switcher_option.dart';
 export 'src/quick_switcher/models/quick_switcher_style.dart';
+
+// Stacked Toast Interaction
+export 'src/stacked_toast_interaction/stacked_toast_interaction.dart';
+export 'src/stacked_toast_interaction/models/stacked_toast_item.dart';
+export 'src/stacked_toast_interaction/models/stacked_toast_style.dart';
