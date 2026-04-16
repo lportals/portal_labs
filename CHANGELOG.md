@@ -1,11 +1,19 @@
 # Changelog
 
+## [0.9.1] - 2026-04-16
+
+- **Disclosure Switch Fixes**:
+  - Stabilized animation by removing competing root height controllers; height is now natively driven by the spring simulation.
+  - Implemented **Dual-Spring Physics**: High-elasticity bounce for opening and critical damping (zero-bounce) for closing to ensure a clean visual exit.
+  - Fixed "Option Bleeding": Migration to standard `ClipRect` and removal of overshoot clippers prevents options from floating outside the widget bounds.
+  - Fixed Border Overlap: Transitioned to `foregroundDecoration` to ensure the high-fidelity border always paints over the internal white expansion area.
+  - Optimized Layout: Consolidated disclosure gaps into the animated area to eliminate "empty chin" artifacts when closed.
+
 ## [0.9.0] - 2026-04-15
 
-- New Component: **Disclosure Switch** — A premium, high-fidelity switch component with an "Island" inset design and elastic-bounce interaction patterns.
-- Features a context-aware active border and concentric layered geometry.
-- Integrated Staggered Bounce for internal options with physical inertia.
-
+- New Component: **Disclosure Switch** — Premium high‑fidelity switch with an “Island” inset header, gradient track, and custom premium toggle.
+- Features: Concentric rounded corners, animated border, shadow, and a spring‑based opening animation (elastic bounce) for revealing options.
+- Integrated **_PremiumSwitch** and **_PremiumCheckbox** sub‑components, plus a custom `ClipRect` for clean overflow handling.
 ## [0.8.0] - 2024-04-13
 
 - New Component: **Stacked Toast Interaction** — A premium, top-aligned notification system with 3D stacking physics.

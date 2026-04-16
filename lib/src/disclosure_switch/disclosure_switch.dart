@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/physics.dart';
 import '../theme/portal_theme.dart';
 
 /// A premium, high-fidelity switch component that "discloses" or reveals additional content
@@ -66,10 +67,9 @@ class _DisclosureSwitchState extends State<DisclosureSwitch>
       vsync: this,
       duration: const Duration(milliseconds: 500),
     );
-    _expandAnimation = CurvedAnimation(
-      parent: _expandController,
-      curve: Curves.easeOutBack,
-    );
+    
+    // We use the controller directly as the animation because animateWith handles the values
+    _expandAnimation = _expandController;
 
     if (widget.value) {
       _expandController.value = 1.0;
@@ -80,11 +80,27 @@ class _DisclosureSwitchState extends State<DisclosureSwitch>
   void didUpdateWidget(DisclosureSwitch oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.value != oldWidget.value) {
-      if (widget.value) {
-        _expandController.forward();
-      } else {
-        _expandController.reverse();
-      }
+      // Use different spring behaviors for opening vs closing
+      final spring = widget.value
+          ? const SpringDescription(
+              mass: 1.0,
+              stiffness: 250, // Powerful opening
+              damping: 12,    // Under-damped = nice bounce
+            )
+          : const SpringDescription(
+              mass: 1.0,
+              stiffness: 200, // Slightly softer closing
+              damping: 28,    // Critically damped = no bounce back up
+            );
+
+      final simulation = SpringSimulation(
+        spring,
+        _expandController.value,
+        widget.value ? 1.0 : 0.0,
+        _expandController.velocity,
+      );
+
+      _expandController.animateWith(simulation);
     }
   }
 
@@ -101,30 +117,41 @@ class _DisclosureSwitchState extends State<DisclosureSwitch>
     final border = widget.borderColor ?? theme.colors.border;
     final primary = widget.activeColor ?? theme.colors.primary;
 
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut, // Smoother transition for the border appearance
-      decoration: BoxDecoration(
-        color: bg,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(
-          color: border.withValues(alpha: widget.value ? 1.0 : 0.0), // Animate alpha only
-          width: 1.5,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: widget.value ? 0.03 : 0.0), // Fade shadow instead of removing it
-            blurRadius: 20,
-            offset: const Offset(0, 8),
+    return AnimatedBuilder(
+      animation: _expandAnimation,
+      builder: (context, child) {
+        // Clamp the animation for visual properties like alpha
+        final animValue = _expandAnimation.value.clamp(0.0, 1.0);
+        
+        return Container(
+          decoration: BoxDecoration(
+            color: bg,
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.03 * animValue),
+                blurRadius: 20,
+                offset: const Offset(0, 8),
+              ),
+            ],
           ),
-        ],
-      ),
+          // We use foregroundDecoration to paint the border OVER the white revealed content
+          foregroundDecoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(
+              color: border.withValues(alpha: animValue),
+              width: 1.5,
+            ),
+          ),
+          child: child,
+        );
+      },
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           // Grey Inset Header
           Padding(
-            padding: const EdgeInsets.only(left: 2, right: 2, top: 2), // The 2px inset
+            padding: const EdgeInsets.symmetric(horizontal: 2.5, vertical: 2.5), // Slightly more inset for the "Island"
             child: Container(
               decoration: BoxDecoration(
                 color: const Color(0xFFF2F2F7), // Grey background for the header "island"
@@ -160,13 +187,26 @@ class _DisclosureSwitchState extends State<DisclosureSwitch>
             ),
           ),
           
-          const SizedBox(height: 4), // Breathing room between grey island and white content
-          
-          // Revealed Content (White)
+          // Revealed Content Area
           if (widget.revealedChild != null)
-            SizeTransition(
-              sizeFactor: _expandAnimation,
-              axisAlignment: -1.0,
+            AnimatedBuilder(
+              animation: _expandAnimation,
+              builder: (context, child) {
+                final double t = _expandAnimation.value;
+                
+                // If practically closed, don't take any space
+                if (t <= 0.001 && !widget.value) {
+                  return const SizedBox.shrink();
+                }
+
+                return ClipRect(
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    heightFactor: t.clamp(0.0, 1.0),
+                    child: child!,
+                  ),
+                );
+              },
               child: Container(
                 width: double.infinity,
                 decoration: const BoxDecoration(
@@ -176,20 +216,26 @@ class _DisclosureSwitchState extends State<DisclosureSwitch>
                     bottomRight: Radius.circular(24),
                   ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 12, // Reduced to compensate for Checkbox internal padding
-                    right: 20, 
-                    top: 8, 
-                    bottom: 24,
-                  ),
-                  child: SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(0, 0.15),
-                      end: Offset.zero,
-                    ).animate(_expandAnimation),
-                    child: widget.revealedChild,
-                  ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(height: 2), // Tighter gap for better "island" integrity
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 14, 
+                        right: 20, 
+                        top: 8, 
+                        bottom: 24,
+                      ),
+                      child: SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(0, 0.15),
+                          end: Offset.zero,
+                        ).animate(_expandAnimation),
+                        child: widget.revealedChild,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -262,3 +308,5 @@ class _PremiumSwitch extends StatelessWidget {
     );
   }
 }
+
+
