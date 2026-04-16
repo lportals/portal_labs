@@ -21,6 +21,7 @@ import 'showcases/labeled_progress_indicator_showcase.dart';
 import 'showcases/quick_switcher_showcase.dart';
 import 'showcases/stacked_toast_showcase.dart';
 import 'showcases/disclosure_switch_showcase.dart';
+import 'showcases/pinnable_list_showcase.dart';
 
 
 
@@ -257,6 +258,12 @@ class _HomePageState extends State<HomePage> {
         icon: Icons.toggle_on_outlined,
         category: 'Interactions',
         page: DisclosureSwitchShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Pinnable List',
+        icon: Icons.push_pin_outlined,
+        category: 'Interactions',
+        page: PinnableListShowcase(),
       ),
     ];
 

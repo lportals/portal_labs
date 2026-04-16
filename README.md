@@ -43,6 +43,7 @@ This strategy makes every component **instantly portable**—allowing developers
 | **[Quick Switcher](#quick-switcher)**                         | Premium togglable search bar with pulse animations and aesthetic input transitions.                                | Interaction     | `/lib/src/quick_switcher/`              |
 | **[Stacked Toast Interaction](#stacked-toast-interaction)**   | Premium chronological toast stack that appears from the top with high-fidelity transitions and symmetric stacking. | Interaction     | `/lib/src/stacked_toast_interaction/`   |
 | **[Disclosure Switch](#disclosure-switch)**                 | Premium switch that reveals additional nested content with a gradient track and smooth size animations.             | Interaction     | `/lib/src/disclosure_switch/`           |
+| **[Pinnable List](#pinnable-list)**                           | Premium dual-section list with Apple-style "flight" physics and dynamic self-measuring displacement animations.    | Interaction     | `/lib/src/pinnable_list/`               |
 
 ---
 
@@ -769,6 +770,36 @@ DisclosureSwitch(
       _buildSubOption('Smart Replies', true),
     ],
   ),
+)
+```
+
+---
+
+### Pinnable List
+
+![Pinnable List Showcase](docs/gifs/pinnable_list.gif)
+
+A high-fidelity, zero-dependency list component that manages "Pinned" and "All" sections with a seamless Apple-style displacement animation.
+
+#### Key Features
+
+*   **Self-Measuring Architecture**: Automatically measures item heights for pixel-perfect coordinates without hardcoded constants.
+*   **Spring Flight Physics**: Items physically slide ("fly") across the whole list with authentic inertia and a subtle elevation scale effect.
+*   **Smart Section Hand-off**: Integrated logic that transitions items between sections while maintaining a persistent Z-index for the "traveling" card.
+*   **Customizable Style**: Granular control over section headers, count badges, spacing, and sorting criteria via `PinnableListStyle` and `itemComparator`.
+
+#### Integration
+
+```dart
+import 'package:portal_labs/portal_labs.dart';
+
+PinnableList(
+  items: [
+    PinnableItem(id: '1', title: 'Home', subtitle: 'Main residence', isPinned: true),
+    PinnableItem(id: '2', title: 'Office', subtitle: 'Downtown location'),
+  ],
+  itemComparator: (a, b) => a.title.compareTo(b.title), // Optional sorting
+  onChanged: (items) => print('List updated: ${items.length} items'),
 )
 ```
 

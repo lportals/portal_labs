@@ -1,13 +1,16 @@
 # Changelog
 
-## [0.9.1] - 2026-04-16
+## [0.10.0] - 2026-04-16
 
-- **Disclosure Switch Fixes**:
-  - Stabilized animation by removing competing root height controllers; height is now natively driven by the spring simulation.
-  - Implemented **Dual-Spring Physics**: High-elasticity bounce for opening and critical damping (zero-bounce) for closing to ensure a clean visual exit.
-  - Fixed "Option Bleeding": Migration to standard `ClipRect` and removal of overshoot clippers prevents options from floating outside the widget bounds.
-  - Fixed Border Overlap: Transitioned to `foregroundDecoration` to ensure the high-fidelity border always paints over the internal white expansion area.
-  - Optimized Layout: Consolidated disclosure gaps into the animated area to eliminate "empty chin" artifacts when closed.
+- New Component: **Pinnable List** — High-fidelity dual-section list with Apple-style "flight" physics and dynamic self-measuring displacement animations.
+- Features: 
+  - **Self-Measuring Layout**: Eradicated hardcoded heights; uses a persistent measurement engine to handle items of any size with pixel-perfect accuracy.
+  - **Spring Flight Simulations**: Implemented physics-based trajectories for items moving between sections, including a subtle 1.02x elevation scale during "flight".
+  - **Smart Z-Order Management**: Dynamic rendering stack that ensures the traveling item always maintains visual priority.
+  - **Deeper Customization**: Expanded `PinnableListStyle` for card-specific aesthetics and added `itemBuilder` for 100% layout control.
+  - **Intelligent Sorting**: Optional `itemComparator` to maintain logical order during cross-section transfers.
+
+## [0.9.1] - 2026-04-16
 
 ## [0.9.0] - 2026-04-15
 
