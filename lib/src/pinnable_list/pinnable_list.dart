@@ -139,7 +139,7 @@ class _PinnableListState extends State<PinnableList> {
                 count: unpinned.length,
                 style: widget.style,
                 top: unpinnedHeaderTop,
-                visible: true,
+                visible: unpinned.isNotEmpty,
                 onMeasured: (h) => setState(() => _headerHeight = h),
               ),
 
