@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.9.0] - 2026-04-15
+
+- New Component: **Disclosure Switch** — A premium, high-fidelity switch component with an "Island" inset design and elastic-bounce interaction patterns.
+- Features a context-aware active border and concentric layered geometry.
+- Integrated Staggered Bounce for internal options with physical inertia.
+
 ## [0.8.0] - 2024-04-13
 
 - New Component: **Stacked Toast Interaction** — A premium, top-aligned notification system with 3D stacking physics.

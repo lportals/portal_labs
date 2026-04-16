@@ -18,6 +18,9 @@ export 'src/theme/portal_typography.dart';
 // Reveal & Copy
 export 'src/reveal_and_copy/reveal_copy_interaction.dart';
 
+// Disclosure Switch
+export 'src/disclosure_switch/disclosure_switch.dart';
+
 // Weight Picker
 export 'src/weight_picker/weight_picker.dart';
 export 'src/weight_picker/models/weight_picker_style.dart';
