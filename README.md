@@ -44,6 +44,7 @@ This strategy makes every component **instantly portable**—allowing developers
 | **[Stacked Toast Interaction](#stacked-toast-interaction)**   | Premium chronological toast stack that appears from the top with high-fidelity transitions and symmetric stacking. | Interaction     | `/lib/src/stacked_toast_interaction/`   |
 | **[Disclosure Switch](#disclosure-switch)**                 | Premium switch that reveals additional nested content with a gradient track and smooth size animations.             | Interaction     | `/lib/src/disclosure_switch/`           |
 | **[Pinnable List](#pinnable-list)**                           | Premium dual-section list with Apple-style "flight" physics and dynamic self-measuring displacement animations.    | Interaction     | `/lib/src/pinnable_list/`               |
+| **[Todo List Interaction](#todo-list-interaction)**           | High-fidelity task management with concentric "Island" design and choreographed diagonal flight physics.           | Interaction     | `/lib/src/todo_list_interaction/`       |
 
 ---
 
@@ -798,8 +799,41 @@ PinnableList(
     PinnableItem(id: '1', title: 'Home', subtitle: 'Main residence', isPinned: true),
     PinnableItem(id: '2', title: 'Office', subtitle: 'Downtown location'),
   ],
-  itemComparator: (a, b) => a.title.compareTo(b.title), // Optional sorting
-  onChanged: (items) => print('List updated: ${items.length} items'),
+  onPinChanged: (id, isPinned) => print('Item $id is pinned: $isPinned'),
+)
+```
+
+---
+
+### Todo List Interaction
+
+![Todo List Showcase](docs/gifs/to_do_list_interaction.gif)
+
+A high-fidelity task management component featuring a sophisticated "concentric island" design, sliding spring segmented controls, and choreographed diagonal "flight" animations for task completion.
+
+#### Key Features
+
+*   **Concentric Island Aesthetic**: Multi-layered design with the date title perfectly centered in the outer container and tasks strictly contained within a white interactive island.
+*   **Choreographed Flight Physics**: Completing a task triggers a 3-stage visual event: (1) Lateral horizontal shift, (2) State toggle, and (3) Diagonal flight to its new position in the completed section.
+*   **Morphing Segmented Control**: A custom 3-tab filter (To-do, Completed, Pending) where the active bubble elastically morphs and slides using high-performance physics.
+*   **Independent Animation Cycles**: Supports rapid-fire user interactions; multiple tasks can fly simultaneously without interrupting each other's transition paths.
+*   **Fully Theme-Aware**: Every aspect including background colors, radii, spacing, localization filters, and spring stiffness is configurable via `TodoListStyle`.
+
+#### Integration
+
+```dart
+import 'package:portal_labs/portal_labs.dart';
+
+TodoListInteraction(
+  dateString: 'Apr 17, Friday',
+  categories: [
+    TodoCategory(id: 'work', title: 'Work'),
+  ],
+  items: [
+    TodoItem(id: '1', categoryId: 'work', title: 'Finish UI Component'),
+    TodoItem(id: '2', categoryId: 'work', title: 'Code Review', isCompleted: true),
+  ],
+  onChanged: (updatedItems) => print('Task list updated'),
 )
 ```
 

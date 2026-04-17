@@ -22,6 +22,7 @@ import 'showcases/quick_switcher_showcase.dart';
 import 'showcases/stacked_toast_showcase.dart';
 import 'showcases/disclosure_switch_showcase.dart';
 import 'showcases/pinnable_list_showcase.dart';
+import 'showcases/todo_list_interaction_showcase.dart';
 
 
 
@@ -264,6 +265,12 @@ class _HomePageState extends State<HomePage> {
         icon: Icons.push_pin_outlined,
         category: 'Interactions',
         page: PinnableListShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Todo List',
+        icon: Icons.checklist_rtl_rounded,
+        category: 'Interactions',
+        page: TodoListInteractionShowcase(),
       ),
     ];
 
