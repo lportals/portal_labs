@@ -118,3 +118,8 @@ export 'src/todo_list_interaction/todo_list_interaction.dart';
 export 'src/todo_list_interaction/models/todo_item.dart';
 export 'src/todo_list_interaction/models/todo_category.dart';
 export 'src/todo_list_interaction/models/todo_list_style.dart';
+
+// Slot Picker Interaction
+export 'src/slot_picker_interaction/slot_picker_interaction.dart';
+export 'src/slot_picker_interaction/models/slot_picker_item.dart';
+export 'src/slot_picker_interaction/models/slot_picker_style.dart';

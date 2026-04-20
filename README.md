@@ -45,6 +45,7 @@ This strategy makes every component **instantly portable**—allowing developers
 | **[Disclosure Switch](#disclosure-switch)**                 | Premium switch that reveals additional nested content with a gradient track and smooth size animations.             | Interaction     | `/lib/src/disclosure_switch/`           |
 | **[Pinnable List](#pinnable-list)**                           | Premium dual-section list with Apple-style "flight" physics and dynamic self-measuring displacement animations.    | Interaction     | `/lib/src/pinnable_list/`               |
 | **[Todo List Interaction](#todo-list-interaction)**           | High-fidelity task management with concentric "Island" design and choreographed diagonal flight physics.           | Interaction     | `/lib/src/todo_list_interaction/`       |
+| **[Slot Picker Interaction](#slot-picker-interaction)**       | Premium availability picker with spring physics, real-time collision detection, and smart validation.              | Interaction     | `/lib/src/slot_picker_interaction/`      |
 
 ---
 
@@ -834,6 +835,43 @@ TodoListInteraction(
     TodoItem(id: '2', categoryId: 'work', title: 'Code Review', isCompleted: true),
   ],
   onChanged: (updatedItems) => print('Task list updated'),
+)
+```
+
+---
+
+### Slot Picker Interaction
+
+![Slot Picker Interaction Showcase](./docs/gifs/slot_picker_interaction.gif)
+
+A premium, production- ready scheduling component that combines smooth spring physics with a robust validation engine for professional availability management.
+
+#### Key Features
+
+*   **Collision Detection Engine**: Automatically identifies and highlights overlapping time slots with a subtle reddish background and border highlight, preventing data entry errors without breaking the flow.
+*   **Smart Validation**: Intelligent auto-correction that maintains logical ranges (e.g., automatically adjusting End Time when Start Time is moved beyond it) based on a configurable `validationInterval`.
+*   **Adaptive UI**: Context-aware time pickers that provide a native `CupertinoDatePicker` on iOS/macOS and a sleek Material `showTimePicker` on other platforms, both synchronized with the slot interval.
+*   **Physics-Based Motion**: High-fidelity expansion and removal animations using spring simulations for a tactile, "bouncy" feel that feels rooted in physical reality.
+*   **Total Customization**: 15+ style properties in `SlotPickerStyle` covering granular typography, specific action colors (delete button), and adjustable paddings for perfect layout balancing.
+
+#### Integration
+
+```dart
+import 'package:portal_labs/portal_labs.dart';
+
+SlotPickerInteraction(
+  items: [
+    SlotPickerItem(title: 'Monday', slots: [
+      SlotRange(startTime: TimeOfDay(hour: 9, 0), endTime: TimeOfDay(hour: 17, 0)),
+    ]),
+  ],
+  validationInterval: Duration(minutes: 30),
+  enableOverlapDetection: true,
+  style: SlotPickerStyle(
+    activeSwitchColor: Colors.deepPurple,
+    borderRadius: BorderRadius.circular(18),
+  ),
+  onSlotChanged: (index, range) => print('Updated slot $index'),
 )
 ```
 

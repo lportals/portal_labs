@@ -23,6 +23,7 @@ import 'showcases/stacked_toast_showcase.dart';
 import 'showcases/disclosure_switch_showcase.dart';
 import 'showcases/pinnable_list_showcase.dart';
 import 'showcases/todo_list_interaction_showcase.dart';
+import 'showcases/slot_picker_showcase.dart';
 
 
 
@@ -271,6 +272,12 @@ class _HomePageState extends State<HomePage> {
         icon: Icons.checklist_rtl_rounded,
         category: 'Interactions',
         page: TodoListInteractionShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Slot Picker',
+        icon: Icons.access_time_rounded,
+        category: 'Inputs',
+        page: SlotPickerShowcase(),
       ),
     ];
 

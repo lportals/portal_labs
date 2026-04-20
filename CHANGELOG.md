@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.12.0] - 2026-04-20
+
+- New Component: **Slot Picker Interaction** — Premium physics-based availability picker with spring simulations, real-time collision detection, and Apple-inspired aesthetics.
+- Features:
+  - **Collision Detection Engine**: Real-time analysis of overlapping time ranges with non-disruptive visual warnings and subtle reddish tints.
+  - **Smart Validation System**: Configurable `validationInterval` and auto-correcting logic to maintain time integrity across slots.
+  - **Spring-Based Expansion**: High-fidelity item expansion using `SpringSimulation` for a tactile, hardware-inspired physical feel.
+  - **Total Design Customization**: 15+ properties in `SlotPickerStyle` allowing control over every pixel (paddings, typography, action colors).
+  - **Adaptive Time Pickers**: Native-feeling selection for both iOS (Cupertino) and Android (Material) with sub-minute snapping.
+  - **Dynamic Slot Management**: Seamlessly add, remove, and update time slots with synchronized state and reactive UI updates.
+
 ## [0.11.0] - 2026-04-17
 
 - New Component: **Todo List Interaction** — High-fidelity task management featuring a sophisticated "concentric island" design and choreographed diagonal "flight" animations.
