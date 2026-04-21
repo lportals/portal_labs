@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.13.0] - 2026-04-21
+
+- New Component: **Tag Selection Interaction** — A premium, zero-dependency "Magic Move" tag selection component with 100% custom Apple-inspired spring physics and self-measuring Wrap layouts.
+- Features:
+  - **Dynamic Natural Sizing**: Fully responsive internal metrics that adapt perfectly to the font's baseline, scale, and system accessibility settings.
+  - **Apple Spring Simulator**: Includes a custom damped harmonic oscillator (`_AppleSpringCurve`) to replicate premium native OS bounce and flight effects without external packages.
+  - **Fluid Wrap Layout**: Manual layout engine computes relative positions in real-time, letting items fly logically between fluid `Wrap` states without clipping.
+  - **Zero Dependencies**: Pure Vanilla Flutter architecture ensuring high performance, zero package conflicts, and long-term portability.
+
 ## [0.12.0] - 2026-04-20
 
 - New Component: **Slot Picker Interaction** — Premium physics-based availability picker with spring simulations, real-time collision detection, and Apple-inspired aesthetics.

@@ -24,6 +24,8 @@ import 'showcases/disclosure_switch_showcase.dart';
 import 'showcases/pinnable_list_showcase.dart';
 import 'showcases/todo_list_interaction_showcase.dart';
 import 'showcases/slot_picker_showcase.dart';
+import 'showcases/tag_selection_interaction_showcase.dart';
+
 
 
 
@@ -278,6 +280,12 @@ class _HomePageState extends State<HomePage> {
         icon: Icons.access_time_rounded,
         category: 'Inputs',
         page: SlotPickerShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Tag Selection',
+        icon: Icons.label_important_outline_rounded,
+        category: 'Interactions',
+        page: TagSelectionInteractionShowcase(),
       ),
     ];
 
