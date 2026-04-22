@@ -47,6 +47,7 @@ This strategy makes every component **instantly portable**—allowing developers
 | 24  | **[Todo List Interaction](#todo-list-interaction)**             | High-fidelity task management with concentric "Island" design and choreographed diagonal flight physics.           | Interaction     | `/lib/src/todo_list_interaction/`         |
 | 25  | **[Slot Picker Interaction](#slot-picker-interaction)**         | Premium availability picker with spring physics, real-time collision detection, and smart validation.              | Interaction     | `/lib/src/slot_picker_interaction/`        |
 | 26  | **[Tag Selection Interaction](#tag-selection-interaction)**     | Premium "Magic Move" tag selection with zero-dependency Apple-inspired spring physics and fluid wrapping.           | Interaction     | `/lib/src/tag_selection_interaction/`     |
+| 27  | **[Collapsible Notify Panel](#collapsible-notify-panel)**       | Premium spring-based notification panel with staggered entry and header summaries.                                  | Layout          | `/lib/src/collapsible_notification_panel/` |
 
 ---
 
@@ -798,10 +799,10 @@ import 'package:portal_labs/portal_labs.dart';
 
 PinnableList(
   items: [
-    PinnableItem(id: '1', title: 'Home', subtitle: 'Main residence', isPinned: true),
-    PinnableItem(id: '2', title: 'Office', subtitle: 'Downtown location'),
+    PinnableItem(id: '1', title: 'Work', icon: Icons.work_rounded),
+    PinnableItem(id: '2', title: 'Personal', icon: Icons.person_rounded),
   ],
-  onPinChanged: (id, isPinned) => print('Item $id is pinned: $isPinned'),
+  onPinChanged: (id, isPinned) => print('Item $id pin state: $isPinned'),
 )
 ```
 
@@ -904,6 +905,49 @@ TagSelectionInteraction(
   initialSelectedIds: const {'flutter'},
   onChanged: (selectedIds) => print('Selection updated: $selectedIds'),
   selectedTitle: 'YOUR STACK',
+)
+```
+
+---
+
+### Collapsible Notification Panel
+
+![Collapsible Notification Panel Showcase](docs/gifs/collapsible_notification.gif)
+
+A premium, highly interactive notification panel that can collapse into a summary header and expand to show a list of activities with spring-based animations.
+
+#### Key Features
+
+* **Spring Physics Animation**: Natural, momentum-based expansion and collapse transitions.
+* **Staggered Entry**: Each notification item animates in with a calculated delay for a high-end polished feel.
+* **Header Summary**: Displays a clean "X New Activities" header with a subtitle when collapsed.
+* **Interactive Haptics**: Responsive scale effects on all pressable elements (`scale(0.97)`).
+* **Concentric 'Island' Design**: Premium structural layout with glassmorphism-inspired layering and refined typography.
+* **Fully Themeable Architecture**: Complete control over colors, gradients, typography, and physics via the `CollapsibleNotificationPanelStyle` object.
+
+#### Integration
+
+```dart
+import 'package:portal_labs/portal_labs.dart';
+
+CollapsibleNotificationPanel(
+  items: [
+    NotificationItem(
+      id: '1',
+      title: 'Diego Sent a Message',
+      description: '"Hey! Did you check the new spring animations?"',
+      timestamp: 'Just Now',
+      icon: Icons.chat_bubble_rounded,
+    ),
+    NotificationItem(
+      id: '2',
+      title: 'Upcoming Event',
+      description: 'Daily Sync starts in 15 minutes.',
+      timestamp: '15m ago',
+      icon: Icons.calendar_month_rounded,
+    ),
+  ],
+  onItemTap: (item) => print('Tapped: ${item.title}'),
 )
 ```
 

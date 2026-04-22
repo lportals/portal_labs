@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.14.0] - 2026-04-22
+
+- New Component: **Collapsible Notification Panel** — A premium, highly interactive notification panel that can collapse into a summary header and expand to show a list of activities with spring-based animations and staggered entry effects.
+- Features:
+  - **Spring Physics Engine**: Uses `SpringSimulation` for a natural, momentum-based expansion and collapse feel that matches premium OS interactions.
+  - **Staggered Child Animations**: Intelligent sequencing of item entrance with independent opacity and Y-translation offsets for a polished, choreographed look.
+  - **Header Summary Architecture**: Dual-state header that displays a clean activity count and subtitle summary when collapsed, with an animated 500ms bell shake.
+  - **Premium Haptics & Feedback**: Integrated `AnimatedScale` on all interactive surfaces (0.97x press feedback) with elastic rotation for the expansion toggle.
+  - **Zero Dependencies**: Built exclusively with vanilla Flutter components for maximum performance and portability.
+
 ## [0.13.0] - 2026-04-21
 
 - New Component: **Tag Selection Interaction** — A premium, zero-dependency "Magic Move" tag selection component with 100% custom Apple-inspired spring physics and self-measuring Wrap layouts.

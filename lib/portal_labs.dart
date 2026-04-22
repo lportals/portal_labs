@@ -123,3 +123,11 @@ export 'src/todo_list_interaction/models/todo_list_style.dart';
 export 'src/slot_picker_interaction/slot_picker_interaction.dart';
 export 'src/slot_picker_interaction/models/slot_picker_item.dart';
 export 'src/slot_picker_interaction/models/slot_picker_style.dart';
+
+// Tag Selection Interaction
+export 'src/tag_selection_interaction/tag_selection_interaction.dart';
+
+// Collapsible Notification Panel
+export 'src/collapsible_notification_panel/collapsible_notification_panel.dart';
+export 'src/collapsible_notification_panel/models/notification_item.dart';
+export 'src/collapsible_notification_panel/models/panel_style.dart';

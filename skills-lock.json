@@ -10,6 +10,11 @@
       "source": "jeffallan/claude-skills",
       "sourceType": "github",
       "computedHash": "273a5eeae0e1e61e47039ca3abc4884e8479dec8d28c6d851c79c77ad039e63f"
+    },
+    "product-marketing-context": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "computedHash": "21dd05f970ba54406d7405f92240853f809d0fed09ef6ca2a9204abcdd21548a"
     }
   }
 }

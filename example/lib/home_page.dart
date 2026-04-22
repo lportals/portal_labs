@@ -25,6 +25,7 @@ import 'showcases/pinnable_list_showcase.dart';
 import 'showcases/todo_list_interaction_showcase.dart';
 import 'showcases/slot_picker_showcase.dart';
 import 'showcases/tag_selection_interaction_showcase.dart';
+import 'showcases/collapsible_notification_panel_showcase.dart';
 
 
 
@@ -286,6 +287,12 @@ class _HomePageState extends State<HomePage> {
         icon: Icons.label_important_outline_rounded,
         category: 'Interactions',
         page: TagSelectionInteractionShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Notify Panel',
+        icon: Icons.notifications_active_outlined,
+        category: 'Layout',
+        page: CollapsibleNotificationPanelShowcase(),
       ),
     ];
 
