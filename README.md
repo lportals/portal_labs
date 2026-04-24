@@ -48,6 +48,7 @@ This strategy makes every component **instantly portable**—allowing developers
 | 25  | **[Slot Picker Interaction](#slot-picker-interaction)**         | Premium availability picker with spring physics, real-time collision detection, and smart validation.              | Interaction     | `/lib/src/slot_picker_interaction/`        |
 | 26  | **[Tag Selection Interaction](#tag-selection-interaction)**     | Premium "Magic Move" tag selection with zero-dependency Apple-inspired spring physics and fluid wrapping.           | Interaction     | `/lib/src/tag_selection_interaction/`     |
 | 27  | **[Collapsible Notify Panel](#collapsible-notify-panel)**       | Premium spring-based notification panel with staggered entry and header summaries.                                  | Layout          | `/lib/src/collapsible_notification_panel/` |
+| 28  | **[Premium Stepper](#premium-stepper)**                         | Minimalist tactile stepper with mechanical flip animations.                                                         | Numeric Input   | `/lib/src/premium_stepper/`                 |
 
 ---
 
@@ -948,6 +949,32 @@ CollapsibleNotificationPanel(
     ),
   ],
   onItemTap: (item) => print('Tapped: ${item.title}'),
+)
+```
+
+---
+
+### Premium Stepper
+
+![Premium Stepper Showcase](./docs/gifs/stepper_interaction.gif)
+
+A minimalist tactile stepper component utilizing mechanical flip animations and haptic feedback.
+
+#### Key Features
+
+* **Mechanical Odometer Counter**: Integrated `PremiumFlipCounter` for fluid numerical transitions.
+* **Tactile Buttons**: Circular action buttons with scale-down feedback.
+* **Haptic Integration**: Light-impact haptic feedback on value changes.
+* **Minimalist Design**: Pill-shaped container with clean typography.
+
+#### Integration
+
+```dart
+import 'package:portal_labs/portal_labs.dart';
+
+PremiumStepper(
+  value: _count,
+  onChanged: (val) => setState(() => _count = val),
 )
 ```
 

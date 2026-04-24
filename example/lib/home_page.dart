@@ -26,6 +26,8 @@ import 'showcases/todo_list_interaction_showcase.dart';
 import 'showcases/slot_picker_showcase.dart';
 import 'showcases/tag_selection_interaction_showcase.dart';
 import 'showcases/collapsible_notification_panel_showcase.dart';
+import 'showcases/premium_stepper_showcase.dart';
+
 
 
 
@@ -293,6 +295,12 @@ class _HomePageState extends State<HomePage> {
         icon: Icons.notifications_active_outlined,
         category: 'Layout',
         page: CollapsibleNotificationPanelShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Premium Stepper',
+        icon: Icons.add_circle_outline_rounded,
+        category: 'Inputs',
+        page: PremiumStepperShowcase(),
       ),
     ];
 

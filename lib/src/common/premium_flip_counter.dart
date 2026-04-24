@@ -1,5 +1,6 @@
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
+import 'package:flutter/physics.dart';
 import 'portal_utils.dart';
 
 /// A high-performance, odometer-style counter with motion blur.
@@ -16,6 +17,7 @@ class PremiumFlipCounter extends StatelessWidget {
     required this.style,
     this.digitWidth,
     this.padWithZero = true,
+    this.maxDigits,
   });
   /// The integer value to be displayed.
   final int value;
@@ -33,6 +35,10 @@ class PremiumFlipCounter extends StatelessWidget {
   /// Whether to pad single digits with a leading zero.
   final bool padWithZero;
 
+  /// Optional fixed number of digits to display.
+  /// If provided, the counter will always occupy this many slots.
+  final int? maxDigits;
+
   @override
   Widget build(BuildContext context) {
     // Measure the widest possible digit ('8') to determine column width
@@ -41,27 +47,40 @@ class PremiumFlipCounter extends StatelessWidget {
     final double height = textSize.height;
 
     // String formatting logic
-    final String strValue = padWithZero
+    String strValue = padWithZero
         ? PortalUtils.padZero(value)
         : value.toString();
+    
+    if (maxDigits != null && strValue.length < maxDigits!) {
+      strValue = strValue.padLeft(maxDigits!, ' ');
+    }
+    
     final List<String> digits = strValue.split('');
 
     return Row(
       mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: digits.asMap().entries.map((entry) {
         final int index = entry.key;
         final String digitStr = entry.value;
-        final int digit = int.tryParse(digitStr) ?? 0;
+        final int? digit = int.tryParse(digitStr);
 
-        // Calculate stable key by position from the right (Units = 1, Tens = 2, etc.)
+        // Calculate stable position from the right
         final int posFromRight = strValue.length - index;
 
-        return _ReelDigit(
-          key: ValueKey('reel_digit_$posFromRight'),
-          digit: digit,
-          style: style,
-          width: width,
-          height: height,
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.easeOutQuint,
+          width: digit == null ? 0.0 : width,
+          color: Colors.transparent, // Required for clipBehavior
+          clipBehavior: Clip.hardEdge,
+          child: _ReelDigit(
+            key: ValueKey('reel_digit_$posFromRight'),
+            digit: digit,
+            style: style,
+            width: width,
+            height: height,
+          ),
         );
       }).toList(),
     );
@@ -78,7 +97,7 @@ class _ReelDigit extends StatefulWidget {
     required this.width,
     required this.height,
   });
-  final int digit;
+  final int? digit;
   final TextStyle style;
   final double width;
   final double height;
@@ -100,22 +119,27 @@ class _ReelDigitState extends State<_ReelDigit>
   @override
   void initState() {
     super.initState();
-    _currentValue = widget.digit.toDouble();
+    _currentValue = widget.digit?.toDouble() ?? 0.0;
     _lastFiredValue = _currentValue;
-
+    
+    // Set bounds to infinity to allow the odometer to spin continuously
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 350),
+      lowerBound: double.negativeInfinity,
+      upperBound: double.infinity,
     );
 
     _controller.addListener(() {
-      setState(() {
-        // Calculate directional velocity for motion blur
-        final double delta = (_controller.value - _lastFiredValue).abs();
-        _blurSigma = (delta * 25).clamp(0, 12);
-        _lastFiredValue = _controller.value;
-      });
+      if (mounted) {
+        setState(() {
+          final double delta = (_controller.value - _lastFiredValue).abs();
+          _blurSigma = (delta * 15).clamp(0, 8);
+          _lastFiredValue = _controller.value;
+        });
+      }
     });
+
+    _controller.value = _currentValue;
 
     // Initialize as a static value
     _animation = AlwaysStoppedAnimation(_currentValue);
@@ -125,15 +149,29 @@ class _ReelDigitState extends State<_ReelDigit>
   void didUpdateWidget(_ReelDigit oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.digit != widget.digit) {
-      _startRotation(widget.digit);
+      if (oldWidget.digit == null && widget.digit != null) {
+        // If the digit is appearing for the first time, don't spin it from zero.
+        // It should just fade/slide in as its final value.
+        _currentValue = widget.digit!.toDouble();
+        _lastFiredValue = _currentValue; // Update immediately to prevent ghost blur
+        _controller.value = _currentValue;
+        setState(() {
+          _blurSigma = 0;
+        });
+      } else {
+        _startRotation(widget.digit);
+      }
     }
   }
 
-  void _startRotation(int targetDigit) {
-    final double start = _currentValue;
+  void _startRotation(int? targetDigit) {
+    if (targetDigit == null) return;
+
+    // Capture the CURRENT position even if mid-animation
+    final double start = _controller.value;
     double end = targetDigit.toDouble();
 
-    // ODOMETER LOGIC: Find target value in the continuous space
+    // ODOMETER LOGIC: Find target value based on the closest lane in the desired direction
     final double diff = (end - (start % 10)).remainder(10);
     final double shortestDiff = (diff > 5)
         ? diff - 10
@@ -143,15 +181,21 @@ class _ReelDigitState extends State<_ReelDigit>
 
     end = start + shortestDiff;
 
-    setState(() {
-      _animation = Tween<double>(begin: start, end: end).animate(
-        CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
-      );
-      _currentValue = end;
-      _lastFiredValue = 0; // Reset for velocity calculation
-    });
+    // Update _currentValue immediately so next tap starts from here
+    _currentValue = end;
 
-    _controller.forward(from: 0).then((_) {
+    final SpringSimulation simulation = SpringSimulation(
+      const SpringDescription(
+        mass: 1,
+        stiffness: 300, 
+        damping: 25, 
+      ),
+      start,
+      end,
+      _controller.velocity, // Inherit velocity for a fluid transition
+    );
+
+    _controller.animateWith(simulation).then((_) {
       if (mounted) {
         setState(() {
           _blurSigma = 0;
@@ -172,55 +216,70 @@ class _ReelDigitState extends State<_ReelDigit>
     // active digit stays sharp while others fade.
     final double totalHeight = widget.height * 1.6;
 
-    return SizedBox(
-      width: widget.width,
-      height: totalHeight,
-      child: ShaderMask(
-        shaderCallback: (rect) {
-          return const LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.transparent,
-              Colors.black,
-              Colors.black,
-              Colors.transparent,
-            ],
-            stops: [0.0, 0.3, 0.7, 1.0], // Sharper center for better clarity
-          ).createShader(rect);
-        },
-        blendMode: BlendMode.dstIn,
-        child: ClipRect(
-          child: ImageFiltered(
-            imageFilter: ui.ImageFilter.blur(sigmaY: _blurSigma),
-            child: Center(
-              child: SizedBox(
-                height: widget.height,
-                child: AnimatedBuilder(
-                  animation: _animation,
-                  builder: (context, _) {
-                    final double value = _animation.value;
-                    final int mainDigit = value.floor() % 10;
-                    final double fraction = value - value.floor();
+    return AnimatedScale(
+      duration: const Duration(milliseconds: 400),
+      scale: widget.digit == null ? 0.8 : 1.0,
+      curve: Curves.easeOutQuint,
+      child: AnimatedOpacity(
+        duration: const Duration(milliseconds: 400),
+        opacity: widget.digit == null ? 0.0 : 1.0,
+        curve: Curves.easeOutQuint,
+        child: AnimatedAlign(
+          duration: const Duration(milliseconds: 400),
+          alignment: widget.digit == null ? Alignment.centerRight : Alignment.center,
+          curve: Curves.easeOutQuint,
+          child: SizedBox(
+            width: widget.width,
+            height: totalHeight,
+            child: ShaderMask(
+              shaderCallback: (rect) {
+                return const LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.transparent,
+                    Colors.black,
+                    Colors.black,
+                    Colors.transparent,
+                  ],
+                  stops: [0.0, 0.3, 0.7, 1.0],
+                ).createShader(rect);
+              },
+              blendMode: BlendMode.dstIn,
+              child: Center(
+                child: ImageFiltered(
+                  imageFilter: ui.ImageFilter.blur(sigmaY: _blurSigma),
+                  child: SizedBox(
+                    width: widget.width,
+                    height: widget.height,
+                    child: AnimatedBuilder(
+                      animation: _controller,
+                      builder: (context, _) {
+                        final double value = _controller.value;
+                        final int mainDigit = value.floor() % 10;
+                        final double fraction = value - value.floor();
 
-                    return Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        _DigitView(
-                          digit: mainDigit,
-                          style: widget.style,
-                          offset: -fraction * widget.height,
-                          height: widget.height,
-                        ),
-                        _DigitView(
-                          digit: (mainDigit + 1) % 10,
-                          style: widget.style,
-                          offset: (1.0 - fraction) * widget.height,
-                          height: widget.height,
-                        ),
-                      ],
-                    );
-                  },
+                        return Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            _DigitView(
+                              digit: mainDigit,
+                              style: widget.style,
+                              offset: -fraction * widget.height,
+                              height: widget.height,
+                            ),
+                            if (fraction > 0.01) // Only show the next digit if we are actually flipping
+                              _DigitView(
+                                digit: (mainDigit + 1) % 10,
+                                style: widget.style,
+                                offset: (1.0 - fraction) * widget.height,
+                                height: widget.height,
+                              ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
                 ),
               ),
             ),

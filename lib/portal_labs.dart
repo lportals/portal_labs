@@ -131,3 +131,7 @@ export 'src/tag_selection_interaction/tag_selection_interaction.dart';
 export 'src/collapsible_notification_panel/collapsible_notification_panel.dart';
 export 'src/collapsible_notification_panel/models/notification_item.dart';
 export 'src/collapsible_notification_panel/models/panel_style.dart';
+
+// Premium Stepper
+export 'src/premium_stepper/premium_stepper.dart';
+export 'src/premium_stepper/models/premium_stepper_style.dart';

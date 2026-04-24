@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.15.0] - 2026-04-23
+
+- New Component: **Premium Stepper** — A minimalist tactile stepper component with mechanical flip animations and haptic feedback.
+- Features:
+  - **Mechanical Flip Counter**: Integrated `PremiumFlipCounter` for fluid numerical transitions.
+  - **Tactile Buttons**: Circular action buttons with scale-down feedback.
+  - **Haptic Integration**: Light-impact haptic feedback on value changes.
+  - **Minimalist Design**: Pill-shaped container with clean typography.
+
 ## [0.14.0] - 2026-04-22
 
 - New Component: **Collapsible Notification Panel** — A premium, highly interactive notification panel that can collapse into a summary header and expand to show a list of activities with spring-based animations and staggered entry effects.
