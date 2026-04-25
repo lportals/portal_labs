@@ -2,6 +2,29 @@ import 'package:flutter/material.dart';
 
 /// Defines the visual configuration for the [PremiumStepper].
 class PremiumStepperStyle {
+  /// Creates a [PremiumStepperStyle] configuration.
+  const PremiumStepperStyle({
+    this.backgroundColor = const Color(0xFFF9F9F9),
+    this.borderColor = const Color(0xFFEEEEEE),
+    this.buttonColor = const Color(0xFFE5E5EA),
+    this.iconColor = Colors.black,
+    this.textStyle = const TextStyle(
+      fontSize: 32,
+      fontWeight: FontWeight.bold,
+      color: Colors.black,
+    ),
+    this.borderRadius = 100,
+    this.buttonBorderRadius,
+    this.borderWidth = 1.0,
+    this.padding = const EdgeInsets.all(8),
+    this.spacing = 16,
+    this.buttonSize = 48,
+    this.iconSize,
+    this.valueWidth = 80,
+    this.maxDigits = 3,
+    this.shadows,
+  });
+
   /// The background color of the stepper container.
   final Color backgroundColor;
 
@@ -19,6 +42,15 @@ class PremiumStepperStyle {
 
   /// The border radius of the stepper container.
   final double borderRadius;
+
+  /// The border radius of the navigation buttons. If null, buttons will be circular.
+  final double? buttonBorderRadius;
+
+  /// The width of the border around the stepper container.
+  final double borderWidth;
+
+  /// The internal padding of the stepper container.
+  final EdgeInsetsGeometry padding;
 
   /// The spacing between elements.
   final double spacing;
@@ -38,23 +70,4 @@ class PremiumStepperStyle {
 
   /// The shadow applied to the stepper container.
   final List<BoxShadow>? shadows;
-
-  const PremiumStepperStyle({
-    this.backgroundColor = const Color(0xFFF9F9F9),
-    this.borderColor = const Color(0xFFEEEEEE),
-    this.buttonColor = const Color(0xFFE5E5EA),
-    this.iconColor = Colors.black,
-    this.textStyle = const TextStyle(
-      fontSize: 32,
-      fontWeight: FontWeight.bold,
-      color: Colors.black,
-    ),
-    this.borderRadius = 100,
-    this.spacing = 16,
-    this.buttonSize = 48,
-    this.iconSize,
-    this.valueWidth = 80,
-    this.maxDigits = 3,
-    this.shadows,
-  });
 }

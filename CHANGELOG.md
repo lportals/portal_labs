@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.16.0] - 2026-04-25
+
+- New Component: **Premium Pagination** — A minimalist, tactile navigation component with mechanical flip animations and layout stability controls.
+- Features:
+  - **Mechanical Flip Counter**: Integrated `PremiumFlipCounter` for fluid, odometer-style page transitions.
+  - **Automatic Layout Stability**: Intelligent column width calculation based on total pages to prevent jumping.
+  - **Tactile Feedback**: Interactive buttons with `0.95x` scale feedback and integrated light-impact haptics.
+  - **Total Design Freedom**: Fully customizable style including `buttonBorderRadius`, `padding`, `borderWidth`, and arbitrary icons.
+- Upgrade: **Premium Stepper** — Levelled up to the new premium standards with support for custom padding, border width, and button border radius (square/circular).
+
 ## [0.15.0] - 2026-04-23
 
 - New Component: **Premium Stepper** — A minimalist tactile stepper component with mechanical flip animations and haptic feedback.

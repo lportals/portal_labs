@@ -5,6 +5,19 @@ import 'models/premium_stepper_style.dart';
 
 /// A minimalist tactile stepper component with mechanical flip animations.
 class PremiumStepper extends StatefulWidget {
+  /// Creates a [PremiumStepper] widget.
+  const PremiumStepper({
+    super.key,
+    required this.value,
+    required this.onChanged,
+    this.min = 0,
+    this.max = 999,
+    this.style = const PremiumStepperStyle(),
+    this.enableHaptics = true,
+    this.minusIcon = Icons.remove,
+    this.plusIcon = Icons.add,
+  });
+
   /// The current value of the stepper.
   final int value;
 
@@ -28,18 +41,6 @@ class PremiumStepper extends StatefulWidget {
 
   /// Custom icon for the increment button.
   final IconData plusIcon;
-
-  const PremiumStepper({
-    super.key,
-    required this.value,
-    required this.onChanged,
-    this.min = 0,
-    this.max = 999,
-    this.style = const PremiumStepperStyle(),
-    this.enableHaptics = true,
-    this.minusIcon = Icons.remove,
-    this.plusIcon = Icons.add,
-  });
 
   @override
   State<PremiumStepper> createState() => _PremiumStepperState();
@@ -71,11 +72,11 @@ class _PremiumStepperState extends State<PremiumStepper> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      padding: widget.style.padding,
       decoration: BoxDecoration(
         color: widget.style.backgroundColor,
         borderRadius: BorderRadius.circular(widget.style.borderRadius),
-        border: Border.all(color: widget.style.borderColor, width: 1.5),
+        border: Border.all(color: widget.style.borderColor, width: widget.style.borderWidth),
         boxShadow: widget.style.shadows,
       ),
       child: Row(
@@ -114,17 +115,18 @@ class _PremiumStepperState extends State<PremiumStepper> {
 }
 
 class _StepperButton extends StatefulWidget {
-  final IconData icon;
-  final VoidCallback onPressed;
-  final bool enabled;
-  final PremiumStepperStyle style;
-
+  /// Creates a [_StepperButton] widget.
   const _StepperButton({
     required this.icon,
     required this.onPressed,
     required this.enabled,
     required this.style,
   });
+
+  final IconData icon;
+  final VoidCallback onPressed;
+  final bool enabled;
+  final PremiumStepperStyle style;
 
   @override
   State<_StepperButton> createState() => _StepperButtonState();
@@ -173,7 +175,10 @@ class _StepperButtonState extends State<_StepperButton> with SingleTickerProvide
             width: widget.style.buttonSize,
             height: widget.style.buttonSize,
             decoration: BoxDecoration(
-              shape: BoxShape.circle,
+              shape: widget.style.buttonBorderRadius == null ? BoxShape.circle : BoxShape.rectangle,
+              borderRadius: widget.style.buttonBorderRadius != null 
+                  ? BorderRadius.circular(widget.style.buttonBorderRadius!) 
+                  : null,
               color: isActuallyEnabled
                   ? (_isHovered
                       ? widget.style.buttonColor.withValues(alpha: 0.8)

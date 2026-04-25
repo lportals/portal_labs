@@ -135,3 +135,7 @@ export 'src/collapsible_notification_panel/models/panel_style.dart';
 // Premium Stepper
 export 'src/premium_stepper/premium_stepper.dart';
 export 'src/premium_stepper/models/premium_stepper_style.dart';
+
+// Premium Pagination
+export 'src/premium_pagination/premium_pagination.dart';
+export 'src/premium_pagination/models/premium_pagination_style.dart';

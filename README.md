@@ -48,7 +48,8 @@ This strategy makes every component **instantly portable**—allowing developers
 | 25  | **[Slot Picker Interaction](#slot-picker-interaction)**         | Premium availability picker with spring physics, real-time collision detection, and smart validation.              | Interaction     | `/lib/src/slot_picker_interaction/`        |
 | 26  | **[Tag Selection Interaction](#tag-selection-interaction)**     | Premium "Magic Move" tag selection with zero-dependency Apple-inspired spring physics and fluid wrapping.           | Interaction     | `/lib/src/tag_selection_interaction/`     |
 | 27  | **[Collapsible Notify Panel](#collapsible-notify-panel)**       | Premium spring-based notification panel with staggered entry and header summaries.                                  | Layout          | `/lib/src/collapsible_notification_panel/` |
-| 28  | **[Premium Stepper](#premium-stepper)**                         | Minimalist tactile stepper with mechanical flip animations.                                                         | Numeric Input   | `/lib/src/premium_stepper/`                 |
+| 28  | **[Premium Stepper](#premium-stepper)**                         | Minimalist tactile stepper with mechanical flip animations and full layout customization.                          | Numeric Input   | `/lib/src/premium_stepper/`                 |
+| 29  | **[Premium Pagination](#premium-pagination)**                   | Tactile navigation with mechanical flip animations and automatic layout stability.                                 | Navigation      | `/lib/src/premium_pagination/`              |
 
 ---
 
@@ -975,6 +976,33 @@ import 'package:portal_labs/portal_labs.dart';
 PremiumStepper(
   value: _count,
   onChanged: (val) => setState(() => _count = val),
+)
+```
+
+---
+
+### Premium Pagination
+
+![Premium Pagination Showcase](./docs/gifs/pagination_interaction.gif)
+
+A premium, highly customizable navigation component with mechanical flip animations and automatic layout stability.
+
+#### Key Features
+
+* **Mechanical Flip Counter**: Integrated `PremiumFlipCounter` for fluid, odometer-style page transitions.
+* **Automatic Layout Stability**: Intelligent column width calculation based on total pages to prevent jumping.
+* **Tactile Feedback**: Interactive buttons with `0.95x` scale feedback and integrated light-impact haptics.
+* **Total Design Freedom**: Fully customizable style including `buttonBorderRadius`, `padding`, `borderWidth`, and arbitrary icons.
+
+#### Integration
+
+```dart
+import 'package:portal_labs/portal_labs.dart';
+
+PremiumPagination(
+  currentPage: _currentPage,
+  totalPages: 10,
+  onPageChanged: (page) => setState(() => _currentPage = page),
 )
 ```
 

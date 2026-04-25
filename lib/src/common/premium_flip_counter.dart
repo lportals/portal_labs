@@ -52,7 +52,7 @@ class PremiumFlipCounter extends StatelessWidget {
         : value.toString();
     
     if (maxDigits != null && strValue.length < maxDigits!) {
-      strValue = strValue.padLeft(maxDigits!, ' ');
+      strValue = strValue.padLeft(maxDigits!);
     }
     
     final List<String> digits = strValue.split('');
@@ -72,7 +72,8 @@ class PremiumFlipCounter extends StatelessWidget {
           duration: const Duration(milliseconds: 400),
           curve: Curves.easeOutQuint,
           width: digit == null ? 0.0 : width,
-          color: Colors.transparent, // Required for clipBehavior
+          height: height,
+          color: Colors.transparent, 
           clipBehavior: Clip.hardEdge,
           child: _ReelDigit(
             key: ValueKey('reel_digit_$posFromRight'),
@@ -109,9 +110,6 @@ class _ReelDigit extends StatefulWidget {
 class _ReelDigitState extends State<_ReelDigit>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  late Animation<double> _animation;
-
-  // Internal continuous value (e.g., 25.0 means digit 5 in the 3rd cycle)
   double _currentValue = 0;
   double _lastFiredValue = 0;
   double _blurSigma = 0;
@@ -140,9 +138,6 @@ class _ReelDigitState extends State<_ReelDigit>
     });
 
     _controller.value = _currentValue;
-
-    // Initialize as a static value
-    _animation = AlwaysStoppedAnimation(_currentValue);
   }
 
   @override
@@ -188,7 +183,7 @@ class _ReelDigitState extends State<_ReelDigit>
       const SpringDescription(
         mass: 1,
         stiffness: 300, 
-        damping: 25, 
+        damping: 35, // Critically damped to prevent overshoot ghosting
       ),
       start,
       end,
@@ -242,7 +237,7 @@ class _ReelDigitState extends State<_ReelDigit>
                     Colors.black,
                     Colors.transparent,
                   ],
-                  stops: [0.0, 0.3, 0.7, 1.0],
+                  stops: [0.0, 0.15, 0.85, 1.0],
                 ).createShader(rect);
               },
               blendMode: BlendMode.dstIn,
@@ -326,7 +321,7 @@ class _DigitView extends StatelessWidget {
               height: 1.0,
               // Fade out numbers as they "recede" into the 3D depth
               color: style.color?.withValues(alpha: 
-                (1.0 - normalizedOffset.abs()).clamp(0.2, 1.0),
+                (1.0 - normalizedOffset.abs().clamp(0.0, 1.0)),
               ),
             ),
           ),

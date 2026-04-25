@@ -27,6 +27,7 @@ import 'showcases/slot_picker_showcase.dart';
 import 'showcases/tag_selection_interaction_showcase.dart';
 import 'showcases/collapsible_notification_panel_showcase.dart';
 import 'showcases/premium_stepper_showcase.dart';
+import 'showcases/premium_pagination_showcase.dart';
 
 
 
@@ -301,6 +302,12 @@ class _HomePageState extends State<HomePage> {
         icon: Icons.add_circle_outline_rounded,
         category: 'Inputs',
         page: PremiumStepperShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Pagination',
+        icon: Icons.last_page_rounded,
+        category: 'Inputs',
+        page: PremiumPaginationShowcase(),
       ),
     ];
 
