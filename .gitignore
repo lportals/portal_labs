@@ -54,3 +54,4 @@ app.*.map.json
 
 # Agents
 .agents/
+skills-lock.json
