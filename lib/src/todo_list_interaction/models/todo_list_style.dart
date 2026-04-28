@@ -2,6 +2,25 @@ import 'package:flutter/material.dart';
 
 /// Defines the visual configuration for the [TodoListInteraction] component.
 class TodoListStyle {
+  const TodoListStyle({
+    this.dateStyle,
+    this.categoryHeaderStyle,
+    this.itemTextStyle,
+    this.checkboxActiveColor,
+    this.checkboxBorderColor,
+    this.itemHeight = 32.0,
+    this.outerBackgroundColor = const Color(0xFFF0F0F0),
+    this.cardBackgroundColor = Colors.white,
+    this.tabTrackColor = const Color(0xFFF0F0F0),
+    this.tabIndicatorColor = Colors.white,
+    this.tabTextStyle,
+    this.outerBorderRadius = 40.0,
+    this.cardBorderRadius = 32.0,
+    this.springStiffness = 220.0,
+    this.springDamping = 20.0,
+    this.filters = const ['To-do', 'Completed', 'Pending'],
+  });
+
   /// TextStyle for the date header at the top.
   final TextStyle? dateStyle;
 
@@ -49,25 +68,6 @@ class TodoListStyle {
 
   /// List of filter tab labels. Defaults to ['To-do', 'Completed', 'Pending'].
   final List<String> filters;
-
-  const TodoListStyle({
-    this.dateStyle,
-    this.categoryHeaderStyle,
-    this.itemTextStyle,
-    this.checkboxActiveColor,
-    this.checkboxBorderColor,
-    this.itemHeight = 32.0,
-    this.outerBackgroundColor = const Color(0xFFF0F0F0),
-    this.cardBackgroundColor = Colors.white,
-    this.tabTrackColor = const Color(0xFFF0F0F0),
-    this.tabIndicatorColor = Colors.white,
-    this.tabTextStyle,
-    this.outerBorderRadius = 40.0,
-    this.cardBorderRadius = 32.0,
-    this.springStiffness = 220.0,
-    this.springDamping = 20.0,
-    this.filters = const ['To-do', 'Completed', 'Pending'],
-  });
 
   /// Creates a copy of this style with the given fields replaced.
   TodoListStyle copyWith({

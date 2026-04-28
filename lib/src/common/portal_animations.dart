@@ -6,9 +6,6 @@ import 'package:flutter/physics.dart';
 /// This provides a more natural, physics-based motion compared to standard 
 /// duration-based curves like [Curves.easeOut].
 class PortalSpringCurve extends Curve {
-  /// The underlying simulation that drives the spring motion.
-  final SpringSimulation simulation;
-
   /// Creates a [PortalSpringCurve] with customizable physical parameters.
   /// 
   /// [mass] defines the weight of the object (default: 1.0).
@@ -24,6 +21,9 @@ class PortalSpringCurve extends Curve {
           1.0,
           0.0,
         );
+
+  /// The underlying simulation that drives the spring motion.
+  final SpringSimulation simulation;
 
   @override
   double transformInternal(double t) {

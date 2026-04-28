@@ -244,18 +244,6 @@ class _StepSnapScrollPhysics extends ScrollPhysics {
     );
   }
 
-  double _getTargetPixels(ScrollMetrics position, double velocity, Tolerance tolerance) {
-    double step = position.pixels / stepWidth;
-    if (velocity < -tolerance.velocity) {
-      step = step.floorToDouble();
-    } else if (velocity > tolerance.velocity) {
-      step = step.ceilToDouble();
-    } else {
-      step = step.roundToDouble();
-    }
-    return step * stepWidth;
-  }
-
   @override
   Simulation? createBallisticSimulation(ScrollMetrics position, double velocity) {
     if ((velocity <= 0.0 && position.pixels <= position.minScrollExtent) ||

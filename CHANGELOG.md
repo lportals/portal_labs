@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.18.2] - 2026-04-28
+
+- **Static Analysis Optimization**: Achieved 0 warnings/lints report for maximum `pub.dev` quality score.
+- **Linter Refinements**: Standardized constructor order and member declarations across the library.
+- **Code Cleanup**: Removed unused variables and redundant methods in `CurrencySwap` and `FractionalPicker`.
+
+## [0.18.1] - 2026-04-28
+
+- **Example App Refinement**: Re-engineered `main.dart` with expert-grade configurations for an immersive, high-fidelity showcase experience.
+- **System UI Mastery**: Added `SystemChrome` controls for transparent status and navigation bars across the example app.
+- **Global Physics**: Forced `BouncingScrollPhysics` globally in the example for a consistent premium tactile feel.
+- **Accessibility & DX**: Integrated a global `SelectionArea` in the showcase, enabling easy text acquisition for developers on Web/Desktop.
+- **Design Consistency**: Standardized back-navigation icons to iOS-style for a more refined minimalist aesthetic.
+
 ## [0.18.0] - 2026-04-28
 
 - **Showcase Evolution**: Replaced the static HomePage grid with a high-fidelity **Springy Grid** using physics-based layout transitions and `RepaintBoundary` for silky-smooth filtering.

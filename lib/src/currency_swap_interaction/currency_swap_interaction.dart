@@ -786,13 +786,11 @@ class _CurrencyFlipDisplay extends StatefulWidget {
 }
 
 class _CurrencyFlipDisplayState extends State<_CurrencyFlipDisplay> {
-  double _lastAmount = 0;
   bool _upward = true;
 
   @override
   void initState() {
     super.initState();
-    _lastAmount = widget.amount;
   }
 
   @override
@@ -801,7 +799,6 @@ class _CurrencyFlipDisplayState extends State<_CurrencyFlipDisplay> {
     if (oldWidget.amount != widget.amount) {
       setState(() {
         _upward = widget.amount >= oldWidget.amount;
-        _lastAmount = oldWidget.amount;
       });
     }
   }

@@ -477,9 +477,9 @@ class _TodoItemTile extends StatelessWidget {
 }
 
 class _MeasureSize extends StatefulWidget {
+  const _MeasureSize({required this.onSizeChange, required this.child});
   final Widget child;
   final _OnSizeChange onSizeChange;
-  const _MeasureSize({required this.onSizeChange, required this.child});
   @override
   State<_MeasureSize> createState() => _MeasureSizeState();
 }
@@ -492,8 +492,8 @@ class _MeasureSizeState extends State<_MeasureSize> {
   }
 }
 class _TodoSpringCurve extends Curve {
-  final SpringSimulation simulation;
   _TodoSpringCurve({double mass = 1.0, required double stiffness, required double damping}) : simulation = SpringSimulation(SpringDescription(mass: mass, stiffness: stiffness, damping: damping), 0.0, 1.0, 0.0);
+  final SpringSimulation simulation;
   @override
   double transformInternal(double t) => simulation.x(t).clamp(-0.2, 1.2);
 }

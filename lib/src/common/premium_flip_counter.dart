@@ -106,7 +106,6 @@ class PremiumFlipCounter extends StatelessWidget {
 
 class _ReelDigit extends StatefulWidget {
   const _ReelDigit({
-    super.key,
     required this.digit,
     required this.upward,
     required this.style,
