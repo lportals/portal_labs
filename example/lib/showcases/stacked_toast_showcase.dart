@@ -278,13 +278,7 @@ _toastController.show(StackedToastItem(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (_) => Container(
-        // Simple placeholder or re-implementation of _InfoBottomSheet
-        // Since we want to be 100% consistent, I'll assume ShowcaseShell 
-        // handles the title/desc/code if we can trigger it, but for now 
-        // I'll keep the standard behavior.
-        child: const SizedBox.shrink(), 
-      ),
+      builder: (_) => const SizedBox.shrink(),
     );
   }
 

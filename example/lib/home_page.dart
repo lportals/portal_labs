@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/physics.dart';
 import 'package:portal_labs/portal_labs.dart';
 import 'showcases/reveal_copy_showcase.dart';
 import 'showcases/premium_choice_chips_showcase.dart';
@@ -54,7 +53,6 @@ class _HomePageState extends State<HomePage> {
     'Interactions',
   ];
 
-  String get _selectedCategory => _categories[_selectedIndex];
 
   @override
   Widget build(BuildContext context) {
