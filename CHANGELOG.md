@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.17.0] - 2026-04-27
+
+- New Component: **Currency Swap Interaction** — A premium currency conversion interface with custom dropdowns and real-time flip counters.
+- Features:
+  - **Custom Dropdown Menu**: High-performance overlay menu with flag support and selection checkmarks.
+  - **Mechanical Flip Counter**: Real-time conversion feedback using the `PremiumFlipCounter` engine for fluid numerical transitions.
+  - **Tactile Feedback**: Proceed button with scale-down feedback (0.98x) and integrated light-impact haptics.
+  - **Design Fidelity**: Strictly follows the provided light-themed design without unrequested variations.
+  - **Total Design Freedom**: Fully customizable style including typography, colors, borders, and spacing via `CurrencySwapStyle`.
+
+
 ## [0.16.0] - 2026-04-25
 
 - New Component: **Premium Pagination** — A minimalist, tactile navigation component with mechanical flip animations and layout stability controls.

@@ -139,3 +139,7 @@ export 'src/premium_stepper/models/premium_stepper_style.dart';
 // Premium Pagination
 export 'src/premium_pagination/premium_pagination.dart';
 export 'src/premium_pagination/models/premium_pagination_style.dart';
+
+// Currency Swap Interaction
+export 'src/currency_swap_interaction/currency_swap_interaction.dart';
+export 'src/currency_swap_interaction/models/currency_swap_style.dart';

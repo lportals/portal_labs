@@ -371,27 +371,12 @@ class _PriceFlipDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Format the number with commas
     final String formatted = PortalUtils.formatNumber(value);
-    final List<String> segments = formatted.split('');
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.baseline,
-      textBaseline: TextBaseline.alphabetic,
-      children: segments.map((char) {
-        if (char == ',') {
-          return Text(',', style: textStyle);
-        }
-        // It's a digit
-        return PremiumFlipCounter(
-          value: int.parse(char),
-          upward: upward,
-          style: textStyle,
-          padWithZero: false,
-          digitWidth: PortalUtils.measureText('8', textStyle).width,
-        );
-      }).toList(),
+    return PremiumFlipCounter(
+      value: formatted,
+      upward: upward,
+      style: textStyle,
     );
   }
 }

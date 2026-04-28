@@ -28,6 +28,7 @@ import 'showcases/tag_selection_interaction_showcase.dart';
 import 'showcases/collapsible_notification_panel_showcase.dart';
 import 'showcases/premium_stepper_showcase.dart';
 import 'showcases/premium_pagination_showcase.dart';
+import 'showcases/currency_swap_showcase.dart';
 
 
 
@@ -308,6 +309,12 @@ class _HomePageState extends State<HomePage> {
         icon: Icons.last_page_rounded,
         category: 'Inputs',
         page: PremiumPaginationShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Swap Currency',
+        icon: Icons.currency_exchange_rounded,
+        category: 'Inputs',
+        page: CurrencySwapShowcase(),
       ),
     ];
 
