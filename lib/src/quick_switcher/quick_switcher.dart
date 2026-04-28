@@ -178,7 +178,7 @@ class _QuickSwitcherState extends State<QuickSwitcher>
                       borderRadius: BorderRadius.circular(widget.style.borderRadius - 4),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.06),
+                          color: Colors.black.withValues(alpha: 0.06),
                           blurRadius: 10,
                           offset: const Offset(0, 4),
                         ),
@@ -196,7 +196,7 @@ class _QuickSwitcherState extends State<QuickSwitcher>
                           height: 48,
                           decoration: BoxDecoration(
                             color: widget.style.pulseColor
-                                .withOpacity(_pulseOpacityAnimation.value),
+                                .withValues(alpha: _pulseOpacityAnimation.value),
                             borderRadius: BorderRadius.circular(widget.style.borderRadius),
                           ),
                         ),
@@ -262,7 +262,7 @@ class _QuickSwitcherState extends State<QuickSwitcher>
                                 offset: const Offset(0, 7),
                                 child: Icon(
                                   Icons.keyboard_arrow_up_rounded,
-                                  color: widget.style.foregroundColor.withOpacity(0.3),
+                                  color: widget.style.foregroundColor.withValues(alpha: 0.3),
                                   size: 22,
                                 ),
                               ),
@@ -270,7 +270,7 @@ class _QuickSwitcherState extends State<QuickSwitcher>
                                 offset: const Offset(0, -7),
                                 child: Icon(
                                   Icons.keyboard_arrow_down_rounded,
-                                  color: widget.style.foregroundColor.withOpacity(0.3),
+                                  color: widget.style.foregroundColor.withValues(alpha: 0.3),
                                   size: 22,
                                 ),
                               ),
@@ -335,7 +335,7 @@ class _QuickSwitcherState extends State<QuickSwitcher>
                           currentOption.placeholder,
                           key: ValueKey('hint_$_currentIndex'),
                           style: TextStyle(
-                            color: widget.style.foregroundColor.withOpacity(0.4),
+                            color: widget.style.foregroundColor.withValues(alpha: 0.4),
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                           ),
@@ -380,7 +380,7 @@ class _QuickSwitcherState extends State<QuickSwitcher>
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.04),
+                          color: Colors.black.withValues(alpha: 0.04),
                           blurRadius: 6,
                           offset: const Offset(0, 2),
                         ),
@@ -504,12 +504,12 @@ class _QuickSwitcherMenuState extends State<_QuickSwitcherMenu>
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(widget.style.borderRadius),
                       border: Border.all(
-                        color: Colors.black.withOpacity(0.05),
+                        color: Colors.black.withValues(alpha: 0.05),
                         width: 1,
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.08),
+                          color: Colors.black.withValues(alpha: 0.08),
                           blurRadius: 12,
                           offset: const Offset(0, 4),
                         ),
@@ -536,7 +536,7 @@ class _QuickSwitcherMenuState extends State<_QuickSwitcherMenu>
                                   border: index != widget.options.length - 1
                                       ? Border(
                                           bottom: BorderSide(
-                                            color: Colors.black.withOpacity(0.05),
+                                            color: Colors.black.withValues(alpha: 0.05),
                                             width: 0.5,
                                           ),
                                         )
@@ -549,7 +549,7 @@ class _QuickSwitcherMenuState extends State<_QuickSwitcherMenu>
                                       size: 20,
                                       color: isSelected
                                           ? Colors.black
-                                          : Colors.black.withOpacity(0.4),
+                                          : Colors.black.withValues(alpha: 0.4),
                                     ),
                                     const SizedBox(width: 12),
                                     Expanded(
@@ -562,7 +562,7 @@ class _QuickSwitcherMenuState extends State<_QuickSwitcherMenu>
                                               : FontWeight.w600,
                                           color: isSelected
                                               ? Colors.black
-                                              : Colors.black.withOpacity(0.4),
+                                              : Colors.black.withValues(alpha: 0.4),
                                         ),
                                       ),
                                     ),

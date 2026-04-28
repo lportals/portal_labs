@@ -149,7 +149,7 @@ class _TagSelectionInteractionState extends State<TagSelectionInteraction> {
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w700,
-                  color: Colors.black.withOpacity(0.4),
+                  color: Colors.black.withValues(alpha: 0.4),
                   letterSpacing: 0.5,
                 ),
               ),
@@ -174,7 +174,7 @@ class _TagSelectionInteractionState extends State<TagSelectionInteraction> {
                             widget.style.selectedAreaBorderRadius,
                           ),
                           border: Border.all(
-                            color: Colors.black.withOpacity(0.05),
+                            color: Colors.black.withValues(alpha: 0.05),
                             width: 1,
                           ),
                         ),

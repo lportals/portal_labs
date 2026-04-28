@@ -4,6 +4,7 @@ import 'models/pinnable_item.dart';
 import 'models/pinnable_list_style.dart';
 import 'widgets/pinnable_item_card.dart';
 import '../theme/portal_theme.dart';
+import '../common/portal_animations.dart';
 
 /// Function signature for building a custom card in the [PinnableList].
 typedef PinnableItemBuilder = Widget Function(
@@ -155,7 +156,7 @@ class _PinnableListState extends State<PinnableList> {
                 return AnimatedPositioned(
                   key: ValueKey('pos_${item.id}'),
                   duration: const Duration(milliseconds: 1100),
-                  curve: SpringCurve(stiffness: 140, damping: 20),
+                  curve: PortalSpringCurve(stiffness: 140, damping: 20),
                   top: targetTop,
                   left: 0,
                   right: 0,
@@ -246,7 +247,7 @@ class _Badge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
-        color: style.badgeBackgroundColor ?? theme.colors.border.withOpacity(0.5),
+        color: style.badgeBackgroundColor ?? theme.colors.border.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Text(
@@ -287,22 +288,3 @@ class _MeasureSizeState extends State<_MeasureSize> {
   }
 }
 
-class SpringCurve extends Curve {
-  final SpringSimulation simulation;
-
-  SpringCurve({
-    double mass = 1.0,
-    double stiffness = 180.0,
-    double damping = 22.0,
-  }) : simulation = SpringSimulation(
-          SpringDescription(mass: mass, stiffness: stiffness, damping: damping),
-          0.0,
-          1.0,
-          0.0,
-        );
-
-  @override
-  double transformInternal(double t) {
-    return simulation.x(t).clamp(-0.1, 1.1);
-  }
-}

@@ -237,7 +237,7 @@ class _LabeledProgressIndicatorState extends State<LabeledProgressIndicator>
                 style: widget.style.percentageTextStyle ?? widget.style.textStyle.copyWith(
                   fontWeight: FontWeight.w400,
                   fontSize: widget.style.textStyle.fontSize! * 0.9,
-                  color: widget.style.textStyle.color!.withOpacity(0.5),
+                  color: widget.style.textStyle.color!.withValues(alpha: 0.5),
                 ),
               ),
             ],
@@ -314,11 +314,11 @@ class _FixedShimmerEffect extends StatelessWidget {
                     begin: const Alignment(-2.0, -0.2),
                     end: const Alignment(2.0, 0.2),
                     colors: [
-                      shimmerBaseColor.withOpacity(0.0),
-                      shimmerBaseColor.withOpacity(0.1),
-                      shimmerBaseColor.withOpacity(0.9),
-                      shimmerBaseColor.withOpacity(0.1),
-                      shimmerBaseColor.withOpacity(0.0),
+                      shimmerBaseColor.withValues(alpha: 0.0),
+                      shimmerBaseColor.withValues(alpha: 0.1),
+                      shimmerBaseColor.withValues(alpha: 0.9),
+                      shimmerBaseColor.withValues(alpha: 0.1),
+                      shimmerBaseColor.withValues(alpha: 0.0),
                     ],
                     stops: const [0.0, 0.3, 0.5, 0.7, 1.0],
                     transform: _SlidingGradientTransform(
@@ -334,7 +334,7 @@ class _FixedShimmerEffect extends StatelessWidget {
                     gradient: LinearGradient(
                       colors: [
                         isError ? Colors.red : style.progressColor,
-                        isError ? Colors.redAccent : style.progressColor.withOpacity(0.8),
+                        isError ? Colors.redAccent : style.progressColor.withValues(alpha: 0.8),
                       ],
                     ),
                     borderRadius: style.borderRadius,

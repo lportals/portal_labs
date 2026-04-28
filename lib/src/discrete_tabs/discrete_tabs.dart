@@ -77,24 +77,30 @@ class _DiscreteTabsState extends State<DiscreteTabs> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: List.generate(widget.tabs.length, (index) {
-        final isSelected = _selectedIndex == index;
-        final tab = widget.tabs[index];
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      physics: const BouncingScrollPhysics(),
+      clipBehavior: Clip.none,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: List.generate(widget.tabs.length, (index) {
+          final isSelected = _selectedIndex == index;
+          final tab = widget.tabs[index];
 
-        return Padding(
-          padding: EdgeInsets.only(
-            right: index == widget.tabs.length - 1 ? 0 : widget.spacing,
-          ),
-          child: _DiscreteTabItem(
-            tab: tab,
-            isSelected: isSelected,
-            style: widget.style,
-            onTap: () => _handleTabSelect(index),
-          ),
-        );
-      }),
+          return Padding(
+            padding: EdgeInsets.only(
+              left: index == 0 ? 0 : 0, // Could add global padding here
+              right: index == widget.tabs.length - 1 ? 0 : widget.spacing,
+            ),
+            child: _DiscreteTabItem(
+              tab: tab,
+              isSelected: isSelected,
+              style: widget.style,
+              onTap: () => _handleTabSelect(index),
+            ),
+          );
+        }),
+      ),
     );
   }
 }

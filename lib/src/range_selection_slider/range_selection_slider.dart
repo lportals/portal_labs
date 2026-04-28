@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../common/portal_utils.dart';
 import '../common/premium_flip_counter.dart';
 import 'models/range_slider_style.dart';
@@ -97,17 +98,26 @@ class _RangeSelectionSliderState extends State<RangeSelectionSlider> {
   void _updateManualValue(double? start, double? end) {
     RangeValues newValues = _currentValues;
     if (start != null) {
-      // Clamp and ensure start does not exceed end
-      final clampedStart = start.clamp(widget.min, _currentValues.end - 1);
-      newValues = RangeValues(clampedStart, _currentValues.end);
+      // If start > current end, push end forward
+      double newStart = start.clamp(widget.min, widget.max - 1);
+      double newEnd = _currentValues.end;
+      if (newStart >= newEnd) {
+        newEnd = (newStart + 1).clamp(widget.min + 1, widget.max);
+      }
+      newValues = RangeValues(newStart, newEnd);
     } else if (end != null) {
-      // Clamp and ensure end is not less than start
-      final clampedEnd = end.clamp(_currentValues.start + 1, widget.max);
-      newValues = RangeValues(_currentValues.start, clampedEnd);
+      // If end < current start, pull start back
+      double newEnd = end.clamp(widget.min + 1, widget.max);
+      double newStart = _currentValues.start;
+      if (newEnd <= newStart) {
+        newStart = (newEnd - 1).clamp(widget.min, widget.max - 1);
+      }
+      newValues = RangeValues(newStart, newEnd);
     }
 
     if (newValues != _currentValues) {
       _handleChanged(newValues);
+      HapticFeedback.mediumImpact();
     }
   }
 
@@ -251,7 +261,7 @@ class _ValueFieldState extends State<_ValueField> {
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: widget.value.toString());
+    _controller = TextEditingController(text: PortalUtils.formatNumber(widget.value));
     _focusNode = FocusNode();
     _focusNode.addListener(_handleFocusChange);
   }
@@ -260,7 +270,7 @@ class _ValueFieldState extends State<_ValueField> {
   void didUpdateWidget(_ValueField oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.value != widget.value && !_isFocused) {
-      _controller.text = widget.value.toString();
+      _controller.text = PortalUtils.formatNumber(widget.value);
     }
   }
 
@@ -276,18 +286,21 @@ class _ValueFieldState extends State<_ValueField> {
     setState(() {
       _isFocused = _focusNode.hasFocus;
     });
-    if (!_isFocused) {
+    if (_isFocused) {
+      HapticFeedback.lightImpact();
+    } else {
       _submit();
     }
   }
 
   void _submit() {
-    final newValue = int.tryParse(_controller.text);
+    final String cleanText = _controller.text.replaceAll(',', '');
+    final newValue = int.tryParse(cleanText);
     if (newValue != null) {
       widget.onSubmitted(newValue);
     } else {
       // Revert if invalid
-      _controller.text = widget.value.toString();
+      _controller.text = PortalUtils.formatNumber(widget.value);
     }
   }
 
@@ -295,63 +308,85 @@ class _ValueFieldState extends State<_ValueField> {
   Widget build(BuildContext context) {
     final style = widget.style;
 
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () {
-        if (!_isFocused) {
-          setState(() {
-            _isFocused = true;
-          });
-          _focusNode.requestFocus();
-        }
-      },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: BoxDecoration(
-          color: style.fieldBackgroundColor,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: _isFocused
-                ? style.thumbColor.withValues(alpha: 0.5)
-                : Colors.transparent,
-            width: 2,
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(widget.label, style: style.fieldLabelStyle),
-            const SizedBox(height: 4),
-            Row(
-              children: [
-                Text(style.currencySymbol, style: style.fieldValueStyle),
-                Expanded(
-                  child: _isFocused
-                      ? TextField(
-                          controller: _controller,
-                          focusNode: _focusNode,
-                          autofocus: true,
-                          keyboardType: TextInputType.number,
-                          style: style.fieldValueStyle,
-                          decoration: const InputDecoration(
-                            isDense: true,
-                            contentPadding: EdgeInsets.zero,
-                            border: InputBorder.none,
-                          ),
-                          onSubmitted: (_) => _focusNode.unfocus(),
-                          onTapOutside: (_) => _focusNode.unfocus(),
-                        )
-                      : _PriceFlipDisplay(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        color: style.fieldBackgroundColor,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(widget.label, style: style.fieldLabelStyle),
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              Text(style.currencySymbol, style: style.fieldValueStyle),
+              const SizedBox(width: 4),
+              Expanded(
+                child: SizedBox(
+                  height: PortalUtils.measureText('8', style.fieldValueStyle).height * 2.0,
+                  child: Stack(
+                    alignment: Alignment.centerLeft,
+                    children: [
+                      // Animated Display
+                      Opacity(
+                        opacity: _isFocused ? 0.0 : 1.0,
+                        child: _PriceFlipDisplay(
                           value: widget.value,
                           upward: widget.isIncreasing,
                           textStyle: style.fieldValueStyle,
                         ),
+                      ),
+                      // Raw Input
+                      Opacity(
+                        opacity: _isFocused ? 1.0 : 0.0,
+                        child: IgnorePointer(
+                          ignoring: !_isFocused,
+                          child: TextField(
+                            controller: _controller,
+                            focusNode: _focusNode,
+                            keyboardType: TextInputType.number,
+                            textAlignVertical: TextAlignVertical.center,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(RegExp(r'[0-9,]')),
+                              _ThousandsFormatter(),
+                            ],
+                            style: style.fieldValueStyle,
+                            cursorColor: style.activeTrackColor,
+                            cursorWidth: 2.0,
+                            cursorHeight: PortalUtils.measureText('8', style.fieldValueStyle).height * 0.8,
+                            showCursor: true,
+                            decoration: const InputDecoration(
+                              isDense: true,
+                              contentPadding: EdgeInsets.zero,
+                              border: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                            ),
+                            onSubmitted: (_) => _focusNode.unfocus(),
+                            onTapOutside: (_) => _focusNode.unfocus(),
+                          ),
+                        ),
+                      ),
+                      // Tap overlay when NOT focused
+                      if (!_isFocused)
+                        Positioned.fill(
+                          child: GestureDetector(
+                            onTap: () {
+                              _focusNode.requestFocus();
+                            },
+                            behavior: HitTestBehavior.opaque,
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -377,6 +412,7 @@ class _PriceFlipDisplay extends StatelessWidget {
       value: formatted,
       upward: upward,
       style: textStyle,
+      mainAxisAlignment: MainAxisAlignment.start,
     );
   }
 }
@@ -566,5 +602,52 @@ class _CustomRangeThumbShape extends RangeSliderThumbShape {
       ..color = Colors.white
       ..style = PaintingStyle.fill;
     canvas.drawCircle(center, 8, innerPaint);
+  }
+}
+
+/// Internal formatter to handle thousand separators and cursor positioning.
+class _ThousandsFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.text.isEmpty) return newValue;
+
+    // Only allow digits and commas
+    final String cleanText = newValue.text.replaceAll(',', '');
+    final int? value = int.tryParse(cleanText);
+
+    if (value == null) return oldValue;
+
+    final String formatted = PortalUtils.formatNumber(value);
+    
+    // Calculate new cursor position
+    int cursorPosition = newValue.selection.end;
+    int commasBefore = 0;
+    for (int i = 0; i < newValue.text.length && i < cursorPosition; i++) {
+      if (newValue.text[i] == ',') commasBefore++;
+    }
+    
+    int digitsBefore = cursorPosition - commasBefore;
+    
+    int newCommasBefore = 0;
+    int digitsCount = 0;
+    int newCursorPos = 0;
+    
+    for (int i = 0; i < formatted.length; i++) {
+      if (formatted[i] != ',') {
+        digitsCount++;
+      } else {
+        newCommasBefore++;
+      }
+      if (digitsCount == digitsBefore) {
+        newCursorPos = i + 1;
+        break;
+      }
+    }
+
+    return TextEditingValue(
+      text: formatted,
+      selection: TextSelection.collapsed(offset: newCursorPos),
+    );
   }
 }

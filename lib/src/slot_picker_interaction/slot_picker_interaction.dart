@@ -348,8 +348,8 @@ class _SlotPickerItemWidgetState extends State<_SlotPickerItemWidget>
             boxShadow: (isActuallyEnabled && widget.isExpanded) ? widget.style.shadows : null,
             border: Border.all(
               color: Color.lerp(
-                Colors.grey.withOpacity(0.05),
-                Colors.grey.withOpacity(0.15),
+                Colors.grey.withValues(alpha: 0.05),
+                Colors.grey.withValues(alpha: 0.15),
                 _clampedAnimation.value,
               )!,
               width: 1,
@@ -614,7 +614,7 @@ class _SlotRow extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
-                          color: CupertinoColors.label.resolveFrom(context).withOpacity(0.6),
+                          color: CupertinoColors.label.resolveFrom(context).withValues(alpha: 0.6),
                           decoration: TextDecoration.none,
                         ),
                       ),
@@ -792,11 +792,11 @@ class _TimeInput extends StatelessWidget {
         height: 38,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: hasError ? style.errorColor.withOpacity(0.05) : style.inputFillColor,
+          color: hasError ? style.errorColor.withValues(alpha: 0.05) : style.inputFillColor,
           borderRadius: BorderRadius.circular(10),
           border: hasError 
               ? Border.all(color: style.errorColor, width: 1.0)
-              : (style.inputBorder ?? Border.all(color: Colors.grey.withOpacity(0.15))),
+              : (style.inputBorder ?? Border.all(color: Colors.grey.withValues(alpha: 0.15))),
         ),
         child: Text(
           timeString,

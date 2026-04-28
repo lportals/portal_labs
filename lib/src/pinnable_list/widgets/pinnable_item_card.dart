@@ -33,12 +33,12 @@ class PinnableItemCard extends StatelessWidget {
           color: style?.cardBackgroundColor ?? theme.colors.surface,
           borderRadius: style?.cardBorderRadius ?? BorderRadius.circular(20),
           border: style?.cardBorder ?? Border.all(
-            color: theme.colors.border.withOpacity(0.5),
+            color: theme.colors.border.withValues(alpha: 0.5),
             width: 1.5,
           ),
           boxShadow: style?.cardShadows ?? [
             BoxShadow(
-              color: Colors.black.withOpacity(0.03),
+              color: Colors.black.withValues(alpha: 0.03),
               blurRadius: 20,
               offset: const Offset(0, 8),
             ),
@@ -138,7 +138,7 @@ class _PinButtonState extends State<_PinButton> with SingleTickerProviderStateMi
 
     final List<BoxShadow> activeShadows = [
       BoxShadow(
-        color: activeColor.withOpacity(widget.isPinned ? 0.3 : 0.0),
+        color: activeColor.withValues(alpha: widget.isPinned ? 0.3 : 0.0),
         blurRadius: widget.isPinned ? 8 : 0,
         offset: Offset(0, widget.isPinned ? 4 : 0),
       ),

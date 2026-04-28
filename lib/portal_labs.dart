@@ -9,6 +9,7 @@ library;
 // Common Utilities
 export 'src/common/portal_utils.dart';
 export 'src/common/premium_flip_counter.dart';
+export 'src/common/portal_animations.dart';
 
 // Theme & Design System
 export 'src/theme/portal_theme.dart';

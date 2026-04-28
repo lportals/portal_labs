@@ -15,6 +15,7 @@ class PremiumFlipCounter extends StatelessWidget {
     this.digitWidth,
     this.padWithZero = true,
     this.maxDigits,
+    this.mainAxisAlignment = MainAxisAlignment.center,
   });
 
   /// The value to be displayed (supports int, double, or String).
@@ -36,10 +37,13 @@ class PremiumFlipCounter extends StatelessWidget {
   /// Optional fixed number of digits to display.
   final int? maxDigits;
 
+  /// The alignment of the counter segments.
+  final MainAxisAlignment mainAxisAlignment;
+
   @override
   Widget build(BuildContext context) {
     final Size textSize = PortalUtils.measureText('8', style);
-    final double width = digitWidth ?? textSize.width;
+    final double width = digitWidth ?? (textSize.width + (style.letterSpacing ?? 0));
     final double height = textSize.height;
 
     String strValue;
@@ -58,7 +62,7 @@ class PremiumFlipCounter extends StatelessWidget {
 
     return Row(
       mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: mainAxisAlignment,
       children: segments.asMap().entries.map((entry) {
         final int index = entry.key;
         final String char = entry.value;

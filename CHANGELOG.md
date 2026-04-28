@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.18.0] - 2026-04-28
+
+- **Showcase Evolution**: Replaced the static HomePage grid with a high-fidelity **Springy Grid** using physics-based layout transitions and `RepaintBoundary` for silky-smooth filtering.
+- **Architecture Refinement**: Introduced `PortalSpringCurve` in a centralized animation utility, unifiying the physics engine across `PinnableList`, `HomePage`, and future components.
+- **UX & Stability Polish**:
+  - **RangeSelectionSlider**: Implemented `FontFeature.tabularFigures()` for all numeric inputs to ensure layout stability during mode transitions.
+  - **DiscreteTabs**: Added horizontal scrolling support with `BouncingScrollPhysics` for large tab sets.
+  - **StackedToast Interaction**: Refined immersive mode with a custom transparent header that respects Safe Area while allowing top-aligned toasts.
+  - **Currency Swap**: Optimized `PremiumFlipCounter` alignment to account for custom letter spacing in editable fields.
+  - **Performance**: Integrated `RepaintBoundary` on high-frequency animation surfaces to isolate GPU layers.
+
 ## [0.17.1] - 2026-04-28
 
 - Fix: Updated all README GIF image paths from relative to absolute GitHub raw URLs so they render correctly on pub.dev.

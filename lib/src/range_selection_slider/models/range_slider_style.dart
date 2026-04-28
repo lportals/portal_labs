@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 
 /// Style configuration for the [RangeSelectionSlider].
@@ -29,7 +30,8 @@ class RangeSliderStyle {
       fontSize: 20,
       fontWeight: FontWeight.bold,
       color: Colors.black,
-      letterSpacing: -0.4,
+      letterSpacing: 0.0,
+      fontFeatures: [FontFeature('tnum')],
     ),
     this.fieldBackgroundColor = const Color(0xFFF9FAFD),
     this.currencySymbol = '\$',

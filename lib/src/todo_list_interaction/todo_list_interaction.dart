@@ -58,7 +58,7 @@ class _TodoListInteractionState extends State<TodoListInteraction> {
       decoration: BoxDecoration(
         color: widget.style.outerBackgroundColor,
         borderRadius: BorderRadius.circular(widget.style.outerBorderRadius),
-        border: Border.all(color: Colors.black.withOpacity(0.05), width: 1),
+        border: Border.all(color: Colors.black.withValues(alpha: 0.05), width: 1),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -83,7 +83,7 @@ class _TodoListInteractionState extends State<TodoListInteraction> {
               borderRadius: BorderRadius.circular(widget.style.cardBorderRadius),
               boxShadow: [
                  BoxShadow(
-                  color: Colors.black.withOpacity(0.02),
+                  color: Colors.black.withValues(alpha: 0.02),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),
@@ -374,7 +374,7 @@ class _TodoTabs extends StatelessWidget {
                     borderRadius: BorderRadius.circular(9),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.08),
+                        color: Colors.black.withValues(alpha: 0.08),
                         blurRadius: 4,
                         offset: const Offset(0, 2),
                       ),
@@ -458,7 +458,7 @@ class _TodoItemTile extends StatelessWidget {
                 child: AnimatedDefaultTextStyle(
                   duration: const Duration(milliseconds: 300),
                   style: style.itemTextStyle ?? theme.typography.bodyMedium.copyWith(
-                    color: item.isCompleted ? theme.colors.textSecondary.withOpacity(0.6) : theme.colors.textPrimary,
+                    color: item.isCompleted ? theme.colors.textSecondary.withValues(alpha: 0.6) : theme.colors.textPrimary,
                     decoration: item.isCompleted ? TextDecoration.lineThrough : null,
                     decorationColor: theme.colors.textSecondary,
                     fontSize: 16,
