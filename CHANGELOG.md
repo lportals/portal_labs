@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.17.1] - 2026-04-28
+
+- Fix: Updated all README GIF image paths from relative to absolute GitHub raw URLs so they render correctly on pub.dev.
+
+
 ## [0.17.0] - 2026-04-27
 
 - New Component: **Currency Swap Interaction** — A premium currency conversion interface with custom dropdowns and real-time flip counters.

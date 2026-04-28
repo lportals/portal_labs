@@ -71,7 +71,7 @@ external versioning conflicts.
 
 ### Reveal & Copy
 
-![Reveal & Copy Showcase](./docs/gifs/reveal_and_copy.gif)
+![Reveal & Copy Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/reveal_and_copy.gif)
 
 A specialized interaction designed for the secure presentation and acquisition
 of sensitive data (e.g., credentials, financial accounts).
@@ -100,7 +100,7 @@ RevealCopyInteraction(
 
 ### Modern Weight Picker
 
-![Weight Picker Showcase](./docs/gifs/weight_picker.gif)
+![Weight Picker Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/weight_picker.gif)
 
 A precision-engineered ruler interface for numeric input, optimized for tactile
 feedback and high-accuracy selection.
@@ -129,7 +129,7 @@ ModernWeightPicker(
 
 ### Premium Choice Chips
 
-![Premium Choice Chips Showcase](./docs/gifs/premium_choice_chips.gif)
+![Premium Choice Chips Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/premium_choice_chips.gif)
 
 An engaging multi-selection component supporting diverse media types and dynamic
 animated transitions.
@@ -161,7 +161,7 @@ PremiumChoiceChips(
 
 ### Journal Navigation
 
-![Journal Navigation Showcase](./docs/gifs/journal_navigation.gif)
+![Journal Navigation Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/journal_navigation.gif)
 
 An aesthetic vertical navigation system designed for chronological content
 exploration and high-end journal applications.
@@ -196,7 +196,7 @@ JournalNavigation(
 
 ### Card Splitting Accordion
 
-![Card Splitting Accordion Showcase](./docs/gifs/card_splitting_accordion.gif)
+![Card Splitting Accordion Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/card_splitting_accordion.gif)
 
 A sophisticated layout component where cards dynamically merge and separate
 based on their expansion state.
@@ -230,7 +230,7 @@ CardSplittingAccordion(
 
 ### Adaptive Slider
 
-![Adaptive Slider Showcase](./docs/gifs/adaptive_slider.gif)
+![Adaptive Slider Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/adaptive_slider.gif)
 
 A value-aware interaction component where the visual state adaptively morphs
 based on input thresholds.
@@ -263,7 +263,7 @@ AdaptiveSliderInteraction(
 
 ### Range Selection Slider
 
-![Range Selection Slider Showcase](./docs/gifs/range_slider.gif)
+![Range Selection Slider Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/range_slider.gif)
 
 A high-end range selection component featuring a stylized slider and mechanical
 3D counters with manual input support.
@@ -292,7 +292,7 @@ RangeSelectionSlider(
 
 ### Subscription Picker
 
-![Subscription Picker Showcase](./docs/gifs/subscription_picker.gif)
+![Subscription Picker Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/subscription_picker.gif)
 
 A high-fidelity pricing selection component designed for SaaS and modern
 application subscription flows, fully integrated with the Portal Design System.
@@ -330,7 +330,7 @@ SubscriptionPricingPicker(
 
 ### Media Collapsible View
 
-![Media Collapsible View Showcase](./docs/gifs/media_collapsible_view.gif)
+![Media Collapsible View Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/media_collapsible_view.gif)
 
 A high-fidelity, Reels-inspired interaction component that transitions between a
 full-screen media view and a detailed, gesture-driven interactive comment sheet.
@@ -377,7 +377,7 @@ MediaCollapsibleView(
 
 ### High-Fidelity Knob Slider
 
-![Knob Slider Showcase](./docs/gifs/knob_slider.gif)
+![Knob Slider Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/knob_slider.gif)
 
 A production-ready, interactive dial with a hardware-inspired aesthetic and a
 mechanical odometer-style numeric display.
@@ -418,7 +418,7 @@ KnobSlider(
 
 ### Card Stack Interaction
 
-![Card Stack Interaction Showcase](./docs/gifs/card_stack.gif)
+![Card Stack Interaction Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/card_stack.gif)
 
 A premium, interactive card stack designed for chronological content, featuring
 a minimal "deck" aesthetic and a high-fidelity symmetric expansion animation.
@@ -468,7 +468,7 @@ CardStackInteraction(
 
 ### Discrete Tabs
 
-![Discrete Tabs Showcase](./docs/gifs/discrete_tabs.gif)
+![Discrete Tabs Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/discrete_tabs.gif)
 
 A premium, zero-dependency minimalist navigation widget that expands like a pill
 and features a subtle shimmer and slide effect on selection.
@@ -510,7 +510,7 @@ DiscreteTabs(
 
 ### Split Button Interaction
 
-![Split Button Interaction Showcase](./docs/gifs/nested_pill_menu.gif)
+![Split Button Interaction Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/nested_pill_menu.gif)
 
 A high-fidelity, zero-dependency action menu that seamlessly morphs from a
 primary button into a horizontal navigation pill with synchronized
@@ -559,7 +559,7 @@ SplitButtonInteraction(
 
 ### Morphing Input Button
 
-![Morphing Input Button Showcase](./docs/gifs/morphing_input_button.gif)
+![Morphing Input Button Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/morphing_input_button.gif)
 
 A high-fidelity interaction where a call-to-action button (e.g., "Notify Me")
 seamlessly morphs into a text input field, featuring a premium soft-focus reveal
@@ -596,7 +596,7 @@ MorphingInputButton(
 
 ### Scratch to Reveal
 
-![Scratch to Reveal Showcase](./docs/gifs/scratch_to_reveal.gif)
+![Scratch to Reveal Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/scratch_to_reveal.gif)
 
 A high-fidelity interaction that simulates the physical act of scratching a
 surface to reveal hidden content, optimized for rewards programs and
@@ -635,7 +635,7 @@ ScratchToReveal(
 
 ### Split to Edit
 
-![Split to Edit Showcase](./docs/gifs/split_to_edit.gif)
+![Split to Edit Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/split_to_edit.gif)
 
 A premium duration picker that "splits" from a unified view into separate
 editable segments with a high-fidelity bounce transition.
@@ -665,7 +665,7 @@ SplitToEditDuration(
 
 ### Modern Fractional Picker
 
-![Fractional Picker Showcase](./docs/gifs/fractional_picker.gif)
+![Fractional Picker Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/fractional_picker.gif)
 
 A high-fidelity horizontal ruler for precise numeric selection. Features
 predictive magnetic snapping, customizable physics, and high-performance
@@ -705,7 +705,7 @@ ModernFractionalPicker(
 
 ### Discovery Bar
 
-![Discovery Bar Showcase](docs/gifs/discovery_bar.gif)
+![Discovery Bar Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/discovery_bar.gif)
 
 A premium morphing search and discovery component that transitions between
 discovery categories and a search input with fluid, elastic containers.
@@ -738,7 +738,7 @@ DiscoveryBar(
 
 ### Labeled Progress Indicator
 
-![Labeled Progress Indicator Showcase](docs/gifs/labeled_progress_indicator.gif)
+![Labeled Progress Indicator Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/labeled_progress_indicator.gif)
 
 A production-ready, high-fidelity progress indicator designed for sequential
 loading flows (onboarding, processing) with a focus on tranquil label
@@ -784,7 +784,7 @@ LabeledProgressIndicator(
 
 ### Quick Switcher
 
-![Quick Switcher Showcase](docs/gifs/quick_switcher.gif)
+![Quick Switcher Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/quick_switcher.gif)
 
 A premium, high-fidelity switch component that toggles between different input
 modes with a pulse animation and smooth decorative transitions.
@@ -827,7 +827,7 @@ QuickSwitcher(
 
 ### Stacked Toast Interaction
 
-![Stacked Toast Interaction Showcase](./docs/gifs/interaction_toast.gif)
+![Stacked Toast Interaction Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/interaction_toast.gif)
 
 Individual toasts that arrive from the top and stack behind each other when
 multiple notifications are active, featuring high-fidelity transitions and
@@ -881,7 +881,7 @@ _toastController.show(
 
 ### Disclosure Switch
 
-![Disclosure Switch Showcase](./docs/gifs/switch_disclosure.gif)
+![Disclosure Switch Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/switch_disclosure.gif)
 
 A premium, high-fidelity switch component that "discloses" or reveals additional
 content when toggled on, featuring a unique "Island" design and an
@@ -926,7 +926,7 @@ DisclosureSwitch(
 
 ### Pinnable List
 
-![Pinnable List Showcase](docs/gifs/pinnable_list.gif)
+![Pinnable List Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/pinnable_list.gif)
 
 A high-fidelity, zero-dependency list component that manages "Pinned" and "All"
 sections with a seamless Apple-style displacement animation.
@@ -960,7 +960,7 @@ PinnableList(
 
 ### Todo List Interaction
 
-![Todo List Showcase](docs/gifs/to_do_list_interaction.gif)
+![Todo List Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/to_do_list_interaction.gif)
 
 A high-fidelity task management component featuring a sophisticated "concentric
 island" design, sliding spring segmented controls, and choreographed diagonal
@@ -1006,7 +1006,7 @@ TodoListInteraction(
 
 ### Slot Picker Interaction
 
-![Slot Picker Interaction Showcase](./docs/gifs/slot_picker_interaction.gif)
+![Slot Picker Interaction Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/slot_picker_interaction.gif)
 
 A premium, production- ready scheduling component that combines smooth spring
 physics with a robust validation engine for professional availability
@@ -1055,7 +1055,7 @@ SlotPickerInteraction(
 
 ### Tag Selection Interaction
 
-![Tag Selection Interaction Showcase](./docs/gifs/tag_selection.gif)
+![Tag Selection Interaction Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/tag_selection.gif)
 
 A premium, zero-dependency "Magic Move" tag selection component that uses 100%
 custom, Apple-inspired spring physics to animate tags seamlessly between
@@ -1095,7 +1095,7 @@ TagSelectionInteraction(
 
 ### Collapsible Notification Panel
 
-![Collapsible Notification Panel Showcase](docs/gifs/collapsible_notification.gif)
+![Collapsible Notification Panel Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/collapsible_notification.gif)
 
 A premium, highly interactive notification panel that can collapse into a
 summary header and expand to show a list of activities with spring-based
@@ -1146,7 +1146,7 @@ CollapsibleNotificationPanel(
 
 ### Premium Stepper
 
-![Premium Stepper Showcase](./docs/gifs/stepper_interaction.gif)
+![Premium Stepper Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/stepper_interaction.gif)
 
 A minimalist tactile stepper component utilizing mechanical flip animations and
 haptic feedback.
@@ -1174,7 +1174,7 @@ PremiumStepper(
 
 ### Premium Pagination
 
-![Premium Pagination Showcase](./docs/gifs/pagination_interaction.gif)
+![Premium Pagination Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/pagination_interaction.gif)
 
 A premium, highly customizable navigation component with mechanical flip
 animations and automatic layout stability.
@@ -1206,7 +1206,7 @@ PremiumPagination(
 
 ### Currency Swap
 
-![Currency Swap Showcase](./docs/gifs/swap_currency.gif)
+![Currency Swap Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/swap_currency.gif)
 
 A premium currency conversion interface with custom dropdowns, real-time
 conversion displays using mechanical flip counters, and high-fidelity
