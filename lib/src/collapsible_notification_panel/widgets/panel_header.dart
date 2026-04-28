@@ -58,9 +58,6 @@ class _PanelHeaderState extends State<PanelHeader> with SingleTickerProviderStat
       builder: (context, child) {
         final t = widget.expansionAnimation.value;
         
-        // Standardized padding for symmetry: top and sides are now equal
-        const double verticalPadding = 16.0; 
-        const double horizontalPadding = 16.0;
         final double iconSize = 52.0 - (8.0 * t); // 52 -> 44
         final double fontSize = 18.0 - (3.0 * t); // 18 -> 15
 
@@ -119,7 +116,7 @@ class _PanelHeaderState extends State<PanelHeader> with SingleTickerProviderStat
                                   widget.subtitle,
                                   style: TextStyle(
                                     fontSize: 14,
-                                    color: widget.style.subtitleColor.withOpacity(0.4),
+                                  color: widget.style.subtitleColor.withValues(alpha: 0.4),
                                     fontWeight: FontWeight.w500,
                                   ),
                                   maxLines: 1,
@@ -169,7 +166,7 @@ class _PanelHeaderState extends State<PanelHeader> with SingleTickerProviderStat
             size: size * 0.5,
             shadows: [
               Shadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withValues(alpha: 0.1),
                 blurRadius: 4,
                 offset: const Offset(0, 1),
               ),

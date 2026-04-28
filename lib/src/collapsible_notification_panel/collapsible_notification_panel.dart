@@ -100,7 +100,7 @@ class _CollapsibleNotificationPanelState extends State<CollapsibleNotificationPa
             borderRadius: BorderRadius.circular(widget.style.borderRadius),
             boxShadow: widget.style.boxShadow ?? [
               BoxShadow(
-                color: Colors.black.withOpacity(0.08),
+                color: Colors.black.withValues(alpha: 0.08),
                 blurRadius: 30,
                 offset: const Offset(0, 10),
               ),

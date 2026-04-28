@@ -72,7 +72,7 @@ class _NotificationTileState extends State<NotificationTile> {
                               widget.item.timestamp,
                               style: TextStyle(
                                 fontSize: 12,
-                                color: widget.style.subtitleColor.withOpacity(0.4),
+                                color: widget.style.subtitleColor.withValues(alpha: 0.4),
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -83,7 +83,7 @@ class _NotificationTileState extends State<NotificationTile> {
                           widget.item.description,
                           style: TextStyle(
                             fontSize: 13,
-                            color: widget.style.descriptionColor.withOpacity(0.6),
+                            color: widget.style.descriptionColor.withValues(alpha: 0.6),
                             fontWeight: FontWeight.w400,
                             height: 1.3,
                           ),
