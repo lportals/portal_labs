@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portal_labs/portal_labs.dart';
+import '../showcase_shell.dart';
 
 class KnobSliderShowcase extends StatefulWidget {
   const KnobSliderShowcase({super.key});
@@ -13,37 +14,31 @@ class _KnobSliderShowcaseState extends State<KnobSliderShowcase> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFFAFAFA),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFFAFAFA),
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_rounded,
-            color: Colors.black,
-            size: 20,
-          ),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: const Text(
-          'Knob Slider',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
-      body: SafeArea(
+    return ShowcaseShell(
+      title: 'Knob Slider',
+      description:
+          'A production-ready hardware-inspired dial with delta-based rotation '
+          'tracking and a mechanical odometer-style numeric display. Eliminates '
+          'the dead-zone jump common in standard circular sliders.',
+      codeSnippet: '''KnobSlider(
+  value: _value,
+  min: 0,
+  max: 100,
+  step: 1,
+  onChanged: (val) => setState(() => _value = val),
+  style: KnobSliderStyle(
+    activeTickColor: Colors.black,
+    knobScale: 0.6,
+    totalTicks: 60,
+  ),
+)''',
+      child: SafeArea(
         bottom: true,
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
-                // 1. The main demo
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 60.0),
                   child: Center(
@@ -52,11 +47,18 @@ class _KnobSliderShowcaseState extends State<KnobSliderShowcase> {
                       min: 0,
                       max: 100,
                       step: 1,
-                      onChanged: (val) {
-                        setState(() {
-                          _value = val;
-                        });
-                      },
+                      onChanged: (val) => setState(() => _value = val),
+                      style: KnobSliderStyle(
+                        activeTickColor: Colors.black,
+                        knobScale: 0.6,
+                        totalTicks: 60,
+                        valueTextStyle: const TextStyle(
+                          fontSize: 38,
+                          fontWeight: FontWeight.w800,
+                          color: Color(0xFF8E8E93),
+                          letterSpacing: -1.0,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -67,6 +69,4 @@ class _KnobSliderShowcaseState extends State<KnobSliderShowcase> {
       ),
     );
   }
-
-
 }

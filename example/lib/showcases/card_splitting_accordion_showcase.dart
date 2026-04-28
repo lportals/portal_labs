@@ -1,42 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:portal_labs/portal_labs.dart';
+import '../showcase_shell.dart';
 
 class CardSplittingAccordionShowcase extends StatelessWidget {
   const CardSplittingAccordionShowcase({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ShowcaseShell(
+      title: 'Card Splitting Accordion',
+      description:
+          'Cards dynamically merge and separate based on expansion state. '
+          'Phase-shifted corner radius interpolation creates a natural physical '
+          'splitting feel. Fully themeable via AccordionStyle.',
       backgroundColor: const Color(0xFFF8F9FA),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFF8F9FA),
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_rounded,
-            color: Colors.black,
-            size: 20,
-          ),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: const Text(
-          'Card Splitting Accordion',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
-      body: SafeArea(
+      codeSnippet: '''CardSplittingAccordion(
+  items: [
+    AccordionItem(
+      title: 'UX Strategy',
+      content: 'Finalizing the vision for user-centered design.',
+      icon: Icons.mouse_rounded,
+    ),
+    AccordionItem(
+      title: 'Architecture',
+      content: 'Defining the technical blueprint for scalability.',
+      icon: Icons.developer_board_rounded,
+    ),
+  ],
+)''',
+      child: SafeArea(
         bottom: true,
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
-          child: Column(
+          child: const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const CardSplittingAccordion(
+              CardSplittingAccordion(
                 items: [
                   AccordionItem(
                     title: 'Introduction to UX',

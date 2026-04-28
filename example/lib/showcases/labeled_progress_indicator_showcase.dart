@@ -1,26 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:portal_labs/portal_labs.dart';
+import '../showcase_shell.dart';
 
 class LabeledProgressIndicatorShowcase extends StatefulWidget {
   const LabeledProgressIndicatorShowcase({super.key});
 
   @override
-  State<LabeledProgressIndicatorShowcase> createState() => _LabeledProgressIndicatorShowcaseState();
+  State<LabeledProgressIndicatorShowcase> createState() =>
+      _LabeledProgressIndicatorShowcaseState();
 }
 
-class _LabeledProgressIndicatorShowcaseState extends State<LabeledProgressIndicatorShowcase> {
+class _LabeledProgressIndicatorShowcaseState
+    extends State<LabeledProgressIndicatorShowcase> {
   double _progress = 0.0;
   bool _isLoading = false;
   bool _isError = false;
 
-  final List<ProgressStage> _stages = [
-    const ProgressStage(label: 'Consulting', endProgress: 0.1),
-    const ProgressStage(label: 'Processing', endProgress: 0.8),
-    const ProgressStage(label: 'Completed', endProgress: 1.0),
+  final List<ProgressStage> _stages = const [
+    ProgressStage(label: 'Consulting', endProgress: 0.1),
+    ProgressStage(label: 'Processing', endProgress: 0.8),
+    ProgressStage(label: 'Completed', endProgress: 1.0),
   ];
 
-  void _startLoading() async {
+  Future<void> _startLoading() async {
     if (_isLoading) return;
     HapticFeedback.mediumImpact();
     setState(() {
@@ -28,15 +31,11 @@ class _LabeledProgressIndicatorShowcaseState extends State<LabeledProgressIndica
       _progress = 0.0;
       _isError = false;
     });
-
-    // Small delay to let the user see the first stage before it starts moving
     await Future.delayed(const Duration(milliseconds: 500));
     if (!mounted) return;
-
     const int totalSteps = 100;
     for (int i = 0; i <= totalSteps; i++) {
-      if (_isError) return; // Stop if error triggered
-      
+      if (_isError) return;
       int delay;
       if (_progress < 0.1) {
         delay = 8;
@@ -45,17 +44,11 @@ class _LabeledProgressIndicatorShowcaseState extends State<LabeledProgressIndica
       } else {
         delay = 15;
       }
-
-      await Future.delayed(Duration(milliseconds: delay)); 
+      await Future.delayed(Duration(milliseconds: delay));
       if (!mounted) return;
-      setState(() {
-        _progress = i / totalSteps;
-      });
+      setState(() => _progress = i / totalSteps);
     }
-
-    setState(() {
-      _isLoading = false;
-    });
+    setState(() => _isLoading = false);
     HapticFeedback.heavyImpact();
   }
 
@@ -69,19 +62,28 @@ class _LabeledProgressIndicatorShowcaseState extends State<LabeledProgressIndica
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFFAFAFA),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFFAFAFA),
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: const Text('Progress Interaction'),
-      ),
-      body: SafeArea(
+    return ShowcaseShell(
+      title: 'Labeled Progress',
+      description:
+          'Sequential loading flow with tranquil label transitions using '
+          'Skew-X, Motion Blur, and Elastic Bounce. ProgressStage objects '
+          'support non-uniform thresholds and a size-independent shimmer system.',
+      codeSnippet: '''LabeledProgressIndicator(
+  progress: _progress,
+  stages: [
+    ProgressStage(label: 'Consulting', endProgress: 0.1),
+    ProgressStage(label: 'Processing', endProgress: 0.8),
+    ProgressStage(label: 'Completed', endProgress: 1.0),
+  ],
+  isError: _isError,
+  errorLabel: 'System timeout. Please retry.',
+  onComplete: () => print('Done!'),
+  style: LabeledProgressIndicatorStyle(
+    progressColor: Color(0xFF007AFF),
+    shimmerColor: Color(0xFF00FBFF),
+  ),
+)''',
+      child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Column(
@@ -103,7 +105,7 @@ class _LabeledProgressIndicatorShowcaseState extends State<LabeledProgressIndica
         borderRadius: BorderRadius.circular(32),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 40,
             offset: const Offset(0, 10),
           ),
@@ -131,9 +133,7 @@ class _LabeledProgressIndicatorShowcaseState extends State<LabeledProgressIndica
             stages: _stages,
             isError: _isError,
             errorLabel: 'System timeout. Please retry.',
-            onComplete: () {
-              debugPrint('Onboarding complete!');
-            },
+            onComplete: () => debugPrint('Complete!'),
             style: LabeledProgressIndicatorStyle(
               progressColor: const Color(0xFF007AFF),
               shimmerColor: const Color(0xFF00FBFF),
@@ -164,7 +164,7 @@ class _LabeledProgressIndicatorShowcaseState extends State<LabeledProgressIndica
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
+          color: color.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(100),
         ),
         child: Text(

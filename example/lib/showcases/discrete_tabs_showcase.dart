@@ -1,73 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:portal_labs/portal_labs.dart';
+import '../showcase_shell.dart';
 
-class DiscreteTabsShowcase extends StatefulWidget {
+class DiscreteTabsShowcase extends StatelessWidget {
   const DiscreteTabsShowcase({super.key});
 
   @override
-  State<DiscreteTabsShowcase> createState() => _DiscreteTabsShowcaseState();
-}
-
-class _DiscreteTabsShowcaseState extends State<DiscreteTabsShowcase> {
-  final List<DiscreteTab> _tabs = [
-    const DiscreteTab(
+  Widget build(BuildContext context) {
+    return ShowcaseShell(
+      title: 'Discrete Tabs',
+      description:
+          'Minimalist pill-expanding tab bar with bounce and shimmer text on '
+          'selection. Supports both internal self-managed state and external '
+          'currentIndex for complete synchronization with other views.',
+      backgroundColor: const Color(0xFFF2F2F7),
+      codeSnippet: '''DiscreteTabs(
+  tabs: [
+    DiscreteTab(
       label: 'Inbox',
       icon: Icons.mark_email_unread_rounded,
-      activeColor: Color(0xFF007AFF), // Apple Blue
+      activeColor: Color(0xFF007AFF),
     ),
-    const DiscreteTab(
+    DiscreteTab(
       label: 'Planner',
       icon: Icons.grid_view_rounded,
-      activeColor: Color(0xFFFF2D55), // Apple Red
+      activeColor: Color(0xFFFF2D55),
     ),
-    const DiscreteTab(
-      label: 'Notifications',
-      icon: Icons.notifications_rounded,
-      activeColor: Colors.black,
-    ),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF2F2F7), // Light iOS Background
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_rounded,
-            color: Colors.black,
-            size: 20,
-          ),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: const Text(
-          'Discrete Tabs',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // THE WIDGET
-              DiscreteTabs(
-                tabs: _tabs,
-                onSelect: (index) {
-                  debugPrint('Selected tab index: $index');
-                },
-              ),
-
-              const SizedBox(height: 100),
-            ],
-          ),
+  ],
+  onSelect: (index) => setState(() => _page = index),
+)''',
+      child: Center(
+        child: DiscreteTabs(
+          tabs: const [
+            DiscreteTab(
+              label: 'Inbox',
+              icon: Icons.mark_email_unread_rounded,
+              activeColor: Color(0xFF007AFF),
+            ),
+            DiscreteTab(
+              label: 'Planner',
+              icon: Icons.grid_view_rounded,
+              activeColor: Color(0xFFFF2D55),
+            ),
+            DiscreteTab(
+              label: 'Alerts',
+              icon: Icons.notifications_rounded,
+              activeColor: Colors.black,
+            ),
+          ],
+          onSelect: (index) => debugPrint('Tab: $index'),
         ),
       ),
     );

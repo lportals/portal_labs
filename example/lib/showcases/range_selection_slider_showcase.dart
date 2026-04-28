@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portal_labs/portal_labs.dart';
+import '../showcase_shell.dart';
 
 class RangeSelectionSliderShowcase extends StatefulWidget {
   const RangeSelectionSliderShowcase({super.key});
@@ -15,43 +16,33 @@ class _RangeSelectionSliderShowcaseState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFFAFAFA),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFFAFAFA),
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_rounded,
-            color: Colors.black,
-            size: 20,
-          ),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: const Text(
-          'Range Selection Slider',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
-      body: SafeArea(
+    return ShowcaseShell(
+      title: 'Range Selection Slider',
+      description:
+          'Bi-directional range selector with mechanical 3D flip counters and '
+          'manual text input. Tap either counter to switch from odometer mode '
+          'to keyboard entry without losing context.',
+      codeSnippet: '''RangeSelectionSlider(
+  values: const RangeValues(640, 2380),
+  min: 0,
+  max: 5000,
+  onChanged: (values) => setState(() => _range = values),
+  onApply: (values) => print('Applied: \$values'),
+)''',
+      child: SafeArea(
         bottom: true,
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
-                // 1. The main demo matching the provided image
                 _demoSection(
                   child: RangeSelectionSlider(
                     values: _priceRange,
                     min: 0,
                     max: 5000,
-                    onChanged: (values) => setState(() => _priceRange = values),
+                    onChanged: (values) =>
+                        setState(() => _priceRange = values),
                     onApply: (values) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(

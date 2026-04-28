@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:portal_labs/portal_labs.dart';
+import '../showcase_shell.dart';
 
 class CollapsibleNotificationPanelShowcase extends StatefulWidget {
   const CollapsibleNotificationPanelShowcase({super.key});
 
   @override
-  State<CollapsibleNotificationPanelShowcase> createState() => _CollapsibleNotificationPanelShowcaseState();
+  State<CollapsibleNotificationPanelShowcase> createState() =>
+      _CollapsibleNotificationPanelShowcaseState();
 }
 
-class _CollapsibleNotificationPanelShowcaseState extends State<CollapsibleNotificationPanelShowcase> {
+class _CollapsibleNotificationPanelShowcaseState
+    extends State<CollapsibleNotificationPanelShowcase> {
   final List<NotificationItem> _notifications = [
     NotificationItem(
       id: '1',
@@ -37,7 +40,7 @@ class _CollapsibleNotificationPanelShowcaseState extends State<CollapsibleNotifi
     NotificationItem(
       id: '4',
       title: 'Security Alert',
-      description: 'Your verification code is 884-123. Use it to login.',
+      description: 'Your verification code is 884-123.',
       timestamp: '1h ago',
       icon: Icons.lock_rounded,
       onTap: () {},
@@ -54,26 +57,33 @@ class _CollapsibleNotificationPanelShowcaseState extends State<CollapsibleNotifi
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ShowcaseShell(
+      title: 'Collapsible Notify Panel',
       backgroundColor: const Color(0xFFF2F2F7),
-      appBar: AppBar(
-        title: const Text(
-          'Notification Center',
-          style: TextStyle(fontWeight: FontWeight.w800),
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
+      description:
+          'Spring-based notification panel with staggered entry animations '
+          'and header summary states. Uses SpringSimulation for natural '
+          'momentum-based expansion that matches premium OS interactions.',
+      codeSnippet: '''CollapsibleNotificationPanel(
+  items: [
+    NotificationItem(
+      id: '1',
+      title: 'New Message',
+      description: '"Hey! Did you check the new animations?"',
+      timestamp: '2m ago',
+      icon: Icons.chat_bubble_rounded,
+      onTap: () => print('Tapped'),
+    ),
+  ],
+  onItemTap: (item) => print('Item: \${item.title}'),
+)''',
+      child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
         child: Column(
           children: [
             CollapsibleNotificationPanel(
               items: _notifications,
-              onItemTap: (item) {
-                // Handle interaction
-              },
+              onItemTap: (item) {},
             ),
           ],
         ),

@@ -1,40 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:portal_labs/portal_labs.dart';
+import '../showcase_shell.dart';
 
-class ScratchToRevealShowcase extends StatefulWidget {
+class ScratchToRevealShowcase extends StatelessWidget {
   const ScratchToRevealShowcase({super.key});
 
   @override
-  State<ScratchToRevealShowcase> createState() => _ScratchToRevealShowcaseState();
-}
-
-class _ScratchToRevealShowcaseState extends State<ScratchToRevealShowcase> {
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFFAFAFA),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFFAFAFA),
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_rounded,
-            color: Colors.black,
-            size: 20,
-          ),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: const Text(
-          'Scratch to Reveal',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
-      body: SafeArea(
+    return ShowcaseShell(
+      title: 'Scratch to Reveal',
+      description:
+          'Physical scratching simulation using advanced canvas blend modes. '
+          'Procedurally generated diagonal grid texture mimics real scratch '
+          'cards. Auto-reveals once a configurable coverage threshold is reached.',
+      codeSnippet: '''ScratchToReveal(
+  title: 'Apple Credits',
+  icon: Icons.apple_rounded,
+  onCompleted: () => print('Reward revealed!'),
+  child: Center(
+    child: Text('\$100', style: TextStyle(fontSize: 48)),
+  ),
+)''',
+      child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Column(

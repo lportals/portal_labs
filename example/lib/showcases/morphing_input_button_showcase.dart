@@ -1,16 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:portal_labs/portal_labs.dart';
+import '../showcase_shell.dart';
 
 class MorphingInputButtonShowcase extends StatelessWidget {
   const MorphingInputButtonShowcase({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Morphing Input Button'),
-      ),
-      body: SafeArea(
+    return ShowcaseShell(
+      title: 'Morphing Input Button',
+      description:
+          'Call-to-action button that morphs into a text input with a '
+          'soft-focus blur reveal. Peak 1.5 sigma blur during transition '
+          'creates a dreamy high-end feel. Fully theme-aware with granular style overrides.',
+      codeSnippet: '''MorphingInputButton(
+  buttonText: 'Notify Me',
+  placeholder: 'Enter your email...',
+  icon: Icons.notifications_rounded,
+  initialWidth: 140.0,
+  expandedWidth: 320.0,
+  onSubmitted: (email) => print('Subscribed: \$email'),
+)''',
+      child: SafeArea(
         child: Column(
           children: [
             const Spacer(),

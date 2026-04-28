@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portal_labs/portal_labs.dart';
+import '../showcase_shell.dart';
 
 class QuickSwitcherShowcase extends StatefulWidget {
   const QuickSwitcherShowcase({super.key});
@@ -29,26 +30,30 @@ class _QuickSwitcherShowcaseState extends State<QuickSwitcherShowcase> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ShowcaseShell(
+      title: 'Quick Switcher',
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded, color: Colors.black, size: 20),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: const Text(
-          'Quick Switcher',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
-      body: Center(
+      description:
+          'Toggle component switching between input modes with a synchronized '
+          'pulse animation on selection. Scale and opacity pulse provides '
+          'tactile feedback. AnimatedSwitcher for sub-pixel icon interpolation.',
+      codeSnippet: '''QuickSwitcher(
+  options: [
+    QuickSwitcherOption(
+      label: 'Ask Anything',
+      icon: Icons.auto_awesome_rounded,
+      placeholder: 'Ask Anything',
+    ),
+    QuickSwitcherOption(
+      label: 'Generate Image',
+      icon: Icons.image_rounded,
+      placeholder: 'Generate Image',
+    ),
+  ],
+  onOptionChanged: (index) => print('Mode: \$index'),
+  onSubmitted: (text) => print('Submitted: \$text'),
+)''',
+      child: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Column(
@@ -58,11 +63,9 @@ class _QuickSwitcherShowcaseState extends State<QuickSwitcherShowcase> {
               QuickSwitcher(
                 options: _options,
                 onOptionChanged: (index) {
-                  print('Option changed to: ${_options[index].label}');
+                  debugPrint('Option: ${_options[index].label}');
                 },
-                onSubmitted: (text) {
-                  print('Submitted: $text');
-                },
+                onSubmitted: (text) => debugPrint('Submitted: $text'),
               ),
             ],
           ),

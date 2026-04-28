@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portal_labs/portal_labs.dart';
+import '../showcase_shell.dart';
 
 class AdaptiveSliderShowcase extends StatefulWidget {
   const AdaptiveSliderShowcase({super.key});
@@ -13,43 +14,35 @@ class _AdaptiveSliderShowcaseState extends State<AdaptiveSliderShowcase> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFFAFAFA),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFFAFAFA),
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_rounded,
-            color: Colors.black,
-            size: 20,
-          ),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: const Text(
-          'Adaptive Slider',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
-      body: SafeArea(
+    return ShowcaseShell(
+      title: 'Adaptive Slider',
+      description:
+          'A value-aware slider where gradients and typography morph in real time '
+          'based on configurable thresholds. Contextual indicator points '
+          'recalculate their color state on every frame.',
+      codeSnippet: '''AdaptiveSliderInteraction(
+  value: _value,
+  min: 0,
+  max: 350,
+  title: 'Calories',
+  unit: 'kCal',
+  step: 50,
+  onChanged: (val) => setState(() => _value = val),
+)''',
+      child: SafeArea(
         bottom: true,
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                // 1. Calories Slider (The original design)
                 _buildDemoCard(
                   child: AdaptiveSliderInteraction(
                     value: _currentCalories,
                     min: 0,
                     max: 350,
-                    onChanged: (val) => setState(() => _currentCalories = val),
+                    onChanged: (val) =>
+                        setState(() => _currentCalories = val),
                     title: 'Calories',
                     unit: 'kCal',
                     step: 50,

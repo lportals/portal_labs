@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portal_labs/portal_labs.dart';
+import '../showcase_shell.dart';
 
 class JournalNavigationShowcase extends StatelessWidget {
   const JournalNavigationShowcase({super.key});
@@ -8,7 +9,6 @@ class JournalNavigationShowcase extends StatelessWidget {
   Widget build(BuildContext context) {
     final DateTime now = DateTime.now();
     final DateTime startDate = now.subtract(const Duration(days: 30));
-
     final List<JournalItem> items = List.generate(60, (index) {
       final date = startDate.add(Duration(days: index));
       return JournalItem(
@@ -18,30 +18,24 @@ class JournalNavigationShowcase extends StatelessWidget {
       );
     });
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFFAFAFA),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFFAFAFA),
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_rounded,
-            color: Colors.black,
-            size: 20,
-          ),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: const Text(
-          'Journal Navigation',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
-      body: SafeArea(
+    return ShowcaseShell(
+      title: 'Journal Navigation',
+      description:
+          'Vertical date-based navigator with 3D flip counters and snapping '
+          'transitions. Direction-aware flip animations indicate past/future '
+          'state. Decoupled architecture allows any widget as entry content.',
+      codeSnippet: '''JournalNavigation(
+  initialDate: DateTime.now(),
+  items: [
+    JournalItem(
+      date: DateTime.now(),
+      title: 'Morning run in the park 🏃',
+      content: 'Hit a new personal record today.',
+    ),
+  ],
+  onDateChanged: (item) => print('Viewing: \${item.title}'),
+)''',
+      child: SafeArea(
         bottom: true,
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
@@ -58,47 +52,25 @@ class JournalNavigationShowcase extends StatelessWidget {
 
   String _getTitle(DateTime date) {
     if (date.day % 11 == 0) return "Morning run in the park 🏃‍♂️. New PR!";
-    if (date.day % 9 == 0) {
-      return "A walk among the ancient trees 🌲🌳. Breathing deep.";
-    }
+    if (date.day % 9 == 0) return "A walk among the ancient trees 🌲.";
     if (date.day % 7 == 0) return "A day for deep focus and productivity 🚀.";
-    if (date.day % 6 == 0) return "Sudden breakthrough for the project 💡✨.";
+    if (date.day % 6 == 0) return "Sudden breakthrough for the project 💡.";
     if (date.day % 5 == 0) return "Hit the gym after work 🏋️. Feeling strong.";
-    if (date.day % 4 == 0) {
-      return "Discovered a beautiful hidden bridge 🏗️ city today.";
-    }
-    if (date.day % 3 == 0) {
-      return "Small wins lead to big changes over time 📈.";
-    }
-    if (date.day % 2 == 0) return "Peaceful meditation by the shore 🧘‍♂️🐚.";
+    if (date.day % 4 == 0) return "Discovered a hidden bridge 🏗️ in the city.";
+    if (date.day % 3 == 0) return "Small wins lead to big changes 📈.";
+    if (date.day % 2 == 0) return "Peaceful meditation by the shore 🧘‍♂️.";
     return "Quiet moments are when the best ideas happen ✨.";
   }
 
   String _getContent(DateTime date) {
-    if (date.day % 11 == 0) {
-      return "Paced myself at 5:30 min/km. The air was crisp and fresh. 🌬️";
-    }
-    if (date.day % 9 == 0) {
-      return "Found a new trail in the woods. The forest scent is magic. 🌿";
-    }
-    if (date.day % 7 == 0) {
-      return "Zero distractions. Completed the core feature before noon. 🎯";
-    }
-    if (date.day % 6 == 0) {
-      return "Sketched out a three-phase plan... the vision is finally clear! 🏔️";
-    }
-    if (date.day % 5 == 0) {
-      return "Leg day was brutal but the endorphins are worth it. Tomorrow: rest. 🛌";
-    }
-    if (date.day % 4 == 0) {
-      return "The architecture here is stunning. Took way too many photos. 📸";
-    }
-    if (date.day % 3 == 0) {
-      return "One step at a time. Consistency is my secret superpower. 🧱";
-    }
-    if (date.day % 2 == 0) {
-      return "Just 15 minutes of silence. The mental clarity is life-changing. 🌙";
-    }
-    return "Reflected on the week's events and planned for the days ahead. ✍️";
+    if (date.day % 11 == 0) return "Paced myself at 5:30 min/km. 🌬️";
+    if (date.day % 9 == 0) return "Found a new trail in the woods. 🌿";
+    if (date.day % 7 == 0) return "Zero distractions. Core feature done. 🎯";
+    if (date.day % 6 == 0) return "Three-phase plan finally clear! 🏔️";
+    if (date.day % 5 == 0) return "Leg day was brutal. Worth it. 🛌";
+    if (date.day % 4 == 0) return "Stunning architecture. Too many photos. 📸";
+    if (date.day % 3 == 0) return "Consistency is my superpower. 🧱";
+    if (date.day % 2 == 0) return "15 minutes of silence. Clarity. 🌙";
+    return "Reflected on the week. Planning ahead. ✍️";
   }
 }

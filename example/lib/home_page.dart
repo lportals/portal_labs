@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/physics.dart';
+import 'package:portal_labs/portal_labs.dart';
 import 'showcases/reveal_copy_showcase.dart';
 import 'showcases/premium_choice_chips_showcase.dart';
 import 'showcases/weight_picker_showcase.dart';
@@ -43,9 +45,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String _selectedCategory = 'All';
+  int _selectedIndex = 0;
 
-  final List<String> _categories = ['All', 'Inputs', 'Layout', 'Interactions'];
+  static const List<String> _categories = [
+    'All',
+    'Inputs',
+    'Layout',
+    'Interactions',
+  ];
+
+  String get _selectedCategory => _categories[_selectedIndex];
 
   @override
   Widget build(BuildContext context) {
@@ -58,10 +67,10 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: const Color(0xFFFAFAFA),
             elevation: 0,
             expandedHeight: 80,
-            flexibleSpace: FlexibleSpaceBar(
-              titlePadding: const EdgeInsets.only(left: 20, bottom: 12),
+            flexibleSpace: const FlexibleSpaceBar(
+              titlePadding: EdgeInsets.only(left: 20, bottom: 12),
               centerTitle: false,
-              title: const Text(
+              title: Text(
                 'Portal Labs',
                 style: TextStyle(
                   color: Colors.black,
@@ -72,60 +81,45 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          // Category Filter Bar (Sticky)
+          // Category filter using the library's own DiscreteTabs component.
           SliverToBoxAdapter(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
+            child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-              child: Row(
-                children: _categories.map((category) {
-                  final isSelected = _selectedCategory == category;
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: ChoiceChip(
-                      label: Text(category),
-                      selected: isSelected,
-                      onSelected: (selected) {
-                        setState(() {
-                          _selectedCategory = category;
-                        });
-                      },
-                      labelStyle: TextStyle(
-                        fontSize: 13,
-                        fontWeight: isSelected
-                            ? FontWeight.w700
-                            : FontWeight.w500,
-                        color: isSelected
-                            ? Colors.white
-                            : const Color(0xFF666666),
-                      ),
-                      selectedColor: const Color(0xFF111111),
-                      backgroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        side: BorderSide(
-                          color: isSelected
-                              ? Colors.transparent
-                              : const Color(0xFFEEEEEE),
-                        ),
-                      ),
-                      showCheckmark: false,
-                    ),
-                  );
-                }).toList(),
+              child: DiscreteTabs(
+                currentIndex: _selectedIndex,
+                tabs: [
+                  DiscreteTab(
+                    label: 'All',
+                    icon: Icons.apps_rounded,
+                    activeColor: const Color(0xFF111111),
+                  ),
+                  DiscreteTab(
+                    label: 'Inputs',
+                    icon: Icons.tune_rounded,
+                    activeColor: const Color(0xFF007AFF),
+                  ),
+                  DiscreteTab(
+                    label: 'Layout',
+                    icon: Icons.dashboard_rounded,
+                    activeColor: const Color(0xFFFF9500),
+                  ),
+                  DiscreteTab(
+                    label: 'Interactions',
+                    icon: Icons.gesture_rounded,
+                    activeColor: const Color(0xFFFF2D55),
+                  ),
+                ],
+                onSelect: (index) => setState(() => _selectedIndex = index),
               ),
             ),
           ),
-          SliverPadding(
-            padding: const EdgeInsets.all(20),
-            sliver: SliverGrid(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-                childAspectRatio: 0.82,
-              ),
-              delegate: SliverChildListDelegate(_filteredIcons(context)),
+          // Replaced SliverGrid with a custom SpringyGrid for fluid physics-based 
+          // transitions between categories. Items now 'fly' to their new positions.
+          SliverToBoxAdapter(
+            child: _SpringyGrid(
+              selectedIndex: _selectedIndex,
+              categories: _categories,
+              onTap: (page) => _push(context, page),
             ),
           ),
           const SliverPadding(padding: EdgeInsets.only(bottom: 60)),
@@ -134,7 +128,26 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  List<Widget> _filteredIcons(BuildContext context) {
+  void _push(BuildContext context, Widget page) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) => page));
+  }
+}
+
+/// A premium grid implementation that uses spring physics for reordering.
+class _SpringyGrid extends StatelessWidget {
+  final int selectedIndex;
+  final List<String> categories;
+  final Function(Widget) onTap;
+
+  const _SpringyGrid({
+    required this.selectedIndex,
+    required this.categories,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final String selectedCategory = categories[selectedIndex];
     final List<_ComponentItem> allItems = const [
       _ComponentItem(
         title: 'Knob Slider',
@@ -318,28 +331,95 @@ class _HomePageState extends State<HomePage> {
       ),
     ];
 
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          const int crossAxisCount = 3;
+          const double spacing = 16.0;
+          final double itemWidth =
+              (constraints.maxWidth - (spacing * (crossAxisCount - 1))) /
+                  crossAxisCount;
+          final double itemHeight = itemWidth / 0.82;
 
-    return allItems
-        .where(
-          (item) =>
-              _selectedCategory == 'All' || item.category == _selectedCategory,
-        )
-        .map(
-          (item) => _ComponentIcon(
-            title: item.title,
-            icon: item.icon,
-            onTap: () => _push(context, item.page),
-          ),
-        )
-        .toList();
+          // Filter items and calculate their target positions
+          final List<_ComponentItem> visibleItems = allItems
+              .where((it) =>
+                  selectedCategory == 'All' || it.category == selectedCategory)
+              .toList();
+
+          final int totalRowsVisible =
+              (visibleItems.length / crossAxisCount).ceil();
+          final double totalHeight =
+              (totalRowsVisible * itemHeight) + ((totalRowsVisible - 1) * spacing);
+
+          return AnimatedContainer(
+            duration: const Duration(milliseconds: 800),
+            curve: Curves.easeOutQuart,
+            height: totalHeight,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: allItems.map((item) {
+                final int visibleIndex = visibleItems.indexOf(item);
+                final bool isVisible = visibleIndex != -1;
+
+                // Target coordinates
+                double targetTop = 0;
+                double targetLeft = 0;
+
+                if (isVisible) {
+                  final int row = visibleIndex ~/ crossAxisCount;
+                  final int col = visibleIndex % crossAxisCount;
+                  targetTop = row * (itemHeight + spacing);
+                  targetLeft = col * (itemWidth + spacing);
+                } else {
+                  // Move out-of-view items to a predictable hidden area 
+                  // or just let them fade in place. 
+                  // Moving them slightly down/right feels more organic.
+                  final int originalIndex = allItems.indexOf(item);
+                  final int row = originalIndex ~/ crossAxisCount;
+                  final int col = originalIndex % crossAxisCount;
+                  targetTop = (row + 1) * (itemHeight + spacing);
+                  targetLeft = col * (itemWidth + spacing);
+                }
+
+                return AnimatedPositioned(
+                  key: ValueKey('comp_${item.title}'),
+                  duration: const Duration(milliseconds: 900),
+                  curve: PortalSpringCurve(stiffness: 140, damping: 20),
+                  top: targetTop,
+                  left: targetLeft,
+                  width: itemWidth,
+                  height: itemHeight,
+                  child: AnimatedScale(
+                    scale: isVisible ? 1.0 : 0.8,
+                    duration: const Duration(milliseconds: 600),
+                    curve: Curves.easeOutBack,
+                    child: AnimatedOpacity(
+                      opacity: isVisible ? 1.0 : 0.0,
+                      duration: const Duration(milliseconds: 400),
+                      child: IgnorePointer(
+                        ignoring: !isVisible,
+                        child: RepaintBoundary(
+                          child: _ComponentIcon(
+                            title: item.title,
+                            icon: item.icon,
+                            onTap: () => onTap(item.page),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+          );
+        },
+      ),
+    );
   }
-
-  void _push(BuildContext context, Widget page) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => page));
-  }
-
-
 }
+
 
 class _ComponentIcon extends StatelessWidget {
   final String title;
