@@ -2,6 +2,37 @@ import 'package:flutter/material.dart';
 
 /// Style configuration for the [SlotPickerInteraction] component.
 class SlotPickerStyle {
+
+  /// Creates a [SlotPickerStyle].
+  const SlotPickerStyle({
+    this.collapsedBackgroundColor = const Color(0xFFF2F2F7),
+    this.expandedBackgroundColor = Colors.white,
+    this.labelColor = const Color(0xFF1C1C1E),
+    this.secondaryLabelColor = const Color(0xFF8E8E93),
+    this.slotTextColor = const Color(0xFF1C1C1E),
+    this.borderRadius = const BorderRadius.all(Radius.circular(16)),
+    this.shadows = const [
+      BoxShadow(
+        color: Color(0x0D000000),
+        blurRadius: 12,
+        offset: Offset(0, 4),
+      ),
+    ],
+    this.activeSwitchColor = Colors.black,
+    this.inactiveSwitchColor = const Color(0xFFD1D1D6),
+    this.titleStyle,
+    this.slotTextStyle,
+    this.inputBorder,
+    this.inputFillColor = Colors.white,
+    this.addButtonColor = const Color(0xFFF2F2F7),
+    this.errorColor = const Color(0xFFFF3B30),
+    this.dividerColor = const Color(0xFFC6C6C8),
+    this.addButtonTextStyle,
+    this.removeIconColor = const Color(0xFF8E8E93),
+    this.removeButtonBackgroundColor = const Color(0xFFF2F2F7),
+    this.headerPadding = const EdgeInsets.fromLTRB(16, 8, 16, 4),
+    this.contentPadding = const EdgeInsets.fromLTRB(16, 0, 16, 16),
+  });
   /// Background color of the container when collapsed.
   final Color collapsedBackgroundColor;
 
@@ -61,36 +92,6 @@ class SlotPickerStyle {
 
   /// Padding for the slots section.
   final EdgeInsetsGeometry contentPadding;
-
-  const SlotPickerStyle({
-    this.collapsedBackgroundColor = const Color(0xFFF2F2F7),
-    this.expandedBackgroundColor = Colors.white,
-    this.labelColor = const Color(0xFF1C1C1E),
-    this.secondaryLabelColor = const Color(0xFF8E8E93),
-    this.slotTextColor = const Color(0xFF1C1C1E),
-    this.borderRadius = const BorderRadius.all(Radius.circular(16)),
-    this.shadows = const [
-      BoxShadow(
-        color: Color(0x0D000000),
-        blurRadius: 12,
-        offset: Offset(0, 4),
-      ),
-    ],
-    this.activeSwitchColor = Colors.black,
-    this.inactiveSwitchColor = const Color(0xFFD1D1D6),
-    this.titleStyle,
-    this.slotTextStyle,
-    this.inputBorder,
-    this.inputFillColor = Colors.white,
-    this.addButtonColor = const Color(0xFFF2F2F7),
-    this.errorColor = const Color(0xFFFF3B30),
-    this.dividerColor = const Color(0xFFC6C6C8),
-    this.addButtonTextStyle,
-    this.removeIconColor = const Color(0xFF8E8E93),
-    this.removeButtonBackgroundColor = const Color(0xFFF2F2F7),
-    this.headerPadding = const EdgeInsets.fromLTRB(16, 8, 16, 4),
-    this.contentPadding = const EdgeInsets.fromLTRB(16, 0, 16, 16),
-  });
 
   /// Background color for the "Add More" button.
   final Color? addButtonColor;

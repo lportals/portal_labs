@@ -155,7 +155,6 @@ class _LabeledProgressIndicatorState extends State<LabeledProgressIndicator>
   @override
   Widget build(BuildContext context) {
     final String currentStage = _currentStage;
-    final String percentage = '${(widget.progress * 100).toInt()}%';
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -202,7 +201,7 @@ class _LabeledProgressIndicatorState extends State<LabeledProgressIndicator>
                         child: Transform(
                           transform: Matrix4.identity()
                             ..setEntry(3, 2, 0.001)
-                            ..scale(scale)
+                            ..scaleByDouble(scale, scale, 1.0, 1.0)
                             ..multiply(Matrix4.skewX(skew)),
                           alignment: Alignment.center,
                           child: ImageFiltered(

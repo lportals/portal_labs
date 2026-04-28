@@ -8,6 +8,15 @@ import '../models/tag_selection_style.dart';
 /// This widget handles its own visual state transitions (selected vs unselected)
 /// with smooth animations and high-fidelity styling.
 class TagItemWidget extends StatelessWidget {
+
+  /// Creates a new [TagItemWidget].
+  const TagItemWidget({
+    super.key,
+    required this.tag,
+    required this.isSelected,
+    required this.onTap,
+    required this.style,
+  });
   /// The tag data model.
   final TagModel tag;
 
@@ -19,15 +28,6 @@ class TagItemWidget extends StatelessWidget {
 
   /// The styling configuration for the tag.
   final TagSelectionStyle style;
-
-  /// Creates a new [TagItemWidget].
-  const TagItemWidget({
-    super.key,
-    required this.tag,
-    required this.isSelected,
-    required this.onTap,
-    required this.style,
-  });
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,6 @@ class TagItemWidget extends StatelessWidget {
               duration: const Duration(milliseconds: 400),
               curve: Curves.easeOut, // Changed to prevent negative width on back-bounce
               width: isSelected ? 20.0 : 0.0,
-              clipBehavior: Clip.none,
               child: AnimatedOpacity(
                 duration: const Duration(milliseconds: 300),
                 opacity: isSelected ? 1.0 : 0.0,

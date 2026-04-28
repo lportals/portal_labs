@@ -140,7 +140,6 @@ class _ModernFractionalPickerState extends State<ModernFractionalPicker> {
           ),
         ],
       ),
-      clipBehavior: Clip.none, // Allow pointer to overflow
       child: Stack(
         clipBehavior: Clip.none,
         children: [
@@ -261,8 +260,7 @@ class _StepSnapScrollPhysics extends ScrollPhysics {
     return ScrollSpringSimulation(
       SpringDescription.withDampingRatio(
         mass: 1.0,
-        stiffness: snapStiffness,
-        ratio: 1.0, 
+        stiffness: snapStiffness, 
       ),
       position.pixels,
       snappedTarget,

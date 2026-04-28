@@ -5,6 +5,14 @@ import '../../theme/portal_theme.dart';
 
 /// A premium card component for [PinnableItem]s.
 class PinnableItemCard extends StatelessWidget {
+
+  /// Creates a [PinnableItemCard].
+  const PinnableItemCard({
+    super.key,
+    required this.item,
+    required this.onPinToggle,
+    this.style,
+  });
   /// The item to display.
   final PinnableItem item;
 
@@ -13,13 +21,6 @@ class PinnableItemCard extends StatelessWidget {
 
   /// The visual style of the card.
   final PinnableListStyle? style;
-
-  const PinnableItemCard({
-    super.key,
-    required this.item,
-    required this.onPinToggle,
-    this.style,
-  });
 
   @override
   Widget build(BuildContext context) {
@@ -97,13 +98,13 @@ class PinnableItemCard extends StatelessWidget {
 }
 
 class _PinButton extends StatefulWidget {
-  final bool isPinned;
-  final VoidCallback onPressed;
 
   const _PinButton({
     required this.isPinned,
     required this.onPressed,
   });
+  final bool isPinned;
+  final VoidCallback onPressed;
 
   @override
   State<_PinButton> createState() => _PinButtonState();

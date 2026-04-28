@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 /// Defines the visual configuration for the [TodoListInteraction] component.
 class TodoListStyle {
+  /// Creates a [TodoListStyle].
   const TodoListStyle({
     this.dateStyle,
     this.categoryHeaderStyle,

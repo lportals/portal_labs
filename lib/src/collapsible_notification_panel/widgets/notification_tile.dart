@@ -4,12 +4,7 @@ import '../models/panel_style.dart';
 
 /// A premium tile representing a single notification.
 class NotificationTile extends StatefulWidget {
-  final NotificationItem item;
-  final CollapsibleNotificationPanelStyle style;
-  final VoidCallback? onTap;
-  final double opacity;
-  final double yOffset;
-
+  /// Creates a [NotificationTile].
   const NotificationTile({
     super.key,
     required this.item,
@@ -18,6 +13,22 @@ class NotificationTile extends StatefulWidget {
     this.opacity = 1.0,
     this.yOffset = 0.0,
   });
+
+  /// The notification data to display.
+  final NotificationItem item;
+
+  /// The style configuration for the tile.
+  final CollapsibleNotificationPanelStyle style;
+
+  /// Optional callback when the tile is tapped.
+  /// If null, uses [item.onTap].
+  final VoidCallback? onTap;
+
+  /// The opacity of the tile (used for animations).
+  final double opacity;
+
+  /// The vertical offset of the tile (used for animations).
+  final double yOffset;
 
   @override
   State<NotificationTile> createState() => _NotificationTileState();

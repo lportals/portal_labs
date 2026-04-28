@@ -355,7 +355,6 @@ class _ValueFieldState extends State<_ValueField> {
                             ],
                             style: style.fieldValueStyle,
                             cursorColor: style.activeTrackColor,
-                            cursorWidth: 2.0,
                             cursorHeight: PortalUtils.measureText('8', style.fieldValueStyle).height * 0.8,
                             showCursor: true,
                             decoration: const InputDecoration(
@@ -629,15 +628,12 @@ class _ThousandsFormatter extends TextInputFormatter {
     
     int digitsBefore = cursorPosition - commasBefore;
     
-    int newCommasBefore = 0;
     int digitsCount = 0;
     int newCursorPos = 0;
     
     for (int i = 0; i < formatted.length; i++) {
       if (formatted[i] != ',') {
         digitsCount++;
-      } else {
-        newCommasBefore++;
       }
       if (digitsCount == digitsBefore) {
         newCursorPos = i + 1;

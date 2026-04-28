@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
-import '../../common/portal_utils.dart';
 import '../models/tag_model.dart';
 import '../models/tag_selection_style.dart';
 import 'tag_item_widget.dart';
@@ -15,6 +14,19 @@ import 'tag_item_widget.dart';
 /// - "Apple-inspired" aesthetics with subtle shadows and high-fidelity transitions.
 /// - 100% Vanilla Flutter with zero external dependencies.
 class TagSelectionInteraction extends StatefulWidget {
+
+  /// Creates a new [TagSelectionInteraction].
+  const TagSelectionInteraction({
+    super.key,
+    required this.allTags,
+    this.initialSelectedIds,
+    this.onChanged,
+    this.spacing = 8.0,
+    this.runSpacing = 10.0,
+    this.padding = const EdgeInsets.all(20.0),
+    this.selectedTitle = 'TAGS',
+    this.style = TagSelectionStyle.light,
+  });
   /// The list of all available tags.
   final List<TagModel> allTags;
 
@@ -38,19 +50,6 @@ class TagSelectionInteraction extends StatefulWidget {
 
   /// Visual aesthetic configuration.
   final TagSelectionStyle style;
-
-  /// Creates a new [TagSelectionInteraction].
-  const TagSelectionInteraction({
-    super.key,
-    required this.allTags,
-    this.initialSelectedIds,
-    this.onChanged,
-    this.spacing = 8.0,
-    this.runSpacing = 10.0,
-    this.padding = const EdgeInsets.all(20.0),
-    this.selectedTitle = 'TAGS',
-    this.style = TagSelectionStyle.light,
-  });
 
   @override
   State<TagSelectionInteraction> createState() =>
@@ -175,7 +174,6 @@ class _TagSelectionInteractionState extends State<TagSelectionInteraction> {
                           ),
                           border: Border.all(
                             color: Colors.black.withValues(alpha: 0.05),
-                            width: 1,
                           ),
                         ),
                       ),
@@ -185,7 +183,6 @@ class _TagSelectionInteractionState extends State<TagSelectionInteraction> {
                     // We render ALL tags in one stack so they can fly between sections
                     ...widget.allTags.map((tag) {
                       final isSelected = _selectedIds.contains(tag.id);
-                      final size = _measureTag(tag, isSelected, textScaler);
 
                       Offset targetOffset;
                       if (isSelected) {
@@ -266,13 +263,13 @@ class _TagSelectionInteractionState extends State<TagSelectionInteraction> {
 /// It uses a damped harmonic oscillator approach to create a snappy,
 /// premium interaction feel without external dependencies.
 class _AppleSpringCurve extends Curve {
-  final double damping;
-  final double stiffness;
 
   const _AppleSpringCurve({
     required this.damping,
     required this.stiffness,
   });
+  final double damping;
+  final double stiffness;
 
   @override
   double transformInternal(double t) {

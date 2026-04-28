@@ -7,24 +7,7 @@ import 'models/quick_switcher_style.dart';
 /// A premium, high-fidelity switch component that toggles between different
 /// input modes with a pulse animation and smooth transitions.
 class QuickSwitcher extends StatefulWidget {
-  /// The list of options to switch between.
-  final List<QuickSwitcherOption> options;
-
-  /// The initial index of the selected option.
-  final int initialIndex;
-
-  /// Callback when the option changes.
-  final ValueChanged<int>? onOptionChanged;
-
-  /// Callback when the text is submitted.
-  final ValueChanged<String>? onSubmitted;
-
-  /// The visual style of the switcher.
-  final QuickSwitcherStyle style;
-
-  /// The controller for the text input.
-  final TextEditingController? controller;
-
+  /// Creates a [QuickSwitcher].
   const QuickSwitcher({
     super.key,
     required this.options,
@@ -34,6 +17,25 @@ class QuickSwitcher extends StatefulWidget {
     this.style = const QuickSwitcherStyle(),
     this.controller,
   }) : assert(options.length > 0);
+
+  /// The list of options to switch between.
+  final List<QuickSwitcherOption> options;
+
+  /// The initial index of the selected option.
+  final int initialIndex;
+
+  /// Callback when the selected option changes.
+  final ValueChanged<int>? onOptionChanged;
+
+  /// Callback when the text input is submitted.
+  final ValueChanged<String>? onSubmitted;
+
+  /// The visual style of the switcher.
+  final QuickSwitcherStyle style;
+
+  /// The controller for the text input.
+  /// If provided, uses this instead of an internal controller.
+  final TextEditingController? controller;
 
   @override
   State<QuickSwitcher> createState() => _QuickSwitcherState();
@@ -225,7 +227,7 @@ class _QuickSwitcherState extends State<QuickSwitcher>
                                 alignment: Alignment.center,
                                 children: [
                                   ...previousChildren,
-                                  if (currentChild != null) currentChild,
+                                  ?currentChild,
                                 ],
                               );
                             },
@@ -310,7 +312,7 @@ class _QuickSwitcherState extends State<QuickSwitcher>
                             alignment: Alignment.centerLeft,
                             children: [
                               ...previousChildren,
-                              if (currentChild != null) currentChild,
+                              ?currentChild,
                             ],
                           );
                         },
@@ -412,13 +414,6 @@ class _QuickSwitcherState extends State<QuickSwitcher>
 
 /// A glassmorphic dropdown menu that appears above the QuickSwitcher.
 class _QuickSwitcherMenu extends StatefulWidget {
-  final List<QuickSwitcherOption> options;
-  final int currentIndex;
-  final Offset switcherOffset;
-  final double switcherWidth;
-  final QuickSwitcherStyle style;
-  final ValueChanged<int> onSelect;
-  final VoidCallback onDismiss;
 
   const _QuickSwitcherMenu({
     required this.options,
@@ -429,6 +424,13 @@ class _QuickSwitcherMenu extends StatefulWidget {
     required this.onSelect,
     required this.onDismiss,
   });
+  final List<QuickSwitcherOption> options;
+  final int currentIndex;
+  final Offset switcherOffset;
+  final double switcherWidth;
+  final QuickSwitcherStyle style;
+  final ValueChanged<int> onSelect;
+  final VoidCallback onDismiss;
 
   @override
   State<_QuickSwitcherMenu> createState() => _QuickSwitcherMenuState();
@@ -505,7 +507,6 @@ class _QuickSwitcherMenuState extends State<_QuickSwitcherMenu>
                       borderRadius: BorderRadius.circular(widget.style.borderRadius),
                       border: Border.all(
                         color: Colors.black.withValues(alpha: 0.05),
-                        width: 1,
                       ),
                       boxShadow: [
                         BoxShadow(

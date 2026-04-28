@@ -16,6 +16,25 @@ enum StackedToastType {
 
 /// Model representing a single toast notification.
 class StackedToastItem {
+
+  /// Creates a [StackedToastItem].
+  const StackedToastItem({
+    required this.id,
+    this.title = '',
+    this.message = '',
+    this.type = StackedToastType.info,
+    this.duration = const Duration(seconds: 2),
+    this.icon,
+    this.primaryColor,
+    this.backgroundColor,
+    this.actionLabel = 'Close',
+    this.onAction,
+    this.titleTextStyle,
+    this.messageTextStyle,
+    this.actionTextStyle,
+    this.borderRadius,
+    this.builder,
+  });
   /// Unique identifier for the toast.
   final String id;
   /// Primary title of the toast (ignored if [builder] is used).
@@ -50,22 +69,4 @@ class StackedToastItem {
   /// If provided, this will be rendered instead of the default layout.
   /// This allows for total freedom in UI while inheriting stacking/animations.
   final Widget Function(BuildContext context, VoidCallback onClose)? builder;
-
-  const StackedToastItem({
-    required this.id,
-    this.title = '',
-    this.message = '',
-    this.type = StackedToastType.info,
-    this.duration = const Duration(seconds: 2),
-    this.icon,
-    this.primaryColor,
-    this.backgroundColor,
-    this.actionLabel = 'Close',
-    this.onAction,
-    this.titleTextStyle,
-    this.messageTextStyle,
-    this.actionTextStyle,
-    this.borderRadius,
-    this.builder,
-  });
 }

@@ -11,6 +11,22 @@ import 'models/slot_picker_style.dart';
 /// Apple interfaces. Features expandable items, time slot management,
 /// and smooth reactive transitions.
 class SlotPickerInteraction extends StatefulWidget {
+  /// Creates a [SlotPickerInteraction].
+  const SlotPickerInteraction({
+    super.key,
+    required this.items,
+    this.onItemToggle,
+    this.onAddSlot,
+    this.onRemoveSlot,
+    this.onSlotChanged,
+    this.style = const SlotPickerStyle(),
+    this.spacing = 8.0,
+    this.maxSlots,
+    this.enableSmartValidation = true,
+    this.enableOverlapDetection = true,
+    this.validationInterval = const Duration(hours: 1),
+  });
+
   /// The list of items to display in the picker.
   final List<SlotPickerItem> items;
 
@@ -43,21 +59,6 @@ class SlotPickerInteraction extends StatefulWidget {
 
   /// The time interval used for validation corrections and picker snapping.
   final Duration validationInterval;
-
-  const SlotPickerInteraction({
-    super.key,
-    required this.items,
-    this.onItemToggle,
-    this.onAddSlot,
-    this.onRemoveSlot,
-    this.onSlotChanged,
-    this.style = const SlotPickerStyle(),
-    this.spacing = 8.0,
-    this.maxSlots,
-    this.enableSmartValidation = true,
-    this.enableOverlapDetection = true,
-    this.validationInterval = const Duration(hours: 1),
-  });
 
   @override
   State<SlotPickerInteraction> createState() => _SlotPickerInteractionState();
@@ -134,18 +135,6 @@ class _SlotPickerInteractionState extends State<SlotPickerInteraction> {
 }
 
 class _SlotPickerItemWidget extends StatefulWidget {
-  final SlotPickerItem item;
-  final bool isExpanded;
-  final VoidCallback onHeaderTap;
-  final ValueChanged<bool> onToggle;
-  final VoidCallback onAddSlot;
-  final Function(int) onRemoveSlot;
-  final Function(int, SlotRange) onSlotChanged;
-  final SlotPickerStyle style;
-  final int? maxSlots;
-  final bool enableSmartValidation;
-  final bool enableOverlapDetection;
-  final Duration validationInterval;
 
   const _SlotPickerItemWidget({
     required this.item,
@@ -161,6 +150,18 @@ class _SlotPickerItemWidget extends StatefulWidget {
     required this.enableOverlapDetection,
     required this.validationInterval,
   });
+  final SlotPickerItem item;
+  final bool isExpanded;
+  final VoidCallback onHeaderTap;
+  final ValueChanged<bool> onToggle;
+  final VoidCallback onAddSlot;
+  final Function(int) onRemoveSlot;
+  final Function(int, SlotRange) onSlotChanged;
+  final SlotPickerStyle style;
+  final int? maxSlots;
+  final bool enableSmartValidation;
+  final bool enableOverlapDetection;
+  final Duration validationInterval;
 
   @override
   State<_SlotPickerItemWidget> createState() => _SlotPickerItemWidgetState();
@@ -352,7 +353,6 @@ class _SlotPickerItemWidgetState extends State<_SlotPickerItemWidget>
                 Colors.grey.withValues(alpha: 0.15),
                 _clampedAnimation.value,
               )!,
-              width: 1,
             ),
           ),
           child: Column(
@@ -458,52 +458,8 @@ class _SlotPickerItemWidgetState extends State<_SlotPickerItemWidget>
   }
 }
 
-class _AnimatedSlotEntry extends StatelessWidget {
-  final int index;
-  final AnimationController controller;
-  final Widget child;
-
-  const _AnimatedSlotEntry({
-    required this.index,
-    required this.controller,
-    required this.child,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final start = 0.3 + (index * 0.1);
-    final animation = CurvedAnimation(
-      parent: controller,
-      curve: Interval(
-        start.clamp(0.0, 0.9),
-        (start + 0.3).clamp(0.0, 1.0),
-        curve: Curves.easeOutCubic,
-      ),
-    );
-
-    return AnimatedBuilder(
-      animation: animation,
-      builder: (context, child) {
-        return Transform.translate(
-          offset: Offset(0, 20 * (1 - animation.value)),
-          child: Opacity(
-            opacity: animation.value.clamp(0.0, 1.0),
-            child: child,
-          ),
-        );
-      },
-      child: child,
-    );
-  }
-}
 
 class _ItemHeader extends StatelessWidget {
-  final String title;
-  final bool isEnabled;
-  final VoidCallback onTap;
-  final ValueChanged<bool> onToggle;
-  final SlotPickerStyle style;
-  final Color activeSwitchColor;
 
   const _ItemHeader({
     required this.title,
@@ -513,6 +469,12 @@ class _ItemHeader extends StatelessWidget {
     required this.style,
     required this.activeSwitchColor,
   });
+  final String title;
+  final bool isEnabled;
+  final VoidCallback onTap;
+  final ValueChanged<bool> onToggle;
+  final SlotPickerStyle style;
+  final Color activeSwitchColor;
 
   @override
   Widget build(BuildContext context) {
@@ -542,7 +504,7 @@ class _ItemHeader extends StatelessWidget {
                   child: Switch.adaptive(
                     value: isEnabled,
                     onChanged: (val) {},
-                    activeColor: Colors.white,
+                    activeThumbColor: Colors.white,
                     activeTrackColor: activeSwitchColor,
                   ),
                 ),
@@ -556,13 +518,6 @@ class _ItemHeader extends StatelessWidget {
 }
 
 class _SlotRow extends StatelessWidget {
-  final SlotRange slot;
-  final VoidCallback onRemove;
-  final ValueChanged<SlotRange> onChanged;
-  final SlotPickerStyle style;
-  final bool hasError;
-  final bool enableSmartValidation;
-  final Duration validationInterval;
 
   const _SlotRow({
     required this.slot,
@@ -573,10 +528,17 @@ class _SlotRow extends StatelessWidget {
     this.enableSmartValidation = true,
     required this.validationInterval,
   });
+  final SlotRange slot;
+  final VoidCallback onRemove;
+  final ValueChanged<SlotRange> onChanged;
+  final SlotPickerStyle style;
+  final bool hasError;
+  final bool enableSmartValidation;
+  final Duration validationInterval;
 
   String _formatTime(BuildContext context, TimeOfDay time) {
     final localizations = MaterialLocalizations.of(context);
-    return localizations.formatTimeOfDay(time, alwaysUse24HourFormat: false);
+    return localizations.formatTimeOfDay(time);
   }
 
   int _toMinutes(TimeOfDay time) => time.hour * 60 + time.minute;
@@ -687,7 +649,6 @@ class _SlotRow extends StatelessWidget {
             data: Theme.of(context).copyWith(
               colorScheme: ColorScheme.light(
                 primary: style.activeSwitchColor,
-                onPrimary: Colors.white,
                 onSurface: style.labelColor,
               ),
             ),
@@ -742,7 +703,7 @@ class _SlotRow extends StatelessWidget {
         ),
         const SizedBox(width: 8),
         Text(
-          "To",
+          'To',
           style: TextStyle(
             fontSize: 14,
             color: style.secondaryLabelColor,
@@ -772,10 +733,6 @@ class _SlotRow extends StatelessWidget {
 }
 
 class _TimeInput extends StatelessWidget {
-  final String timeString;
-  final VoidCallback onTap;
-  final SlotPickerStyle style;
-  final bool hasError;
 
   const _TimeInput({
     required this.timeString,
@@ -783,6 +740,10 @@ class _TimeInput extends StatelessWidget {
     required this.style,
     this.hasError = false,
   });
+  final String timeString;
+  final VoidCallback onTap;
+  final SlotPickerStyle style;
+  final bool hasError;
 
   @override
   Widget build(BuildContext context) {
@@ -795,7 +756,7 @@ class _TimeInput extends StatelessWidget {
           color: hasError ? style.errorColor.withValues(alpha: 0.05) : style.inputFillColor,
           borderRadius: BorderRadius.circular(10),
           border: hasError 
-              ? Border.all(color: style.errorColor, width: 1.0)
+              ? Border.all(color: style.errorColor)
               : (style.inputBorder ?? Border.all(color: Colors.grey.withValues(alpha: 0.15))),
         ),
         child: Text(
@@ -813,15 +774,15 @@ class _TimeInput extends StatelessWidget {
 }
 
 class _IconButton extends StatelessWidget {
-  final IconData icon;
-  final Color backgroundColor;
-  final Color iconColor;
 
   const _IconButton({
     required this.icon,
     required this.backgroundColor,
     required this.iconColor,
   });
+  final IconData icon;
+  final Color backgroundColor;
+  final Color iconColor;
 
   @override
   Widget build(BuildContext context) {
@@ -843,13 +804,13 @@ class _IconButton extends StatelessWidget {
 }
 
 class _AddMoreButton extends StatelessWidget {
-  final VoidCallback onTap;
-  final SlotPickerStyle style;
 
   const _AddMoreButton({
     required this.onTap,
     required this.style,
   });
+  final VoidCallback onTap;
+  final SlotPickerStyle style;
 
   @override
   Widget build(BuildContext context) {
@@ -867,14 +828,14 @@ class _AddMoreButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
+            const Icon(
               Icons.add,
               size: 18,
-              color: const Color(0xFF636366),
+              color: Color(0xFF636366),
             ),
             const SizedBox(width: 4),
             Text(
-              "Add More",
+              'Add More',
               style: style.addButtonTextStyle ?? TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
@@ -891,10 +852,10 @@ class _AddMoreButton extends StatelessWidget {
 
 /// A premium press-scale interaction wrapper.
 class _PressScale extends StatefulWidget {
-  final Widget child;
-  final VoidCallback? onTap;
 
   const _PressScale({required this.child, this.onTap});
+  final Widget child;
+  final VoidCallback? onTap;
 
   @override
   State<_PressScale> createState() => _PressScaleState();

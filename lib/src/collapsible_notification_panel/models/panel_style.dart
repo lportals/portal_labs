@@ -2,17 +2,7 @@ import 'package:flutter/material.dart';
 
 /// Configuration for the visual style of the CollapsibleNotificationPanel.
 class CollapsibleNotificationPanelStyle {
-  final Color backgroundColor;
-  final double borderRadius;
-  final List<BoxShadow>? boxShadow;
-  final List<Color> iconGradientColors;
-  final Color dividerColor;
-  final EdgeInsets headerPadding;
-  final EdgeInsets tilePadding;
-  final Color titleColor;
-  final Color subtitleColor;
-  final Color descriptionColor;
-
+  /// Creates a [CollapsibleNotificationPanelStyle] with default values.
   const CollapsibleNotificationPanelStyle({
     this.backgroundColor = Colors.white,
     this.borderRadius = 20,
@@ -25,4 +15,34 @@ class CollapsibleNotificationPanelStyle {
     this.subtitleColor = const Color(0xFF3A3A3C),
     this.descriptionColor = const Color(0xFF3A3A3C),
   });
+
+  /// The background color of the panel.
+  final Color backgroundColor;
+
+  /// The border radius of the panel corners.
+  final double borderRadius;
+
+  /// The shadow applied to the panel.
+  final List<BoxShadow>? boxShadow;
+
+  /// The colors used for the icon's background gradient.
+  final List<Color> iconGradientColors;
+
+  /// The color of the dividers between notifications.
+  final Color dividerColor;
+
+  /// Padding applied to the header section.
+  final EdgeInsets headerPadding;
+
+  /// Padding applied to each notification tile.
+  final EdgeInsets tilePadding;
+
+  /// Color for the title text.
+  final Color titleColor;
+
+  /// Color for the subtitle text.
+  final Color subtitleColor;
+
+  /// Color for the description text.
+  final Color descriptionColor;
 }

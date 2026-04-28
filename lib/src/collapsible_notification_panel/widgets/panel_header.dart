@@ -4,14 +4,7 @@ import '../models/panel_style.dart';
 
 /// The header of the notification panel, visible in both states.
 class PanelHeader extends StatefulWidget {
-  final int notificationCount;
-  final String subtitle;
-  final bool isExpanded;
-  final IconData? icon;
-  final CollapsibleNotificationPanelStyle style;
-  final Animation<double> expansionAnimation;
-  final VoidCallback onToggle;
-
+  /// Creates a [PanelHeader].
   const PanelHeader({
     super.key,
     required this.notificationCount,
@@ -22,6 +15,28 @@ class PanelHeader extends StatefulWidget {
     required this.expansionAnimation,
     required this.onToggle,
   });
+
+  /// The number of notifications to show in the title.
+  final int notificationCount;
+
+  /// The subtitle text shown when collapsed.
+  final String subtitle;
+
+  /// Whether the panel is currently expanded.
+  final bool isExpanded;
+
+  /// Optional icon to show in the header.
+  /// Defaults to [Icons.notifications_rounded].
+  final IconData? icon;
+
+  /// The style configuration for the header.
+  final CollapsibleNotificationPanelStyle style;
+
+  /// Animation representing the expansion progress.
+  final Animation<double> expansionAnimation;
+
+  /// Callback when the header is tapped to toggle expansion.
+  final VoidCallback onToggle;
 
   @override
   State<PanelHeader> createState() => _PanelHeaderState();

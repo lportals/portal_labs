@@ -6,12 +6,7 @@ import 'models/discovery_bar_models.dart';
 /// A premium Discovery Bar widget that uses robust morphing containers to switch 
 /// between search and discovery states without layout overflows.
 class DiscoveryBar extends StatefulWidget {
-  final List<DiscoveryOption> options;
-  final ValueChanged<DiscoveryOption>? onOptionSelected;
-  final ValueChanged<String>? onSearchSubmitted;
-  final String searchPlaceholder;
-  final DiscoveryBarStyle style;
-
+  /// Creates a [DiscoveryBar].
   const DiscoveryBar({
     super.key,
     required this.options,
@@ -20,6 +15,21 @@ class DiscoveryBar extends StatefulWidget {
     this.searchPlaceholder = 'Search',
     this.style = const DiscoveryBarStyle(),
   });
+
+  /// The list of discovery options to display.
+  final List<DiscoveryOption> options;
+
+  /// Callback when a discovery option is selected.
+  final ValueChanged<DiscoveryOption>? onOptionSelected;
+
+  /// Callback when the search is submitted.
+  final ValueChanged<String>? onSearchSubmitted;
+
+  /// The placeholder text for the search input.
+  final String searchPlaceholder;
+
+  /// The style configuration for the discovery bar.
+  final DiscoveryBarStyle style;
 
   @override
   State<DiscoveryBar> createState() => _DiscoveryBarState();
@@ -284,10 +294,6 @@ class _DiscoveryBarState extends State<DiscoveryBar> {
 
 /// A micro-interaction wrapper that pulses (scales up then down) when tapped.
 class _TapPulseWrapper extends StatefulWidget {
-  final Widget child;
-  final VoidCallback? onTap;
-  final bool active;
-  final bool fullArea;
 
   const _TapPulseWrapper({
     super.key, 
@@ -296,6 +302,10 @@ class _TapPulseWrapper extends StatefulWidget {
     this.active = true,
     this.fullArea = false,
   });
+  final Widget child;
+  final VoidCallback? onTap;
+  final bool active;
+  final bool fullArea;
 
   @override
   State<_TapPulseWrapper> createState() => _TapPulseWrapperState();

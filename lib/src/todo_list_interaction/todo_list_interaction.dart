@@ -10,12 +10,7 @@ import '../theme/portal_theme.dart';
 /// 
 /// All visual properties and physics parameters are fully customizable via [TodoListStyle].
 class TodoListInteraction extends StatefulWidget {
-  final List<TodoItem> items;
-  final List<TodoCategory> categories;
-  final String dateString;
-  final TodoListStyle style;
-  final void Function(List<TodoItem> items)? onChanged;
-
+  /// Creates a new [TodoListInteraction].
   const TodoListInteraction({
     super.key,
     required this.items,
@@ -24,6 +19,21 @@ class TodoListInteraction extends StatefulWidget {
     this.style = const TodoListStyle(),
     this.onChanged,
   });
+
+  /// The list of items to display.
+  final List<TodoItem> items;
+
+  /// The categories for grouping items.
+  final List<TodoCategory> categories;
+
+  /// The date string shown in the header.
+  final String dateString;
+
+  /// Visual aesthetic configuration.
+  final TodoListStyle style;
+
+  /// Callback triggered when the item list changes.
+  final void Function(List<TodoItem> items)? onChanged;
 
   @override
   State<TodoListInteraction> createState() => _TodoListInteractionState();
@@ -58,7 +68,7 @@ class _TodoListInteractionState extends State<TodoListInteraction> {
       decoration: BoxDecoration(
         color: widget.style.outerBackgroundColor,
         borderRadius: BorderRadius.circular(widget.style.outerBorderRadius),
-        border: Border.all(color: Colors.black.withValues(alpha: 0.05), width: 1),
+        border: Border.all(color: Colors.black.withValues(alpha: 0.05)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -119,12 +129,6 @@ class _TodoListInteractionState extends State<TodoListInteraction> {
 }
 
 class _TodoCategoryGroup extends StatefulWidget {
-  final TodoCategory category;
-  final List<TodoItem> items;
-  final String activeFilter;
-  final TodoListStyle style;
-  final ValueChanged<String> onToggle;
-
   const _TodoCategoryGroup({
     super.key,
     required this.category,
@@ -133,6 +137,12 @@ class _TodoCategoryGroup extends StatefulWidget {
     required this.style,
     required this.onToggle,
   });
+
+  final TodoCategory category;
+  final List<TodoItem> items;
+  final String activeFilter;
+  final TodoListStyle style;
+  final ValueChanged<String> onToggle;
 
   @override
   State<_TodoCategoryGroup> createState() => _TodoCategoryGroupState();
@@ -303,10 +313,15 @@ class _TodoCategoryGroupState extends State<_TodoCategoryGroup> {
 }
 
 class _AnimatedSpringRotation extends StatefulWidget {
+  const _AnimatedSpringRotation({
+    required this.isExpanded,
+    required this.child,
+    required this.style,
+  });
+
   final bool isExpanded;
   final Widget child;
   final TodoListStyle style;
-  const _AnimatedSpringRotation({required this.isExpanded, required this.child, required this.style});
   @override
   State<_AnimatedSpringRotation> createState() => _AnimatedSpringRotationState();
 }
@@ -336,11 +351,15 @@ class _AnimatedSpringRotationState extends State<_AnimatedSpringRotation> with S
 }
 
 class _TodoTabs extends StatelessWidget {
+  const _TodoTabs({
+    required this.activeFilter,
+    required this.onChanged,
+    required this.style,
+  });
+
   final String activeFilter;
   final ValueChanged<String> onChanged;
   final TodoListStyle style;
-
-  const _TodoTabs({required this.activeFilter, required this.onChanged, required this.style});
 
   @override
   Widget build(BuildContext context) {
@@ -425,15 +444,20 @@ class _TodoTabs extends StatelessWidget {
 }
 
 class _TodoItemTile extends StatelessWidget {
+  const _TodoItemTile({
+    required this.item,
+    required this.onToggle,
+    required this.style,
+  });
+
   final TodoItem item;
   final VoidCallback onToggle;
   final TodoListStyle style;
-  const _TodoItemTile({required this.item, required this.onToggle, required this.style});
   @override
   Widget build(BuildContext context) {
     final theme = PortalTheme.of(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 0),
+      padding: const EdgeInsets.symmetric(horizontal: 40),
       child: GestureDetector(
         onTap: onToggle,
         behavior: HitTestBehavior.opaque,
@@ -441,14 +465,13 @@ class _TodoItemTile extends StatelessWidget {
           height: style.itemHeight,
           alignment: Alignment.centerLeft,
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
                 width: 18,
                 height: 18,
                 decoration: BoxDecoration(
                   color: item.isCompleted ? (style.checkboxActiveColor ?? theme.colors.primary) : Colors.transparent,
-                  border: Border.all(color: item.isCompleted ? (style.checkboxActiveColor ?? theme.colors.primary) : (style.checkboxBorderColor ?? theme.colors.border), width: 1.0),
+                  border: Border.all(color: item.isCompleted ? (style.checkboxActiveColor ?? theme.colors.primary) : (style.checkboxBorderColor ?? theme.colors.border)),
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: item.isCompleted ? const Icon(Icons.check, size: 12, color: Colors.white) : null,
@@ -477,7 +500,11 @@ class _TodoItemTile extends StatelessWidget {
 }
 
 class _MeasureSize extends StatefulWidget {
-  const _MeasureSize({required this.onSizeChange, required this.child});
+  const _MeasureSize({
+    required this.onSizeChange,
+    required this.child,
+  });
+
   final Widget child;
   final _OnSizeChange onSizeChange;
   @override

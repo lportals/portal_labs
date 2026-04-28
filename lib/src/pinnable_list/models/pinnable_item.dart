@@ -2,6 +2,17 @@ import 'package:flutter/material.dart';
 
 /// Model representing an item that can be pinned or unpinned in a list.
 class PinnableItem {
+
+  /// Creates a [PinnableItem].
+  const PinnableItem({
+    required this.id,
+    required this.title,
+    this.subtitle = '',
+    this.icon,
+    this.isPinned = false,
+    this.order = 0,
+    this.metadata = const {},
+  });
   /// Unique identifier for the item.
   final String id;
 
@@ -23,16 +34,6 @@ class PinnableItem {
 
   /// Metadata associated with the item.
   final Map<String, dynamic> metadata;
-
-  const PinnableItem({
-    required this.id,
-    required this.title,
-    this.subtitle = '',
-    this.icon,
-    this.isPinned = false,
-    this.order = 0,
-    this.metadata = const {},
-  });
 
   /// Creates a copy of this item with the given fields replaced.
   PinnableItem copyWith({

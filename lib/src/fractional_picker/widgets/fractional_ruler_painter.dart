@@ -69,7 +69,6 @@ class FractionalRulerPainter extends CustomPainter {
     // ── 1. Tick marks ─────────────────────────────────────────────────────────
     // Decimal mode uses 0.1 steps (9 intermediate ticks).
     // Integer mode uses 0.2 steps (4 intermediate ticks).
-    final double tickStep = decimalPlaces == 0 ? 0.2 : 0.1;
     final int stepScale = decimalPlaces == 0 ? 5 : 10;
     
     final int startStep = (startVal * stepScale).floor();
@@ -88,7 +87,6 @@ class FractionalRulerPainter extends CustomPainter {
       final bool isHalf  = decimalPlaces == 0 ? false : (t % 5 == 0 && !isMajor);
       final double tickH = isMajor ? 14.0 : (isHalf ? 9.0 : 6.0);
 
-      final double dist = (i - currentValue).abs();
       
       // Fixed uniform color for all ticks, with high contrast
       _paint.color = tickColor.withValues(alpha: 0.7);
@@ -108,7 +106,6 @@ class FractionalRulerPainter extends CustomPainter {
       final double colorT = (1.0 - (dist / 1.5)).clamp(0.0, 1.0);
       
       // All labels are visible (high alpha), but only center is dark
-      final double alpha = 0.9; 
       
       final Color labelColor = Color.lerp(inactiveColor, activeColor, math.pow(colorT, 4).toDouble())!;
       // Constant high alpha so numbers are visible at the edges

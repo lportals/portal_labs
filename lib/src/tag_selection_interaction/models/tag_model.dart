@@ -1,16 +1,16 @@
 /// Represents a tag in the selection interaction.
 class TagModel {
-  /// The unique identifier for the tag.
-  final String id;
-
-  /// The text displayed on the tag.
-  final String label;
 
   /// Creates a new [TagModel].
   const TagModel({
     required this.id,
     required this.label,
   });
+  /// The unique identifier for the tag.
+  final String id;
+
+  /// The text displayed on the tag.
+  final String label;
 
   @override
   bool operator ==(Object other) =>

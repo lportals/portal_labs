@@ -2,6 +2,20 @@ import 'package:flutter/material.dart';
 
 /// Style configuration for the [PinnableList] component.
 class PinnableListStyle {
+
+  /// Creates a [PinnableListStyle].
+  const PinnableListStyle({
+    this.badgeBackgroundColor,
+    this.badgeTextStyle,
+    this.sectionHeaderStyle,
+    this.showHeaderBadge = true,
+    this.sectionSpacing = 24.0,
+    this.headerToItemsSpacing = 12.0,
+    this.cardBackgroundColor,
+    this.cardBorderRadius,
+    this.cardBorder,
+    this.cardShadows,
+  });
   /// The background color of the count badge in section headers.
   final Color? badgeBackgroundColor;
 
@@ -33,19 +47,6 @@ class PinnableListStyle {
 
   /// The custom shadows for the cards.
   final List<BoxShadow>? cardShadows;
-
-  const PinnableListStyle({
-    this.badgeBackgroundColor,
-    this.badgeTextStyle,
-    this.sectionHeaderStyle,
-    this.showHeaderBadge = true,
-    this.sectionSpacing = 24.0,
-    this.headerToItemsSpacing = 12.0,
-    this.cardBackgroundColor,
-    this.cardBorderRadius,
-    this.cardBorder,
-    this.cardShadows,
-  });
 
   /// Creates a copy of this style with the given fields replaced.
   PinnableListStyle copyWith({

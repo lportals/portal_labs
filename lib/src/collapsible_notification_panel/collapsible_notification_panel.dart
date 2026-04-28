@@ -8,6 +8,23 @@ import 'widgets/panel_header.dart';
 
 /// A premium notification panel that can be collapsed and expanded with spring physics.
 class CollapsibleNotificationPanel extends StatefulWidget {
+
+  /// Creates a [CollapsibleNotificationPanel].
+  const CollapsibleNotificationPanel({
+    super.key,
+    required this.items,
+    this.collapsedSubtitle = "What's happening around you",
+    this.headerIcon,
+    this.initiallyExpanded = false,
+    this.style = const CollapsibleNotificationPanelStyle(),
+    this.spring = const SpringDescription(
+      mass: 1,
+      stiffness: 100,
+      damping: 15,
+    ),
+    this.onExpansionChanged,
+    this.onItemTap,
+  });
   /// The list of notifications to display.
   final List<NotificationItem> items;
 
@@ -31,22 +48,6 @@ class CollapsibleNotificationPanel extends StatefulWidget {
 
   /// Callback when a notification item is tapped.
   final ValueChanged<NotificationItem>? onItemTap;
-
-  const CollapsibleNotificationPanel({
-    super.key,
-    required this.items,
-    this.collapsedSubtitle = "What's happening around you",
-    this.headerIcon,
-    this.initiallyExpanded = false,
-    this.style = const CollapsibleNotificationPanelStyle(),
-    this.spring = const SpringDescription(
-      mass: 1,
-      stiffness: 100,
-      damping: 15,
-    ),
-    this.onExpansionChanged,
-    this.onItemTap,
-  });
 
   @override
   State<CollapsibleNotificationPanel> createState() => _CollapsibleNotificationPanelState();

@@ -3,6 +3,14 @@ import 'package:flutter/foundation.dart';
 /// Represents a single task in the [TodoListInteraction].
 @immutable
 class TodoItem {
+
+  /// Creates a [TodoItem].
+  const TodoItem({
+    required this.id,
+    required this.title,
+    required this.categoryId,
+    this.isCompleted = false,
+  });
   /// Unique identifier for the task.
   final String id;
 
@@ -14,13 +22,6 @@ class TodoItem {
 
   /// Whether the task is finished.
   final bool isCompleted;
-
-  const TodoItem({
-    required this.id,
-    required this.title,
-    required this.categoryId,
-    this.isCompleted = false,
-  });
 
   /// Creates a copy of this task with updated fields.
   TodoItem copyWith({

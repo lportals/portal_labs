@@ -2,6 +2,17 @@ import 'package:flutter/material.dart';
 
 /// Represents a single notification item in the [CollapsibleNotificationPanel].
 class NotificationItem {
+
+  /// Creates a [NotificationItem].
+  const NotificationItem({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.timestamp,
+    required this.icon,
+    this.color = const Color(0xFF1C1C1E),
+    this.onTap,
+  });
   /// Unique identifier for the notification.
   final String id;
 
@@ -22,14 +33,4 @@ class NotificationItem {
 
   /// Optional callback when the notification is tapped.
   final VoidCallback? onTap;
-
-  const NotificationItem({
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.timestamp,
-    required this.icon,
-    this.color = const Color(0xFF1C1C1E),
-    this.onTap,
-  });
 }

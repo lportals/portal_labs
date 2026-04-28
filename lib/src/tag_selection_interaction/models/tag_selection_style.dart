@@ -2,6 +2,28 @@ import 'package:flutter/material.dart';
 
 /// A configuration object that defines the visual aesthetic of the [TagSelectionInteraction].
 class TagSelectionStyle {
+
+  /// Creates a [TagSelectionStyle] with custom values.
+  const TagSelectionStyle({
+    required this.selectedAreaColor,
+    required this.unselectedTagColor,
+    required this.selectedTagColor,
+    required this.unselectedTextStyle,
+    required this.selectedTextStyle,
+    required this.closeIconColor,
+    this.borderRadius = 12.0,
+    this.selectedTagShadows = const [
+      BoxShadow(
+        color: Colors.black12,
+        blurRadius: 8.0,
+        offset: Offset(0, 4),
+      ),
+    ],
+    this.selectedAreaBorderRadius = 16.0,
+    this.tagPadding = const EdgeInsets.symmetric(horizontal: 12.0),
+    this.damping = 15.0,
+    this.stiffness = 1.0,
+  });
   /// The background color of the selected area container.
   final Color selectedAreaColor;
 
@@ -37,28 +59,6 @@ class TagSelectionStyle {
 
   /// The spring stiffness for the flight animation.
   final double stiffness;
-
-  /// Creates a [TagSelectionStyle] with custom values.
-  const TagSelectionStyle({
-    required this.selectedAreaColor,
-    required this.unselectedTagColor,
-    required this.selectedTagColor,
-    required this.unselectedTextStyle,
-    required this.selectedTextStyle,
-    required this.closeIconColor,
-    this.borderRadius = 12.0,
-    this.selectedTagShadows = const [
-      BoxShadow(
-        color: Colors.black12,
-        blurRadius: 8.0,
-        offset: Offset(0, 4),
-      ),
-    ],
-    this.selectedAreaBorderRadius = 16.0,
-    this.tagPadding = const EdgeInsets.symmetric(horizontal: 12.0, vertical: 0.0),
-    this.damping = 15.0,
-    this.stiffness = 1.0,
-  });
 
   /// The default high-fidelity light theme style.
   static const light = TagSelectionStyle(

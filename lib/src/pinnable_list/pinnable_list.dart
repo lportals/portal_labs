@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/physics.dart';
 import 'models/pinnable_item.dart';
 import 'models/pinnable_list_style.dart';
 import 'widgets/pinnable_item_card.dart';
@@ -21,6 +20,16 @@ typedef PinnableItemBuilder = Widget Function(
 /// - **Smart Sorting**: Optional comparator to maintain order within sections.
 /// - **Custom Card Builder**: Optional builder to fully customize how each item looks.
 class PinnableList extends StatefulWidget {
+  /// Creates a [PinnableList].
+  const PinnableList({
+    super.key,
+    required this.items,
+    this.style = const PinnableListStyle(),
+    this.itemComparator,
+    this.itemBuilder,
+    this.onChanged,
+  });
+
   /// The set of items to manage.
   final List<PinnableItem> items;
 
@@ -36,15 +45,6 @@ class PinnableList extends StatefulWidget {
 
   /// Triggered when an item's pinned state is toggled.
   final void Function(List<PinnableItem> allItems)? onChanged;
-
-  const PinnableList({
-    super.key,
-    required this.items,
-    this.style = const PinnableListStyle(),
-    this.itemComparator,
-    this.itemBuilder,
-    this.onChanged,
-  });
 
   @override
   State<PinnableList> createState() => _PinnableListState();
@@ -186,12 +186,6 @@ class _PinnableListState extends State<PinnableList> {
 }
 
 class _AdaptiveHeader extends StatelessWidget {
-  final String title;
-  final int count;
-  final PinnableListStyle style;
-  final double top;
-  final bool visible;
-  final Function(double) onMeasured;
 
   const _AdaptiveHeader({
     required this.title,
@@ -201,6 +195,12 @@ class _AdaptiveHeader extends StatelessWidget {
     required this.visible,
     required this.onMeasured,
   });
+  final String title;
+  final int count;
+  final PinnableListStyle style;
+  final double top;
+  final bool visible;
+  final Function(double) onMeasured;
 
   @override
   Widget build(BuildContext context) {
@@ -236,10 +236,10 @@ class _AdaptiveHeader extends StatelessWidget {
 }
 
 class _Badge extends StatelessWidget {
-  final int count;
-  final PinnableListStyle style;
 
   const _Badge({required this.count, required this.style});
+  final int count;
+  final PinnableListStyle style;
 
   @override
   Widget build(BuildContext context) {
@@ -259,18 +259,19 @@ class _Badge extends StatelessWidget {
 }
 
 class _MeasureSize extends StatefulWidget {
-  final Widget child;
-  final OnSizeChange onSizeChange;
 
   const _MeasureSize({
     required this.onSizeChange,
     required this.child,
   });
+  final Widget child;
+  final OnSizeChange onSizeChange;
 
   @override
   State<_MeasureSize> createState() => _MeasureSizeState();
 }
 
+/// Callback triggered when a widget's size is measured.
 typedef OnSizeChange = void Function(Size size);
 
 class _MeasureSizeState extends State<_MeasureSize> {

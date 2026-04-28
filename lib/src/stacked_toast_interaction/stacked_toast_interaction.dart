@@ -6,6 +6,14 @@ import 'models/stacked_toast_style.dart';
 /// A premium, interactive toast stack that appears from the top and stacks
 /// multiple notifications with a card-stack effect.
 class StackedToastInteraction extends StatefulWidget {
+  /// Creates a [StackedToastInteraction].
+  const StackedToastInteraction({
+    super.key,
+    this.controller,
+    this.style = const StackedToastStyle(),
+    this.animationDuration = const Duration(milliseconds: 500),
+  });
+
   /// Localized controller to trigger toasts.
   final StackedToastController? controller;
 
@@ -14,13 +22,6 @@ class StackedToastInteraction extends StatefulWidget {
 
   /// Duration for individual toast entry/exit animations.
   final Duration animationDuration;
-
-  const StackedToastInteraction({
-    super.key,
-    this.controller,
-    this.style = const StackedToastStyle(),
-    this.animationDuration = const Duration(milliseconds: 500),
-  });
 
   @override
   State<StackedToastInteraction> createState() => _StackedToastInteractionState();
@@ -104,21 +105,17 @@ class _StackedToastInteractionState extends State<StackedToastInteraction> {
   }
 }
 
+/// Controller used to programmatically show toasts in a [StackedToastInteraction].
 class StackedToastController {
   _StackedToastInteractionState? _state;
   void _attach(_StackedToastInteractionState state) => _state = state;
   void _detach() => _state = null;
+
+  /// Shows a new toast in the stack.
   void show(StackedToastItem toast) => _state?.showToast(toast);
 }
 
 class _AnimatedToastCard extends StatefulWidget {
-  final StackedToastItem toast;
-  final int index;
-  final bool isExiting;
-  final StackedToastStyle style;
-  final Duration duration;
-  final double topPadding;
-  final VoidCallback onClose;
 
   const _AnimatedToastCard({
     required super.key,
@@ -130,6 +127,13 @@ class _AnimatedToastCard extends StatefulWidget {
     required this.topPadding,
     required this.onClose,
   });
+  final StackedToastItem toast;
+  final int index;
+  final bool isExiting;
+  final StackedToastStyle style;
+  final Duration duration;
+  final double topPadding;
+  final VoidCallback onClose;
 
   @override
   State<_AnimatedToastCard> createState() => _AnimatedToastCardState();
@@ -193,10 +197,6 @@ class _AnimatedToastCardState extends State<_AnimatedToastCard> {
 }
 
 class _ToastContent extends StatelessWidget {
-  final StackedToastItem toast;
-  final StackedToastStyle globalStyle;
-  final bool isFront;
-  final VoidCallback onClose;
 
   const _ToastContent({
     required this.toast,
@@ -204,6 +204,10 @@ class _ToastContent extends StatelessWidget {
     required this.isFront,
     required this.onClose,
   });
+  final StackedToastItem toast;
+  final StackedToastStyle globalStyle;
+  final bool isFront;
+  final VoidCallback onClose;
 
   @override
   Widget build(BuildContext context) {
@@ -229,7 +233,6 @@ class _ToastContent extends StatelessWidget {
       ),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(
             toast.icon ?? theme.icon,
@@ -335,13 +338,13 @@ class _ToastContent extends StatelessWidget {
 }
 
 class _ToastTheme {
-  final Color primary;
-  final Color onPrimary;
-  final IconData icon;
 
   _ToastTheme({
     required this.primary,
     required this.onPrimary,
     required this.icon,
   });
+  final Color primary;
+  final Color onPrimary;
+  final IconData icon;
 }
