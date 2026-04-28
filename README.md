@@ -1,56 +1,71 @@
 # Portal Labs
 
-A specialized collection of **high-performance, dependency-free** Flutter UI components and advanced interactions. Built exclusively with vanilla Flutter and Dart to ensure maximum portability and long-term stability.
+A specialized collection of **high-performance, dependency-free** Flutter UI
+components and advanced interactions. Built exclusively with vanilla Flutter and
+Dart to ensure maximum portability and long-term stability.
 
 ## Design Philosophy
 
-The Portal Labs architecture is centered around three core pillars: **performance**, **portability**, and **visual excellence**. By adhering to a strict "zero-dependency" technical policy, we ensure that every component remains lightweight and compatible across all Flutter-supported platforms.
+The Portal Labs architecture is centered around three core pillars:
+**performance**, **portability**, and **visual excellence**. By adhering to a
+strict "zero-dependency" technical policy, we ensure that every component
+remains lightweight and compatible across all Flutter-supported platforms.
 
 ### Technical Constraints
 
-To maintain a clean architecture and eliminate overhead, this repository follows these engineering standards:
+To maintain a clean architecture and eliminate overhead, this repository follows
+these engineering standards:
 
-* **SDK-Only Foundation**: Components are developed using only core Flutter and Dart libraries.
-* **Internal Utilites**: Formatting, text measurement, and specialized date logic are centralized in [PortalUtils](/lib/src/common/portal_utils.dart) to avoid external packages like `intl`.
-* **Custom Design System**: Icons and typography leverage system defaults and Material Design standards, removing the need for `google_fonts` or third-party icon sets.
-* **Native Animation Engine**: Complex physics and mechanical transitions (e.g., 3D flips, magnetic snapping) are implemented using standard `AnimationController` and `Tween` sequences.
+- **SDK-Only Foundation**: Components are developed using only core Flutter and
+  Dart libraries.
+- **Internal Utilites**: Formatting, text measurement, and specialized date
+  logic are centralized in [PortalUtils](/lib/src/common/portal_utils.dart) to
+  avoid external packages like `intl`.
+- **Custom Design System**: Icons and typography leverage system defaults and
+  Material Design standards, removing the need for `google_fonts` or third-party
+  icon sets.
+- **Native Animation Engine**: Complex physics and mechanical transitions (e.g.,
+  3D flips, magnetic snapping) are implemented using standard
+  `AnimationController` and `Tween` sequences.
 
-This strategy makes every component **instantly portable**—allowing developers to integrate the full library or copy individual source files without managing external versioning conflicts.
+This strategy makes every component **instantly portable**—allowing developers
+to integrate the full library or copy individual source files without managing
+external versioning conflicts.
 
 ## Component Library
 
-| #   | Component                                                        | Description                                                                                                        | Technical Scope | Location                                  |
-| :-- | :--------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------- | :-------------- | :---------------------------------------- |
-| 1   | **[Reveal &amp; Copy](#reveal--copy)**                          | Secure data masking with scramble reveal and clipboard animation.                                                  | Interaction     | `/lib/src/reveal_and_copy/`               |
-| 2   | **[Modern Weight Picker](#modern-weight-picker)**               | Precision scrollable ruler with magnetic snapping and haptic feedback.                                             | Numeric Input   | `/lib/src/weight_picker/`                 |
-| 3   | **[Premium Choice Chips](#premium-choice-chips)**               | Animated multi-selection system with flying media transitions.                                                     | Selection       | `/lib/src/premium_choice_chips/`          |
-| 4   | **[Journal Navigation](#journal-navigation)**                   | Vertical date-based navigation with 3D flip counters and snapping transitions.                                     | Navigation      | `/lib/src/journal_navigation/`            |
-| 5   | **[Card Splitting Accordion](#card-splitting-accordion)**       | Dynamic grouping interaction with physical splitting and variable corner radii.                                    | Layout          | `/lib/src/card_splitting_accordion/`      |
-| 6   | **[Adaptive Slider](#adaptive-slider)**                         | Value-aware gradient slider with real-time color morphing.                                                         | Interaction     | `/lib/src/adaptive_slider_interaction/`   |
-| 7   | **[Range Selection Slider](#range-selection-slider)**           | Premium bi-directional range selector with mechanical Odometer-style counters and manual input support.            | Selection       | `/lib/src/range_selection_slider/`        |
-| 8   | **[Subscription Picker](#subscription-picker)**                 | High-fidelity pricing selector with minimalist monthly/yearly toggle logic.                                        | Selection       | `/lib/src/subscription_pricing_picker/`   |
-| 9   | **[Media Collapsible View](#media-collapsible-view)**           | Reels-inspired video background with dynamic collapsible interactive sheet.                                        | Interaction     | `/lib/src/media_collapsible_view/`        |
-| 10  | **[High-Fidelity Knob Slider](#high-fidelity-knob-slider)**     | Premium tactile knob with mathematical delta tracking and mechanical reel digits.                                  | Interaction     | `/lib/src/knob_slider/`                   |
-| 11  | **[Card Stack Interaction](#card-stack-interaction)**           | Premium chronological card stack with symmetric expansion and high-fidelity transitions.                           | Interaction     | `/lib/src/card_stack_interaction/`        |
-| 12  | **[Discrete Tabs](#discrete-tabs)**                             | Minimalist pill expanding tabs with aesthetic bounce, shimmer text, and managed state.                             | Interaction     | `/lib/src/discrete_tabs/`                 |
-| 13  | **[Split Button Interaction](#split-button-interaction)**       | Premium morphing action menu with synchronized action slide, elastic pop bounce, and motion blur emergence.        | Navigation      | `/lib/src/split_button_interaction/`      |
-| 14  | **[Morphing Input Button](#morphing-input-button)**             | Premium button that morphs into a text input with a soft-focus reveal effect.                                      | Interaction     | `/lib/src/morphing_input_button/`         |
-| 15  | **[Scratch to Reveal](#scratch-to-reveal)**                     | High-fidelity physical scratching simulation to disclose hidden rewards.                                           | Interaction     | `/lib/src/scratch_to_reveal/`             |
-| 16  | **[Split to Edit](#split-to-edit)**                             | Premium duration picker that splits into editable segments with a bounce transition.                               | Interaction     | `/lib/src/split_to_edit/`                 |
-| 17  | **[Modern Fractional Picker](#modern-fractional-picker)**       | Precision horizontal ruler for numeric input with support for integer/decimal steps and magnetic snapping.         | Numeric Input   | `/lib/src/fractional_picker/`             |
-| 18  | **[Discovery Bar](#discovery-bar)**                             | Premium morphing search and discovery component with elastic containers and micro-scale interactions.              | Interaction     | `/lib/src/discovery_bar/`                 |
-| 19  | **[Labeled Progress Indicator](#labeled-progress-indicator)**   | Premium labeled progress indicator with tranquil transitions and customizable stages.                              | Interaction     | `/lib/src/labeled_progress_indicator/`    |
-| 20  | **[Quick Switcher](#quick-switcher)**                           | Premium togglable search bar with pulse animations and aesthetic input transitions.                                | Interaction     | `/lib/src/quick_switcher/`                |
-| 21  | **[Stacked Toast Interaction](#stacked-toast-interaction)**     | Premium chronological toast stack that appears from the top with high-fidelity transitions and symmetric stacking. | Interaction     | `/lib/src/stacked_toast_interaction/`     |
-| 22  | **[Disclosure Switch](#disclosure-switch)**                   | Premium switch that reveals additional nested content with a gradient track and smooth size animations.             | Interaction     | `/lib/src/disclosure_switch/`             |
-| 23  | **[Pinnable List](#pinnable-list)**                             | Premium dual-section list with Apple-style "flight" physics and dynamic self-measuring displacement animations.    | Interaction     | `/lib/src/pinnable_list/`                 |
-| 24  | **[Todo List Interaction](#todo-list-interaction)**             | High-fidelity task management with concentric "Island" design and choreographed diagonal flight physics.           | Interaction     | `/lib/src/todo_list_interaction/`         |
-| 25  | **[Slot Picker Interaction](#slot-picker-interaction)**         | Premium availability picker with spring physics, real-time collision detection, and smart validation.              | Interaction     | `/lib/src/slot_picker_interaction/`        |
-| 26  | **[Tag Selection Interaction](#tag-selection-interaction)**     | Premium "Magic Move" tag selection with zero-dependency Apple-inspired spring physics and fluid wrapping.           | Interaction     | `/lib/src/tag_selection_interaction/`     |
-| 27  | **[Collapsible Notify Panel](#collapsible-notify-panel)**       | Premium spring-based notification panel with staggered entry and header summaries.                                  | Layout          | `/lib/src/collapsible_notification_panel/` |
-| 28  | **[Premium Stepper](#premium-stepper)**                         | Minimalist tactile stepper with mechanical flip animations and full layout customization.                          | Numeric Input   | `/lib/src/premium_stepper/`                 |
-| 29  | **[Premium Pagination](#premium-pagination)**                   | Tactile navigation with mechanical flip animations and automatic layout stability.                                 | Navigation      | `/lib/src/premium_pagination/`              |
-| 30  | **[Currency Swap](#currency-swap)**                             | Premium currency conversion interface with custom dropdowns and real-time flip counters.                           | Interaction     | `/lib/src/currency_swap_interaction/`      |
+| #  | Component                                                     | Description                                                                                                        | Technical Scope | Location                                   |
+| :- | :------------------------------------------------------------ | :----------------------------------------------------------------------------------------------------------------- | :-------------- | :----------------------------------------- |
+| 1  | **[Reveal &amp; Copy](#reveal--copy)**                        | Secure data masking with scramble reveal and clipboard animation.                                                  | Interaction     | `/lib/src/reveal_and_copy/`                |
+| 2  | **[Modern Weight Picker](#modern-weight-picker)**             | Precision scrollable ruler with magnetic snapping and haptic feedback.                                             | Numeric Input   | `/lib/src/weight_picker/`                  |
+| 3  | **[Premium Choice Chips](#premium-choice-chips)**             | Animated multi-selection system with flying media transitions.                                                     | Selection       | `/lib/src/premium_choice_chips/`           |
+| 4  | **[Journal Navigation](#journal-navigation)**                 | Vertical date-based navigation with 3D flip counters and snapping transitions.                                     | Navigation      | `/lib/src/journal_navigation/`             |
+| 5  | **[Card Splitting Accordion](#card-splitting-accordion)**     | Dynamic grouping interaction with physical splitting and variable corner radii.                                    | Layout          | `/lib/src/card_splitting_accordion/`       |
+| 6  | **[Adaptive Slider](#adaptive-slider)**                       | Value-aware gradient slider with real-time color morphing.                                                         | Interaction     | `/lib/src/adaptive_slider_interaction/`    |
+| 7  | **[Range Selection Slider](#range-selection-slider)**         | Premium bi-directional range selector with mechanical Odometer-style counters and manual input support.            | Selection       | `/lib/src/range_selection_slider/`         |
+| 8  | **[Subscription Picker](#subscription-picker)**               | High-fidelity pricing selector with minimalist monthly/yearly toggle logic.                                        | Selection       | `/lib/src/subscription_pricing_picker/`    |
+| 9  | **[Media Collapsible View](#media-collapsible-view)**         | Reels-inspired video background with dynamic collapsible interactive sheet.                                        | Interaction     | `/lib/src/media_collapsible_view/`         |
+| 10 | **[High-Fidelity Knob Slider](#high-fidelity-knob-slider)**   | Premium tactile knob with mathematical delta tracking and mechanical reel digits.                                  | Interaction     | `/lib/src/knob_slider/`                    |
+| 11 | **[Card Stack Interaction](#card-stack-interaction)**         | Premium chronological card stack with symmetric expansion and high-fidelity transitions.                           | Interaction     | `/lib/src/card_stack_interaction/`         |
+| 12 | **[Discrete Tabs](#discrete-tabs)**                           | Minimalist pill expanding tabs with aesthetic bounce, shimmer text, and managed state.                             | Interaction     | `/lib/src/discrete_tabs/`                  |
+| 13 | **[Split Button Interaction](#split-button-interaction)**     | Premium morphing action menu with synchronized action slide, elastic pop bounce, and motion blur emergence.        | Navigation      | `/lib/src/split_button_interaction/`       |
+| 14 | **[Morphing Input Button](#morphing-input-button)**           | Premium button that morphs into a text input with a soft-focus reveal effect.                                      | Interaction     | `/lib/src/morphing_input_button/`          |
+| 15 | **[Scratch to Reveal](#scratch-to-reveal)**                   | High-fidelity physical scratching simulation to disclose hidden rewards.                                           | Interaction     | `/lib/src/scratch_to_reveal/`              |
+| 16 | **[Split to Edit](#split-to-edit)**                           | Premium duration picker that splits into editable segments with a bounce transition.                               | Interaction     | `/lib/src/split_to_edit/`                  |
+| 17 | **[Modern Fractional Picker](#modern-fractional-picker)**     | Precision horizontal ruler for numeric input with support for integer/decimal steps and magnetic snapping.         | Numeric Input   | `/lib/src/fractional_picker/`              |
+| 18 | **[Discovery Bar](#discovery-bar)**                           | Premium morphing search and discovery component with elastic containers and micro-scale interactions.              | Interaction     | `/lib/src/discovery_bar/`                  |
+| 19 | **[Labeled Progress Indicator](#labeled-progress-indicator)** | Premium labeled progress indicator with tranquil transitions and customizable stages.                              | Interaction     | `/lib/src/labeled_progress_indicator/`     |
+| 20 | **[Quick Switcher](#quick-switcher)**                         | Premium togglable search bar with pulse animations and aesthetic input transitions.                                | Interaction     | `/lib/src/quick_switcher/`                 |
+| 21 | **[Stacked Toast Interaction](#stacked-toast-interaction)**   | Premium chronological toast stack that appears from the top with high-fidelity transitions and symmetric stacking. | Interaction     | `/lib/src/stacked_toast_interaction/`      |
+| 22 | **[Disclosure Switch](#disclosure-switch)**                   | Premium switch that reveals additional nested content with a gradient track and smooth size animations.            | Interaction     | `/lib/src/disclosure_switch/`              |
+| 23 | **[Pinnable List](#pinnable-list)**                           | Premium dual-section list with Apple-style "flight" physics and dynamic self-measuring displacement animations.    | Interaction     | `/lib/src/pinnable_list/`                  |
+| 24 | **[Todo List Interaction](#todo-list-interaction)**           | High-fidelity task management with concentric "Island" design and choreographed diagonal flight physics.           | Interaction     | `/lib/src/todo_list_interaction/`          |
+| 25 | **[Slot Picker Interaction](#slot-picker-interaction)**       | Premium availability picker with spring physics, real-time collision detection, and smart validation.              | Interaction     | `/lib/src/slot_picker_interaction/`        |
+| 26 | **[Tag Selection Interaction](#tag-selection-interaction)**   | Premium "Magic Move" tag selection with zero-dependency Apple-inspired spring physics and fluid wrapping.          | Interaction     | `/lib/src/tag_selection_interaction/`      |
+| 27 | **[Collapsible Notify Panel](#collapsible-notify-panel)**     | Premium spring-based notification panel with staggered entry and header summaries.                                 | Layout          | `/lib/src/collapsible_notification_panel/` |
+| 28 | **[Premium Stepper](#premium-stepper)**                       | Minimalist tactile stepper with mechanical flip animations and full layout customization.                          | Numeric Input   | `/lib/src/premium_stepper/`                |
+| 29 | **[Premium Pagination](#premium-pagination)**                 | Tactile navigation with mechanical flip animations and automatic layout stability.                                 | Navigation      | `/lib/src/premium_pagination/`             |
+| 30 | **[Currency Swap](#currency-swap)**                           | Premium currency conversion interface with custom dropdowns and real-time flip counters.                           | Interaction     | `/lib/src/currency_swap_interaction/`      |
 
 ---
 
@@ -58,13 +73,17 @@ This strategy makes every component **instantly portable**—allowing developers
 
 ![Reveal & Copy Showcase](./docs/gifs/reveal_and_copy.gif)
 
-A specialized interaction designed for the secure presentation and acquisition of sensitive data (e.g., credentials, financial accounts).
+A specialized interaction designed for the secure presentation and acquisition
+of sensitive data (e.g., credentials, financial accounts).
 
 #### Key Features
 
-* **Secure Masking**: Configurable character masking with an automated shimmer reveal effect.
-* **Timed Visibility**: Automatic reversion to masked state after a defined duration for enhanced security.
-* **Integrated Micro-interactions**: Smooth clipboard integration with visual feedback.
+- **Secure Masking**: Configurable character masking with an automated shimmer
+  reveal effect.
+- **Timed Visibility**: Automatic reversion to masked state after a defined
+  duration for enhanced security.
+- **Integrated Micro-interactions**: Smooth clipboard integration with visual
+  feedback.
 
 #### Integration
 
@@ -83,13 +102,17 @@ RevealCopyInteraction(
 
 ![Weight Picker Showcase](./docs/gifs/weight_picker.gif)
 
-A precision-engineered ruler interface for numeric input, optimized for tactile feedback and high-accuracy selection.
+A precision-engineered ruler interface for numeric input, optimized for tactile
+feedback and high-accuracy selection.
 
 #### Key Features
 
-* **Custom-Painted Ruler**: High-resolution track with distinct major/minor increments.
-* **Magnetic Snapping**: Centered alignment logic that snaps to the nearest precision point.
-* **Low-Latency Feedback**: Real-time value synchronization optimized for 60fps interaction.
+- **Custom-Painted Ruler**: High-resolution track with distinct major/minor
+  increments.
+- **Magnetic Snapping**: Centered alignment logic that snaps to the nearest
+  precision point.
+- **Low-Latency Feedback**: Real-time value synchronization optimized for 60fps
+  interaction.
 
 #### Integration
 
@@ -108,13 +131,17 @@ ModernWeightPicker(
 
 ![Premium Choice Chips Showcase](./docs/gifs/premium_choice_chips.gif)
 
-An engaging multi-selection component supporting diverse media types and dynamic animated transitions.
+An engaging multi-selection component supporting diverse media types and dynamic
+animated transitions.
 
 #### Key Features
 
-* **Media Agnostic**: Native support for Unicode emojis, Material icons, and custom images.
-* **Kinetic Transitions**: Selection events trigger a "landing" animation with flying media particles.
-* **Directional Counter**: Integrated Odometer-style counter for real-time selection tracking.
+- **Media Agnostic**: Native support for Unicode emojis, Material icons, and
+  custom images.
+- **Kinetic Transitions**: Selection events trigger a "landing" animation with
+  flying media particles.
+- **Directional Counter**: Integrated Odometer-style counter for real-time
+  selection tracking.
 
 #### Integration
 
@@ -136,13 +163,17 @@ PremiumChoiceChips(
 
 ![Journal Navigation Showcase](./docs/gifs/journal_navigation.gif)
 
-An aesthetic vertical navigation system designed for chronological content exploration and high-end journal applications.
+An aesthetic vertical navigation system designed for chronological content
+exploration and high-end journal applications.
 
 #### Key Features
 
-* **Infinite Vertical Scroll**: Efficient scrolling logic supporting seamless date transitions.
-* **Direction-Aware Flips**: 3D flip animations that indicate the scroll direction (past/future).
-* **Modular Content Display**: Decoupled navigation logic allowing for any custom widget as the journal entry.
+- **Infinite Vertical Scroll**: Efficient scrolling logic supporting seamless
+  date transitions.
+- **Direction-Aware Flips**: 3D flip animations that indicate the scroll
+  direction (past/future).
+- **Modular Content Display**: Decoupled navigation logic allowing for any
+  custom widget as the journal entry.
 
 #### Integration
 
@@ -167,13 +198,17 @@ JournalNavigation(
 
 ![Card Splitting Accordion Showcase](./docs/gifs/card_splitting_accordion.gif)
 
-A sophisticated layout component where cards dynamically merge and separate based on their expansion state.
+A sophisticated layout component where cards dynamically merge and separate
+based on their expansion state.
 
 #### Key Features
 
-* **Physical Splitting Logic**: Cards appear to physically separate from a cohesive block into standalone units.
-* **Phase-Shifted Rounding**: Independent interpolation of corner radii and displacement for a natural feel.
-* **Adaptive Theme System**: Comprehensive style injection via the `AccordionStyle` configuration.
+- **Physical Splitting Logic**: Cards appear to physically separate from a
+  cohesive block into standalone units.
+- **Phase-Shifted Rounding**: Independent interpolation of corner radii and
+  displacement for a natural feel.
+- **Adaptive Theme System**: Comprehensive style injection via the
+  `AccordionStyle` configuration.
 
 #### Integration
 
@@ -197,13 +232,17 @@ CardSplittingAccordion(
 
 ![Adaptive Slider Showcase](./docs/gifs/adaptive_slider.gif)
 
-A value-aware interaction component where the visual state adaptively morphs based on input thresholds.
+A value-aware interaction component where the visual state adaptively morphs
+based on input thresholds.
 
 #### Key Features
 
-* **Morphing Gradients**: Linear color interpolation across the track based on defined thresholds.
-* **Contextual Indicators**: Dynamic indicator points that recalculate their state on every frame.
-* **Gradient Typography**: Value labels share the adaptive gradient of the active track.
+- **Morphing Gradients**: Linear color interpolation across the track based on
+  defined thresholds.
+- **Contextual Indicators**: Dynamic indicator points that recalculate their
+  state on every frame.
+- **Gradient Typography**: Value labels share the adaptive gradient of the
+  active track.
 
 #### Integration
 
@@ -226,13 +265,17 @@ AdaptiveSliderInteraction(
 
 ![Range Selection Slider Showcase](./docs/gifs/range_slider.gif)
 
-A high-end range selection component featuring a stylized slider and mechanical 3D counters with manual input support.
+A high-end range selection component featuring a stylized slider and mechanical
+3D counters with manual input support.
 
 #### Key Features
 
-* **Mechanical 3D Flip Counters**: Independent digit animations responding to range adjustments.
-* **Manual Input Support**: Seamlessly transition from flip counters to manual text entry on tap.
-* **Adaptive Formatting**: Built-in support for localized numeric formatting and currency symbols.
+- **Mechanical 3D Flip Counters**: Independent digit animations responding to
+  range adjustments.
+- **Manual Input Support**: Seamlessly transition from flip counters to manual
+  text entry on tap.
+- **Adaptive Formatting**: Built-in support for localized numeric formatting and
+  currency symbols.
 
 #### Integration
 
@@ -251,14 +294,19 @@ RangeSelectionSlider(
 
 ![Subscription Picker Showcase](./docs/gifs/subscription_picker.gif)
 
-A high-fidelity pricing selection component designed for SaaS and modern application subscription flows, fully integrated with the Portal Design System.
+A high-fidelity pricing selection component designed for SaaS and modern
+application subscription flows, fully integrated with the Portal Design System.
 
 #### Key Features
 
-* **Period Toggle**: Smooth, animated transition between billing periods (e.g., Monthly/Yearly) using weighted physics.
-* **Minimalist Cards**: Clean typography and selection states with animated toggles and premium border highlights.
-* **Popular Badge & Haptics**: Built-in support for "Popular" badges and integrated haptic feedback for selection events.
-* **Theme Aware**: Native support for light/dark modes via the `PortalTheme` system.
+- **Period Toggle**: Smooth, animated transition between billing periods (e.g.,
+  Monthly/Yearly) using weighted physics.
+- **Minimalist Cards**: Clean typography and selection states with animated
+  toggles and premium border highlights.
+- **Popular Badge & Haptics**: Built-in support for "Popular" badges and
+  integrated haptic feedback for selection events.
+- **Theme Aware**: Native support for light/dark modes via the `PortalTheme`
+  system.
 
 #### Integration
 
@@ -284,14 +332,21 @@ SubscriptionPricingPicker(
 
 ![Media Collapsible View Showcase](./docs/gifs/media_collapsible_view.gif)
 
-A high-fidelity, Reels-inspired interaction component that transitions between a full-screen media view and a detailed, gesture-driven interactive comment sheet.
+A high-fidelity, Reels-inspired interaction component that transitions between a
+full-screen media view and a detailed, gesture-driven interactive comment sheet.
 
 #### Key Features
 
-* **Fluid Coordinate Scaling**: Mathematical transition between full-frame and scaled-down media layouts using a shared stack architecture.
-* **Dual-Phase Gesture Handling**: Integrated gesture handover between bottom-sheet dragging and internal list scrolling for a seamless "hand-off" feel.
-* **Dynamic Blur Layering**: High-performance background blur layering that simulates real-time color bleeding without GPU overhead.
-* **Zero-Dependency Media Builder**: Decoupled architecture using `mediaBuilder` to inject any video or interaction engine without adding external library debt.
+- **Fluid Coordinate Scaling**: Mathematical transition between full-frame and
+  scaled-down media layouts using a shared stack architecture.
+- **Dual-Phase Gesture Handling**: Integrated gesture handover between
+  bottom-sheet dragging and internal list scrolling for a seamless "hand-off"
+  feel.
+- **Dynamic Blur Layering**: High-performance background blur layering that
+  simulates real-time color bleeding without GPU overhead.
+- **Zero-Dependency Media Builder**: Decoupled architecture using `mediaBuilder`
+  to inject any video or interaction engine without adding external library
+  debt.
 
 #### Integration
 
@@ -324,14 +379,21 @@ MediaCollapsibleView(
 
 ![Knob Slider Showcase](./docs/gifs/knob_slider.gif)
 
-A production-ready, interactive dial with a hardware-inspired aesthetic and a mechanical odometer-style numeric display.
+A production-ready, interactive dial with a hardware-inspired aesthetic and a
+mechanical odometer-style numeric display.
 
 #### Key Features
 
-* **Mechanical Reel Animated Counter**: Odometer-style vertical scrolling for numbers with dynamic motion blur that scales with rotation velocity.
-* **Delta-Based Rotation Logic**: High-fidelity gesture tracking that calculates relative angular changes, eliminating the "dead-zone" jump common in standard circular sliders.
-* **3D Depth Perception**: Digits fade and tilt as they "rotate" through the 3D window, creating a tactile depth effect without external assets.
-* **Fully Customizable Style**: Every aspect of the knob—from tick frequency and thickness to shadow depth and ring colors—is configurable via `KnobSliderStyle`.
+- **Mechanical Reel Animated Counter**: Odometer-style vertical scrolling for
+  numbers with dynamic motion blur that scales with rotation velocity.
+- **Delta-Based Rotation Logic**: High-fidelity gesture tracking that calculates
+  relative angular changes, eliminating the "dead-zone" jump common in standard
+  circular sliders.
+- **3D Depth Perception**: Digits fade and tilt as they "rotate" through the 3D
+  window, creating a tactile depth effect without external assets.
+- **Fully Customizable Style**: Every aspect of the knob—from tick frequency and
+  thickness to shadow depth and ring colors—is configurable via
+  `KnobSliderStyle`.
 
 #### Integration
 
@@ -358,14 +420,20 @@ KnobSlider(
 
 ![Card Stack Interaction Showcase](./docs/gifs/card_stack.gif)
 
-A premium, interactive card stack designed for chronological content, featuring a minimal "deck" aesthetic and a high-fidelity symmetric expansion animation.
+A premium, interactive card stack designed for chronological content, featuring
+a minimal "deck" aesthetic and a high-fidelity symmetric expansion animation.
 
 #### Key Features
 
-* **Symmetric Center Expansion**: Cards expand outwards from the center of the stack with an elastic `easeOutBack` curve for a tactile "pop" effect.
-* **Layered Stacking Logic**: A specialized 3-level visual hierarchy that hides extra items behind the stack until expanded, maintaining a clean interface.
-* **Synchronized Transitions**: Integrated `AnimatedCrossFade` and `AnimatedRotation` for the action button, ensuring smooth layout shifts and icon turns.
-* **Fully Themeable**: Comprehensive style injection via `CardStackStyle` allowing complete control over card dimensions, spacing, offsets, and colors.
+- **Symmetric Center Expansion**: Cards expand outwards from the center of the
+  stack with an elastic `easeOutBack` curve for a tactile "pop" effect.
+- **Layered Stacking Logic**: A specialized 3-level visual hierarchy that hides
+  extra items behind the stack until expanded, maintaining a clean interface.
+- **Synchronized Transitions**: Integrated `AnimatedCrossFade` and
+  `AnimatedRotation` for the action button, ensuring smooth layout shifts and
+  icon turns.
+- **Fully Themeable**: Comprehensive style injection via `CardStackStyle`
+  allowing complete control over card dimensions, spacing, offsets, and colors.
 
 #### Integration
 
@@ -402,13 +470,18 @@ CardStackInteraction(
 
 ![Discrete Tabs Showcase](./docs/gifs/discrete_tabs.gif)
 
-A premium, zero-dependency minimalist navigation widget that expands like a pill and features a subtle shimmer and slide effect on selection.
+A premium, zero-dependency minimalist navigation widget that expands like a pill
+and features a subtle shimmer and slide effect on selection.
 
 #### Key Features
 
-* **Aesthetic Expansion**: High-fidelity bounce expansion curves transitioning seamlessly from a compact circle into a detailed pill.
-* **Slide & Fade Shimmer**: Smooth linear gradient shimmer and sub-pixel slide interpolation that triggers elegantly across the label upon tab selection.
-* **Controlled State**: Built with robust architecture offering both internal state for quick implementation and an external `currentIndex` for complete synchronization with other views.
+- **Aesthetic Expansion**: High-fidelity bounce expansion curves transitioning
+  seamlessly from a compact circle into a detailed pill.
+- **Slide & Fade Shimmer**: Smooth linear gradient shimmer and sub-pixel slide
+  interpolation that triggers elegantly across the label upon tab selection.
+- **Controlled State**: Built with robust architecture offering both internal
+  state for quick implementation and an external `currentIndex` for complete
+  synchronization with other views.
 
 #### Integration
 
@@ -439,15 +512,24 @@ DiscreteTabs(
 
 ![Split Button Interaction Showcase](./docs/gifs/nested_pill_menu.gif)
 
-A high-fidelity, zero-dependency action menu that seamlessly morphs from a primary button into a horizontal navigation pill with synchronized micro-animations.
+A high-fidelity, zero-dependency action menu that seamlessly morphs from a
+primary button into a horizontal navigation pill with synchronized
+micro-animations.
 
 #### Key Features
 
-* **Dynamic Morphing Transition**: High-performance transformation from a primary action label into a back-navigation icon with a fluid, symmetric expansion.
-* **Synchronized Action Slide**: Supplemental action items slide out from behind the main button with coordinated opacity, blur, and width interpolation.
-* **Elastic Pop Bounce**: Symmetrical bidirectional "pop" effect upon menu closure, providing a tactile, hardware-inspired physical interaction.
-* **Sophisticated Text Emergence**: High-end motion blur and clarify effect as the main label reappears during the closing transition, preventing visual artifacts.
-* **Managed Controller API**: Built-in `SplitButtonController` for programmatic expansion, collapse, and toggle events.
+- **Dynamic Morphing Transition**: High-performance transformation from a
+  primary action label into a back-navigation icon with a fluid, symmetric
+  expansion.
+- **Synchronized Action Slide**: Supplemental action items slide out from behind
+  the main button with coordinated opacity, blur, and width interpolation.
+- **Elastic Pop Bounce**: Symmetrical bidirectional "pop" effect upon menu
+  closure, providing a tactile, hardware-inspired physical interaction.
+- **Sophisticated Text Emergence**: High-end motion blur and clarify effect as
+  the main label reappears during the closing transition, preventing visual
+  artifacts.
+- **Managed Controller API**: Built-in `SplitButtonController` for programmatic
+  expansion, collapse, and toggle events.
 
 #### Integration
 
@@ -479,14 +561,21 @@ SplitButtonInteraction(
 
 ![Morphing Input Button Showcase](./docs/gifs/morphing_input_button.gif)
 
-A high-fidelity interaction where a call-to-action button (e.g., "Notify Me") seamlessly morphs into a text input field, featuring a premium soft-focus reveal effect.
+A high-fidelity interaction where a call-to-action button (e.g., "Notify Me")
+seamlessly morphs into a text input field, featuring a premium soft-focus reveal
+effect.
 
 #### Key Features
 
-* **Soft-Focus Reveal**: During the transition, the input text and placeholder gently blur (peak 1.5 sigma) and then come into perfect focus for a dreamy, high-end feel.
-* **Aesthetic Expansion Curve**: Uses a specialized `easeOutBack` spring animation for the button-to-input morph.
-* **Premium Flat Design**: Minimalist and shadow-free architecture (flat UI) that fits perfectly into modern high-end applications and design systems.
-* **Fully Theme-Aware**: Automatically inherits colors and text styles from your `ThemeData`, with granular overrides for background and button colors.
+- **Soft-Focus Reveal**: During the transition, the input text and placeholder
+  gently blur (peak 1.5 sigma) and then come into perfect focus for a dreamy,
+  high-end feel.
+- **Aesthetic Expansion Curve**: Uses a specialized `easeOutBack` spring
+  animation for the button-to-input morph.
+- **Premium Flat Design**: Minimalist and shadow-free architecture (flat UI)
+  that fits perfectly into modern high-end applications and design systems.
+- **Fully Theme-Aware**: Automatically inherits colors and text styles from your
+  `ThemeData`, with granular overrides for background and button colors.
 
 #### Integration
 
@@ -509,14 +598,20 @@ MorphingInputButton(
 
 ![Scratch to Reveal Showcase](./docs/gifs/scratch_to_reveal.gif)
 
-A high-fidelity interaction that simulates the physical act of scratching a surface to reveal hidden content, optimized for rewards programs and "surprise-and-delight" features.
+A high-fidelity interaction that simulates the physical act of scratching a
+surface to reveal hidden content, optimized for rewards programs and
+"surprise-and-delight" features.
 
 #### Key Features
 
-* **Layered Blend Modes**: Uses advanced mathematical clearing of a custom-painted layer to reveal content in high-performance stacks.
-* **Tactile Textures**: Features a procedurally generated diagonal grid pattern on the surface to mimic the appearance of physical scratch cards.
-* **Intelligent Auto-Reveal**: Tracks scratch coverage and automatically fades out the remaining surface once a configurable success threshold is reached.
-* **Integrated Action Header**: Includes a premium card layout with a brandable header and a smooth "Start again" reset mechanism.
+- **Layered Blend Modes**: Uses advanced mathematical clearing of a
+  custom-painted layer to reveal content in high-performance stacks.
+- **Tactile Textures**: Features a procedurally generated diagonal grid pattern
+  on the surface to mimic the appearance of physical scratch cards.
+- **Intelligent Auto-Reveal**: Tracks scratch coverage and automatically fades
+  out the remaining surface once a configurable success threshold is reached.
+- **Integrated Action Header**: Includes a premium card layout with a brandable
+  header and a smooth "Start again" reset mechanism.
 
 #### Integration
 
@@ -542,13 +637,17 @@ ScratchToReveal(
 
 ![Split to Edit Showcase](./docs/gifs/split_to_edit.gif)
 
-A premium duration picker that "splits" from a unified view into separate editable segments with a high-fidelity bounce transition.
+A premium duration picker that "splits" from a unified view into separate
+editable segments with a high-fidelity bounce transition.
 
 #### Key Features
 
-* **Bounce Split Transition**: Uses a specialized `ElasticOutCurve` to create a tactile "splitting" effect.
-* **Segmented Morphing**: Backgrounds and corner radii dynamically interpolate between unified and standalone states.
-* **Haptic Integration**: Subtle selection and impact haptics provide a premium "mechanical" feel.
+- **Bounce Split Transition**: Uses a specialized `ElasticOutCurve` to create a
+  tactile "splitting" effect.
+- **Segmented Morphing**: Backgrounds and corner radii dynamically interpolate
+  between unified and standalone states.
+- **Haptic Integration**: Subtle selection and impact haptics provide a premium
+  "mechanical" feel.
 
 #### Integration
 
@@ -568,14 +667,20 @@ SplitToEditDuration(
 
 ![Fractional Picker Showcase](./docs/gifs/fractional_picker.gif)
 
-A high-fidelity horizontal ruler for precise numeric selection. Features predictive magnetic snapping, customizable physics, and high-performance rendering.
+A high-fidelity horizontal ruler for precise numeric selection. Features
+predictive magnetic snapping, customizable physics, and high-performance
+rendering.
 
 #### Key Features
 
-* **Predictive Snap Landing**: Calculates the natural landing spot based on velocity and snaps to the nearest integer/decimal.
-* **Customizable Physics**: Exposes `friction` and `snapStiffness` for a tailored tactile feel.
-* **Performance Optimized**: Uses `AnimatedBuilder` and local painting cache for constant 60/120 FPS.
-* **Haptic Precision**: Integrated selection haptics that fire exactly as the ruler crosses threshold points.
+- **Predictive Snap Landing**: Calculates the natural landing spot based on
+  velocity and snaps to the nearest integer/decimal.
+- **Customizable Physics**: Exposes `friction` and `snapStiffness` for a
+  tailored tactile feel.
+- **Performance Optimized**: Uses `AnimatedBuilder` and local painting cache for
+  constant 60/120 FPS.
+- **Haptic Precision**: Integrated selection haptics that fire exactly as the
+  ruler crosses threshold points.
 
 #### Integration
 
@@ -602,14 +707,19 @@ ModernFractionalPicker(
 
 ![Discovery Bar Showcase](docs/gifs/discovery_bar.gif)
 
-A premium morphing search and discovery component that transitions between discovery categories and a search input with fluid, elastic containers.
+A premium morphing search and discovery component that transitions between
+discovery categories and a search input with fluid, elastic containers.
 
 #### Key Features
 
-* **Morphing Containers**: Dual containers that physically expand and shrink in place for a seamless transition.
-* **Micro-Bounce Physics**: Custom-tuned cubic curves with 10% overshoot for a premium tactile feel.
-* **Micro-Scale Interactions**: High-performance tap feedback on all text and icons for a "bouncy" experience.
-* **Zero-Dependency Semantic Support**: Intelligent focus management and Material semantics without third-party debt.
+- **Morphing Containers**: Dual containers that physically expand and shrink in
+  place for a seamless transition.
+- **Micro-Bounce Physics**: Custom-tuned cubic curves with 10% overshoot for a
+  premium tactile feel.
+- **Micro-Scale Interactions**: High-performance tap feedback on all text and
+  icons for a "bouncy" experience.
+- **Zero-Dependency Semantic Support**: Intelligent focus management and
+  Material semantics without third-party debt.
 
 #### Integration
 
@@ -630,15 +740,23 @@ DiscoveryBar(
 
 ![Labeled Progress Indicator Showcase](docs/gifs/labeled_progress_indicator.gif)
 
-A production-ready, high-fidelity progress indicator designed for sequential loading flows (onboarding, processing) with a focus on tranquil label transitions.
+A production-ready, high-fidelity progress indicator designed for sequential
+loading flows (onboarding, processing) with a focus on tranquil label
+transitions.
 
 #### Key Features
 
-* **Dynamic Stage Management**: Support for `ProgressStage` objects allowing for non-uniform loading thresholds and custom labels.
-* **Tranquil Transitions**: Labels enter/exit using a sophisticated combination of **Skew-X**, **Motion Blur**, and **Elastic Bounce** for a premium "air-focus" feel.
-* **Size-Independent Shimmer**: A global-coordinate shimmer system that remains consistent in speed and scale regardless of the progress bar width.
-* **Robust State Handling**: Integrated support for `onComplete` callbacks and customizable `isError` states with fallback labels.
-* **Deep Customization**: Fully configurable typography, shimmer colors, height, and optional percentage display via `LabeledProgressIndicatorStyle`.
+- **Dynamic Stage Management**: Support for `ProgressStage` objects allowing for
+  non-uniform loading thresholds and custom labels.
+- **Tranquil Transitions**: Labels enter/exit using a sophisticated combination
+  of **Skew-X**, **Motion Blur**, and **Elastic Bounce** for a premium
+  "air-focus" feel.
+- **Size-Independent Shimmer**: A global-coordinate shimmer system that remains
+  consistent in speed and scale regardless of the progress bar width.
+- **Robust State Handling**: Integrated support for `onComplete` callbacks and
+  customizable `isError` states with fallback labels.
+- **Deep Customization**: Fully configurable typography, shimmer colors, height,
+  and optional percentage display via `LabeledProgressIndicatorStyle`.
 
 #### Integration
 
@@ -668,14 +786,19 @@ LabeledProgressIndicator(
 
 ![Quick Switcher Showcase](docs/gifs/quick_switcher.gif)
 
-A premium, high-fidelity switch component that toggles between different input modes with a pulse animation and smooth decorative transitions.
+A premium, high-fidelity switch component that toggles between different input
+modes with a pulse animation and smooth decorative transitions.
 
 #### Key Features
 
-* **Pulse Animation Engine**: Generates a synchronized scale and opacity pulse on the switch trigger for tactical feedback.
-* **Smooth Morph Transitions**: Uses high-performance `AnimatedSwitcher` for sub-pixel interpolation of icons and hint text.
-* **Adaptive Theme System**: Supports both light and dark aesthetics via the `QuickSwitcherStyle` configuration.
-* **Haptic Integration**: Built-in specialized haptics for a "mechanical" click feel.
+- **Pulse Animation Engine**: Generates a synchronized scale and opacity pulse
+  on the switch trigger for tactical feedback.
+- **Smooth Morph Transitions**: Uses high-performance `AnimatedSwitcher` for
+  sub-pixel interpolation of icons and hint text.
+- **Adaptive Theme System**: Supports both light and dark aesthetics via the
+  `QuickSwitcherStyle` configuration.
+- **Haptic Integration**: Built-in specialized haptics for a "mechanical" click
+  feel.
 
 #### Integration
 
@@ -706,15 +829,24 @@ QuickSwitcher(
 
 ![Stacked Toast Interaction Showcase](./docs/gifs/interaction_toast.gif)
 
-Individual toasts that arrive from the top and stack behind each other when multiple notifications are active, featuring high-fidelity transitions and professional aesthetics.
+Individual toasts that arrive from the top and stack behind each other when
+multiple notifications are active, featuring high-fidelity transitions and
+professional aesthetics.
 
 #### Key Features
 
-* **Professional Top Arrival**: Toasts slide down from the top edge using a refined `easeOutCubic` curve for a native system-like feel.
-* **Intelligent 3D Stacking**: Previous toasts are pushed back into a multi-layered stack with symmetric scaling and opacity to focus on the active alert.
-* **Action Callbacks & Labels**: Support for interactive buttons with custom labels (`actionLabel`) and logic (`onAction`), supporting flows like "Retry" or "Undo".
-* **Total UI Builder**: A `builder` property allows for 100% custom toast layouts while inheriting the physics and stacking logic.
-* **Granular Customization**: Full control over icons, typography (`TextStyle`), colors, and shapes at both a global and individual level.
+- **Professional Top Arrival**: Toasts slide down from the top edge using a
+  refined `easeOutCubic` curve for a native system-like feel.
+- **Intelligent 3D Stacking**: Previous toasts are pushed back into a
+  multi-layered stack with symmetric scaling and opacity to focus on the active
+  alert.
+- **Action Callbacks & Labels**: Support for interactive buttons with custom
+  labels (`actionLabel`) and logic (`onAction`), supporting flows like "Retry"
+  or "Undo".
+- **Total UI Builder**: A `builder` property allows for 100% custom toast
+  layouts while inheriting the physics and stacking logic.
+- **Granular Customization**: Full control over icons, typography (`TextStyle`),
+  colors, and shapes at both a global and individual level.
 
 #### Integration
 
@@ -751,14 +883,24 @@ _toastController.show(
 
 ![Disclosure Switch Showcase](./docs/gifs/switch_disclosure.gif)
 
-A premium, high-fidelity switch component that "discloses" or reveals additional content when toggled on, featuring a unique "Island" design and an elastic-bounce interaction pattern.
+A premium, high-fidelity switch component that "discloses" or reveals additional
+content when toggled on, featuring a unique "Island" design and an
+elastic-bounce interaction pattern.
 
 #### Key Features
 
-*   **Island Header Design**: The primary control is wrapped in a concentric grey inset card, separated by 2px from the main border for a high-end "layered" look.
-*   **Elastic Bounce Animation**: Uses `Curves.easeOutBack` to create a physical inertia effect where inner items slide and bounce into place independently of the container.
-*   **Context-Aware Geometry**: The main border and shadows are dynamic—appearing only when the section is active to maintain a clean, minimal UI in the idle state.
-*   **Pixel-Perfect Alignment**: Internal offsets are meticulously calculated to ensure sub-options (like checkboxes) align perfectly with the header icon's axis.
+- **Island Header Design**: The primary control is wrapped in a concentric grey
+  inset card, separated by 2px from the main border for a high-end "layered"
+  look.
+- **Elastic Bounce Animation**: Uses `Curves.easeOutBack` to create a physical
+  inertia effect where inner items slide and bounce into place independently of
+  the container.
+- **Context-Aware Geometry**: The main border and shadows are dynamic—appearing
+  only when the section is active to maintain a clean, minimal UI in the idle
+  state.
+- **Pixel-Perfect Alignment**: Internal offsets are meticulously calculated to
+  ensure sub-options (like checkboxes) align perfectly with the header icon's
+  axis.
 
 #### Integration
 
@@ -786,14 +928,19 @@ DisclosureSwitch(
 
 ![Pinnable List Showcase](docs/gifs/pinnable_list.gif)
 
-A high-fidelity, zero-dependency list component that manages "Pinned" and "All" sections with a seamless Apple-style displacement animation.
+A high-fidelity, zero-dependency list component that manages "Pinned" and "All"
+sections with a seamless Apple-style displacement animation.
 
 #### Key Features
 
-*   **Self-Measuring Architecture**: Automatically measures item heights for pixel-perfect coordinates without hardcoded constants.
-*   **Spring Flight Physics**: Items physically slide ("fly") across the whole list with authentic inertia and a subtle elevation scale effect.
-*   **Smart Section Hand-off**: Integrated logic that transitions items between sections while maintaining a persistent Z-index for the "traveling" card.
-*   **Customizable Style**: Granular control over section headers, count badges, spacing, and sorting criteria via `PinnableListStyle` and `itemComparator`.
+- **Self-Measuring Architecture**: Automatically measures item heights for
+  pixel-perfect coordinates without hardcoded constants.
+- **Spring Flight Physics**: Items physically slide ("fly") across the whole
+  list with authentic inertia and a subtle elevation scale effect.
+- **Smart Section Hand-off**: Integrated logic that transitions items between
+  sections while maintaining a persistent Z-index for the "traveling" card.
+- **Customizable Style**: Granular control over section headers, count badges,
+  spacing, and sorting criteria via `PinnableListStyle` and `itemComparator`.
 
 #### Integration
 
@@ -815,15 +962,27 @@ PinnableList(
 
 ![Todo List Showcase](docs/gifs/to_do_list_interaction.gif)
 
-A high-fidelity task management component featuring a sophisticated "concentric island" design, sliding spring segmented controls, and choreographed diagonal "flight" animations for task completion.
+A high-fidelity task management component featuring a sophisticated "concentric
+island" design, sliding spring segmented controls, and choreographed diagonal
+"flight" animations for task completion.
 
 #### Key Features
 
-*   **Concentric Island Aesthetic**: Multi-layered design with the date title perfectly centered in the outer container and tasks strictly contained within a white interactive island.
-*   **Choreographed Flight Physics**: Completing a task triggers a 3-stage visual event: (1) Lateral horizontal shift, (2) State toggle, and (3) Diagonal flight to its new position in the completed section.
-*   **Morphing Segmented Control**: A custom 3-tab filter (To-do, Completed, Pending) where the active bubble elastically morphs and slides using high-performance physics.
-*   **Independent Animation Cycles**: Supports rapid-fire user interactions; multiple tasks can fly simultaneously without interrupting each other's transition paths.
-*   **Fully Theme-Aware**: Every aspect including background colors, radii, spacing, localization filters, and spring stiffness is configurable via `TodoListStyle`.
+- **Concentric Island Aesthetic**: Multi-layered design with the date title
+  perfectly centered in the outer container and tasks strictly contained within
+  a white interactive island.
+- **Choreographed Flight Physics**: Completing a task triggers a 3-stage visual
+  event: (1) Lateral horizontal shift, (2) State toggle, and (3) Diagonal flight
+  to its new position in the completed section.
+- **Morphing Segmented Control**: A custom 3-tab filter (To-do, Completed,
+  Pending) where the active bubble elastically morphs and slides using
+  high-performance physics.
+- **Independent Animation Cycles**: Supports rapid-fire user interactions;
+  multiple tasks can fly simultaneously without interrupting each other's
+  transition paths.
+- **Fully Theme-Aware**: Every aspect including background colors, radii,
+  spacing, localization filters, and spring stiffness is configurable via
+  `TodoListStyle`.
 
 #### Integration
 
@@ -849,15 +1008,27 @@ TodoListInteraction(
 
 ![Slot Picker Interaction Showcase](./docs/gifs/slot_picker_interaction.gif)
 
-A premium, production- ready scheduling component that combines smooth spring physics with a robust validation engine for professional availability management.
+A premium, production- ready scheduling component that combines smooth spring
+physics with a robust validation engine for professional availability
+management.
 
 #### Key Features
 
-*   **Collision Detection Engine**: Automatically identifies and highlights overlapping time slots with a subtle reddish background and border highlight, preventing data entry errors without breaking the flow.
-*   **Smart Validation**: Intelligent auto-correction that maintains logical ranges (e.g., automatically adjusting End Time when Start Time is moved beyond it) based on a configurable `validationInterval`.
-*   **Adaptive UI**: Context-aware time pickers that provide a native `CupertinoDatePicker` on iOS/macOS and a sleek Material `showTimePicker` on other platforms, both synchronized with the slot interval.
-*   **Physics-Based Motion**: High-fidelity expansion and removal animations using spring simulations for a tactile, "bouncy" feel that feels rooted in physical reality.
-*   **Total Customization**: 15+ style properties in `SlotPickerStyle` covering granular typography, specific action colors (delete button), and adjustable paddings for perfect layout balancing.
+- **Collision Detection Engine**: Automatically identifies and highlights
+  overlapping time slots with a subtle reddish background and border highlight,
+  preventing data entry errors without breaking the flow.
+- **Smart Validation**: Intelligent auto-correction that maintains logical
+  ranges (e.g., automatically adjusting End Time when Start Time is moved beyond
+  it) based on a configurable `validationInterval`.
+- **Adaptive UI**: Context-aware time pickers that provide a native
+  `CupertinoDatePicker` on iOS/macOS and a sleek Material `showTimePicker` on
+  other platforms, both synchronized with the slot interval.
+- **Physics-Based Motion**: High-fidelity expansion and removal animations using
+  spring simulations for a tactile, "bouncy" feel that feels rooted in physical
+  reality.
+- **Total Customization**: 15+ style properties in `SlotPickerStyle` covering
+  granular typography, specific action colors (delete button), and adjustable
+  paddings for perfect layout balancing.
 
 #### Integration
 
@@ -886,14 +1057,23 @@ SlotPickerInteraction(
 
 ![Tag Selection Interaction Showcase](./docs/gifs/tag_selection.gif)
 
-A premium, zero-dependency "Magic Move" tag selection component that uses 100% custom, Apple-inspired spring physics to animate tags seamlessly between available and selected states.
+A premium, zero-dependency "Magic Move" tag selection component that uses 100%
+custom, Apple-inspired spring physics to animate tags seamlessly between
+available and selected states.
 
 #### Key Features
 
-*   **Apple Spring Simulator**: Replicates native IOS bounce and flight effects using a heavily damped harmonic oscillator (`_AppleSpringCurve`) without any external dependencies.
-*   **Fluid Wrap Engine**: Actively self-measures tags and calculates relative `Wrap` coordinates on-the-fly, allowing tags to physically fly between structured flowing layouts.
-*   **True Natural Sizing**: Bypasses conventional layout constraints by measuring system `TextScaler` rendering metrics to ensure pixel-perfect accessibility support without clipping.
-*   **High-Contrast Theming**: Beautiful dark/light active states featuring subtle drop shadows and premium typography transitions.
+- **Apple Spring Simulator**: Replicates native IOS bounce and flight effects
+  using a heavily damped harmonic oscillator (`_AppleSpringCurve`) without any
+  external dependencies.
+- **Fluid Wrap Engine**: Actively self-measures tags and calculates relative
+  `Wrap` coordinates on-the-fly, allowing tags to physically fly between
+  structured flowing layouts.
+- **True Natural Sizing**: Bypasses conventional layout constraints by measuring
+  system `TextScaler` rendering metrics to ensure pixel-perfect accessibility
+  support without clipping.
+- **High-Contrast Theming**: Beautiful dark/light active states featuring subtle
+  drop shadows and premium typography transitions.
 
 #### Integration
 
@@ -917,16 +1097,24 @@ TagSelectionInteraction(
 
 ![Collapsible Notification Panel Showcase](docs/gifs/collapsible_notification.gif)
 
-A premium, highly interactive notification panel that can collapse into a summary header and expand to show a list of activities with spring-based animations.
+A premium, highly interactive notification panel that can collapse into a
+summary header and expand to show a list of activities with spring-based
+animations.
 
 #### Key Features
 
-* **Spring Physics Animation**: Natural, momentum-based expansion and collapse transitions.
-* **Staggered Entry**: Each notification item animates in with a calculated delay for a high-end polished feel.
-* **Header Summary**: Displays a clean "X New Activities" header with a subtitle when collapsed.
-* **Interactive Haptics**: Responsive scale effects on all pressable elements (`scale(0.97)`).
-* **Concentric 'Island' Design**: Premium structural layout with glassmorphism-inspired layering and refined typography.
-* **Fully Themeable Architecture**: Complete control over colors, gradients, typography, and physics via the `CollapsibleNotificationPanelStyle` object.
+- **Spring Physics Animation**: Natural, momentum-based expansion and collapse
+  transitions.
+- **Staggered Entry**: Each notification item animates in with a calculated
+  delay for a high-end polished feel.
+- **Header Summary**: Displays a clean "X New Activities" header with a subtitle
+  when collapsed.
+- **Interactive Haptics**: Responsive scale effects on all pressable elements
+  (`scale(0.97)`).
+- **Concentric 'Island' Design**: Premium structural layout with
+  glassmorphism-inspired layering and refined typography.
+- **Fully Themeable Architecture**: Complete control over colors, gradients,
+  typography, and physics via the `CollapsibleNotificationPanelStyle` object.
 
 #### Integration
 
@@ -960,14 +1148,16 @@ CollapsibleNotificationPanel(
 
 ![Premium Stepper Showcase](./docs/gifs/stepper_interaction.gif)
 
-A minimalist tactile stepper component utilizing mechanical flip animations and haptic feedback.
+A minimalist tactile stepper component utilizing mechanical flip animations and
+haptic feedback.
 
 #### Key Features
 
-* **Mechanical Odometer Counter**: Integrated `PremiumFlipCounter` for fluid numerical transitions.
-* **Tactile Buttons**: Circular action buttons with scale-down feedback.
-* **Haptic Integration**: Light-impact haptic feedback on value changes.
-* **Minimalist Design**: Pill-shaped container with clean typography.
+- **Mechanical Odometer Counter**: Integrated `PremiumFlipCounter` for fluid
+  numerical transitions.
+- **Tactile Buttons**: Circular action buttons with scale-down feedback.
+- **Haptic Integration**: Light-impact haptic feedback on value changes.
+- **Minimalist Design**: Pill-shaped container with clean typography.
 
 #### Integration
 
@@ -986,14 +1176,19 @@ PremiumStepper(
 
 ![Premium Pagination Showcase](./docs/gifs/pagination_interaction.gif)
 
-A premium, highly customizable navigation component with mechanical flip animations and automatic layout stability.
+A premium, highly customizable navigation component with mechanical flip
+animations and automatic layout stability.
 
 #### Key Features
 
-* **Mechanical Flip Counter**: Integrated `PremiumFlipCounter` for fluid, odometer-style page transitions.
-* **Automatic Layout Stability**: Intelligent column width calculation based on total pages to prevent jumping.
-* **Tactile Feedback**: Interactive buttons with `0.95x` scale feedback and integrated light-impact haptics.
-* **Total Design Freedom**: Fully customizable style including `buttonBorderRadius`, `padding`, `borderWidth`, and arbitrary icons.
+- **Mechanical Flip Counter**: Integrated `PremiumFlipCounter` for fluid,
+  odometer-style page transitions.
+- **Automatic Layout Stability**: Intelligent column width calculation based on
+  total pages to prevent jumping.
+- **Tactile Feedback**: Interactive buttons with `0.95x` scale feedback and
+  integrated light-impact haptics.
+- **Total Design Freedom**: Fully customizable style including
+  `buttonBorderRadius`, `padding`, `borderWidth`, and arbitrary icons.
 
 #### Integration
 
@@ -1011,34 +1206,45 @@ PremiumPagination(
 
 ### Currency Swap
 
-![Currency Swap Showcase](./docs/gifs/currency_swap.gif)
+![Currency Swap Showcase](./docs/gifs/swap_currency.gif)
 
-A premium currency conversion interface with custom dropdowns, real-time conversion displays using mechanical flip counters, and high-fidelity micro-interactions.
+A premium currency conversion interface with custom dropdowns, real-time
+conversion displays using mechanical flip counters, and high-fidelity
+micro-interactions.
 
 #### Key Features
 
-* **Custom Dropdown Menu**: High-performance overlay menu with flag support and selection checkmarks.
-* **Mechanical Flip Counter**: Real-time conversion feedback using the `PremiumFlipCounter` engine.
-* **Tactile Feedback**: Proceed button with scale-down feedback (0.98x) and integrated light-impact haptics.
-* **Design Fidelity**: Strictly follows the provided light-themed design without unrequested variations.
-* **Total Design Freedom**: Fully customizable style including typography, colors, borders, and spacing via `CurrencySwapStyle`.
+- **Custom Dropdown Menu**: High-performance overlay menu with flag support and
+  selection checkmarks.
+- **Mechanical Flip Counter**: Real-time conversion feedback using the
+  `PremiumFlipCounter` engine.
+- **Tactile Feedback**: Proceed button with scale-down feedback (0.98x) and
+  integrated light-impact haptics.
+- **Design Fidelity**: Strictly follows the provided light-themed design without
+  unrequested variations.
+- **Total Design Freedom**: Fully customizable style including typography,
+  colors, borders, and spacing via `CurrencySwapStyle`.
 
 #### Integration
 
 ```dart
 import 'package:portal_labs/portal_labs.dart';
 
+final currencies = [
+  Currency(code: 'USD', flag: '🇺🇸', name: 'US Dollar'),
+  Currency(code: 'EUR', flag: '🇪🇺', name: 'Euro'),
+];
+
 CurrencySwapInteraction(
-  currencies: [
-    Currency(code: 'USD', flag: '🇺🇸', name: 'US Dollar'),
-    Currency(code: 'EUR', flag: '🇪🇺', name: 'Euro'),
-  ],
-  initialFromCurrency: usd,
-  initialToCurrency: eur,
+  currencies: currencies,
+  initialFromCurrency: currencies[0],
+  initialToCurrency: currencies[1],
   onProceed: () => print('Converting...'),
 )
 ```
 
 ## Contributing
 
-Contributions focusing on performance optimization, new interaction patterns, or accessibility improvements are welcome. Please ensure all submissions adhere to the SDK-only dependency policy.
+Contributions focusing on performance optimization, new interaction patterns, or
+accessibility improvements are welcome. Please ensure all submissions adhere to
+the SDK-only dependency policy.
