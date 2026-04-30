@@ -98,6 +98,7 @@ class PremiumProgressStepperStyle {
   /// The damping of the spring for the indicator animation.
   final double springDamping;
 
+  /// Creates a copy of this style with the given fields replaced by the new values.
   PremiumProgressStepperStyle copyWith({
     Color? activeColor,
     Color? inactiveColor,
@@ -109,6 +110,8 @@ class PremiumProgressStepperStyle {
     Color? secondaryButtonTextColor,
     Color? disabledButtonColor,
     Color? disabledButtonTextColor,
+    bool? showFinishIcon,
+    Widget? finishIcon,
     double? buttonBorderRadius,
     double? buttonHeight,
     double? indicatorHeight,
@@ -132,6 +135,8 @@ class PremiumProgressStepperStyle {
       secondaryButtonTextColor: secondaryButtonTextColor ?? this.secondaryButtonTextColor,
       disabledButtonColor: disabledButtonColor ?? this.disabledButtonColor,
       disabledButtonTextColor: disabledButtonTextColor ?? this.disabledButtonTextColor,
+      showFinishIcon: showFinishIcon ?? this.showFinishIcon,
+      finishIcon: finishIcon ?? this.finishIcon,
       buttonBorderRadius: buttonBorderRadius ?? this.buttonBorderRadius,
       buttonHeight: buttonHeight ?? this.buttonHeight,
       indicatorHeight: indicatorHeight ?? this.indicatorHeight,

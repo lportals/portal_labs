@@ -21,8 +21,13 @@ class PremiumProgressIndicator extends StatefulWidget {
     this.style = const PremiumProgressStepperStyle(),
   });
 
+  /// Total number of steps in the sequence.
   final int totalSteps;
+
+  /// The index of the current active step (0-indexed).
   final int currentStep;
+
+  /// Visual configuration for the indicator.
   final PremiumProgressStepperStyle style;
 
   @override
@@ -89,7 +94,15 @@ class _PremiumProgressIndicatorState extends State<PremiumProgressIndicator>
   }
 }
 
+/// A high-fidelity progress stepper that combines an indicator with action buttons.
+///
+/// This widget provides a complete onboarding/flow experience with:
+/// - Physics-based spring animations for the progress track.
+/// - Tactile bounce feedback on all buttons.
+/// - Integrated validation logic via [canContinue].
+/// - Automated "Back" button management.
 class PremiumProgressStepper extends StatefulWidget {
+  /// Creates a [PremiumProgressStepper] with the given configuration.
   const PremiumProgressStepper({
     super.key,
     required this.totalSteps,
@@ -435,7 +448,7 @@ class _StepperPainter extends CustomPainter {
         canvas.drawCircle(
           Offset(x, centerY), 
           (style.dotSize / 2) * dotScale, 
-          paint..color = style.dotColor.withOpacity(dotScale),
+          paint..color = style.dotColor.withValues(alpha: dotScale),
         );
       }
     }
