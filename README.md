@@ -4,6 +4,8 @@ A specialized collection of **high-performance, dependency-free** Flutter UI
 components and advanced interactions. Built exclusively with vanilla Flutter and
 Dart to ensure maximum portability and long-term stability.
 
+[**🌐 Live Demo**](https://luisportal.com/labs)
+
 ## Design Philosophy
 
 The Portal Labs architecture is centered around three core pillars:
@@ -66,6 +68,7 @@ external versioning conflicts.
 | 28 | **[Premium Stepper](#premium-stepper)**                       | Minimalist tactile stepper with mechanical flip animations and full layout customization.                          | Numeric Input   | `/lib/src/premium_stepper/`                |
 | 29 | **[Premium Pagination](#premium-pagination)**                 | Tactile navigation with mechanical flip animations and automatic layout stability.                                 | Navigation      | `/lib/src/premium_pagination/`             |
 | 30 | **[Currency Swap](#currency-swap)**                           | Premium currency conversion interface with custom dropdowns and real-time flip counters.                           | Interaction     | `/lib/src/currency_swap_interaction/`      |
+| 31 | **[Premium Progress Stepper](#premium-progress-stepper)**     | High-fidelity multi-step indicator with physics-based spring animations and tactile button feedback.               | Interaction     | `/lib/src/premium_progress_stepper/`       |
 
 ---
 
@@ -1240,6 +1243,43 @@ CurrencySwapInteraction(
   initialFromCurrency: currencies[0],
   initialToCurrency: currencies[1],
   onProceed: () => print('Converting...'),
+)
+```
+
+---
+
+### Premium Progress Stepper
+
+![Premium Progress Stepper Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/progress_step.gif)
+
+A high-fidelity progress stepper designed for multi-step flows, featuring
+physics-driven indicator animations and tactile button feedback.
+
+#### Key Features
+
+- **Spring-Driven Indicator**: A stretching pill animation that connects steps
+  using real-world physics for a natural, "alive" feel.
+- **Dynamic Navigation**: Automatically handles "Back" button visibility with a
+  bounce entry after the first step.
+- **Tactile Feedback**: Integrated button scale feedback and multi-level haptics
+  for a premium mechanical sensation.
+- **Dynamic Text States**: Smooth cross-fading of button labels (e.g.,
+  "Continue" to "Finish") with synchronized icon transitions.
+
+#### Integration
+
+```dart
+import 'package:portal_labs/portal_labs.dart';
+
+PremiumProgressStepper(
+  totalSteps: 3,
+  currentStep: _currentStep,
+  onStepChanged: (step) => setState(() => _currentStep = step),
+  onFinish: () => print('Flow Completed!'),
+  style: PremiumProgressStepperStyle(
+    activeColor: Color(0xFF22C55E),
+    primaryButtonColor: Color(0xFF007AFF),
+  ),
 )
 ```
 

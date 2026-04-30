@@ -1,9 +1,9 @@
 # Changelog
 
-## [0.18.3] - 2026-04-28
+## [0.18.4] - 2026-04-30
 
-- **Production-Ready**: Comprehensive quality audit, 100% API documentation
-  coverage, and migration to modern Flutter standards.
+- New Component: **Premium Progress Stepper** — A high-fidelity multi-step indicator with physics-based spring animations, tactile bounce buttons, and dynamic navigation logic.
+- **Production-Ready**: Comprehensive quality audit, 100% API documentation coverage, and migration to modern Flutter standards.
 
 ## [0.18.0] - 2026-04-28
 

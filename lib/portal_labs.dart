@@ -141,6 +141,10 @@ export 'src/premium_stepper/models/premium_stepper_style.dart';
 export 'src/premium_pagination/premium_pagination.dart';
 export 'src/premium_pagination/models/premium_pagination_style.dart';
 
+// Premium Progress Stepper
+export 'src/premium_progress_stepper/premium_progress_stepper.dart';
+export 'src/premium_progress_stepper/models/premium_progress_stepper_style.dart';
+
 // Currency Swap Interaction
 export 'src/currency_swap_interaction/currency_swap_interaction.dart';
 export 'src/currency_swap_interaction/models/currency_swap_style.dart';

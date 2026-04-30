@@ -30,6 +30,7 @@ import 'showcases/collapsible_notification_panel_showcase.dart';
 import 'showcases/premium_stepper_showcase.dart';
 import 'showcases/premium_pagination_showcase.dart';
 import 'showcases/currency_swap_showcase.dart';
+import 'showcases/premium_progress_stepper_showcase.dart';
 
 
 
@@ -326,6 +327,12 @@ class _SpringyGrid extends StatelessWidget {
         icon: Icons.currency_exchange_rounded,
         category: 'Inputs',
         page: CurrencySwapShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Progress Step',
+        icon: Icons.linear_scale_rounded,
+        category: 'Layout',
+        page: PremiumProgressStepperShowcase(),
       ),
     ];
 
