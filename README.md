@@ -69,6 +69,7 @@ external versioning conflicts.
 | 29 | **[Premium Pagination](#premium-pagination)**                 | Tactile navigation with mechanical flip animations and automatic layout stability.                                 | Navigation      | `/lib/src/premium_pagination/`             |
 | 30 | **[Currency Swap](#currency-swap)**                           | Premium currency conversion interface with custom dropdowns and real-time flip counters.                           | Interaction     | `/lib/src/currency_swap_interaction/`      |
 | 31 | **[Premium Progress Stepper](#premium-progress-stepper)**     | High-fidelity multi-step indicator with physics-based spring animations and tactile button feedback.               | Interaction     | `/lib/src/premium_progress_stepper/`       |
+| 32 | **[Inline Delete Interaction](#inline-delete-interaction)** | Premium interaction with inline destructive confirmation, glassmorphism, and staggered entrance. | Interaction | `/lib/src/inline_delete_interaction/` |
 
 ---
 
@@ -1279,6 +1280,51 @@ PremiumProgressStepper(
   style: PremiumProgressStepperStyle(
     activeColor: Color(0xFF22C55E),
     primaryButtonColor: Color(0xFF007AFF),
+  ),
+)
+```
+
+---
+
+### Inline Delete Interaction
+
+![Inline Delete Interaction Showcase](./docs/gifs/inline_delete.gif)
+
+A premium interaction component featuring a high-fidelity inline destructive confirmation flow that transitions vertically while maintaining structural stability.
+
+#### Key Features
+
+- **Inline Confirmation Flow**: A specialized interaction where a destructive action transforms vertically into a confirmation state using physics-based transitions.
+- **Physics-Based Transitions**: Uses `SpringSimulation` to achieve a tactile, elastic "bounce" during confirmation flows.
+- **Staggered Entry**: Built-in support for orchestrated item reveal animations via external controllers.
+- **Geometric Harmony**: Automatically calculates concentric corner radii based on container padding for a premium, hardware-inspired aesthetic.
+- **Flexible & Context-Agnostic**: Pure widget architecture that can be embedded in any container (modals, sheets, or inline lists) without managing complex overlays internally.
+
+#### Integration
+
+```dart
+import 'package:portal_labs/portal_labs.dart';
+
+InlineDeleteInteraction(
+  title: 'More Options',
+  onCloseRequested: () => Navigator.pop(context),
+  items: [
+    InlineAction(
+      title: 'Edit',
+      icon: Icons.edit_outlined,
+      onTap: () => print('Edit action'),
+    ),
+    InlineAction(
+      title: 'Delete',
+      icon: Icons.delete_outline,
+      isDestructive: true,
+      confirmLabel: 'Delete Now',
+      onTap: () => print('Delete confirmed'),
+    ),
+  ],
+  style: InlineDeleteStyle(
+    rowHeight: 52,
+    enableHaptics: true,
   ),
 )
 ```

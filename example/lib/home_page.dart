@@ -31,6 +31,7 @@ import 'showcases/premium_stepper_showcase.dart';
 import 'showcases/premium_pagination_showcase.dart';
 import 'showcases/currency_swap_showcase.dart';
 import 'showcases/premium_progress_stepper_showcase.dart';
+import 'showcases/inline_delete_interaction_showcase.dart';
 
 
 
@@ -333,6 +334,12 @@ class _SpringyGrid extends StatelessWidget {
         icon: Icons.linear_scale_rounded,
         category: 'Layout',
         page: PremiumProgressStepperShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Inline Delete',
+        icon: Icons.delete_sweep_rounded,
+        category: 'Interactions',
+        page: InlineDeleteInteractionShowcase(),
       ),
     ];
 

@@ -148,3 +148,7 @@ export 'src/premium_progress_stepper/models/premium_progress_stepper_style.dart'
 // Currency Swap Interaction
 export 'src/currency_swap_interaction/currency_swap_interaction.dart';
 export 'src/currency_swap_interaction/models/currency_swap_style.dart';
+
+// Inline Delete Interaction
+export 'src/inline_delete_interaction/inline_delete_interaction.dart';
+export 'src/inline_delete_interaction/models/inline_delete_style.dart';

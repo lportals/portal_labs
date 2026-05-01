@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.19.0] - 2026-05-01
+
+- New Component: **Inline Delete Interaction** — A premium action menu with an inline destructive confirmation flow that transitions vertically while maintaining modal stability.
+- Features:
+  - **Inline Animation Flow**: The destructive action row transforms vertically into a confirmation state while the rest of the menu stays static.
+  - **Intrinsic Stability**: Uses `IntrinsicHeight` to perfectly wrap content and maintain a stable footprint during state changes.
+  - **High-Fidelity Engineering**: Implemented origin-aware scaling, `ease-out` cubic curves, and tactile press-down feedback.
+  - **Total Reusability**: 100% themeable via `InlineDeleteStyle`, including typography, colors, and haptics.
+
 ## [0.18.4] - 2026-04-30
 
 - New Component: **Premium Progress Stepper** — A high-fidelity multi-step indicator with physics-based spring animations, tactile bounce buttons, and dynamic navigation logic.
@@ -60,8 +69,7 @@
 - New Component: **Premium Stepper** — A minimalist tactile stepper component
   with mechanical flip animations and haptic feedback.
 - Features:
-  - **Mechanical Flip Counter**: Integrated `PremiumFlipCounter` for fluid
-    numerical transitions.
+  - **Premium Interaction Logic**: Integrated odometer-style page transitions for fluid numerical feedback.
   - **Tactile Buttons**: Circular action buttons with scale-down feedback.
   - **Haptic Integration**: Light-impact haptic feedback on value changes.
   - **Minimalist Design**: Pill-shaped container with clean typography.
@@ -97,7 +105,7 @@
   - **Dynamic Natural Sizing**: Fully responsive internal metrics that adapt
     perfectly to the font's baseline, scale, and system accessibility settings.
   - **Apple Spring Simulator**: Includes a custom damped harmonic oscillator
-    (`_AppleSpringCurve`) to replicate premium native OS bounce and flight
+    (`_PortalSpringCurve`) to replicate premium native OS bounce and flight
     effects without external packages.
   - **Fluid Wrap Layout**: Manual layout engine computes relative positions in
     real-time, letting items fly logically between fluid `Wrap` states without
@@ -109,7 +117,7 @@
 
 - New Component: **Slot Picker Interaction** — Premium physics-based
   availability picker with spring simulations, real-time collision detection,
-  and Apple-inspired aesthetics.
+  and premium OS-inspired aesthetics.
 - Features:
   - **Collision Detection Engine**: Real-time analysis of overlapping time
     ranges with non-disruptive visual warnings and subtle reddish tints.
@@ -119,7 +127,6 @@
     `SpringSimulation` for a tactile, hardware-inspired physical feel.
   - **Total Design Customization**: 15+ properties in `SlotPickerStyle` allowing
     control over every pixel (paddings, typography, action colors).
-  - **Adaptive Time Pickers**: Native-feeling selection for both iOS (Cupertino)
     and Android (Material) with sub-minute snapping.
   - **Dynamic Slot Management**: Seamlessly add, remove, and update time slots
     with synchronized state and reactive UI updates.
@@ -146,7 +153,7 @@
 ## [0.10.0] - 2026-04-16
 
 - New Component: **Pinnable List** — High-fidelity dual-section list with
-  Apple-style "flight" physics and dynamic self-measuring displacement
+  premium OS-style "flight" physics and dynamic self-measuring displacement
   animations.
 - Features:
   - **Self-Measuring Layout**: Eradicated hardcoded heights; uses a persistent
