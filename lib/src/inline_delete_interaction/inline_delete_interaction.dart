@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/physics.dart';
 import 'models/inline_delete_style.dart';
 
+/// Represents an action item within the [InlineDeleteInteraction].
 class InlineAction {
-  final String title;
-  final IconData? icon;
-  final Widget? leading;
-  final bool isDestructive;
-  final String? confirmLabel;
-  final String? cancelLabel;
-  final VoidCallback? onTap;
-
+  /// Creates an [InlineAction].
   const InlineAction({
     required this.title,
     this.icon,
@@ -22,9 +15,33 @@ class InlineAction {
     this.onTap,
   }) : assert(icon != null || leading != null || isDestructive,
             'Either icon or leading must be provided for non-destructive items.');
+
+  /// The title text of the action.
+  final String title;
+
+  /// Optional icon for the action.
+  final IconData? icon;
+
+  /// Optional custom leading widget for the action.
+  final Widget? leading;
+
+  /// Whether this action is destructive (renders with red highlights).
+  final bool isDestructive;
+
+  /// Optional custom label for the confirmation button.
+  final String? confirmLabel;
+
+  /// Optional custom label for the cancel button.
+  final String? cancelLabel;
+
+  /// Callback triggered when the action is selected.
+  final VoidCallback? onTap;
 }
 
+/// A premium, inline interactive component for performing actions, 
+/// specialized for deletion with a two-step confirmation flow.
 class InlineDeleteInteraction extends StatefulWidget {
+  /// Creates an [InlineDeleteInteraction].
   const InlineDeleteInteraction({
     super.key,
     required this.items,
@@ -34,10 +51,19 @@ class InlineDeleteInteraction extends StatefulWidget {
     this.appearanceAnimation,
   });
 
+  /// The list of actions to display in the menu.
   final List<InlineAction> items;
+
+  /// The title displayed in the menu header.
   final String title;
+
+  /// Callback triggered when the menu should be closed.
   final VoidCallback onCloseRequested;
+
+  /// Style configuration for the interaction.
   final InlineDeleteStyle style;
+
+  /// Optional external animation to drive the menu appearance.
   final Animation<double>? appearanceAnimation;
 
   @override
@@ -109,7 +135,7 @@ class _InlineDeleteInteractionState extends State<InlineDeleteInteraction>
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.08),
+              color: Colors.black.withValues(alpha: 0.08),
               blurRadius: 30,
               offset: const Offset(0, 12),
             ),
@@ -187,7 +213,7 @@ class _InlineDeleteInteractionState extends State<InlineDeleteInteraction>
                 width: 24,
                 height: 24,
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.05),
+                  color: Colors.black.withValues(alpha: 0.05),
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(Icons.close, size: 14, color: Colors.black54),
@@ -349,8 +375,8 @@ class _MenuRowState extends State<_MenuRow> {
         height: widget.style.rowHeight,
         padding: EdgeInsets.symmetric(horizontal: widget.style.modalPadding + 4),
         color: _isPressed
-            ? (widget.style.borderColor ?? Colors.black.withOpacity(0.05))
-                .withOpacity(0.15)
+            ? (widget.style.borderColor ?? Colors.black.withValues(alpha: 0.05))
+                .withValues(alpha: 0.15)
             : Colors.transparent,
         child: Row(
           children: [
@@ -415,7 +441,7 @@ class _ConfirmButtonState extends State<_ConfirmButton> {
           decoration: BoxDecoration(
             color: widget.color,
             borderRadius: BorderRadius.circular(buttonRadius),
-            border: widget.isDestructive ? null : Border.all(color: Colors.black.withOpacity(0.08)),
+            border: widget.isDestructive ? null : Border.all(color: Colors.black.withValues(alpha: 0.08)),
           ),
           child: Text(
             widget.label,
@@ -432,7 +458,9 @@ class _ConfirmButtonState extends State<_ConfirmButton> {
   }
 }
 
+/// A custom curve that simulates a springy, elastic movement.
 class SpringCurve extends Curve {
+  /// Creates a [SpringCurve].
   const SpringCurve();
 
   @override

@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 
 /// Style configuration for the [FeedbackInteraction] widget.
@@ -106,6 +105,9 @@ class FeedbackInteractionStyle {
     IconData? positiveIcon,
     IconData? negativeIcon,
     IconData? undoIcon,
+    double? fadeVelocity,
+    double? maxBlur,
+    double? settleThreshold,
   }) {
     return FeedbackInteractionStyle(
       backgroundColor: backgroundColor ?? this.backgroundColor,

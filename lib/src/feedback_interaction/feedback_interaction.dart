@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter/services.dart';
-import '../common/portal_animations.dart';
 import 'models/feedback_interaction_style.dart';
 
 /// A premium, high-fidelity feedback component that uses asymmetric spring physics to transition between selection states. Designed for high-fidelity tactile response and zero-latency interaction.
@@ -38,7 +37,6 @@ class FeedbackInteraction extends StatefulWidget {
 
 class _FeedbackInteractionState extends State<FeedbackInteraction>
     with SingleTickerProviderStateMixin {
-  bool _isFeedbackGiven = false;
   bool _isInteractivityLocked = false;
   bool? _isPositive;
 
@@ -51,6 +49,7 @@ class _FeedbackInteractionState extends State<FeedbackInteraction>
     super.initState();
     _morphController = AnimationController(
       vsync: this,
+      value: 0.0,
       lowerBound: -0.5,
       upperBound: 1.5,
     );
@@ -91,7 +90,6 @@ class _FeedbackInteractionState extends State<FeedbackInteraction>
     }
 
     setState(() {
-      _isFeedbackGiven = true;
       _isInteractivityLocked = true;
       _isPositive = isPositive;
     });
@@ -108,7 +106,6 @@ class _FeedbackInteractionState extends State<FeedbackInteraction>
     _runSpringAnimation(target: 0.0).whenComplete(() {
       if (mounted) {
         setState(() {
-          _isFeedbackGiven = false;
           _isInteractivityLocked = false;
           _isPositive = null;
         });
@@ -256,11 +253,8 @@ class _FeedbackInteractionState extends State<FeedbackInteraction>
         maxWidth: double.infinity,
         minHeight: 0,
         maxHeight: double.infinity,
-        alignment: Alignment.center,
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(icon, size: 24, color: style.foregroundColor),
             
@@ -273,7 +267,6 @@ class _FeedbackInteractionState extends State<FeedbackInteraction>
                   opacity: ((_morphController.value - 0.4) / 0.6).clamp(0.0, 1.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const SizedBox(width: 8),
                       Text(
@@ -310,7 +303,6 @@ class _FeedbackInteractionState extends State<FeedbackInteraction>
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Icon(style.undoIcon, color: style.foregroundColor, size: 12),
             const SizedBox(width: 4),

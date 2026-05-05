@@ -14,6 +14,7 @@ import 'models/premium_progress_stepper_style.dart';
 /// A premium progress indicator that can be used independently of the stepper actions.
 /// Ideal for placing at the top of a [PageView] or in an [AppBar].
 class PremiumProgressIndicator extends StatefulWidget {
+  /// Creates a [PremiumProgressIndicator] with the given parameters.
   const PremiumProgressIndicator({
     super.key,
     required this.totalSteps,

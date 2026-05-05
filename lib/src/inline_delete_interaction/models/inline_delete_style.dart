@@ -3,6 +3,37 @@ import 'package:flutter/material.dart';
 /// Configuration style for the [InlineDeleteInteraction] component.
 /// Supports dynamic theme-aware defaults for both light and dark modes.
 class InlineDeleteStyle {
+  /// Creates a [InlineDeleteStyle].
+  const InlineDeleteStyle({
+    this.backgroundColor,
+    this.borderRadius,
+    this.shadowColor = Colors.black,
+    this.borderColor,
+    this.borderWidth = 1.0,
+    this.itemTextStyle,
+    this.destructiveTextStyle,
+    this.titleStyle,
+    this.uppercaseTitle = true,
+    this.iconColor,
+    this.destructiveIconColor,
+    this.confirmButtonColor = const Color(0xFFE54D4D),
+    this.confirmButtonTextStyle,
+    this.cancelButtonColor,
+    this.cancelButtonTextStyle,
+    this.enableHaptics = true,
+    this.width = 280.0,
+    this.rowHeight = 48.0,
+    this.modalPadding = 12.0,
+    this.titlePadding,
+    this.backdropBlur = 2.0,
+    this.barrierColor,
+    this.springMass = 1.0,
+    this.springStiffness = 220.0,
+    this.springDamping = 26.0,
+    this.appearanceDuration = const Duration(milliseconds: 320),
+    this.appearanceScaleStart = 0.95,
+  });
+
   /// The background color of the modal.
   final Color? backgroundColor;
 
@@ -84,37 +115,6 @@ class InlineDeleteStyle {
   /// The starting scale of the menu appearance.
   final double appearanceScaleStart;
 
-  /// Creates a [InlineDeleteStyle].
-  const InlineDeleteStyle({
-    this.backgroundColor,
-    this.borderRadius,
-    this.shadowColor = Colors.black,
-    this.borderColor,
-    this.borderWidth = 1.0,
-    this.itemTextStyle,
-    this.destructiveTextStyle,
-    this.titleStyle,
-    this.uppercaseTitle = true,
-    this.iconColor,
-    this.destructiveIconColor,
-    this.confirmButtonColor = const Color(0xFFE54D4D),
-    this.confirmButtonTextStyle,
-    this.cancelButtonColor,
-    this.cancelButtonTextStyle,
-    this.enableHaptics = true,
-    this.width = 280.0,
-    this.rowHeight = 48.0,
-    this.modalPadding = 12.0,
-    this.titlePadding,
-    this.backdropBlur = 2.0,
-    this.barrierColor,
-    this.springMass = 1.0,
-    this.springStiffness = 220.0,
-    this.springDamping = 26.0,
-    this.appearanceDuration = const Duration(milliseconds: 320),
-    this.appearanceScaleStart = 0.95,
-  });
-
   /// Resolves the style using the current [BuildContext] and [ThemeData].
   InlineDeleteStyle resolve(BuildContext context) {
     final theme = Theme.of(context);
@@ -141,11 +141,11 @@ class InlineDeleteStyle {
             fontWeight: FontWeight.w500,
             letterSpacing: -0.2,
           ),
-      titleStyle: titleStyle ??
+          titleStyle: titleStyle ??
           TextStyle(
             fontSize: 12,
             color: isDark
-                ? Colors.white.withOpacity(0.4)
+                ? Colors.white.withValues(alpha: 0.4)
                 : const Color(0xFF999999),
             fontWeight: FontWeight.w800,
             letterSpacing: 1.1,
@@ -166,7 +166,7 @@ class InlineDeleteStyle {
       cancelButtonTextStyle: cancelButtonTextStyle ??
           TextStyle(
             color: isDark
-                ? Colors.white.withOpacity(0.8)
+                ? Colors.white.withValues(alpha: 0.8)
                 : const Color(0xFF666666),
             fontSize: 13,
             fontWeight: FontWeight.w600,
@@ -178,7 +178,7 @@ class InlineDeleteStyle {
       modalPadding: modalPadding,
       titlePadding: titlePadding ?? const EdgeInsets.fromLTRB(16, 20, 16, 12),
       backdropBlur: backdropBlur,
-      barrierColor: barrierColor ?? Colors.black.withOpacity(0.02), // Ultra subtle
+      barrierColor: barrierColor ?? Colors.black.withValues(alpha: 0.02), // Ultra subtle
       springMass: springMass,
       springStiffness: springStiffness,
       springDamping: springDamping,
@@ -187,12 +187,13 @@ class InlineDeleteStyle {
     );
   }
 
-  /// Copy with pattern for easy customization.
+  /// Creates a copy of this style with the given fields replaced.
   InlineDeleteStyle copyWith({
     Color? backgroundColor,
     BorderRadius? borderRadius,
     Color? shadowColor,
     Color? borderColor,
+    double? borderWidth,
     TextStyle? itemTextStyle,
     TextStyle? destructiveTextStyle,
     TextStyle? titleStyle,

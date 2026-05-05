@@ -171,12 +171,12 @@ class _StepContent extends StatelessWidget {
               color: Colors.white,
               borderRadius: BorderRadius.circular(24),
               border: Border.all(
-                color: accentColor.withOpacity(0.1),
+                color: accentColor.withValues(alpha: 0.1),
                 width: 2,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: accentColor.withOpacity(0.05),
+                  color: accentColor.withValues(alpha: 0.05),
                   blurRadius: 20,
                   offset: const Offset(0, 10),
                 ),

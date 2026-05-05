@@ -1,28 +1,16 @@
 # Changelog
 
-## [0.20.0] - 2026-05-04
+## [0.19.0] - 2026-05-04
 
 - New Component: **Feedback Interaction** — A premium interaction system for capturing user feedback with physics-based morphing and liquid transitions.
+- New Component: **Inline Delete Interaction** — A premium action menu with an inline destructive confirmation flow that transitions vertically while maintaining modal stability.
 - Features:
-  - **Asymmetric Spring Physics**: Native `SpringSimulation` engine that handles opening and closing transitions with independent kinetic parameters for a "magnetic" feel.
+  - **Asymmetric Spring Physics**: Native `SpringSimulation` engine that handles opening and closing transitions with independent kinetic parameters.
   - **Geometric Harmony Architecture**: Synchronized morphing where interactive buttons and the container expand as a single cohesive unit.
-  - **Zero-Latency Response**: Smart state management allows for immediate re-interaction during settling animations, preventing UI lock-out.
-  - **Full Style Integration**: 100% themeable via `FeedbackInteractionStyle`, exposing control over physics tokens, visual effects (blur/fade), and typography.
-
-## [0.19.0] - 2026-05-01
-
-- New Component: **Inline Delete Interaction** — A premium action menu with an
-  inline destructive confirmation flow that transitions vertically while
-  maintaining modal stability.
-- Features:
-  - **Inline Animation Flow**: The destructive action row transforms vertically
-    into a confirmation state while the rest of the menu stays static.
-  - **Intrinsic Stability**: Uses `IntrinsicHeight` to perfectly wrap content
-    and maintain a stable footprint during state changes.
-  - **High-Fidelity Engineering**: Implemented origin-aware scaling, `ease-out`
-    cubic curves, and tactile press-down feedback.
-  - **Total Reusability**: 100% themeable via `InlineDeleteStyle`, including
-    typography, colors, and haptics.
+  - **Zero-Latency Response**: Smart state management allows for immediate re-interaction during settling animations.
+  - **Vertical Confirmation Flow**: Inline destructive action transforms while keeping the menu footprint stable.
+  - **Total Design Freedom**: Fully customizable styles via `FeedbackInteractionStyle` and `InlineDeleteStyle`.
+  - **Production-Ready Engineering**: Implemented origin-aware scaling, `ease-out` cubic curves, and tactile press-down feedback.
 
 ## [0.18.4] - 2026-04-30
 
