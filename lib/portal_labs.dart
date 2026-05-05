@@ -152,3 +152,7 @@ export 'src/currency_swap_interaction/models/currency_swap_style.dart';
 // Inline Delete Interaction
 export 'src/inline_delete_interaction/inline_delete_interaction.dart';
 export 'src/inline_delete_interaction/models/inline_delete_style.dart';
+
+// Feedback Interaction
+export 'src/feedback_interaction/feedback_interaction.dart';
+export 'src/feedback_interaction/models/feedback_interaction_style.dart';

@@ -1,18 +1,36 @@
 # Changelog
 
+## [0.20.0] - 2026-05-04
+
+- New Component: **Feedback Interaction** — A premium interaction system for capturing user feedback with physics-based morphing and liquid transitions.
+- Features:
+  - **Asymmetric Spring Physics**: Native `SpringSimulation` engine that handles opening and closing transitions with independent kinetic parameters for a "magnetic" feel.
+  - **Geometric Harmony Architecture**: Synchronized morphing where interactive buttons and the container expand as a single cohesive unit.
+  - **Zero-Latency Response**: Smart state management allows for immediate re-interaction during settling animations, preventing UI lock-out.
+  - **Full Style Integration**: 100% themeable via `FeedbackInteractionStyle`, exposing control over physics tokens, visual effects (blur/fade), and typography.
+
 ## [0.19.0] - 2026-05-01
 
-- New Component: **Inline Delete Interaction** — A premium action menu with an inline destructive confirmation flow that transitions vertically while maintaining modal stability.
+- New Component: **Inline Delete Interaction** — A premium action menu with an
+  inline destructive confirmation flow that transitions vertically while
+  maintaining modal stability.
 - Features:
-  - **Inline Animation Flow**: The destructive action row transforms vertically into a confirmation state while the rest of the menu stays static.
-  - **Intrinsic Stability**: Uses `IntrinsicHeight` to perfectly wrap content and maintain a stable footprint during state changes.
-  - **High-Fidelity Engineering**: Implemented origin-aware scaling, `ease-out` cubic curves, and tactile press-down feedback.
-  - **Total Reusability**: 100% themeable via `InlineDeleteStyle`, including typography, colors, and haptics.
+  - **Inline Animation Flow**: The destructive action row transforms vertically
+    into a confirmation state while the rest of the menu stays static.
+  - **Intrinsic Stability**: Uses `IntrinsicHeight` to perfectly wrap content
+    and maintain a stable footprint during state changes.
+  - **High-Fidelity Engineering**: Implemented origin-aware scaling, `ease-out`
+    cubic curves, and tactile press-down feedback.
+  - **Total Reusability**: 100% themeable via `InlineDeleteStyle`, including
+    typography, colors, and haptics.
 
 ## [0.18.4] - 2026-04-30
 
-- New Component: **Premium Progress Stepper** — A high-fidelity multi-step indicator with physics-based spring animations, tactile bounce buttons, and dynamic navigation logic.
-- **Production-Ready**: Comprehensive quality audit, 100% API documentation coverage, and migration to modern Flutter standards.
+- New Component: **Premium Progress Stepper** — A high-fidelity multi-step
+  indicator with physics-based spring animations, tactile bounce buttons, and
+  dynamic navigation logic.
+- **Production-Ready**: Comprehensive quality audit, 100% API documentation
+  coverage, and migration to modern Flutter standards.
 
 ## [0.18.0] - 2026-04-28
 
@@ -69,7 +87,8 @@
 - New Component: **Premium Stepper** — A minimalist tactile stepper component
   with mechanical flip animations and haptic feedback.
 - Features:
-  - **Premium Interaction Logic**: Integrated odometer-style page transitions for fluid numerical feedback.
+  - **Premium Interaction Logic**: Integrated odometer-style page transitions
+    for fluid numerical feedback.
   - **Tactile Buttons**: Circular action buttons with scale-down feedback.
   - **Haptic Integration**: Light-impact haptic feedback on value changes.
   - **Minimalist Design**: Pill-shaped container with clean typography.
@@ -126,8 +145,8 @@
   - **Spring-Based Expansion**: High-fidelity item expansion using
     `SpringSimulation` for a tactile, hardware-inspired physical feel.
   - **Total Design Customization**: 15+ properties in `SlotPickerStyle` allowing
-    control over every pixel (paddings, typography, action colors).
-    and Android (Material) with sub-minute snapping.
+    control over every pixel (paddings, typography, action colors). and Android
+    (Material) with sub-minute snapping.
   - **Dynamic Slot Management**: Seamlessly add, remove, and update time slots
     with synchronized state and reactive UI updates.
 
