@@ -83,8 +83,8 @@ class _MediaCollapsibleViewShowcaseState
           'dual-phase gesture handover and dynamic background blur layering '
           'without GPU overhead.',
       codeSnippet: '''MediaCollapsibleView(
-  mediaUrl: 'https://example.com/thumbnail.jpg',
-  userAvatarUrl: 'https://example.com/avatar.jpg',
+  mediaUrl: 'https://luisportal.com/assets/thumbnail.jpg',
+  userAvatarUrl: 'https://luisportal.com/assets/avatar.jpg',
   comments: _comments,
   style: MediaViewStyle(
     accentColor: Colors.blueAccent,

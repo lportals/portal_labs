@@ -359,14 +359,14 @@ full-screen media view and a detailed, gesture-driven interactive comment sheet.
 import 'package:portal_labs/portal_labs.dart';
 
 MediaCollapsibleView(
-  mediaUrl: 'https://example.com/thumbnail.jpg', // Used for background blur
-  userAvatarUrl: 'https://example.com/user_avatar.jpg',
+  mediaUrl: 'https://luisportal.com/assets/thumbnail.jpg', // Used for background blur
+  userAvatarUrl: 'https://luisportal.com/assets/user_avatar.jpg',
   comments: [
     MediaComment(
       id: '1', 
-      userName: 'dev_cat', 
-      text: 'This UI is purrr-fect! 🐾', 
-      avatarUrl: 'https://example.com/cat.jpg', 
+      userName: 'portal_dev', 
+      text: 'This UI interaction is absolutely stunning!', 
+      avatarUrl: 'https://luisportal.com/assets/avatar.jpg', 
       createdAt: DateTime.now()
     ),
   ],
@@ -374,7 +374,7 @@ MediaCollapsibleView(
     accentColor: Colors.blueAccent,
     sheetBackgroundColor: Color(0xFF141416),
   ),
-  onSendComment: (text) => print('New meow: $text'),
+  onSendComment: (text) => print('Comment: $text'),
 )
 ```
 
@@ -1336,7 +1336,7 @@ InlineDeleteInteraction(
 
 ![Feedback Interaction Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/feedback_interaction.gif)
 
-A premium, high-fidelity feedback component that uses asymmetric spring physics to transition between selection states. Designed for "Pro Max" tactile response and zero-latency interaction.
+A premium, high-fidelity feedback component that uses asymmetric spring physics to transition between selection states. Designed for high-fidelity tactile response and zero-latency interaction.
 
 #### Key Features
 

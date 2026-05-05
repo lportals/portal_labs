@@ -5,11 +5,7 @@ import 'package:flutter/services.dart';
 import '../common/portal_animations.dart';
 import 'models/feedback_interaction_style.dart';
 
-/// A premium feedback interaction widget that morphs from two feedback buttons
-/// into a single expanded pill.
-///
-/// This version restores stability by re-introducing OverflowBox and keeps
-/// the tap/alignment fixes from previous iterations.
+/// A premium, high-fidelity feedback component that uses asymmetric spring physics to transition between selection states. Designed for high-fidelity tactile response and zero-latency interaction.
 class FeedbackInteraction extends StatefulWidget {
   /// Creates a [FeedbackInteraction] with the given callbacks and configuration.
   const FeedbackInteraction({
@@ -48,7 +44,8 @@ class _FeedbackInteractionState extends State<FeedbackInteraction>
 
   late final AnimationController _morphController;
 
-  // Removing hardcoded animation constants in favor of physics-driven simulations
+  // Use physics-driven simulations for all transitions to ensure 
+  // smooth, interruptible motion.
   @override
   void initState() {
     super.initState();
