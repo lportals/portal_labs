@@ -51,6 +51,9 @@ class ShowcaseShell extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      useRootNavigator: true,
       backgroundColor: Colors.transparent,
       builder: (_) => _InfoBottomSheet(
         title: title,
@@ -182,172 +185,184 @@ class _InfoBottomSheetState extends State<_InfoBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return DraggableScrollableSheet(
-      initialChildSize: 0.55,
-      minChildSize: 0.35,
-      maxChildSize: 0.92,
-      snap: true,
-      snapSizes: const [0.55, 0.92],
-      builder: (context, scrollController) {
-        return Container(
-          decoration: const BoxDecoration(
-            color: Color(0xFFF2F2F7),
-            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+    return Stack(
+      children: [
+        // Transparent tap-to-close area
+        Positioned.fill(
+          child: GestureDetector(
+            onTap: () => Navigator.pop(context),
+            behavior: HitTestBehavior.opaque,
+            child: Container(color: Colors.transparent),
           ),
-          child: Column(
-            children: [
-              // Drag handle
-              Padding(
-                padding: const EdgeInsets.only(top: 12, bottom: 8),
-                child: Container(
-                  width: 36,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFCCCCCC),
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
+        ),
+        DraggableScrollableSheet(
+          initialChildSize: 0.55,
+          minChildSize: 0.35,
+          maxChildSize: 0.92,
+          snap: true,
+          snapSizes: const [0.55, 0.92],
+          builder: (context, scrollController) {
+            return Container(
+              decoration: const BoxDecoration(
+                color: Color(0xFFF2F2F7),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
               ),
-              // Scrollable content
-              Expanded(
-                child: ListView(
-                  controller: scrollController,
-                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 40),
-                  children: [
-                    // Component label pill
-                    Row(
+              child: Column(
+                children: [
+                  // Drag handle
+                  Padding(
+                    padding: const EdgeInsets.only(top: 12, bottom: 8),
+                    child: Container(
+                      width: 36,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFCCCCCC),
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                  ),
+                  // Scrollable content
+                  Expanded(
+                    child: ListView(
+                      controller: scrollController,
+                      padding: const EdgeInsets.fromLTRB(20, 8, 20, 40),
                       children: [
+                        // Component label pill
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 4,
+                              ),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF111111),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: const Text(
+                                'portal_labs',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 0.2,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        // Title
+                        Text(
+                          widget.title,
+                          style: const TextStyle(
+                            color: Color(0xFF111111),
+                            fontSize: 24,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: -0.8,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        // Description
+                        Text(
+                          widget.description,
+                          style: const TextStyle(
+                            color: Color(0xFF555555),
+                            fontSize: 15,
+                            height: 1.5,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        // Code snippet header
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              'Integration',
+                              style: TextStyle(
+                                color: Color(0xFF111111),
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: -0.2,
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: _copyCode,
+                              child: AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 200),
+                                child: _copied
+                                    ? const Row(
+                                        key: ValueKey('copied'),
+                                        children: [
+                                          Icon(
+                                            Icons.check_rounded,
+                                            size: 14,
+                                            color: Color(0xFF34C759),
+                                          ),
+                                          SizedBox(width: 4),
+                                          Text(
+                                            'Copied',
+                                            style: TextStyle(
+                                              color: Color(0xFF34C759),
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    : const Row(
+                                        key: ValueKey('copy'),
+                                        children: [
+                                          Icon(
+                                            Icons.copy_rounded,
+                                            size: 14,
+                                            color: Color(0xFF8E8E93),
+                                          ),
+                                          SizedBox(width: 4),
+                                          Text(
+                                            'Copy',
+                                            style: TextStyle(
+                                              color: Color(0xFF8E8E93),
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        // Code block
                         Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 4,
-                          ),
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: const Color(0xFF111111),
-                            borderRadius: BorderRadius.circular(20),
+                            color: const Color(0xFF1C1C1E),
+                            borderRadius: BorderRadius.circular(14),
                           ),
-                          child: const Text(
-                            'portal_labs',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 11,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 0.2,
+                          child: Text(
+                            widget.codeSnippet,
+                            style: const TextStyle(
+                              color: Color(0xFFE5E5EA),
+                              fontSize: 12.5,
+                              fontFamily: 'monospace',
+                              height: 1.6,
+                              letterSpacing: 0.1,
                             ),
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 12),
-                    // Title
-                    Text(
-                      widget.title,
-                      style: const TextStyle(
-                        color: Color(0xFF111111),
-                        fontSize: 24,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: -0.8,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    // Description
-                    Text(
-                      widget.description,
-                      style: const TextStyle(
-                        color: Color(0xFF555555),
-                        fontSize: 15,
-                        height: 1.5,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                    // Code snippet header
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Integration',
-                          style: TextStyle(
-                            color: Color(0xFF111111),
-                            fontSize: 13,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: -0.2,
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: _copyCode,
-                          child: AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 200),
-                            child: _copied
-                                ? const Row(
-                                    key: ValueKey('copied'),
-                                    children: [
-                                      Icon(
-                                        Icons.check_rounded,
-                                        size: 14,
-                                        color: Color(0xFF34C759),
-                                      ),
-                                      SizedBox(width: 4),
-                                      Text(
-                                        'Copied',
-                                        style: TextStyle(
-                                          color: Color(0xFF34C759),
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                : const Row(
-                                    key: ValueKey('copy'),
-                                    children: [
-                                      Icon(
-                                        Icons.copy_rounded,
-                                        size: 14,
-                                        color: Color(0xFF8E8E93),
-                                      ),
-                                      SizedBox(width: 4),
-                                      Text(
-                                        'Copy',
-                                        style: TextStyle(
-                                          color: Color(0xFF8E8E93),
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    // Code block
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF1C1C1E),
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      child: Text(
-                        widget.codeSnippet,
-                        style: const TextStyle(
-                          color: Color(0xFFE5E5EA),
-                          fontSize: 12.5,
-                          fontFamily: 'monospace',
-                          height: 1.6,
-                          letterSpacing: 0.1,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        );
-      },
+            );
+          },
+        ),
+      ],
     );
   }
 }

@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.20.0] - 2026-05-05
+
+- New Component: **Loading Shapes** — A premium, physics-based loading indicator that morphs between organic and geometric shapes.
+- Features & Evolutions:
+  - **Momentum Rotation Engine**: Frame-perfect `Ticker` system for continuous, inertia-based motion without resets.
+  - **Custom Geometry Engine**: Introduced `PortalShapeDefinition` for control over sides, inner radius, and smoothness.
+  - **120-Point Path Morphing**: High-fidelity interpolation for perfectly fluid shape-shifting.
+  - **Showcase Shell**: Unified documentation and code access for all new components.
+
 ## [0.19.0] - 2026-05-04
 
 - New Component: **Feedback Interaction** — A premium interaction system for capturing user feedback with physics-based morphing and liquid transitions.

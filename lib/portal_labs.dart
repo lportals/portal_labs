@@ -156,3 +156,7 @@ export 'src/inline_delete_interaction/models/inline_delete_style.dart';
 // Feedback Interaction
 export 'src/feedback_interaction/feedback_interaction.dart';
 export 'src/feedback_interaction/models/feedback_interaction_style.dart';
+
+// Loading Shapes
+export 'src/loading_shapes/loading_shapes.dart';
+export 'src/loading_shapes/models/loading_shapes_style.dart';

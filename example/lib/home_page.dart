@@ -33,6 +33,7 @@ import 'showcases/currency_swap_showcase.dart';
 import 'showcases/premium_progress_stepper_showcase.dart';
 import 'showcases/inline_delete_interaction_showcase.dart';
 import 'showcases/feedback_interaction_showcase.dart';
+import 'showcases/loading_shapes_showcase.dart';
 
 
 
@@ -347,6 +348,12 @@ class _SpringyGrid extends StatelessWidget {
         icon: Icons.thumbs_up_down_outlined,
         category: 'Interactions',
         page: FeedbackInteractionShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Loading Shapes',
+        icon: Icons.category_outlined,
+        category: 'Layout',
+        page: LoadingShapesShowcase(),
       ),
     ];
 
