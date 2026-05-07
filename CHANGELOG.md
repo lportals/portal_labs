@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.21.0] - 2026-05-07
+
+- New Component: **Signature Draw Pad** — A premium, high-fidelity signature drawing component with playback animations, fluid state transitions, and high-resolution PNG export.
+- Features & Evolutions:
+  - **Signature Playback**: Integrated playback engine that re-draws the signature with adjustable duration and shimmer effects.
+  - **Off-Screen PNG Export**: Integrated `toImage()` engine in the controller for high-resolution, auto-centered, and scaled image generation.
+  - **Document Integrity Lock**: Automatic canvas disabling and UI cleanup after confirmation to prevent post-sign tampering.
+  - **Fluid State Transitions**: Premium hold-to-confirm button that morphs into a success state using smooth blur dissolves and spring physics.
+  - **Customizable Color Palette**: Full control over the palette colors with reactive state propagation to all existing strokes.
+
 ## [0.20.0] - 2026-05-05
 
 - New Component: **Loading Shapes** — A premium, physics-based loading indicator that morphs between organic and geometric shapes.

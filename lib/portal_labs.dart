@@ -160,3 +160,8 @@ export 'src/feedback_interaction/models/feedback_interaction_style.dart';
 // Loading Shapes
 export 'src/loading_shapes/loading_shapes.dart';
 export 'src/loading_shapes/models/loading_shapes_style.dart';
+
+// Signature Draw Pad
+export 'src/signature_draw_pad/signature_draw_pad.dart';
+export 'src/signature_draw_pad/signature_draw_pad_controller.dart';
+export 'src/signature_draw_pad/models/signature_draw_pad_style.dart';
