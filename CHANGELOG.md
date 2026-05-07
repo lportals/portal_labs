@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.21.1] - 2026-05-07
+
+- Documentation: Fixed GIF reference paths in README.md and removed redundant .mov file.
+- Fix: Standardized showcase assets to use absolute GitHub raw URLs for pub.dev compatibility.
+
 ## [0.21.0] - 2026-05-07
 
 - New Component: **Signature Draw Pad** — A premium, high-fidelity signature drawing component with playback animations, fluid state transitions, and high-resolution PNG export.

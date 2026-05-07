@@ -1292,7 +1292,7 @@ PremiumProgressStepper(
 
 ### Inline Delete Interaction
 
-![Inline Delete Interaction Showcase](./docs/gifs/inline_delete.gif)
+![Inline Delete Interaction Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/inline_delete.gif)
 
 A premium interaction component featuring a high-fidelity inline destructive confirmation flow that transitions vertically while maintaining structural stability.
 
@@ -1418,7 +1418,7 @@ The `PortalShapeDefinition` allows you to programmatically define any geometric 
 
 ### Signature Draw Pad
 
-![Signature Draw Pad Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/signature_draw_pad.gif)
+![Signature Draw Pad Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/signature.gif)
 
 A high-fidelity signature drawing component designed for professional applications requiring document integrity and a premium interaction feel.
 
