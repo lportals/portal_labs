@@ -60,46 +60,53 @@ class PremiumFlipCounter extends StatelessWidget {
     final List<String> segments = strValue.split('');
     final int dotIndex = strValue.indexOf('.');
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: mainAxisAlignment,
-      children: segments.asMap().entries.map((entry) {
-        final int index = entry.key;
-        final String char = entry.value;
-        final int? digit = int.tryParse(char);
-
-        if (digit == null) {
-          return Text(char, style: style);
-        }
-
-        // Align keys relative to the decimal point for stable animations.
-        // Digits to the left of the dot get positive power (1 for units, 2 for tens...).
-        // Digits to the right get negative power (-1 for tenths, -2 for hundredths...).
-        // If no dot exists, we align from the right as a fallback.
-        final int powerOfTen;
-        if (dotIndex != -1) {
-          powerOfTen = dotIndex - index;
-        } else {
-          powerOfTen = strValue.length - index;
-        }
-
-        return AnimatedContainer(
-          key: ValueKey('reel_digit_container_$powerOfTen'),
-          duration: const Duration(milliseconds: 500),
-          curve: Curves.easeOutBack,
-          width: width,
-          height: height,
-          color: Colors.transparent, 
-          clipBehavior: Clip.hardEdge,
-          child: _ReelDigit(
-            digit: digit,
-            upward: upward,
-            style: style,
-            width: width,
-            height: height,
-          ),
-        );
-      }).toList(),
+    return Semantics(
+      key: const ValueKey('flip_counter_semantics'),
+      label: strValue,
+      container: true,
+      child: ExcludeSemantics(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: mainAxisAlignment,
+          children: segments.asMap().entries.map((entry) {
+            final int index = entry.key;
+            final String char = entry.value;
+            final int? digit = int.tryParse(char);
+    
+            if (digit == null) {
+              return Text(char, style: style);
+            }
+    
+            // Align keys relative to the decimal point for stable animations.
+            // Digits to the left of the dot get positive power (1 for units, 2 for tens...).
+            // Digits to the right get negative power (-1 for tenths, -2 for hundredths...).
+            // If no dot exists, we align from the right as a fallback.
+            final int powerOfTen;
+            if (dotIndex != -1) {
+              powerOfTen = dotIndex - index;
+            } else {
+              powerOfTen = strValue.length - index;
+            }
+    
+            return AnimatedContainer(
+              key: ValueKey('reel_digit_container_$powerOfTen'),
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeOutBack,
+              width: width,
+              height: height,
+              color: Colors.transparent, 
+              clipBehavior: Clip.hardEdge,
+              child: _ReelDigit(
+                digit: digit,
+                upward: upward,
+                style: style,
+                width: width,
+                height: height,
+              ),
+            );
+          }).toList(),
+        ),
+      ),
     );
   }
 }

@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.22.0] - 2026-05-07
+
+- **Standardization Milestone**:
+  - **Physics Migration**: Standardized the entire library motion profile to use the new `PortalSpringCurve` for tactile, high-fidelity button interactions.
+  - **Premium Component Standardization**: Successfully migrated `Currency Swap`, `Premium Pagination`, and `Premium Stepper` to the new physics-based mechanical standards.
+  - **Accessibility & Semantics**: Integrated `Semantics` nodes across interactive surfaces to ensure platform accessibility and robust testing discovery.
+  - **Test Coverage Expansion**: Added comprehensive test suites for `PremiumPagination`, `PremiumStepper`, and `CurrencySwapInteraction` to validate state-machine transitions and physics-based interactions.
+  - **Architecture**: Refactored gesture handlers to be `null` when disabled, correctly propagating state to the accessibility tree.
+  - **Enhancement**: Improved `PremiumFlipCounter` with explicit semantics and padding management for stable layouts.
+
 ## [0.21.1] - 2026-05-07
 
 - Documentation: Fixed GIF reference paths in README.md and removed redundant .mov file.

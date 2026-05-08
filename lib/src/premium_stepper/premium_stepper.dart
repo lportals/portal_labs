@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../common/portal_animations.dart';
 import '../common/premium_flip_counter.dart';
 import 'models/premium_stepper_style.dart';
 
@@ -83,10 +84,12 @@ class _PremiumStepperState extends State<PremiumStepper> {
         mainAxisSize: MainAxisSize.min,
         children: [
           _StepperButton(
+            key: const ValueKey('stepper_minus'),
             icon: widget.minusIcon,
             onPressed: _handleDecrement,
             enabled: widget.value > widget.min,
             style: widget.style,
+            label: 'Decrement',
           ),
           SizedBox(
             width: widget.style.valueWidth, 
@@ -103,10 +106,12 @@ class _PremiumStepperState extends State<PremiumStepper> {
             ),
           ),
           _StepperButton(
+            key: const ValueKey('stepper_plus'),
             icon: widget.plusIcon,
             onPressed: _handleIncrement,
             enabled: widget.value < widget.max,
             style: widget.style,
+            label: 'Increment',
           ),
         ],
       ),
@@ -117,16 +122,19 @@ class _PremiumStepperState extends State<PremiumStepper> {
 class _StepperButton extends StatefulWidget {
   /// Creates a [_StepperButton] widget.
   const _StepperButton({
+    super.key,
     required this.icon,
     required this.onPressed,
     required this.enabled,
     required this.style,
+    required this.label,
   });
 
   final IconData icon;
   final VoidCallback onPressed;
   final bool enabled;
   final PremiumStepperStyle style;
+  final String label;
 
   @override
   State<_StepperButton> createState() => _StepperButtonState();
@@ -142,10 +150,10 @@ class _StepperButtonState extends State<_StepperButton> with SingleTickerProvide
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 80), // Fast response
+      duration: const Duration(milliseconds: 300),
     );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
-      CurvedAnimation(parent: _controller, curve: const Cubic(0.23, 1, 0.32, 1)),
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(
+      CurvedAnimation(parent: _controller, curve: PortalSpringCurve()),
     );
   }
 
@@ -159,38 +167,43 @@ class _StepperButtonState extends State<_StepperButton> with SingleTickerProvide
   Widget build(BuildContext context) {
     final bool isActuallyEnabled = widget.enabled;
 
-    return MouseRegion(
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
-      cursor: isActuallyEnabled ? SystemMouseCursors.click : SystemMouseCursors.forbidden,
-      child: GestureDetector(
-        onTapDown: (_) => isActuallyEnabled ? _controller.forward() : null,
-        onTapUp: (_) => isActuallyEnabled ? _controller.reverse() : null,
-        onTapCancel: () => isActuallyEnabled ? _controller.reverse() : null,
-        onTap: isActuallyEnabled ? widget.onPressed : null,
-        child: ScaleTransition(
-          scale: _scaleAnimation,
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            width: widget.style.buttonSize,
-            height: widget.style.buttonSize,
-            decoration: BoxDecoration(
-              shape: widget.style.buttonBorderRadius == null ? BoxShape.circle : BoxShape.rectangle,
-              borderRadius: widget.style.buttonBorderRadius != null 
-                  ? BorderRadius.circular(widget.style.buttonBorderRadius!) 
-                  : null,
-              color: isActuallyEnabled
-                  ? (_isHovered
-                      ? widget.style.buttonColor.withValues(alpha: 0.8)
-                      : widget.style.buttonColor)
-                  : widget.style.buttonColor.withValues(alpha: 0.3),
-            ),
-            child: Icon(
-              widget.icon,
-              color: isActuallyEnabled
-                  ? widget.style.iconColor
-                  : widget.style.iconColor.withValues(alpha: 0.3),
-              size: widget.style.iconSize ?? (widget.style.buttonSize * 0.5),
+    return Semantics(
+      button: true,
+      enabled: isActuallyEnabled,
+      label: widget.label,
+      child: MouseRegion(
+        onEnter: (_) => setState(() => _isHovered = true),
+        onExit: (_) => setState(() => _isHovered = false),
+        cursor: isActuallyEnabled ? SystemMouseCursors.click : SystemMouseCursors.forbidden,
+        child: GestureDetector(
+          onTapDown: isActuallyEnabled ? (_) => _controller.forward() : null,
+          onTapUp: isActuallyEnabled ? (_) => _controller.reverse() : null,
+          onTapCancel: isActuallyEnabled ? () => _controller.reverse() : null,
+          onTap: isActuallyEnabled ? widget.onPressed : null,
+          child: ScaleTransition(
+            scale: _scaleAnimation,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              width: widget.style.buttonSize,
+              height: widget.style.buttonSize,
+              decoration: BoxDecoration(
+                shape: widget.style.buttonBorderRadius == null ? BoxShape.circle : BoxShape.rectangle,
+                borderRadius: widget.style.buttonBorderRadius != null 
+                    ? BorderRadius.circular(widget.style.buttonBorderRadius!) 
+                    : null,
+                color: isActuallyEnabled
+                    ? (_isHovered
+                        ? widget.style.buttonColor.withValues(alpha: 0.8)
+                        : widget.style.buttonColor)
+                    : widget.style.buttonColor.withValues(alpha: 0.3),
+              ),
+              child: Icon(
+                widget.icon,
+                color: isActuallyEnabled
+                    ? widget.style.iconColor
+                    : widget.style.iconColor.withValues(alpha: 0.3),
+                size: widget.style.iconSize ?? (widget.style.buttonSize * 0.5),
+              ),
             ),
           ),
         ),
@@ -198,3 +211,4 @@ class _StepperButtonState extends State<_StepperButton> with SingleTickerProvide
     );
   }
 }
+

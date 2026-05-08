@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter/services.dart';
 import 'models/premium_progress_stepper_style.dart';
+import '../common/portal_animations.dart';
 
 /// A premium progress stepper with physics-based animations (spring)
 /// and a tactile feel.
@@ -249,31 +250,40 @@ class _PremiumProgressStepperState extends State<PremiumProgressStepper>
                   button: true,
                   label: widget.backText,
                   hint: 'Goes to the previous step',
-                  child: SizeTransition(
-                    sizeFactor: _backButtonController,
-                    axis: Axis.horizontal,
-                    child: FadeTransition(
-                      opacity: _backButtonController,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 12),
-                        child: _BounceButton(
-                          onPressed: _handleBack,
-                          backgroundColor: widget.style.secondaryButtonColor,
-                          borderRadius: widget.style.buttonBorderRadius,
-                          height: widget.style.buttonHeight,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
-                            child: Center(
-                              child: Text(
-                                widget.backText,
-                                style: widget.style.buttonTextStyle?.copyWith(
-                                      color: widget.style.secondaryButtonTextColor,
-                                    ) ??
-                                    TextStyle(
-                                      color: widget.style.secondaryButtonTextColor,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16,
-                                    ),
+                  child: AnimatedBuilder(
+                    animation: _backButtonController,
+                    builder: (context, child) {
+                      return Offstage(
+                        offstage: _backButtonController.value <= 0.0,
+                        child: child,
+                      );
+                    },
+                    child: SizeTransition(
+                      sizeFactor: _backButtonController,
+                      axis: Axis.horizontal,
+                      child: FadeTransition(
+                        opacity: _backButtonController,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 12),
+                          child: _BounceButton(
+                            onPressed: _handleBack,
+                            backgroundColor: widget.style.secondaryButtonColor,
+                            borderRadius: widget.style.buttonBorderRadius,
+                            height: widget.style.buttonHeight,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 24),
+                              child: Center(
+                                child: Text(
+                                  widget.backText,
+                                  style: widget.style.buttonTextStyle?.copyWith(
+                                        color: widget.style.secondaryButtonTextColor,
+                                      ) ??
+                                      TextStyle(
+                                        color: widget.style.secondaryButtonTextColor,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16,
+                                      ),
+                                ),
                               ),
                             ),
                           ),
@@ -496,7 +506,7 @@ class _BounceButtonState extends State<_BounceButton>
       duration: const Duration(milliseconds: 150),
     );
     _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
+      CurvedAnimation(parent: _controller, curve: PortalSpringCurve()),
     );
   }
 

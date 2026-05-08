@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../common/portal_animations.dart';
 import '../common/premium_flip_counter.dart';
 import 'models/premium_pagination_style.dart';
 
@@ -96,10 +97,12 @@ class _PremiumPaginationState extends State<PremiumPagination> {
         mainAxisSize: MainAxisSize.min,
         children: [
           _PaginationButton(
+            key: const ValueKey('pagination_prev'),
             icon: widget.previousIcon,
             onPressed: _handlePrevious,
             enabled: widget.currentPage > 1,
             style: widget.style,
+            label: 'Previous page',
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: widget.style.spacing),
@@ -128,10 +131,12 @@ class _PremiumPaginationState extends State<PremiumPagination> {
             ),
           ),
           _PaginationButton(
+            key: const ValueKey('pagination_next'),
             icon: widget.nextIcon,
             onPressed: _handleNext,
             enabled: widget.currentPage < widget.totalPages,
             style: widget.style,
+            label: 'Next page',
           ),
         ],
       ),
@@ -142,16 +147,19 @@ class _PremiumPaginationState extends State<PremiumPagination> {
 class _PaginationButton extends StatefulWidget {
   /// Creates a [_PaginationButton] widget.
   const _PaginationButton({
+    super.key,
     required this.icon,
     required this.onPressed,
     required this.enabled,
     required this.style,
+    required this.label,
   });
 
   final IconData icon;
   final VoidCallback onPressed;
   final bool enabled;
   final PremiumPaginationStyle style;
+  final String label;
 
   @override
   State<_PaginationButton> createState() => _PaginationButtonState();
@@ -167,12 +175,12 @@ class _PaginationButtonState extends State<_PaginationButton> with SingleTickerP
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 80),
+      duration: const Duration(milliseconds: 300),
     );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: const Cubic(0.23, 1, 0.32, 1),
+        curve: PortalSpringCurve(),
       ),
     );
   }
@@ -187,39 +195,44 @@ class _PaginationButtonState extends State<_PaginationButton> with SingleTickerP
   Widget build(BuildContext context) {
     final bool isActuallyEnabled = widget.enabled;
 
-    return MouseRegion(
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
-      cursor: isActuallyEnabled ? SystemMouseCursors.click : SystemMouseCursors.forbidden,
-      child: GestureDetector(
-        onTapDown: (_) => isActuallyEnabled ? _controller.forward() : null,
-        onTapUp: (_) => isActuallyEnabled ? _controller.reverse() : null,
-        onTapCancel: () => isActuallyEnabled ? _controller.reverse() : null,
-        onTap: isActuallyEnabled ? widget.onPressed : null,
-        child: ScaleTransition(
-          scale: _scaleAnimation,
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            width: widget.style.buttonSize,
-            height: widget.style.buttonSize,
-            decoration: BoxDecoration(
-              shape: widget.style.buttonBorderRadius == null ? BoxShape.circle : BoxShape.rectangle,
-              borderRadius: widget.style.buttonBorderRadius != null 
-                  ? BorderRadius.circular(widget.style.buttonBorderRadius!) 
-                  : null,
-              boxShadow: isActuallyEnabled ? widget.style.shadows : null,
-              color: isActuallyEnabled
-                  ? (_isHovered
-                      ? widget.style.buttonColor.withValues(alpha: 0.9)
-                      : widget.style.buttonColor)
-                  : const Color(0xFFF2F2F7), // Soft grey when unavailable
-            ),
-            child: Icon(
-              widget.icon,
-              color: isActuallyEnabled
-                  ? widget.style.iconColor
-                  : widget.style.iconColor.withValues(alpha: 0.3),
-              size: widget.style.iconSize ?? (widget.style.buttonSize * 0.5),
+    return Semantics(
+      button: true,
+      enabled: isActuallyEnabled,
+      label: widget.label,
+      child: MouseRegion(
+        onEnter: (_) => setState(() => _isHovered = true),
+        onExit: (_) => setState(() => _isHovered = false),
+        cursor: isActuallyEnabled ? SystemMouseCursors.click : SystemMouseCursors.forbidden,
+        child: GestureDetector(
+          onTapDown: isActuallyEnabled ? (_) => _controller.forward() : null,
+          onTapUp: isActuallyEnabled ? (_) => _controller.reverse() : null,
+          onTapCancel: isActuallyEnabled ? () => _controller.reverse() : null,
+          onTap: isActuallyEnabled ? widget.onPressed : null,
+          child: ScaleTransition(
+            scale: _scaleAnimation,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              width: widget.style.buttonSize,
+              height: widget.style.buttonSize,
+              decoration: BoxDecoration(
+                shape: widget.style.buttonBorderRadius == null ? BoxShape.circle : BoxShape.rectangle,
+                borderRadius: widget.style.buttonBorderRadius != null 
+                    ? BorderRadius.circular(widget.style.buttonBorderRadius!) 
+                    : null,
+                boxShadow: isActuallyEnabled ? widget.style.shadows : null,
+                color: isActuallyEnabled
+                    ? (_isHovered
+                        ? widget.style.buttonColor.withValues(alpha: 0.9)
+                        : widget.style.buttonColor)
+                    : const Color(0xFFF2F2F7), // Soft grey when unavailable
+              ),
+              child: Icon(
+                widget.icon,
+                color: isActuallyEnabled
+                    ? widget.style.iconColor
+                    : widget.style.iconColor.withValues(alpha: 0.3),
+                size: widget.style.iconSize ?? (widget.style.buttonSize * 0.5),
+              ),
             ),
           ),
         ),
@@ -227,3 +240,4 @@ class _PaginationButtonState extends State<_PaginationButton> with SingleTickerP
     );
   }
 }
+

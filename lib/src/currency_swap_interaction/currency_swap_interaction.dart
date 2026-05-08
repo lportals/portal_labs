@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:ui' as ui;
+import '../common/portal_animations.dart';
 import '../common/portal_utils.dart';
 import '../common/premium_flip_counter.dart';
 import 'models/currency_swap_style.dart';
@@ -293,7 +294,7 @@ class _SwapButtonState extends State<_SwapButton> with SingleTickerProviderState
           child: AnimatedRotation(
             turns: _turns,
             duration: const Duration(milliseconds: 400),
-            curve: Curves.easeOutBack,
+            curve: PortalSpringCurve(),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               padding: const EdgeInsets.all(8),
@@ -539,7 +540,7 @@ class _CurrencySelectorState extends State<_CurrencySelector> with SingleTickerP
                 builder: (context, child) {
                   final curvedValue = CurvedAnimation(
                     parent: _menuController,
-                    curve: Curves.easeOutBack, // Spring bounce!
+                    curve: PortalSpringCurve(), // Spring bounce!
                     reverseCurve: Curves.easeOutCubic, // Smooth exit
                   ).value;
 
@@ -623,7 +624,7 @@ class _CurrencySelectorState extends State<_CurrencySelector> with SingleTickerP
       child: GestureDetector(
         onTap: _toggleMenu,
         child: Container(
-          width: 96, // Slight width increase to accommodate the extra padding safely
+          constraints: const BoxConstraints(minWidth: 96),
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6), // Increased lateral padding
           decoration: BoxDecoration(
             color: widget.style.backgroundColor,
@@ -647,40 +648,45 @@ class _CurrencySelectorState extends State<_CurrencySelector> with SingleTickerP
                   style: const TextStyle(fontSize: 16),
                 ),
               ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: List.generate(widget.selectedCurrency.code.length, (index) {
-                  return AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 400),
-                    reverseDuration: const Duration(milliseconds: 50), // Disappear quickly!
-                    transitionBuilder: (child, animation) {
-                      // Staggered interval based on letter index (0.15s delay per letter)
-                      final double start = (index * 0.15).clamp(0.0, 0.9);
-                      
-                      final curve = CurvedAnimation(
-                        parent: animation,
-                        curve: Interval(start, 1.0, curve: Curves.easeOutBack),
-                        reverseCurve: Curves.easeIn, // Smooth and fast 50ms exit
-                      );
-                      
-                      return FadeTransition(
-                        opacity: curve,
-                        child: SlideTransition(
-                          position: Tween<Offset>(
-                            begin: const Offset(0, 0.4),
-                            end: Offset.zero,
-                          ).animate(curve),
-                          child: child,
-                        ),
-                      );
-                    },
-                    child: Text(
-                      widget.selectedCurrency.code[index],
-                      key: ValueKey('${widget.selectedCurrency.code}_$index'),
-                      style: widget.style.currencyTextStyle,
-                    ),
-                  );
-                }),
+              Semantics(
+                key: ValueKey('currency_code_${widget.selectedCurrency.code}'),
+                label: widget.selectedCurrency.code,
+                container: true,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: List.generate(widget.selectedCurrency.code.length, (index) {
+                    return AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 400),
+                      reverseDuration: const Duration(milliseconds: 50), // Disappear quickly!
+                      transitionBuilder: (child, animation) {
+                        // Staggered interval based on letter index (0.15s delay per letter)
+                        final double start = (index * 0.15).clamp(0.0, 0.9);
+                        
+                        final curve = CurvedAnimation(
+                          parent: animation,
+                          curve: Interval(start, 1.0, curve: PortalSpringCurve()),
+                          reverseCurve: Curves.easeIn, // Smooth and fast 50ms exit
+                        );
+                        
+                        return FadeTransition(
+                          opacity: curve,
+                          child: SlideTransition(
+                            position: Tween<Offset>(
+                              begin: const Offset(0, 0.4),
+                              end: Offset.zero,
+                            ).animate(curve),
+                            child: child,
+                          ),
+                        );
+                      },
+                      child: Text(
+                        widget.selectedCurrency.code[index],
+                        key: ValueKey('${widget.selectedCurrency.code}_$index'),
+                        style: widget.style.currencyTextStyle,
+                      ),
+                    );
+                  }),
+                ),
               ),
               RotationTransition(
                 turns: _menuController.drive(Tween<double>(begin: 0, end: 0.5)),

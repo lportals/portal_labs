@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter/services.dart';
 import 'models/feedback_interaction_style.dart';
+import '../common/portal_animations.dart';
 
 /// A premium, high-fidelity feedback component that uses asymmetric spring physics to transition between selection states. Designed for high-fidelity tactile response and zero-latency interaction.
 class FeedbackInteraction extends StatefulWidget {
@@ -367,7 +368,7 @@ class _FeedbackPressableState extends State<_FeedbackPressable>
       duration: const Duration(milliseconds: 120),
     );
     _scaleAnimation = Tween<double>(begin: 1.0, end: 0.94).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
+      CurvedAnimation(parent: _controller, curve: PortalSpringCurve()),
     );
   }
 

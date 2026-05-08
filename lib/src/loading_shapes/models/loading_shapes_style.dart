@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 /// Defines the geometric properties of a single shape state.
 class PortalShapeDefinition {
   /// Creates a new [PortalShapeDefinition].
@@ -24,11 +25,11 @@ class PortalShapeDefinition {
 /// Style configuration for the [LoadingShapes] widget.
 class LoadingShapesStyle {
   /// Creates a new [LoadingShapesStyle] instance.
-  const LoadingShapesStyle({
+  LoadingShapesStyle({
     this.color = const Color(0xFF1D1D1F),
     this.size = 120.0,
     this.transitionDuration = const Duration(milliseconds: 600),
-    this.transitionCurve = Curves.easeInOutCubic,
+    this.transitionCurve,
     this.baseRotationSpeed = 0.009,
     this.boostRotationSpeed = 0.025,
     this.enableHaptics = true,
@@ -57,7 +58,7 @@ class LoadingShapesStyle {
   final Duration transitionDuration;
 
   /// The curve used for the morphing transition.
-  final Curve transitionCurve;
+  final Curve? transitionCurve;
 
   /// The baseline rotation speed (radians per frame).
   final double baseRotationSpeed;

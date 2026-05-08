@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'models/inline_delete_style.dart';
+import '../common/portal_animations.dart';
 
 /// Represents an action item within the [InlineDeleteInteraction].
 class InlineAction {
@@ -85,7 +86,11 @@ class _InlineDeleteInteractionState extends State<InlineDeleteInteraction>
 
     _confirmAnimation = CurvedAnimation(
       parent: _confirmController,
-      curve: const SpringCurve(),
+      curve: PortalSpringCurve(
+        mass: widget.style.springMass,
+        stiffness: widget.style.springStiffness,
+        damping: widget.style.springDamping,
+      ),
     );
   }
 
@@ -284,46 +289,52 @@ class _InteractiveRow extends StatelessWidget {
             children: [
               Transform.translate(
                 offset: Offset(0, -itemHeight * t),
-                child: Opacity(
-                  opacity: (1.0 - t).clamp(0.0, 1.0),
-                  child: _MenuRow(
-                    item: item,
-                    style: style,
-                    onTap: () => onToggle(true),
+                child: Offstage(
+                  offstage: t >= 1.0,
+                  child: Opacity(
+                    opacity: (1.0 - t).clamp(0.0, 1.0),
+                    child: _MenuRow(
+                      item: item,
+                      style: style,
+                      onTap: () => onToggle(true),
+                    ),
                   ),
                 ),
               ),
               Transform.translate(
                 offset: Offset(0, itemHeight * (1.0 - t)),
-                child: Opacity(
-                  opacity: t.clamp(0.0, 1.0),
-                  child: Container(
-                    height: itemHeight,
-                    padding: const EdgeInsets.all(uniformPadding),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: _ConfirmButton(
-                            label: item.confirmLabel ?? 'Confirm Delete',
-                            color: style.confirmButtonColor,
-                            onTap: onConfirm,
-                            isDestructive: true,
-                            style: style,
-                            padding: uniformPadding,
+                child: Offstage(
+                  offstage: t <= 0.0,
+                  child: Opacity(
+                    opacity: t.clamp(0.0, 1.0),
+                    child: Container(
+                      height: itemHeight,
+                      padding: const EdgeInsets.all(uniformPadding),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: _ConfirmButton(
+                              label: item.confirmLabel ?? 'Confirm Delete',
+                              color: style.confirmButtonColor,
+                              onTap: onConfirm,
+                              isDestructive: true,
+                              style: style,
+                              padding: uniformPadding,
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: _ConfirmButton(
-                            label: item.cancelLabel ?? 'Cancel',
-                            color: style.cancelButtonColor ?? Colors.transparent,
-                            onTap: () => onToggle(false),
-                            style: style,
-                            padding: uniformPadding,
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: _ConfirmButton(
+                              label: item.cancelLabel ?? 'Cancel',
+                              color: style.cancelButtonColor ?? Colors.transparent,
+                              onTap: () => onToggle(false),
+                              style: style,
+                              padding: uniformPadding,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -458,14 +469,4 @@ class _ConfirmButtonState extends State<_ConfirmButton> {
   }
 }
 
-/// A custom curve that simulates a springy, elastic movement.
-class SpringCurve extends Curve {
-  /// Creates a [SpringCurve].
-  const SpringCurve();
 
-  @override
-  double transformInternal(double t) {
-    const double s = 0.5;
-    return (t = t - 1.0) * t * ((s + 1.0) * t + s) + 1.0;
-  }
-}

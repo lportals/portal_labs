@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'models/loading_shapes_style.dart';
+import '../common/portal_animations.dart';
 
 /// A premium loading widget that morphs between different organic and geometric shapes.
 ///
@@ -10,11 +12,12 @@ import 'models/loading_shapes_style.dart';
 /// subtle rotation, and physics-based motion.
 class LoadingShapes extends StatefulWidget {
   /// Creates a new [LoadingShapes] instance.
-  const LoadingShapes({
+  LoadingShapes({
     super.key,
-    this.style = const LoadingShapesStyle(),
+    LoadingShapesStyle? style,
     this.isLoading = true,
-  });
+  }) : style = style ?? LoadingShapesStyle();
+
 
   /// The style configuration for the loading shapes.
   final LoadingShapesStyle style;
@@ -37,6 +40,7 @@ class _LoadingShapesState extends State<LoadingShapes>
 
   int _currentShapeIndex = 0;
   int _nextShapeIndex = 1;
+  Timer? _pauseTimer;
 
   @override
   void initState() {
@@ -50,7 +54,7 @@ class _LoadingShapesState extends State<LoadingShapes>
     // Main morphing animation
     _morphAnimation = CurvedAnimation(
       parent: _morphController,
-      curve: widget.style.transitionCurve,
+      curve: widget.style.transitionCurve ?? PortalSpringCurve(),
     );
 
     // Scale animation: Subtle "breathing" during transition
@@ -117,7 +121,8 @@ class _LoadingShapesState extends State<LoadingShapes>
 
     if (widget.isLoading) {
       // Configurable delay before next transition for a custom "thinking" feel
-      Future.delayed(widget.style.pauseDuration, () {
+      _pauseTimer?.cancel();
+      _pauseTimer = Timer(widget.style.pauseDuration, () {
         if (mounted && widget.isLoading) {
           _morphController.forward();
         }
@@ -133,11 +138,13 @@ class _LoadingShapesState extends State<LoadingShapes>
       if (!_rotationTicker.isActive) _rotationTicker.start();
     } else if (!widget.isLoading && oldWidget.isLoading) {
       _rotationTicker.stop();
+      _pauseTimer?.cancel();
     }
   }
 
   @override
   void dispose() {
+    _pauseTimer?.cancel();
     _morphController.dispose();
     _rotationTicker.dispose();
     super.dispose();
