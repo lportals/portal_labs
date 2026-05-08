@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:portal_labs/portal_labs.dart';
 
 void main() {
   group('PremiumPagination', () {
     testWidgets('renders correctly with current and total pages', (WidgetTester tester) async {
-      int? changedPage;
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: PremiumPagination(
               currentPage: 1,
               totalPages: 5,
-              onPageChanged: (page) => changedPage = page,
+              onPageChanged: (_) {},
             ),
           ),
         ),
@@ -26,13 +24,13 @@ void main() {
       // Previous button should be disabled
       final prevNode = tester.getSemantics(find.byKey(const ValueKey('pagination_prev')));
       expect(prevNode.label, 'Previous page');
-      expect(prevNode.hasFlag(SemanticsFlag.isButton), isTrue);
-      expect(prevNode.hasFlag(SemanticsFlag.isEnabled), isFalse);
+      expect(prevNode.flagsCollection.isButton, isTrue);
+      expect(prevNode.flagsCollection.isEnabled, isFalse);
       
       final nextNode = tester.getSemantics(find.byKey(const ValueKey('pagination_next')));
       expect(nextNode.label, 'Next page');
-      expect(nextNode.hasFlag(SemanticsFlag.isButton), isTrue);
-      expect(nextNode.hasFlag(SemanticsFlag.isEnabled), isTrue);
+      expect(nextNode.flagsCollection.isButton, isTrue);
+      expect(nextNode.flagsCollection.isEnabled, isTrue);
     });
 
     testWidgets('triggers onPageChanged when next is clicked', (WidgetTester tester) async {
@@ -43,7 +41,7 @@ void main() {
             body: PremiumPagination(
               currentPage: 1,
               totalPages: 5,
-              onPageChanged: (page) => changedPage = page,
+              onPageChanged: (_) {},
             ),
           ),
         ),
@@ -63,7 +61,7 @@ void main() {
             body: PremiumPagination(
               currentPage: 3,
               totalPages: 5,
-              onPageChanged: (page) => changedPage = page,
+              onPageChanged: (_) {},
             ),
           ),
         ),
@@ -83,14 +81,14 @@ void main() {
             body: PremiumPagination(
               currentPage: 5,
               totalPages: 5,
-              onPageChanged: (page) => changedPage = page,
+              onPageChanged: (_) {},
             ),
           ),
         ),
       );
 
       final nextNode = tester.getSemantics(find.byKey(const ValueKey('pagination_next')));
-      expect(nextNode.hasFlag(SemanticsFlag.isEnabled), isFalse);
+      expect(nextNode.flagsCollection.isEnabled, isFalse);
       
       await tester.tap(find.byKey(const ValueKey('pagination_next')));
       await tester.pump();

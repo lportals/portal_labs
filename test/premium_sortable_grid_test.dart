@@ -43,9 +43,7 @@ void main() {
                   reorderedNew = newIndex;
                 },
                 style: const PremiumSortableGridStyle(
-                  crossAxisCount: 3,
                   spacing: 0,
-                  itemAspectRatio: 1.0,
                 ),
                 itemBuilder: (context, item) => SizedBox(
                   key: ValueKey('box_$item'),
@@ -94,7 +92,6 @@ void main() {
                 style: const PremiumSortableGridStyle(
                   crossAxisCount: 2,
                   spacing: 0,
-                  itemAspectRatio: 1.0,
                 ),
                 itemBuilder: (context, item) => Text('Item $item'),
               ),

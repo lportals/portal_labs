@@ -3,6 +3,30 @@ import '../../common/portal_animations.dart';
 
 /// Style configuration for the [PremiumSortableGrid].
 class PremiumSortableGridStyle {
+
+  /// Creates a [PremiumSortableGridStyle] with the given parameters.
+  const PremiumSortableGridStyle({
+    this.crossAxisCount = 3,
+    this.spacing = 12.0,
+    this.itemAspectRatio = 1.0,
+    this.borderRadius = const BorderRadius.all(Radius.circular(12.0)),
+    this.animationDuration = const Duration(milliseconds: 500),
+    this.animationCurve = const PortalSpringCurve(),
+    this.enableHaptics = true,
+    this.dragScale = 1.1,
+    this.dragOpacity = 0.8,
+    this.dragShadow = const [
+      BoxShadow(
+        color: Colors.black26,
+        blurRadius: 10,
+        offset: Offset(0, 4),
+      ),
+    ],
+    this.pulseDuration = const Duration(milliseconds: 400),
+    this.pulseScale = 1.05,
+    this.showMagneticGhost = true,
+    this.flybackDuration = const Duration(milliseconds: 800),
+  });
   /// The number of columns in the grid.
   final int crossAxisCount;
 
@@ -44,29 +68,6 @@ class PremiumSortableGridStyle {
 
   /// The duration of the magnetic flyback animation when the item is dropped.
   final Duration flybackDuration;
-
-  const PremiumSortableGridStyle({
-    this.crossAxisCount = 3,
-    this.spacing = 12.0,
-    this.itemAspectRatio = 1.0,
-    this.borderRadius = const BorderRadius.all(Radius.circular(12.0)),
-    this.animationDuration = const Duration(milliseconds: 500),
-    this.animationCurve = const PortalSpringCurve(),
-    this.enableHaptics = true,
-    this.dragScale = 1.1,
-    this.dragOpacity = 0.8,
-    this.dragShadow = const [
-      BoxShadow(
-        color: Colors.black26,
-        blurRadius: 10,
-        offset: Offset(0, 4),
-      ),
-    ],
-    this.pulseDuration = const Duration(milliseconds: 400),
-    this.pulseScale = 1.05,
-    this.showMagneticGhost = true,
-    this.flybackDuration = const Duration(milliseconds: 800),
-  });
 
   /// Creates a copy of this style with the given fields replaced.
   PremiumSortableGridStyle copyWith({

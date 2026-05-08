@@ -54,7 +54,7 @@ class _LoadingShapesState extends State<LoadingShapes>
     // Main morphing animation
     _morphAnimation = CurvedAnimation(
       parent: _morphController,
-      curve: widget.style.transitionCurve ?? PortalSpringCurve(),
+      curve: widget.style.transitionCurve ?? const PortalSpringCurve(),
     );
 
     // Scale animation: Subtle "breathing" during transition

@@ -156,7 +156,7 @@ class _PinnableListState extends State<PinnableList> {
                 return AnimatedPositioned(
                   key: ValueKey('pos_${item.id}'),
                   duration: const Duration(milliseconds: 1100),
-                  curve: PortalSpringCurve(stiffness: 140, damping: 20),
+                  curve: const PortalSpringCurve(stiffness: 140, damping: 20),
                   top: targetTop,
                   left: 0,
                   right: 0,

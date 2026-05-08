@@ -7,6 +7,17 @@ import 'models/premium_sortable_grid_style.dart';
 ///
 /// Features smooth animations, physical spring-like feel, and haptic feedback.
 class PremiumSortableGrid<T> extends StatefulWidget {
+
+  /// Creates a [PremiumSortableGrid] with the given parameters.
+  const PremiumSortableGrid({
+    super.key,
+    required this.items,
+    required this.itemBuilder,
+    required this.idBuilder,
+    required this.onReorder,
+    this.style = const PremiumSortableGridStyle(),
+    this.emptyBuilder,
+  });
   /// The list of items to display in the grid.
   final List<T> items;
 
@@ -24,16 +35,6 @@ class PremiumSortableGrid<T> extends StatefulWidget {
 
   /// A builder for the empty state of the grid.
   final WidgetBuilder? emptyBuilder;
-
-  const PremiumSortableGrid({
-    super.key,
-    required this.items,
-    required this.itemBuilder,
-    required this.idBuilder,
-    required this.onReorder,
-    this.style = const PremiumSortableGridStyle(),
-    this.emptyBuilder,
-  });
 
 
   @override
@@ -79,7 +80,6 @@ class _PremiumSortableGridState<T> extends State<PremiumSortableGrid<T>> {
                           itemHeight: itemHeight,
                           isDragging: isDragging,
                           style: widget.style,
-                          child: widget.itemBuilder(context, item),
                           idBuilder: widget.idBuilder,
                           onDragStarted: () {
                             if (widget.style.enableHaptics) {
@@ -107,6 +107,7 @@ class _PremiumSortableGridState<T> extends State<PremiumSortableGrid<T>> {
                               }
                             }
                           },
+                          child: widget.itemBuilder(context, item),
                         );
                       }),
                       ..._buildEmptySlotTargets(itemWidth, itemHeight),
@@ -116,7 +117,7 @@ class _PremiumSortableGridState<T> extends State<PremiumSortableGrid<T>> {
                         top: _calculateTotalHeight(itemHeight),
                         bottom: 0,
                         child: DragTarget<Object>(
-                          onWillAccept: (data) => data != null,
+                          onWillAcceptWithDetails: (details) => true,
                           onMove: (details) {
                             final now = DateTime.now();
                             if (now.difference(_lastReorderTime).inMilliseconds < 150) return;
@@ -132,7 +133,7 @@ class _PremiumSortableGridState<T> extends State<PremiumSortableGrid<T>> {
                               }
                             }
                           },
-                          builder: (context, _, __) => const SizedBox.expand(),
+                          builder: (context, _, _) => const SizedBox.expand(),
                         ),
                       ),
                     ],
@@ -164,7 +165,7 @@ class _PremiumSortableGridState<T> extends State<PremiumSortableGrid<T>> {
         width: itemWidth,
         height: itemHeight,
         child: DragTarget<Object>(
-          onWillAccept: (data) => data != null,
+          onWillAcceptWithDetails: (details) => true,
           onMove: (details) {
             final now = DateTime.now();
             if (now.difference(_lastReorderTime).inMilliseconds < 150) return;
@@ -180,7 +181,7 @@ class _PremiumSortableGridState<T> extends State<PremiumSortableGrid<T>> {
               }
             }
           },
-          builder: (context, _, __) => const SizedBox.expand(),
+          builder: (context, _, _) => const SizedBox.expand(),
         ),
       );
     });
@@ -194,17 +195,6 @@ class _PremiumSortableGridState<T> extends State<PremiumSortableGrid<T>> {
 }
 
 class _SortableGridItem<T> extends StatefulWidget {
-  final int index;
-  final T item;
-  final double itemWidth;
-  final double itemHeight;
-  final bool isDragging;
-  final PremiumSortableGridStyle style;
-  final Widget child;
-  final Object Function(T item) idBuilder;
-  final VoidCallback onDragStarted;
-  final VoidCallback onDragEnded;
-  final void Function(Object dragId) onDragOver;
 
   const _SortableGridItem({
     super.key,
@@ -220,6 +210,17 @@ class _SortableGridItem<T> extends StatefulWidget {
     required this.onDragEnded,
     required this.onDragOver,
   });
+  final int index;
+  final T item;
+  final double itemWidth;
+  final double itemHeight;
+  final bool isDragging;
+  final PremiumSortableGridStyle style;
+  final Widget child;
+  final Object Function(T item) idBuilder;
+  final VoidCallback onDragStarted;
+  final VoidCallback onDragEnded;
+  final void Function(Object dragId) onDragOver;
 
   @override
   State<_SortableGridItem<T>> createState() => _SortableGridItemState<T>();
@@ -317,8 +318,8 @@ class _SortableGridItemState<T> extends State<_SortableGridItem<T>>
       width: widget.itemWidth,
       height: widget.itemHeight,
       child: DragTarget<Object>(
-        onWillAccept: (data) => data != null && data != widget.idBuilder(widget.item),
-        onAccept: (data) => widget.onDragOver(data),
+        onWillAcceptWithDetails: (details) => details.data != widget.idBuilder(widget.item),
+        onAcceptWithDetails: (data) => widget.onDragOver(data.data),
         onMove: (details) {
           if (details.data != widget.idBuilder(widget.item)) {
             widget.onDragOver(details.data);

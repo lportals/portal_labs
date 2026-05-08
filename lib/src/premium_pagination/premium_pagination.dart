@@ -180,7 +180,7 @@ class _PaginationButtonState extends State<_PaginationButton> with SingleTickerP
     _scaleAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: PortalSpringCurve(),
+        curve: const PortalSpringCurve(),
       ),
     );
   }

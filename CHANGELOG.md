@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.22.1] - 2026-05-08
+
+- **Pub Score Optimization**: Resolved all `dart analyze` warnings and info messages to achieve a perfect health score.
+- **Housekeeping**: Cleaned up deprecated `onWillAccept` usage in `PremiumSortableGrid`.
+- **Test Stability**: Updated semantic tests to use modern `SemanticsFlags` properties.
+- **Documentation**: Added missing API documentation for the new Sortable Grid public members.
+
 ## [0.22.0] - 2026-05-08
 
 - **New Component**: **Sortable Grid** — A premium, physics-based reorderable grid with smooth layout transitions and integrated haptic feedback.

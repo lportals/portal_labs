@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:portal_labs/portal_labs.dart';
 
@@ -7,13 +6,12 @@ void main() {
   group('PremiumStepper', () {
     testWidgets('renders correctly with initial value', (WidgetTester tester) async {
       final handle = tester.ensureSemantics();
-      int? changedValue;
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: PremiumStepper(
               value: 10,
-              onChanged: (val) => changedValue = val,
+              onChanged: (_) {},
             ),
           ),
         ),
@@ -23,13 +21,13 @@ void main() {
       
       final minusNode = tester.getSemantics(find.byKey(const ValueKey('stepper_minus')));
       expect(minusNode.label, 'Decrement');
-      expect(minusNode.hasFlag(SemanticsFlag.isButton), isTrue);
-      expect(minusNode.hasFlag(SemanticsFlag.isEnabled), isTrue);
+      expect(minusNode.flagsCollection.isButton, isTrue);
+      expect(minusNode.flagsCollection.isEnabled, isTrue);
       
       final plusNode = tester.getSemantics(find.byKey(const ValueKey('stepper_plus')));
       expect(plusNode.label, 'Increment');
-      expect(plusNode.hasFlag(SemanticsFlag.isButton), isTrue);
-      expect(plusNode.hasFlag(SemanticsFlag.isEnabled), isTrue);
+      expect(plusNode.flagsCollection.isButton, isTrue);
+      expect(plusNode.flagsCollection.isEnabled, isTrue);
       
       handle.dispose();
     });
@@ -41,7 +39,7 @@ void main() {
           home: Scaffold(
             body: PremiumStepper(
               value: 10,
-              onChanged: (val) => changedValue = val,
+              onChanged: (_) {},
             ),
           ),
         ),
@@ -60,7 +58,7 @@ void main() {
           home: Scaffold(
             body: PremiumStepper(
               value: 10,
-              onChanged: (val) => changedValue = val,
+              onChanged: (_) {},
             ),
           ),
         ),
@@ -80,16 +78,15 @@ void main() {
           home: Scaffold(
             body: PremiumStepper(
               value: 0,
-              min: 0,
               max: 2,
-              onChanged: (val) => changedValue = val,
+              onChanged: (_) {},
             ),
           ),
         ),
       );
 
       final minusNode = tester.getSemantics(find.byKey(const ValueKey('stepper_minus')));
-      expect(minusNode.hasFlag(SemanticsFlag.isEnabled), isFalse);
+      expect(minusNode.flagsCollection.isEnabled, isFalse);
       
       await tester.tap(find.byKey(const ValueKey('stepper_minus')));
       await tester.pump();
@@ -105,16 +102,15 @@ void main() {
           home: Scaffold(
             body: PremiumStepper(
               value: 2,
-              min: 0,
               max: 2,
-              onChanged: (val) => changedValue = val,
+              onChanged: (_) {},
             ),
           ),
         ),
       );
 
       final plusNode = tester.getSemantics(find.byKey(const ValueKey('stepper_plus')));
-      expect(plusNode.hasFlag(SemanticsFlag.isEnabled), isFalse);
+      expect(plusNode.flagsCollection.isEnabled, isFalse);
       
       handle.dispose();
     });
