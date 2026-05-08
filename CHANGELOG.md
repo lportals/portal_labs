@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.22.0] - 2026-05-07
+
+- New Component: **Sortable Grid** — A premium, physics-based reorderable grid with smooth layout transitions and integrated haptic feedback.
+- Features & Evolutions:
+  - **Physics-Based Reordering**: Intelligent item flow using `AnimatedPositioned` with customizable easing curves.
+  - **Pulse-on-Hold Interaction**: Dedicated `AnimationController` manages a "lifting" pulse effect while holding an item before drag.
+  - **Tactile Haptics**: Light-impact feedback on drag start and drop for a hardware-inspired feel.
+
+  - **Dynamic Layout Stability**: Automatic height and dimension recalculation during grid density changes.
+  - **Flexible Customization**: 10+ style properties including drag scale, opacity, and custom shadows via `PremiumSortableGridStyle`.
+
 ## [0.21.1] - 2026-05-07
 
 - Documentation: Fixed GIF reference paths in README.md and removed redundant .mov file.
