@@ -1446,7 +1446,7 @@ SignatureDrawPad(
   },
   style: SignatureDrawPadStyle(
     activeColor: Colors.black,
-    confirmButtonText: 'MANTÉN PARA FIRMAR',
+    confirmButtonText: 'HOLD TO SIGN',
   ),
 )
 ```
