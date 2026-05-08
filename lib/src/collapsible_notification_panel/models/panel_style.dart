@@ -14,6 +14,7 @@ class CollapsibleNotificationPanelStyle {
     this.titleColor = const Color(0xFF1C1C1E),
     this.subtitleColor = const Color(0xFF3A3A3C),
     this.descriptionColor = const Color(0xFF3A3A3C),
+    this.enableHaptics = true,
   });
 
   /// The background color of the panel.
@@ -45,4 +46,7 @@ class CollapsibleNotificationPanelStyle {
 
   /// Color for the description text.
   final Color descriptionColor;
+
+  /// Whether to enable haptic feedback on interactions.
+  final bool enableHaptics;
 }

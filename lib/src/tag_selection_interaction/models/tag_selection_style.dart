@@ -23,6 +23,7 @@ class TagSelectionStyle {
     this.tagPadding = const EdgeInsets.symmetric(horizontal: 12.0),
     this.damping = 15.0,
     this.stiffness = 1.0,
+    this.enableHaptics = true,
   });
   /// The background color of the selected area container.
   final Color selectedAreaColor;
@@ -59,6 +60,9 @@ class TagSelectionStyle {
 
   /// The spring stiffness for the flight animation.
   final double stiffness;
+
+  /// Whether to enable haptic feedback on interactions.
+  final bool enableHaptics;
 
   /// The default high-fidelity light theme style.
   static const light = TagSelectionStyle(

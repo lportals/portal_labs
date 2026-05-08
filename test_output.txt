@@ -1,0 +1,49 @@
+Resolving dependencies...
+Downloading packages...
+  async 2.13.0 (2.13.1 available)
+  matcher 0.12.19 (0.12.20 available)
+  meta 1.17.0 (1.18.2 available)
+  test_api 0.7.10 (0.7.12 available)
+  vector_math 2.2.0 (2.3.0 available)
+  vm_service 15.0.2 (15.2.0 available)
+Got dependencies!
+6 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+Resolving dependencies in `./example`...
+Downloading packages...
+Got dependencies in `./example`.
+00:00 +0: loading /Users/luisportal/Documents/dev/portal_labs/test/tag_selection_interaction_test.dart
+00:00 +0: TagSelectionInteraction toggles tag selection on tap
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: no matching candidates
+  Actual: _IconWidgetFinder:<Found 3 widgets with icon "IconData(U+0F647)": [
+            Icon(IconData(U+0F647), size: 16.0, color: Color(alpha: 0.2588, red: 0.0000, green:
+0.0000, blue: 0.0000, colorSpace: ColorSpace.sRGB), dependencies: [Directionality, IconTheme]),
+            Icon(IconData(U+0F647), size: 16.0, color: Color(alpha: 0.2588, red: 0.0000, green:
+0.0000, blue: 0.0000, colorSpace: ColorSpace.sRGB), dependencies: [Directionality, IconTheme]),
+            Icon(IconData(U+0F647), size: 16.0, color: Color(alpha: 0.2588, red: 0.0000, green:
+0.0000, blue: 0.0000, colorSpace: ColorSpace.sRGB), dependencies: [Directionality, IconTheme]),
+          ]>
+   Which: means some were found but none were expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure>.<anonymous closure> (file:///Users/luisportal/Documents/dev/portal_labs/test/tag_selection_interaction_test.dart:59:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1682:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Users/luisportal/Documents/dev/portal_labs/test/tag_selection_interaction_test.dart line 59
+The test description was:
+  toggles tag selection on tap
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +0 -1: TagSelectionInteraction toggles tag selection on tap [E]
+  Test failed. See exception logs above.
+  The test description was: toggles tag selection on tap
+  
+00:00 +0 -1: Some tests failed.

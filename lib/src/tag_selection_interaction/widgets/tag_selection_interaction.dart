@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../models/tag_model.dart';
 import '../models/tag_selection_style.dart';
@@ -101,6 +102,11 @@ class _TagSelectionInteractionState extends State<TagSelectionInteraction> {
       } else {
         _selectedIds.add(id);
       }
+      
+      if (widget.style.enableHaptics) {
+        HapticFeedback.selectionClick();
+      }
+      
       widget.onChanged?.call(_selectedIds);
     });
   }

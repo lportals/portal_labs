@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../models/notification_item.dart';
 import '../models/panel_style.dart';
 
@@ -47,7 +48,16 @@ class _NotificationTileState extends State<NotificationTile> {
           onTapDown: (_) => setState(() => _isPressed = true),
           onTapUp: (_) => setState(() => _isPressed = false),
           onTapCancel: () => setState(() => _isPressed = false),
-          onTap: widget.onTap ?? widget.item.onTap,
+          onTap: () {
+            if (widget.style.enableHaptics) {
+              HapticFeedback.lightImpact();
+            }
+            if (widget.onTap != null) {
+              widget.onTap!();
+            } else if (widget.item.onTap != null) {
+              widget.item.onTap!();
+            }
+          },
           child: AnimatedScale(
             scale: _isPressed ? 0.98 : 1.0,
             duration: const Duration(milliseconds: 150),

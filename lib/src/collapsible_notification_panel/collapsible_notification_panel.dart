@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
+import 'package:flutter/services.dart';
 import 'models/notification_item.dart';
 import 'models/panel_style.dart';
 import 'widgets/notification_tile.dart';
@@ -86,6 +87,11 @@ class _CollapsibleNotificationPanelState extends State<CollapsibleNotificationPa
     );
 
     _controller.animateWith(simulation);
+    
+    if (widget.style.enableHaptics) {
+      HapticFeedback.lightImpact();
+    }
+    
     widget.onExpansionChanged?.call(_isExpanded);
   }
 

@@ -89,7 +89,6 @@ void main() {
               currencies: testCurrencies,
               initialFromCurrency: testCurrencies[0],
               initialToCurrency: testCurrencies[1],
-              initialAmount: 10,
               exchangeRate: 2.0,
             ),
           ),
