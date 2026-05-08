@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'models/discovery_bar_models.dart';
+import '../common/portal_animations.dart';
 
 /// A premium Discovery Bar widget that uses robust morphing containers to switch 
 /// between search and discovery states without layout overflows.
@@ -56,7 +57,7 @@ class _DiscoveryBarState extends State<DiscoveryBar> {
     if (!_isSearching) {
       _focusNode.unfocus();
     }
-    HapticFeedback.mediumImpact();
+    if (widget.style.enableHaptics) HapticFeedback.mediumImpact();
   }
 
   @override
@@ -100,10 +101,14 @@ class _DiscoveryBarState extends State<DiscoveryBar> {
                         child: Row(
                           children: [
                             const SizedBox(width: 16),
-                            const Icon(Icons.search, color: Colors.black, size: 24),
+                            Icon(
+                              Icons.search, 
+                              color: widget.style.textStyle.color, 
+                              size: widget.style.searchIconSize,
+                            ),
                             Expanded(
                               child: AnimatedSwitcher(
-                                duration: const Duration(milliseconds: 400),
+                                duration: const Duration(milliseconds: 600),
                                 transitionBuilder: (child, animation) {
                                   return FadeTransition(
                                     opacity: animation,
@@ -144,7 +149,7 @@ class _DiscoveryBarState extends State<DiscoveryBar> {
                 width: _isSearching ? circleSize : pillWidth,
                 child: _buildMorphingContainer(
                   child: AnimatedSwitcher(
-                    duration: duration,
+                    duration: const Duration(milliseconds: 400),
                     switchInCurve: Curves.easeOutCubic,
                     switchOutCurve: Curves.easeInCubic,
                     transitionBuilder: (child, animation) {
@@ -156,7 +161,12 @@ class _DiscoveryBarState extends State<DiscoveryBar> {
                             : CurvedAnimation(parent: animation, curve: const Interval(0.0, 0.3)),
                         child: ScaleTransition(
                           scale: isIncoming 
-                              ? Tween<double>(begin: 0.8, end: 1.0).animate(CurvedAnimation(parent: animation, curve: Curves.easeOutBack))
+                              ? Tween<double>(begin: 0.8, end: 1.0).animate(
+                                  CurvedAnimation(
+                                    parent: animation, 
+                                    curve: const PortalSpringCurve(stiffness: 200, damping: 15),
+                                  ),
+                                )
                               : animation,
                           child: child,
                         ),
@@ -177,14 +187,8 @@ class _DiscoveryBarState extends State<DiscoveryBar> {
     return Container(
       decoration: BoxDecoration(
         color: widget.style.backgroundColor,
-        borderRadius: BorderRadius.circular(widget.style.height / 2),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 15,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        borderRadius: widget.style.borderRadius ?? BorderRadius.circular(widget.style.height / 2),
+        boxShadow: widget.style.shadows,
       ),
       clipBehavior: Clip.antiAlias,
       child: Material(
@@ -203,11 +207,13 @@ class _DiscoveryBarState extends State<DiscoveryBar> {
         focusNode: _focusNode,
         autofocus: true,
         autocorrect: false,
-        cursorColor: Colors.black,
-        style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+        cursorColor: widget.style.activeTextStyle.color,
+        style: widget.style.activeTextStyle,
         decoration: InputDecoration(
           hintText: widget.searchPlaceholder,
-          hintStyle: TextStyle(color: Colors.black.withValues(alpha: 0.3), fontSize: 16),
+          hintStyle: widget.style.textStyle.copyWith(
+            color: widget.style.textStyle.color!.withValues(alpha: 0.3),
+          ),
           border: InputBorder.none,
           isDense: true,
         ),
@@ -221,8 +227,12 @@ class _DiscoveryBarState extends State<DiscoveryBar> {
       key: const ValueKey('x_icon_pulse_container'),
       onTap: _toggleState,
       fullArea: true,
-      child: const Center(
-        child: Icon(Icons.close, color: Colors.black, size: 24),
+      child: Center(
+        child: Icon(
+          Icons.close, 
+          color: widget.style.textStyle.color, 
+          size: widget.style.searchIconSize,
+        ),
       ),
     );
   }
@@ -238,13 +248,13 @@ class _DiscoveryBarState extends State<DiscoveryBar> {
           children: [
             AnimatedPositioned(
               duration: const Duration(milliseconds: 400),
-              curve: const Cubic(0.175, 0.885, 0.450, 1.1),
+              curve: const PortalSpringCurve(stiffness: 200, damping: 15),
               left: _selectedOptionIndex * optionWidth + 4,
               top: 4, bottom: 4, width: (optionWidth - 8).clamp(0.0, double.infinity),
               child: Container(
                 decoration: BoxDecoration(
-                  color: widget.options[_selectedOptionIndex].activeColor.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(widget.style.height / 2),
+                  color: widget.style.indicatorColor.withValues(alpha: 0.1),
+                  borderRadius: widget.style.borderRadius ?? BorderRadius.circular(widget.style.height / 2),
                 ),
               ),
             ),
@@ -259,25 +269,32 @@ class _DiscoveryBarState extends State<DiscoveryBar> {
                       onTap: () {
                         setState(() => _selectedOptionIndex = index);
                         widget.onOptionSelected?.call(option);
-                        HapticFeedback.lightImpact();
+                        if (widget.style.enableHaptics) HapticFeedback.lightImpact();
                       },
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         physics: const NeverScrollableScrollPhysics(),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(option.icon, color: isSelected ? option.activeColor : const Color(0xFF1C1C1E), size: 20),
-                            const SizedBox(width: 8),
-                            Text(
-                              option.label, 
-                              style: TextStyle(
-                                color: isSelected ? Colors.black : const Color(0xFF1C1C1E), 
-                                fontSize: 16, 
-                                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500
+                        child: AnimatedDefaultTextStyle(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeOutCubic,
+                          style: isSelected ? widget.style.activeTextStyle : widget.style.textStyle,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              TweenAnimationBuilder<Color?>(
+                                duration: const Duration(milliseconds: 300),
+                                tween: ColorTween(
+                                  begin: widget.style.inactiveColor,
+                                  end: isSelected ? option.activeColor : widget.style.inactiveColor.withValues(alpha: 0.6),
+                                ),
+                                builder: (context, color, _) {
+                                  return Icon(option.icon, color: color, size: widget.style.iconSize);
+                                },
                               ),
-                            ),
-                          ],
+                              const SizedBox(width: 8),
+                              Text(option.label),
+                            ],
+                          ),
                         ),
                       ),
                     ),

@@ -1,7 +1,9 @@
-import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'dart:ui' as ui;
 import 'models/labeled_progress_indicator_style.dart';
 import 'models/progress_stage.dart';
+import '../common/portal_animations.dart';
 
 /// A premium progress indicator that displays sequential loading stages
 /// with a custom shimmer effect.
@@ -72,13 +74,15 @@ class _LabeledProgressIndicatorState extends State<LabeledProgressIndicator>
       end: widget.progress,
     ).animate(CurvedAnimation(
       parent: _progressController,
-      curve: Curves.easeInOut,
+      curve: const PortalSpringCurve(stiffness: 120, damping: 20),
     ));
 
-    _pulseAnimation = TweenSequence<double>([
-      TweenSequenceItem(tween: Tween(begin: 1.0, end: 1.08).chain(CurveTween(curve: Curves.easeOut)), weight: 30),
-      TweenSequenceItem(tween: Tween(begin: 1.08, end: 1.0).chain(CurveTween(curve: Curves.elasticOut)), weight: 70),
-    ]).animate(_pulseController);
+    _pulseAnimation = Tween<double>(begin: 1.0, end: 1.08).animate(
+      CurvedAnimation(
+        parent: _pulseController,
+        curve: const PortalSpringCurve(stiffness: 300, damping: 15),
+      ),
+    );
 
     _lastProgress = widget.progress;
   }
@@ -92,13 +96,14 @@ class _LabeledProgressIndicatorState extends State<LabeledProgressIndicator>
         end: widget.progress,
       ).animate(CurvedAnimation(
         parent: _progressController,
-        curve: Curves.easeInOut,
+        curve: const PortalSpringCurve(stiffness: 120, damping: 20),
       ));
       _progressController.forward(from: 0);
       _lastProgress = widget.progress;
 
       // Pulse on completion
       if (widget.progress >= 1.0 && widget.style.showCompletionPulse) {
+        if (widget.style.enableHaptics) HapticFeedback.mediumImpact();
         _pulseController.forward(from: 0).then((_) {
           widget.onComplete?.call();
         });
@@ -184,10 +189,10 @@ class _LabeledProgressIndicatorState extends State<LabeledProgressIndicator>
                       double opacity;
 
                       if (isEntering) {
-                        final bounceValue = Curves.easeOutBack.transform(entryValue);
+                        final bounceValue = const PortalSpringCurve(damping: 15).transform(entryValue);
                         scale = 0.85 + (0.15 * bounceValue);
-                        skew = 0.3 * (1.0 - entryValue);
-                        blur = 6.0 * (1.0 - entryValue);
+                        skew = 0.2 * (1.0 - entryValue);
+                        blur = 5.0 * (1.0 - entryValue);
                         opacity = entryValue.clamp(0.0, 1.0);
                       } else {
                         scale = 1.0 - (0.05 * exitValue);
@@ -201,7 +206,7 @@ class _LabeledProgressIndicatorState extends State<LabeledProgressIndicator>
                         child: Transform(
                           transform: Matrix4.identity()
                             ..setEntry(3, 2, 0.001)
-                            ..scaleByDouble(scale, scale, 1.0, 1.0)
+                            ..multiply(Matrix4.diagonal3Values(scale, scale, 1.0))
                             ..multiply(Matrix4.skewX(skew)),
                           alignment: Alignment.center,
                           child: ImageFiltered(

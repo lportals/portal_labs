@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../common/portal_animations.dart';
 import 'models/signature_draw_pad_style.dart';
 import 'signature_draw_pad_controller.dart';
 import 'signature_draw_pad_painter.dart';
@@ -107,6 +108,7 @@ class _SignatureDrawPadState extends State<SignatureDrawPad> with TickerProvider
   // Animation for clear/restart transition
   late final AnimationController _clearController;
   bool _isLocked = false;
+  bool _isConfirming = false;
 
   @override
   void initState() {
@@ -187,7 +189,14 @@ class _SignatureDrawPadState extends State<SignatureDrawPad> with TickerProvider
 
   void _onConfirm() {
     if (widget.style.enableHaptics) HapticFeedback.mediumImpact();
-    setState(() => _isLocked = true);
+    setState(() => _isConfirming = true);
+  }
+
+  void _onComplete() {
+    setState(() {
+      _isLocked = true;
+      _isConfirming = false;
+    });
     widget.onConfirm?.call();
   }
 
@@ -253,7 +262,7 @@ class _SignatureDrawPadState extends State<SignatureDrawPad> with TickerProvider
                     Text(widget.label, style: widget.style.labelStyle),
                     const Spacer(),
                     _AnimatedVisibility(
-                      isVisible: _controller.isNotEmpty && !_isLocked,
+                      isVisible: _controller.isNotEmpty && !_isLocked && !_isConfirming,
                       child: _HeaderAction(
                         icon: viewIcon,
                         onTap: _playSignature,
@@ -261,7 +270,7 @@ class _SignatureDrawPadState extends State<SignatureDrawPad> with TickerProvider
                       ),
                     ),
                     _AnimatedVisibility(
-                      isVisible: _controller.isNotEmpty && !_isLocked,
+                      isVisible: _controller.isNotEmpty && !_isLocked && !_isConfirming,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 12),
                         child: _HeaderAction(
@@ -343,7 +352,7 @@ class _SignatureDrawPadState extends State<SignatureDrawPad> with TickerProvider
                 child: Row(
                   children: [
                     _AnimatedVisibility(
-                      isVisible: _controller.isNotEmpty && !_isLocked,
+                      isVisible: _controller.isNotEmpty && !_isLocked && !_isConfirming,
                       child: _FooterAction(
                         icon: undoIcon,
                         onTap: _controller.undo,
@@ -351,7 +360,7 @@ class _SignatureDrawPadState extends State<SignatureDrawPad> with TickerProvider
                       ),
                     ),
                     _AnimatedVisibility(
-                      isVisible: _controller.isNotEmpty && !_isLocked,
+                      isVisible: _controller.isNotEmpty && !_isLocked && !_isConfirming,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 12),
                         child: _FooterAction(
@@ -373,6 +382,7 @@ class _SignatureDrawPadState extends State<SignatureDrawPad> with TickerProvider
                       _HoldToConfirmButton(
                         style: widget.style,
                         onConfirm: _onConfirm,
+                        onComplete: _onComplete,
                         isEnabled: _controller.isNotEmpty,
                         text: widget.confirmButtonText,
                         successText: widget.successText,
@@ -389,7 +399,7 @@ class _SignatureDrawPadState extends State<SignatureDrawPad> with TickerProvider
 
         // Color Palette
         _AnimatedVisibility(
-          isVisible: !_isLocked,
+          isVisible: !_isLocked && !_isConfirming,
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -563,6 +573,7 @@ class _HoldToConfirmButton extends StatefulWidget {
   const _HoldToConfirmButton({
     required this.style,
     this.onConfirm,
+    this.onComplete,
     this.isEnabled = true,
     required this.text,
     required this.successText,
@@ -571,6 +582,7 @@ class _HoldToConfirmButton extends StatefulWidget {
 
   final SignatureDrawPadStyle style;
   final VoidCallback? onConfirm;
+  final VoidCallback? onComplete;
   final bool isEnabled;
   final String text;
   final String successText;
@@ -580,8 +592,16 @@ class _HoldToConfirmButton extends StatefulWidget {
   State<_HoldToConfirmButton> createState() => _HoldToConfirmButtonState();
 }
 
-class _HoldToConfirmButtonState extends State<_HoldToConfirmButton> with SingleTickerProviderStateMixin {
+class _HoldToConfirmButtonState extends State<_HoldToConfirmButton> with TickerProviderStateMixin {
   late final AnimationController _holdController;
+  late final AnimationController _pressController;
+  late final AnimationController _pulseController;
+  late final AnimationController _successController;
+  
+  late final Animation<double> _pressScale;
+  late final Animation<double> _pulseScale;
+  late final Animation<double> _successScale;
+  
   bool _isSuccess = false;
 
   @override
@@ -591,20 +611,73 @@ class _HoldToConfirmButtonState extends State<_HoldToConfirmButton> with SingleT
       vsync: this,
       duration: const Duration(seconds: 1),
     );
+    
+    _pressController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+    
+    _pressScale = Tween<double>(begin: 1.0, end: 0.95).animate(
+      CurvedAnimation(
+        parent: _pressController,
+        curve: const PortalSpringCurve(stiffness: 300, damping: 25),
+      ),
+    );
+
+    _pulseController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    );
+
+    _pulseScale = Tween<double>(begin: 0.0, end: 0.015).animate(
+      CurvedAnimation(
+        parent: _pulseController,
+        curve: Curves.easeInOutSine,
+      ),
+    );
+
+    _successController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+
+    _successScale = TweenSequence<double>([
+      TweenSequenceItem(
+        tween: Tween<double>(begin: 0.0, end: 0.1).chain(CurveTween(curve: Curves.easeOutBack)),
+        weight: 40,
+      ),
+      TweenSequenceItem(
+        tween: Tween<double>(begin: 0.1, end: 0.05).chain(CurveTween(curve: Curves.easeInOutCubic)),
+        weight: 60,
+      ),
+    ]).animate(_successController);
+
+    _pulseController.addListener(() {
+      if (_pulseController.value > 0.48 && _pulseController.value < 0.52 && 
+          widget.style.enableHaptics && _holdController.isAnimating) {
+        HapticFeedback.selectionClick();
+      }
+    });
+
     _holdController.addStatusListener((status) async {
       if (status == AnimationStatus.completed) {
+        _pulseController.reverse();
         if (widget.style.enableHaptics) HapticFeedback.heavyImpact();
         
         setState(() => _isSuccess = true);
+        _successController.forward(from: 0.0);
         
-        // Brief delay to show the success state
-        await Future.delayed(const Duration(milliseconds: 600));
-        
+        // Notify parent immediately so other UI elements can respond (e.g. hide buttons)
         widget.onConfirm?.call();
         
-        // Reset for future use if needed (or if widget stays mounted)
+        await Future.delayed(const Duration(milliseconds: 800));
+        
         if (mounted) {
+          // Final completion after showing the success state
+          widget.onComplete?.call();
           _holdController.reset();
+          _pressController.reverse();
+          _successController.reverse();
           setState(() => _isSuccess = false);
         }
       }
@@ -614,7 +687,25 @@ class _HoldToConfirmButtonState extends State<_HoldToConfirmButton> with SingleT
   @override
   void dispose() {
     _holdController.dispose();
+    _pressController.dispose();
+    _pulseController.dispose();
+    _successController.dispose();
     super.dispose();
+  }
+
+  void _handleTapDown() {
+    if (!widget.isEnabled || _isSuccess) return;
+    _pressController.forward();
+    if (widget.style.enableHaptics) HapticFeedback.lightImpact();
+  }
+
+  void _handleRelease() {
+    if (_holdController.value < 1.0) {
+      _pressController.reverse();
+      _holdController.reverse();
+      _pulseController.stop();
+      _pulseController.reverse();
+    }
   }
 
   @override
@@ -623,25 +714,28 @@ class _HoldToConfirmButtonState extends State<_HoldToConfirmButton> with SingleT
     final activeColor = widget.style.activeColor;
     
     return GestureDetector(
+      onLongPressDown: (_) => _handleTapDown(),
       onLongPressStart: (_) {
         if (!widget.isEnabled || _isSuccess) return;
         _holdController.forward();
-        if (widget.style.enableHaptics) HapticFeedback.lightImpact();
+        _pulseController.repeat(reverse: true);
       },
       onLongPressEnd: (_) {
-        if (_holdController.value < 1.0) {
-          _holdController.reverse();
-        }
+        _handleRelease();
       },
-      child: _AnimatedScaleButton(
-        onTap: () {
-          if (widget.isEnabled && widget.style.enableHaptics && !_isSuccess) {
-            HapticFeedback.vibrate();
-          }
+      onLongPressCancel: () => _handleRelease(),
+      child: AnimatedBuilder(
+        animation: Listenable.merge([_pressScale, _pulseScale, _successScale]),
+        builder: (context, child) {
+          final totalScale = _pressScale.value + _pulseScale.value + _successScale.value;
+          return Transform.scale(
+            scale: totalScale,
+            child: child,
+          );
         },
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 500),
-          curve: Curves.easeOutQuart,
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeOutCubic,
           decoration: BoxDecoration(
             color: _isSuccess 
                 ? activeColor 
@@ -876,11 +970,11 @@ class _AnimatedVisibility extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedScale(
-      duration: const Duration(milliseconds: 400),
+      duration: const Duration(milliseconds: 300),
       scale: isVisible ? 1.0 : 0.8,
       curve: Curves.easeOutBack,
       child: AnimatedOpacity(
-        duration: const Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 200),
         opacity: isVisible ? 1.0 : 0.0,
         curve: Curves.easeOut,
         child: IgnorePointer(

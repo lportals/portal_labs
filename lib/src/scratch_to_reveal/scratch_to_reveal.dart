@@ -289,6 +289,7 @@ class _ScratchSurfaceState extends State<ScratchSurface>
   void _onInternalControllerChanged() {
     if (_controller.isCompleted && !_fadeController.isAnimating && _fadeController.value == 0) {
       _fadeController.forward();
+      widget.onCompleted?.call();
     } else if (!_controller.isCompleted && _fadeController.value > 0) {
       _resetState();
     }

@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/physics.dart';
+import 'package:flutter/services.dart';
 import 'models/stacked_toast_item.dart';
 import 'models/stacked_toast_style.dart';
 
@@ -139,59 +141,91 @@ class _AnimatedToastCard extends StatefulWidget {
   State<_AnimatedToastCard> createState() => _AnimatedToastCardState();
 }
 
-class _AnimatedToastCardState extends State<_AnimatedToastCard> {
-  bool _isEntering = true;
+class _AnimatedToastCardState extends State<_AnimatedToastCard> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        setState(() {
-          _isEntering = false;
-        });
-      }
-    });
+    _controller = AnimationController(
+      vsync: this,
+      duration: widget.duration,
+    );
+    _animation = _controller;
+    
+    _runSpring(true);
+  }
+
+  @override
+  void didUpdateWidget(_AnimatedToastCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.isExiting != oldWidget.isExiting && widget.isExiting) {
+      _runSpring(false);
+    }
+  }
+
+  void _runSpring(bool entering) {
+    final spring = widget.style.spring ?? const SpringDescription(
+      mass: 1.0,
+      stiffness: 180,
+      damping: 20,
+    );
+
+    final simulation = SpringSimulation(
+      spring,
+      _controller.value,
+      entering ? 1.0 : 0.0,
+      entering ? 2.5 : -2.5, // Initial velocity for punchy entry/exit
+    );
+
+    _controller.animateWith(simulation);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final bool hidden = _isEntering || widget.isExiting;
-    final curve = hidden ? Curves.easeIn : Curves.easeOutCubic;
-    
-    final double offset = hidden ? -300.0 : widget.index * widget.style.stackOffset;
-    final double scale = hidden ? 0.9 : 1.0 - (widget.index * widget.style.stackScaleFactor);
-    final double opacity = hidden ? 0.0 : (1.0 - (widget.index * 0.15)).clamp(0.0, 1.0);
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (context, child) {
+        final t = _animation.value;
+        final bool isFront = widget.index == 0;
+        
+        final double offset = (1.0 - t) * -200.0 + (widget.index * widget.style.stackOffset);
+        final double scale = (0.95 + (0.05 * t)) - (widget.index * widget.style.stackScaleFactor);
+        final double opacity = t * (1.0 - (widget.index * 0.15)).clamp(0.0, 1.0);
 
-    return AnimatedPositioned(
-      duration: widget.duration,
-      curve: curve,
-      top: hidden ? offset : widget.topPadding + offset,
-      left: widget.style.horizontalPadding,
-      right: widget.style.horizontalPadding,
-      child: GestureDetector(
-        onVerticalDragEnd: (details) {
-          // If the interaction is at the front and swiped upwards
-          if (widget.index == 0 && details.primaryVelocity! < -100) {
-            widget.onClose();
-          }
-        },
-        child: AnimatedScale(
-          duration: widget.duration,
-          curve: curve,
-          scale: scale,
-          child: AnimatedOpacity(
-            duration: const Duration(milliseconds: 300),
-            opacity: opacity,
-            child: _ToastContent(
-              toast: widget.toast,
-              globalStyle: widget.style,
-              isFront: widget.index == 0 && !hidden,
-              onClose: widget.onClose,
+        return Positioned(
+          top: widget.topPadding + offset,
+          left: widget.style.horizontalPadding,
+          right: widget.style.horizontalPadding,
+          child: GestureDetector(
+            onVerticalDragEnd: (details) {
+              if (isFront && details.primaryVelocity! < -100) {
+                HapticFeedback.lightImpact();
+                widget.onClose();
+              }
+            },
+            child: Transform.scale(
+              scale: scale,
+              child: Opacity(
+                opacity: opacity.clamp(0.0, 1.0),
+                child: _ToastContent(
+                  toast: widget.toast,
+                  globalStyle: widget.style,
+                  isFront: isFront && t > 0.9,
+                  onClose: widget.onClose,
+                ),
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

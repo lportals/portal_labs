@@ -22,6 +22,7 @@ class LabeledProgressIndicatorStyle {
     this.showPercentage = false,
     this.percentageTextStyle,
     this.percentageFormat = '{val}%',
+    this.enableHaptics = true,
   });
 
   /// The background color of the widget container.
@@ -66,6 +67,9 @@ class LabeledProgressIndicatorStyle {
   /// Whether to display the percentage value inside or near the label.
   final bool showPercentage;
 
+  /// Whether haptic feedback is enabled.
+  final bool enableHaptics;
+
   /// Creates a copy of this style with the given fields replaced.
   LabeledProgressIndicatorStyle copyWith({
     Color? backgroundColor,
@@ -82,6 +86,7 @@ class LabeledProgressIndicatorStyle {
     bool? showPercentage,
     TextStyle? percentageTextStyle,
     String? percentageFormat,
+    bool? enableHaptics,
   }) {
     return LabeledProgressIndicatorStyle(
       backgroundColor: backgroundColor ?? this.backgroundColor,
@@ -98,6 +103,7 @@ class LabeledProgressIndicatorStyle {
       shimmerDuration: shimmerDuration ?? this.shimmerDuration,
       showCompletionPulse: showCompletionPulse ?? this.showCompletionPulse,
       showPercentage: showPercentage ?? this.showPercentage,
+      enableHaptics: enableHaptics ?? this.enableHaptics,
     );
   }
 
@@ -115,7 +121,8 @@ class LabeledProgressIndicatorStyle {
           shimmerColor == other.shimmerColor &&
           shimmerWidth == other.shimmerWidth &&
           animationDuration == other.animationDuration &&
-          shimmerDuration == other.shimmerDuration;
+          shimmerDuration == other.shimmerDuration &&
+          enableHaptics == other.enableHaptics;
 
   @override
   int get hashCode =>
@@ -128,5 +135,6 @@ class LabeledProgressIndicatorStyle {
       shimmerColor.hashCode ^
       shimmerWidth.hashCode ^
       animationDuration.hashCode ^
-      shimmerDuration.hashCode;
+      shimmerDuration.hashCode ^
+      enableHaptics.hashCode;
 }

@@ -26,6 +26,7 @@ class StackedToastStyle {
     this.titleTextStyle,
     this.messageTextStyle,
     this.actionTextStyle,
+    this.spring,
   });
   /// Global border radius of the toast
   final BorderRadius? borderRadius;
@@ -48,4 +49,7 @@ class StackedToastStyle {
   final TextStyle? messageTextStyle;
   /// GLOBAL CUSTOMIZATION: Default text style for all toast action buttons.
   final TextStyle? actionTextStyle;
+
+  /// Optional spring physics configuration.
+  final SpringDescription? spring;
 }

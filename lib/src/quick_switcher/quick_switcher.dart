@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'models/quick_switcher_option.dart';
 import 'models/quick_switcher_style.dart';
+import '../common/portal_animations.dart';
 
 /// A premium, high-fidelity switch component that toggles between different
 /// input modes with a pulse animation and smooth transitions.
@@ -42,12 +43,19 @@ class QuickSwitcher extends StatefulWidget {
 }
 
 class _QuickSwitcherState extends State<QuickSwitcher>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late int _currentIndex;
   late final TextEditingController _textController;
+  
   late final AnimationController _pulseController;
+  late final AnimationController _holdController;
+  late final AnimationController _pressController;
+  
+  late final Animation<double> _buttonScaleAnimation;
   late final Animation<double> _pulseScaleAnimation;
   late final Animation<double> _pulseOpacityAnimation;
+  late final Animation<double> _holdBreathing;
+  late final Animation<double> _pressScale;
 
   @override
   void initState() {
@@ -60,7 +68,17 @@ class _QuickSwitcherState extends State<QuickSwitcher>
       duration: const Duration(milliseconds: 500),
     );
 
-    // Pill scale: sink (0.0 - 0.2) then bounce back (0.2 - 1.0)
+    _holdController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+
+    _pressController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+
+    // Toggle pop animation
     _buttonScaleAnimation = TweenSequence<double>([
       TweenSequenceItem(
         tween: Tween<double>(begin: 1.0, end: 0.88).chain(CurveTween(curve: Curves.easeOut)),
@@ -72,7 +90,7 @@ class _QuickSwitcherState extends State<QuickSwitcher>
       ),
     ]).animate(_pulseController);
 
-    // Wave pulse: starts when button begins growing back
+    // Wave pulse effect
     _pulseScaleAnimation = Tween<double>(begin: 1.0, end: 1.4).animate(
       CurvedAnimation(
         parent: _pulseController,
@@ -86,9 +104,48 @@ class _QuickSwitcherState extends State<QuickSwitcher>
         curve: const Interval(0.2, 1.0, curve: Curves.easeOut),
       ),
     );
+
+    // Smooth sink that triggers the menu
+    _holdBreathing = Tween<double>(begin: 0.0, end: -0.02).animate(
+      CurvedAnimation(
+        parent: _holdController,
+        curve: Curves.easeInOutCubic,
+      ),
+    );
+
+    // Smooth press-down scale
+    _pressScale = Tween<double>(begin: 1.0, end: 0.96).animate(
+      CurvedAnimation(
+        parent: _pressController,
+        curve: const PortalSpringCurve(stiffness: 200, damping: 30),
+      ),
+    );
+
+    _successController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+
+    _successScale = TweenSequence<double>([
+      TweenSequenceItem(
+        tween: Tween<double>(begin: 0.0, end: 0.08).chain(CurveTween(curve: Curves.easeOutBack)),
+        weight: 40,
+      ),
+      TweenSequenceItem(
+        tween: Tween<double>(begin: 0.08, end: 0.0).chain(CurveTween(curve: Curves.easeInOutCubic)),
+        weight: 60,
+      ),
+    ]).animate(_successController);
+
+    _holdController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _handleHoldComplete();
+      }
+    });
   }
 
-  late final Animation<double> _buttonScaleAnimation;
+  late final AnimationController _successController;
+  late final Animation<double> _successScale;
   OverlayEntry? _overlayEntry;
 
   @override
@@ -96,6 +153,9 @@ class _QuickSwitcherState extends State<QuickSwitcher>
     _hideMenu();
     if (widget.controller == null) _textController.dispose();
     _pulseController.dispose();
+    _holdController.dispose();
+    _pressController.dispose();
+    _successController.dispose();
     super.dispose();
   }
 
@@ -115,9 +175,37 @@ class _QuickSwitcherState extends State<QuickSwitcher>
     widget.onOptionChanged?.call(_currentIndex);
   }
 
-  void _handleLongPress() {
-    HapticFeedback.mediumImpact();
+  void _handleLongPressDown() {
+    if (_overlayEntry != null) return;
+    _pressController.forward();
+    if (widget.style.enableHaptics) HapticFeedback.lightImpact();
+  }
+
+  void _handleLongPressStart() {
+    if (_overlayEntry != null) return;
+    _holdController.forward(from: 0.0);
+  }
+
+  void _handleHoldComplete() {
+    // Start the rewarding success pop
+    _successController.forward(from: 0.0);
+    
+    // Smoothly return the other states
+    _holdController.reverse();
+    _pressController.reverse();
+
     _showMenu();
+    if (widget.style.enableHaptics) HapticFeedback.mediumImpact();
+  }
+
+  void _handleLongPressEnd() {
+    _holdController.reverse();
+    _pressController.reverse();
+  }
+
+  void _handleLongPressCancel() {
+    _holdController.reverse();
+    _pressController.reverse();
   }
 
   void _showMenu() {
@@ -167,7 +255,10 @@ class _QuickSwitcherState extends State<QuickSwitcher>
           SizedBox(
             child: GestureDetector(
               onTap: _handleToggle,
-              onLongPress: _handleLongPress,
+              onLongPressDown: (_) => _handleLongPressDown(),
+              onLongPressStart: (_) => _handleLongPressStart(),
+              onLongPressEnd: (_) => _handleLongPressEnd(),
+              onLongPressCancel: () => _handleLongPressCancel(),
               behavior: HitTestBehavior.opaque,
               child: Stack(
                 alignment: Alignment.center,
@@ -207,8 +298,22 @@ class _QuickSwitcherState extends State<QuickSwitcher>
                   ),
                   
                   // Main Pill Button
-                  ScaleTransition(
-                    scale: _buttonScaleAnimation,
+                  AnimatedBuilder(
+                    animation: Listenable.merge([
+                      _buttonScaleAnimation,
+                      _pressScale,
+                      _holdBreathing,
+                      _successScale,
+                    ]),
+                    builder: (context, child) {
+                      final totalScale = (_buttonScaleAnimation.value * _pressScale.value) 
+                          + _holdBreathing.value 
+                          + _successScale.value;
+                      return Transform.scale(
+                        scale: totalScale,
+                        child: child,
+                      );
+                    },
                     child: Container(
                       width: 60,
                       height: 48,
@@ -455,10 +560,10 @@ class _QuickSwitcherMenuState extends State<_QuickSwitcherMenu>
       curve: Curves.easeOut,
     );
 
-    _slideAnimation = Tween<double>(begin: 20.0, end: 0.0).animate(
+    _slideAnimation = Tween<double>(begin: 12.0, end: 0.0).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: Curves.easeOutBack,
+        curve: Curves.easeOutCubic,
       ),
     );
 

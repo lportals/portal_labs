@@ -11,6 +11,7 @@ class QuickSwitcherStyle {
     this.borderRadius = 32.0,
     this.padding = const EdgeInsets.all(4.0),
     this.pulseColor = const Color(0xFFE8E8ED),
+    this.enableHaptics = true,
   });
   /// The background color of the main container.
   final Color backgroundColor;
@@ -29,4 +30,7 @@ class QuickSwitcherStyle {
 
   /// The color of the pulse animation.
   final Color pulseColor;
+
+  /// Whether to enable haptic feedback.
+  final bool enableHaptics;
 }
