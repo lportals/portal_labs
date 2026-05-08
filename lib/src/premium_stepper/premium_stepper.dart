@@ -153,7 +153,7 @@ class _StepperButtonState extends State<_StepperButton> with SingleTickerProvide
       duration: const Duration(milliseconds: 300),
     );
     _scaleAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(
-      CurvedAnimation(parent: _controller, curve: PortalSpringCurve()),
+      CurvedAnimation(parent: _controller, curve: const PortalSpringCurve()),
     );
   }
 

@@ -368,7 +368,7 @@ class _FeedbackPressableState extends State<_FeedbackPressable>
       duration: const Duration(milliseconds: 120),
     );
     _scaleAnimation = Tween<double>(begin: 1.0, end: 0.94).animate(
-      CurvedAnimation(parent: _controller, curve: PortalSpringCurve()),
+      CurvedAnimation(parent: _controller, curve: const PortalSpringCurve()),
     );
   }
 

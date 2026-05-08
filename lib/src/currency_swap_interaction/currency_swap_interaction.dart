@@ -294,7 +294,7 @@ class _SwapButtonState extends State<_SwapButton> with SingleTickerProviderState
           child: AnimatedRotation(
             turns: _turns,
             duration: const Duration(milliseconds: 400),
-            curve: PortalSpringCurve(),
+            curve: const PortalSpringCurve(),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               padding: const EdgeInsets.all(8),
@@ -540,7 +540,7 @@ class _CurrencySelectorState extends State<_CurrencySelector> with SingleTickerP
                 builder: (context, child) {
                   final curvedValue = CurvedAnimation(
                     parent: _menuController,
-                    curve: PortalSpringCurve(), // Spring bounce!
+                    curve: const PortalSpringCurve(), // Spring bounce!
                     reverseCurve: Curves.easeOutCubic, // Smooth exit
                   ).value;
 
@@ -664,7 +664,7 @@ class _CurrencySelectorState extends State<_CurrencySelector> with SingleTickerP
                         
                         final curve = CurvedAnimation(
                           parent: animation,
-                          curve: Interval(start, 1.0, curve: PortalSpringCurve()),
+                          curve: Interval(start, 1.0, curve: const PortalSpringCurve()),
                           reverseCurve: Curves.easeIn, // Smooth and fast 50ms exit
                         );
                         

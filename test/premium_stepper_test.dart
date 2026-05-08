@@ -39,7 +39,7 @@ void main() {
           home: Scaffold(
             body: PremiumStepper(
               value: 10,
-              onChanged: (val) => changedValue = val,
+              onChanged: (_) {},
             ),
           ),
         ),
@@ -58,7 +58,7 @@ void main() {
           home: Scaffold(
             body: PremiumStepper(
               value: 10,
-              onChanged: (val) => changedValue = val,
+              onChanged: (_) {},
             ),
           ),
         ),
@@ -79,7 +79,7 @@ void main() {
             body: PremiumStepper(
               value: 0,
               max: 2,
-              onChanged: (val) => changedValue = val,
+              onChanged: (_) {},
             ),
           ),
         ),
@@ -103,7 +103,7 @@ void main() {
             body: PremiumStepper(
               value: 2,
               max: 2,
-              onChanged: (val) => changedValue = val,
+              onChanged: (_) {},
             ),
           ),
         ),

@@ -506,7 +506,7 @@ class _BounceButtonState extends State<_BounceButton>
       duration: const Duration(milliseconds: 150),
     );
     _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
-      CurvedAnimation(parent: _controller, curve: PortalSpringCurve()),
+      CurvedAnimation(parent: _controller, curve: const PortalSpringCurve()),
     );
   }
 

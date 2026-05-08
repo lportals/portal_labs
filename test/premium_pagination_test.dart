@@ -41,7 +41,7 @@ void main() {
             body: PremiumPagination(
               currentPage: 1,
               totalPages: 5,
-              onPageChanged: (page) => changedPage = page,
+              onPageChanged: (_) {},
             ),
           ),
         ),
@@ -61,7 +61,7 @@ void main() {
             body: PremiumPagination(
               currentPage: 3,
               totalPages: 5,
-              onPageChanged: (page) => changedPage = page,
+              onPageChanged: (_) {},
             ),
           ),
         ),
@@ -81,7 +81,7 @@ void main() {
             body: PremiumPagination(
               currentPage: 5,
               totalPages: 5,
-              onPageChanged: (page) => changedPage = page,
+              onPageChanged: (_) {},
             ),
           ),
         ),

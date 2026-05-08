@@ -165,3 +165,8 @@ export 'src/loading_shapes/models/loading_shapes_style.dart';
 export 'src/signature_draw_pad/signature_draw_pad.dart';
 export 'src/signature_draw_pad/signature_draw_pad_controller.dart';
 export 'src/signature_draw_pad/models/signature_draw_pad_style.dart';
+
+// Premium Sortable Grid
+export 'src/premium_sortable_grid/premium_sortable_grid.dart';
+export 'src/premium_sortable_grid/models/premium_sortable_grid_style.dart';
+
