@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.22.0] - 2026-05-07
+## [0.22.0] - 2026-05-08
 
 - **Standardization Milestone**:
   - **Physics Migration**: Standardized the entire library motion profile to use the new `PortalSpringCurve` for tactile, high-fidelity button interactions.
@@ -9,6 +9,14 @@
   - **Test Coverage Expansion**: Added comprehensive test suites for `PremiumPagination`, `PremiumStepper`, and `CurrencySwapInteraction` to validate state-machine transitions and physics-based interactions.
   - **Architecture**: Refactored gesture handlers to be `null` when disabled, correctly propagating state to the accessibility tree.
   - **Enhancement**: Improved `PremiumFlipCounter` with explicit semantics and padding management for stable layouts.
+
+- **New Component**: **Sortable Grid** — A premium, physics-based reorderable grid with smooth layout transitions and integrated haptic feedback.
+  - **Physics-Based Reordering**: Intelligent item flow using `AnimatedPositioned` with customizable easing curves.
+  - **Pulse-on-Hold Interaction**: Dedicated `AnimationController` manages a "lifting" pulse effect while holding an item before drag.
+  - **Tactile Haptics**: Light-impact feedback on drag start and drop for a hardware-inspired feel.
+  - **Dynamic Layout Stability**: Automatic height and dimension recalculation during grid density changes.
+  - **Flexible Customization**: 10+ style properties including drag scale, opacity, and custom shadows via `PremiumSortableGridStyle`.
+
 
 ## [0.21.1] - 2026-05-07
 

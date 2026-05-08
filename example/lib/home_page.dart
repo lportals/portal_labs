@@ -35,6 +35,8 @@ import 'showcases/inline_delete_interaction_showcase.dart';
 import 'showcases/feedback_interaction_showcase.dart';
 import 'showcases/loading_shapes_showcase.dart';
 import 'showcases/signature_draw_pad_showcase.dart';
+import 'showcases/premium_sortable_grid_showcase.dart';
+
 
 
 
@@ -363,6 +365,13 @@ class _SpringyGrid extends StatelessWidget {
         category: 'Inputs',
         page: SignatureDrawPadShowcase(),
       ),
+      _ComponentItem(
+        title: 'Sortable Grid',
+        icon: Icons.grid_view_rounded,
+        category: 'Layout',
+        page: PremiumSortableGridShowcase(),
+      ),
+
     ];
 
     return Padding(

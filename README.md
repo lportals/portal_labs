@@ -73,6 +73,8 @@ external versioning conflicts.
 | 33 | **[Feedback Interaction](#feedback-interaction)** | Premium physics-based feedback system with asymmetric spring morphing and liquid transitions. | Interaction | `/lib/src/feedback_interaction/` |
 | 34 | **[Loading Shapes](#loading-shapes)** | Premium physics-based loading indicator that morphs between organic and geometric shapes with subtle rotation. | Layout | `/lib/src/loading_shapes/` |
 | 35 | **[Signature Draw Pad](#signature-draw-pad)** | Premium high-fidelity signature pad with playback animations, "Blur-Fade" transitions, and PNG export. | Interaction | `/lib/src/signature_draw_pad/` |
+| 36 | **[Sortable Grid](#sortable-grid)** | Physics-based reorderable grid with smooth layout transitions and haptic feedback. | Layout | `/lib/src/premium_sortable_grid/` |
+
 
 ---
 
@@ -665,6 +667,55 @@ SplitToEditDuration(
   hours: 1,
   minutes: 42,
   onChanged: (h, m) => print('New time: $h:$m'),
+)
+```
+
+---
+
+### Sortable Grid
+
+![Sortable Grid Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/sortable_grid.gif)
+
+A premium, physics-based reorderable grid designed for high-end organization and
+layout management.
+
+#### Key Features
+
+- **Physics-Based Reordering**: Items flow intelligently into new positions using
+  high-performance `AnimatedPositioned` transitions.
+- **Pulse-on-Hold Interaction**: Visual "lifting" pulse animation triggered
+  during long-press to signal that an item is ready to be dragged.
+- **Haptic Feedback**: Integrated light-impact haptics on drag start and drop
+  events for a tactile "mechanical" feel.
+
+- **Dynamic Layout Stability**: Automatic recalculation of item dimensions and
+  grid height to prevent layout jumps during column changes.
+- **Total Design Freedom**: Fully customizable style including `borderRadius`,
+  `spacing`, `dragScale`, and `dragOpacity` via `PremiumSortableGridStyle`.
+
+#### Integration
+
+```dart
+import 'package:portal_labs/portal_labs.dart';
+
+PremiumSortableGrid<String>(
+  items: _items,
+  idBuilder: (item) => item,
+  onReorder: (oldIndex, newIndex) {
+    setState(() {
+      final item = _items.removeAt(oldIndex);
+      _items.insert(newIndex, item);
+    });
+  },
+  style: PremiumSortableGridStyle(
+    crossAxisCount: 3,
+    spacing: 12.0,
+    borderRadius: BorderRadius.circular(16),
+  ),
+  itemBuilder: (context, item) => Container(
+    color: Colors.blue,
+    child: Center(child: Text(item)),
+  ),
 )
 ```
 

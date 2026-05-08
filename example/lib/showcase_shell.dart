@@ -35,6 +35,9 @@ class ShowcaseShell extends StatelessWidget {
   /// Whether to show the info button in immersive mode.
   final bool showInfoButton;
 
+  /// Optional list of technical features or highlights to show in bullet points.
+  final List<String>? infoItems;
+
   const ShowcaseShell({
     super.key,
     required this.title,
@@ -45,7 +48,9 @@ class ShowcaseShell extends StatelessWidget {
     this.hasAppBar = true,
     this.showBackButton = true,
     this.showInfoButton = true,
+    this.infoItems,
   });
+
 
   void _showInfo(BuildContext context) {
     showModalBottomSheet(
@@ -59,7 +64,9 @@ class ShowcaseShell extends StatelessWidget {
         title: title,
         description: description,
         codeSnippet: codeSnippet,
+        infoItems: infoItems,
       ),
+
     );
   }
 
@@ -162,11 +169,13 @@ class _InfoBottomSheet extends StatefulWidget {
   final String title;
   final String description;
   final String codeSnippet;
+  final List<String>? infoItems;
 
   const _InfoBottomSheet({
     required this.title,
     required this.description,
     required this.codeSnippet,
+    this.infoItems,
   });
 
   @override
@@ -273,6 +282,32 @@ class _InfoBottomSheetState extends State<_InfoBottomSheet> {
                             fontWeight: FontWeight.w400,
                           ),
                         ),
+                        if (widget.infoItems != null && widget.infoItems!.isNotEmpty) ...[
+                          const SizedBox(height: 24),
+                          ...widget.infoItems!.map((item) => Padding(
+                                padding: const EdgeInsets.only(bottom: 12),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Padding(
+                                      padding: EdgeInsets.only(top: 6),
+                                      child: Icon(Icons.circle, size: 4, color: Color(0xFF8E8E93)),
+                                    ),
+                                    const SizedBox(width: 12),
+                                    Expanded(
+                                      child: Text(
+                                        item,
+                                        style: const TextStyle(
+                                          color: Color(0xFF555555),
+                                          fontSize: 14,
+                                          height: 1.4,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )),
+                        ],
                         const SizedBox(height: 24),
                         // Code snippet header
                         Row(
