@@ -106,25 +106,25 @@ class _KnobSliderState extends State<KnobSlider> {
         // Snapped value for the numeric readout and onChanged
         final double snappedValue =
             (newValue / widget.step).roundToDouble() * widget.step;
+        final double lastSnapped =
+            (_currentValue / widget.step).roundToDouble() * widget.step;
 
-        if (snappedValue.round() != _currentValue.round() &&
+        if (snappedValue.round() != lastSnapped.round() &&
             widget.enableHaptics) {
           HapticFeedback.selectionClick();
+        }
+
+        // Only fire onChanged if we actually cross a step boundary
+        if (snappedValue != lastSnapped ||
+            newValue == widget.min ||
+            newValue == widget.max) {
+          widget.onChanged(snappedValue);
         }
 
         setState(() {
           _isIncreasing = newValue > _currentValue;
           _currentValue = newValue;
         });
-
-        // Only fire onChanged if we actually cross a step boundary
-        final double lastSnapped =
-            (_currentValue / widget.step).roundToDouble() * widget.step;
-        if (snappedValue != lastSnapped ||
-            newValue == widget.min ||
-            newValue == widget.max) {
-          widget.onChanged(snappedValue);
-        }
       }
     }
 

@@ -59,6 +59,7 @@ class _HomePageState extends State<HomePage> {
     'Inputs',
     'Layout',
     'Interactions',
+    'Feedback',
   ];
 
 
@@ -113,6 +114,11 @@ class _HomePageState extends State<HomePage> {
                     label: 'Interactions',
                     icon: Icons.gesture_rounded,
                     activeColor: const Color(0xFFFF2D55),
+                  ),
+                  DiscreteTab(
+                    label: 'Feedback',
+                    icon: Icons.auto_awesome_rounded,
+                    activeColor: const Color(0xFF5856D6),
                   ),
                 ],
                 onSelect: (index) => setState(() => _selectedIndex = index),
@@ -266,7 +272,7 @@ class _SpringyGrid extends StatelessWidget {
       _ComponentItem(
         title: 'Labeled Progress',
         icon: Icons.hourglass_top_rounded,
-        category: 'Layout',
+        category: 'Feedback',
         page: LabeledProgressIndicatorShowcase(),
       ),
       _ComponentItem(
@@ -278,7 +284,7 @@ class _SpringyGrid extends StatelessWidget {
       _ComponentItem(
         title: 'Toast Stack',
         icon: Icons.notification_important_outlined,
-        category: 'Interactions',
+        category: 'Feedback',
         page: StackedToastShowcase(),
       ),
       _ComponentItem(
@@ -290,7 +296,7 @@ class _SpringyGrid extends StatelessWidget {
       _ComponentItem(
         title: 'Pinnable List',
         icon: Icons.push_pin_outlined,
-        category: 'Interactions',
+        category: 'Layout',
         page: PinnableListShowcase(),
       ),
       _ComponentItem(
@@ -338,7 +344,7 @@ class _SpringyGrid extends StatelessWidget {
       _ComponentItem(
         title: 'Progress Step',
         icon: Icons.linear_scale_rounded,
-        category: 'Layout',
+        category: 'Feedback',
         page: PremiumProgressStepperShowcase(),
       ),
       _ComponentItem(
@@ -350,13 +356,13 @@ class _SpringyGrid extends StatelessWidget {
       _ComponentItem(
         title: 'Feedback Interaction',
         icon: Icons.thumbs_up_down_outlined,
-        category: 'Interactions',
+        category: 'Feedback',
         page: FeedbackInteractionShowcase(),
       ),
       _ComponentItem(
         title: 'Loading Shapes',
         icon: Icons.category_outlined,
-        category: 'Layout',
+        category: 'Feedback',
         page: LoadingShapesShowcase(),
       ),
       _ComponentItem(

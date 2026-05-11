@@ -14,8 +14,8 @@ class MediaCollapsibleView extends StatefulWidget {
   /// Creates a [MediaCollapsibleView] with the given media content and callbacks.
   const MediaCollapsibleView({
     super.key,
-    required this.mediaUrl,
-    required this.userAvatarUrl,
+    required this.mediaImage,
+    required this.userAvatarImage,
     required this.comments,
     this.mediaBuilder,
     this.style = const MediaViewStyle(),
@@ -24,11 +24,11 @@ class MediaCollapsibleView extends StatefulWidget {
     this.onShare,
   });
 
-  /// The URL for the main media content (image or video).
-  final String mediaUrl;
+  /// The image provider for the main media content.
+  final ImageProvider mediaImage;
 
-  /// The URL for the user's avatar displayed in the UI.
-  final String userAvatarUrl;
+  /// The image provider for the user's avatar.
+  final ImageProvider userAvatarImage;
 
   /// The list of comments to display in the collapsible sheet.
   final List<MediaComment> comments;
@@ -197,8 +197,8 @@ class _MediaCollapsibleViewState extends State<MediaCollapsibleView>
       child: Stack(
         fit: StackFit.expand,
         children: [
-          Image.network(
-            widget.mediaUrl,
+          Image(
+            image: widget.mediaImage,
             fit: BoxFit.cover,
             gaplessPlayback: true,
           ),
@@ -245,7 +245,7 @@ class _MediaCollapsibleViewState extends State<MediaCollapsibleView>
           fit: StackFit.expand,
           children: [
             widget.mediaBuilder?.call(context) ??
-                Image.network(widget.mediaUrl, fit: BoxFit.cover),
+                Image(image: widget.mediaImage, fit: BoxFit.cover),
             if (_currentExtent < 0.1)
               Positioned(
                 right: 16 + (padding.right > 0 ? padding.right : 0),
@@ -423,7 +423,7 @@ class _MediaCollapsibleViewState extends State<MediaCollapsibleView>
             children: [
               CircleAvatar(
                 radius: 17,
-                backgroundImage: NetworkImage(widget.userAvatarUrl),
+                backgroundImage: widget.userAvatarImage,
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -502,7 +502,7 @@ class _CommentTile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: ListTile(
         contentPadding: EdgeInsets.zero,
-        leading: CircleAvatar(backgroundImage: NetworkImage(comment.avatarUrl)),
+        leading: CircleAvatar(backgroundImage: comment.avatarImage),
         title: Text(
           comment.userName,
           style: TextStyle(

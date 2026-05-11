@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 /// A data model representing a single user comment in the [MediaCollapsibleView].
 class MediaComment {
   /// Creates a [MediaComment] with all required fields.
@@ -5,7 +7,7 @@ class MediaComment {
     required this.id,
     required this.userName,
     required this.text,
-    required this.avatarUrl,
+    required this.avatarImage,
     required this.createdAt,
   });
 
@@ -18,8 +20,8 @@ class MediaComment {
   /// The body text of the comment.
   final String text;
 
-  /// URL of the author's avatar image.
-  final String avatarUrl;
+  /// The image provider for the author's avatar.
+  final ImageProvider avatarImage;
 
   /// The timestamp when the comment was created.
   final DateTime createdAt;

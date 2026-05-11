@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.23.0] - 2026-05-11
+
+- **Testing Milestone**: Achieved 100% widget test coverage for all 36 components in the library.
+- **Component Standardization**: Finalized the premium migration of `Reveal & Copy`, `Media Collapsible View`, `Knob Slider`, and 10+ others.
+- **Improved Stability**: Refactored `RevealCopyInteraction` for more robust hit-testing and reliable asynchronous state transitions.
+- **Housekeeping**: Optimized `dart analyze` to eliminate all redundant argument lints across the codebase.
+
 ## [0.22.1] - 2026-05-08
 
 - **Pub Score Optimization**: Resolved all `dart analyze` warnings and info messages to achieve a perfect health score.

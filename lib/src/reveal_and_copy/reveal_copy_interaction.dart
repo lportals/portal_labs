@@ -159,16 +159,23 @@ class _RevealCopyInteractionState extends State<RevealCopyInteraction>
     });
   }
 
-  void _copyToClipboard() {
+  Future<void> _copyToClipboard() async {
+    if (_isCopied) return;
     if (!widget.enableCopy) return;
 
-    Clipboard.setData(ClipboardData(text: widget.value));
-    setState(() {
-      _isCopied = true;
-    });
-    HapticFeedback.vibrate();
+    try {
+      Clipboard.setData(ClipboardData(text: widget.value));
+      HapticFeedback.lightImpact();
+    } catch (e) {
+      debugPrint('ERROR in _copyToClipboard: $e');
+    }
 
-    widget.onCopied?.call();
+    if (mounted) {
+      setState(() {
+        _isCopied = true;
+      });
+      widget.onCopied?.call();
+    }
 
     Future.delayed(const Duration(milliseconds: 1500), () {
       if (mounted) {
@@ -284,7 +291,9 @@ class _RevealCopyInteractionState extends State<RevealCopyInteraction>
 
   Widget _buildActionButton() {
     return GestureDetector(
+      key: const ValueKey('reveal_copy_action_button'),
       onTap: _handleInteraction,
+      behavior: HitTestBehavior.opaque,
       child: SizedBox(
         width: 40,
         height: 40,
@@ -326,18 +335,20 @@ class _RevealCopyInteractionState extends State<RevealCopyInteraction>
             // Rectangular Progress Border
             if (_isRevealed)
               Positioned.fill(
-                child: AnimatedBuilder(
-                  animation: _progressController,
-                  builder: (context, child) {
-                    return CustomPaint(
-                      painter: RectProgressPainter(
-                        progress: 1.0 - _progressController.value,
-                        color: widget.successColor,
-                        strokeWidth: 3.0,
-                        borderRadius: widget.borderRadius * (10 / 16),
-                      ),
-                    );
-                  },
+                child: IgnorePointer(
+                  child: AnimatedBuilder(
+                    animation: _progressController,
+                    builder: (context, child) {
+                      return CustomPaint(
+                        painter: RectProgressPainter(
+                          progress: 1.0 - _progressController.value,
+                          color: widget.successColor,
+                          strokeWidth: 3.0,
+                          borderRadius: widget.borderRadius * (10 / 16),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
           ],
