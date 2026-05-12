@@ -36,6 +36,8 @@ import 'showcases/feedback_interaction_showcase.dart';
 import 'showcases/loading_shapes_showcase.dart';
 import 'showcases/signature_draw_pad_showcase.dart';
 import 'showcases/premium_sortable_grid_showcase.dart';
+import 'showcases/cinematic_text_transition_showcase.dart';
+
 
 
 
@@ -378,7 +380,14 @@ class _SpringyGrid extends StatelessWidget {
         page: PremiumSortableGridShowcase(),
       ),
 
+      _ComponentItem(
+        title: 'Cinematic Text',
+        icon: Icons.text_fields_rounded,
+        category: 'Interactions',
+        page: CinematicTextTransitionShowcase(),
+      ),
     ];
+
 
     return Padding(
       padding: const EdgeInsets.all(20),

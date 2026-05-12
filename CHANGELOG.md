@@ -2,7 +2,8 @@
 
 ## [0.23.0] - 2026-05-11
 
-- **Testing Milestone**: Achieved 100% widget test coverage for all 36 components in the library.
+- **Testing Milestone**: Achieved 100% widget test coverage for all 37 components in the library.
+- **New Component**: **Cinematic Text Transition** — A sophisticated text transition with sequential character physics, elastic settling, and layout stability.
 - **Component Standardization**: Finalized the premium migration of `Reveal & Copy`, `Media Collapsible View`, `Knob Slider`, and 10+ others.
 - **Improved Stability**: Refactored `RevealCopyInteraction` for more robust hit-testing and reliable asynchronous state transitions.
 - **Housekeeping**: Optimized `dart analyze` to eliminate all redundant argument lints across the codebase.

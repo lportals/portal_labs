@@ -74,6 +74,8 @@ external versioning conflicts.
 | 34 | **[Loading Shapes](#loading-shapes)** | Premium physics-based loading indicator that morphs between organic and geometric shapes with subtle rotation. | Layout | `/lib/src/loading_shapes/` |
 | 35 | **[Signature Draw Pad](#signature-draw-pad)** | Premium high-fidelity signature pad with playback animations, "Blur-Fade" transitions, and PNG export. | Interaction | `/lib/src/signature_draw_pad/` |
 | 36 | **[Sortable Grid](#sortable-grid)** | Physics-based reorderable grid with smooth layout transitions and haptic feedback. | Layout | `/lib/src/premium_sortable_grid/` |
+| 37 | **[Cinematic Text Transition](#cinematic-text-transition)** | Sophisticated text transition with sequential character physics for premium headers. | Interaction | `/lib/src/cinematic_text_transition/` |
+
 
 
 ---
@@ -1494,10 +1496,40 @@ PremiumSortableGrid<String>(
 )
 ```
 
+
 ---
 
+### Cinematic Text Transition
+
+A sophisticated text transition component that performs a sequential character **fall-out** and **rise-in** for a high-fidelity cinematic feel.
+
+#### Key Features
+
+- **Sequential Character Physics**: Characters exit by falling and enter by rising with a synchronized, staggered timing.
+- **Elastic Settle**: New characters settle into place with a premium `easeOutBack` bounce for a tactile physical feel.
+- **Stable Layout Architecture**: Uses a precise character-based Row system to ensure pixel-perfect stability during transitions.
+- **Toggleable Elasticity**: Support for both "Cinematic Bounce" and "Minimalist Fade" modes via the style configuration.
+- **Integrated Haptics**: Light-impact feedback triggers exactly as the transition sequence begins.
+
+#### Integration
+
+```dart
+import 'package:portal_labs/portal_labs.dart';
+
+CinematicTextTransition(
+  text: 'Cinematic Transition',
+  style: CinematicTextTransitionStyle(
+    textStyle: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
+    duration: Duration(milliseconds: 1400),
+    enableElasticity: true,
+  ),
+)
+```
+
+---
 
 ## Contributing
+
 
 Contributions focusing on performance optimization, new interaction patterns, or
 accessibility improvements are welcome. Please ensure all submissions adhere to

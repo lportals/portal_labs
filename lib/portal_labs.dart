@@ -170,3 +170,7 @@ export 'src/signature_draw_pad/models/signature_draw_pad_style.dart';
 export 'src/premium_sortable_grid/premium_sortable_grid.dart';
 export 'src/premium_sortable_grid/models/premium_sortable_grid_style.dart';
 
+// Cinematic Text Transition
+export 'src/cinematic_text_transition/cinematic_text_transition.dart';
+export 'src/cinematic_text_transition/models/cinematic_text_transition_style.dart';
+
