@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.23.1] - 2026-05-12
+
+- **Documentation**: Added high-fidelity showcase GIF for the `CinematicTextTransition` component in README.md.
+
 ## [0.23.0] - 2026-05-11
 
 - **Testing Milestone**: Achieved 100% widget test coverage for all 37 components in the library.
