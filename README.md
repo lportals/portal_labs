@@ -1501,6 +1501,8 @@ PremiumSortableGrid<String>(
 
 ### Cinematic Text Transition
 
+![Cinematic Text Transition Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/cinematic_text.gif)
+
 A sophisticated text transition component that performs a sequential character **fall-out** and **rise-in** for a high-fidelity cinematic feel.
 
 #### Key Features
