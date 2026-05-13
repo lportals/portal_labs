@@ -174,3 +174,8 @@ export 'src/premium_sortable_grid/models/premium_sortable_grid_style.dart';
 export 'src/cinematic_text_transition/cinematic_text_transition.dart';
 export 'src/cinematic_text_transition/models/cinematic_text_transition_style.dart';
 
+// Archive Folder
+export 'src/archive_folder/archive_folder.dart';
+export 'src/archive_folder/models/archive_folder_style.dart';
+export 'src/archive_folder/archive_item.dart';
+

@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.24.0] - 2026-05-13
+
+- **New Component**: **Archive Folder** — A premium glassmorphic folder interaction that reveals its contents with staggered, physics-based animations.
+  - **Dual-Orientation Architecture**: Optimized for both vertical (upright) and horizontal (flat) layouts with intelligent hit-testing and coordinate-space adaptation.
+  - **Glassmorphism Design**: High-fidelity `BackdropFilter` implementation with customizable blur and opacity.
+  - **Staggered Reveal Engine**: Internal items animate out with independent delays and elastic bounce physics.
+  - **Dynamic Z-Stacking**: Implemented a "Pop-to-Front" mechanism that brings tapped items to the foreground with spring-based scaling (`Curves.elasticOut`).
+  - **ArchiveItem**: Introduced a standalone companion widget for archival-style item presentation (white frame + bottom label).
+  - **Premium Haptics**: Integrated selection-click haptic feedback on item focus and light-impact on folder toggle.
+- **Bug Fix**: Resolved 3D perspective (`Matrix4.setEntry`) instability causing dropped touch events on rotated item corners.
+- **Documentation**: Updated README.md and Showcase with the new generic item architecture and dual-orientation examples.
+
 ## [0.23.1] - 2026-05-12
 
 - **Documentation**: Added high-fidelity showcase GIF for the `CinematicTextTransition` component in README.md.
