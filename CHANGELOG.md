@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.24.1] - 2026-05-14
+
+- **Showcase**: Refined Archive Folder responsiveness and mobile centering.
+
 ## [0.24.0] - 2026-05-13
 
 - **New Component**: **Archive Folder** — A premium glassmorphic folder interaction that reveals its contents with staggered, physics-based animations.

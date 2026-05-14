@@ -77,7 +77,7 @@ ArchiveFolder(
                             child: Image.network(
                               'https://classiclatinamerica.com/wp-content/uploads/2018/07/Screen-Shot-2018-07-24-at-14.17.24.png',
                               fit: BoxFit.cover,
-                              errorBuilder: (_, __, ___) => const Center(child: Icon(Icons.image_not_supported_outlined, color: Colors.grey)),
+                              errorBuilder: (_, _, _) => const Center(child: Icon(Icons.image_not_supported_outlined, color: Colors.grey)),
                             ),
                           ),
                         ),
@@ -88,7 +88,7 @@ ArchiveFolder(
                             child: Image.network(
                               'https://www.birdtheme.org/showimages/venezuel/i/vzu196104l.jpg',
                               fit: BoxFit.cover,
-                              errorBuilder: (_, __, ___) => const Center(child: Icon(Icons.image_not_supported_outlined, color: Colors.grey)),
+                              errorBuilder: (_, _, _) => const Center(child: Icon(Icons.image_not_supported_outlined, color: Colors.grey)),
                             ),
                           ),
                         ),
@@ -100,7 +100,7 @@ ArchiveFolder(
                             child: Image.network(
                               'https://i.pinimg.com/736x/ce/a9/25/cea92554894220ac987269fb22f47c36.jpg',
                               fit: BoxFit.cover,
-                              errorBuilder: (_, __, ___) => const Center(child: Icon(Icons.image_not_supported_outlined, color: Colors.grey)),
+                              errorBuilder: (_, _, _) => const Center(child: Icon(Icons.image_not_supported_outlined, color: Colors.grey)),
                             ),
                           ),
                         ),
