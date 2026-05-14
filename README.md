@@ -36,8 +36,8 @@ external versioning conflicts.
 
 ## Component Library
 
-| #  | Component                                                     | Description                                                                                                        | Technical Scope | Location                                   |
-| :- | :------------------------------------------------------------ | :----------------------------------------------------------------------------------------------------------------- | :-------------- | :----------------------------------------- |
+| #  | Component                                                        | Description                                                                                                        | Technical Scope | Location                                     |
+| :- | :--------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------- | :-------------- | :------------------------------------------- |
 | 1  | **[Reveal &amp; Copy](#reveal--copy)**                        | Secure data masking with scramble reveal and clipboard animation.                                                  | Interaction     | `/lib/src/reveal_and_copy/`                |
 | 2  | **[Modern Weight Picker](#modern-weight-picker)**             | Precision scrollable ruler with magnetic snapping and haptic feedback.                                             | Numeric Input   | `/lib/src/weight_picker/`                  |
 | 3  | **[Premium Choice Chips](#premium-choice-chips)**             | Animated multi-selection system with flying media transitions.                                                     | Selection       | `/lib/src/premium_choice_chips/`           |
@@ -69,15 +69,13 @@ external versioning conflicts.
 | 29 | **[Premium Pagination](#premium-pagination)**                 | Tactile navigation with mechanical flip animations and automatic layout stability.                                 | Navigation      | `/lib/src/premium_pagination/`             |
 | 30 | **[Currency Swap](#currency-swap)**                           | Premium currency conversion interface with custom dropdowns and real-time flip counters.                           | Interaction     | `/lib/src/currency_swap_interaction/`      |
 | 31 | **[Premium Progress Stepper](#premium-progress-stepper)**     | High-fidelity multi-step indicator with physics-based spring animations and tactile button feedback.               | Interaction     | `/lib/src/premium_progress_stepper/`       |
-| 32 | **[Inline Delete Interaction](#inline-delete-interaction)** | Premium interaction with inline destructive confirmation, glassmorphism, and staggered entrance. | Interaction | `/lib/src/inline_delete_interaction/` |
-| 33 | **[Feedback Interaction](#feedback-interaction)** | Premium physics-based feedback system with asymmetric spring morphing and liquid transitions. | Interaction | `/lib/src/feedback_interaction/` |
-| 34 | **[Loading Shapes](#loading-shapes)** | Premium physics-based loading indicator that morphs between organic and geometric shapes with subtle rotation. | Layout | `/lib/src/loading_shapes/` |
-| 35 | **[Signature Draw Pad](#signature-draw-pad)** | Premium high-fidelity signature pad with playback animations, "Blur-Fade" transitions, and PNG export. | Interaction | `/lib/src/signature_draw_pad/` |
-| 36 | **[Sortable Grid](#sortable-grid)** | Physics-based reorderable grid with smooth layout transitions and haptic feedback. | Layout | `/lib/src/premium_sortable_grid/` |
-| 37 | **[Cinematic Text Transition](#cinematic-text-transition)** | Sophisticated text transition with sequential character physics for premium headers. | Interaction | `/lib/src/cinematic_text_transition/` |
-| 38 | **[Archive Folder](#archive-folder)** | Premium glassmorphic folder interaction with staggered item reveal and physics-based motion. | Interaction | `/lib/src/archive_folder/` |
-
-
+| 32 | **[Inline Delete Interaction](#inline-delete-interaction)**   | Premium interaction with inline destructive confirmation, glassmorphism, and staggered entrance.                   | Interaction     | `/lib/src/inline_delete_interaction/`      |
+| 33 | **[Feedback Interaction](#feedback-interaction)**             | Premium physics-based feedback system with asymmetric spring morphing and liquid transitions.                      | Interaction     | `/lib/src/feedback_interaction/`           |
+| 34 | **[Loading Shapes](#loading-shapes)**                         | Premium physics-based loading indicator that morphs between organic and geometric shapes with subtle rotation.     | Layout          | `/lib/src/loading_shapes/`                 |
+| 35 | **[Signature Draw Pad](#signature-draw-pad)**                 | Premium high-fidelity signature pad with playback animations, "Blur-Fade" transitions, and PNG export.             | Interaction     | `/lib/src/signature_draw_pad/`             |
+| 36 | **[Sortable Grid](#sortable-grid)**                           | Physics-based reorderable grid with smooth layout transitions and haptic feedback.                                 | Layout          | `/lib/src/premium_sortable_grid/`          |
+| 37 | **[Cinematic Text Transition](#cinematic-text-transition)**   | Sophisticated text transition with sequential character physics for premium headers.                               | Interaction     | `/lib/src/cinematic_text_transition/`      |
+| 38 | **[Archive Folder](#archive-folder)**                         | Premium glassmorphic folder interaction with staggered item reveal and physics-based motion.                       | Interaction     | `/lib/src/archive_folder/`                 |
 
 ---
 
@@ -675,7 +673,6 @@ SplitToEditDuration(
 
 ---
 
-
 ### Modern Fractional Picker
 
 ![Fractional Picker Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/fractional_picker.gif)
@@ -837,7 +834,6 @@ QuickSwitcher(
 ```
 
 ---
-
 
 ### Stacked Toast Interaction
 
@@ -1412,11 +1408,11 @@ LoadingShapes(
 
 The `PortalShapeDefinition` allows you to programmatically define any geometric or organic state for the morphing sequence:
 
-| Parameter          | Description                                                                                          | Visual Effect                                     |
-| :----------------- | :--------------------------------------------------------------------------------------------------- | :------------------------------------------------ |
-| `sides`            | The number of vertices or peaks.                                                                     | 3 = Triangle, 4 = Square, 1 = Teardrop.           |
-| `innerRadiusRatio` | Ratio between inner and outer points (0.0 to 1.0).                                                   | 1.0 = Polygon, 0.5 = Sharp Star, 0.2 = Needle.    |
-| `smoothness`       | Blending between rigid geometry and organic blobs (0.0 to 1.0).                                      | 0.0 = Sharp edges, 1.0 = Liquid/Organic flow.     |
+| Parameter            | Description                                                     | Visual Effect                                  |
+| :------------------- | :-------------------------------------------------------------- | :--------------------------------------------- |
+| `sides`            | The number of vertices or peaks.                                | 3 = Triangle, 4 = Square, 1 = Teardrop.        |
+| `innerRadiusRatio` | Ratio between inner and outer points (0.0 to 1.0).              | 1.0 = Polygon, 0.5 = Sharp Star, 0.2 = Needle. |
+| `smoothness`       | Blending between rigid geometry and organic blobs (0.0 to 1.0). | 0.0 = Sharp edges, 1.0 = Liquid/Organic flow.  |
 
 **Pro Tip:** To create a perfect circle morph, use a high `sides` count (e.g., 60) with `smoothness: 1.0`.
 
@@ -1497,7 +1493,6 @@ PremiumSortableGrid<String>(
 )
 ```
 
-
 ---
 
 ### Cinematic Text Transition
@@ -1529,7 +1524,6 @@ CinematicTextTransition(
 )
 ```
 
----
 ---
 
 ### Archive Folder
@@ -1572,8 +1566,11 @@ ArchiveFolder(
 )
 ```
 
-## Contributing
+---
 
+
+
+## Contributing
 
 Contributions focusing on performance optimization, new interaction patterns, or
 accessibility improvements are welcome. Please ensure all submissions adhere to

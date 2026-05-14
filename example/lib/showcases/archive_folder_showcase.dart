@@ -43,90 +43,74 @@ ArchiveFolder(
     ),
   ],
 )''',
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 60),
+      child: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
+              const SizedBox(height: 40),
 
-            // ----------------------------------------------------------------
-            // Archive folder widget — always centred regardless of orientation.
-            // ----------------------------------------------------------------
-            SizedBox(
-              height: 420, // Fixed height to keep controls from jumping
-              width: double.infinity,
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: ArchiveFolder(
-                title: 'Memories',
-                subtitle: 'Collection 2026',
-                style: ArchiveFolderStyle(
-                  folderColor: _selectedColor,
-                  orientation: _orientation,
-                  enableItemRotation: _enableItemRotation,
-                  itemRevealDistance: 70.0,
-                  // El spread lateral (horizontal) o altura (vertical) se controla con itemSpacing!
-                  itemSpacing: _orientation == ArchiveFolderOrientation.horizontal ? 75.0 : 38.0,
-                ),
-                items: [
-                  ArchiveItem(
-                    color: const Color(0xFFFDFCFB),
-                    label: 'HISTORIC STAMP',
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(2),
-                      child: Image.network(
-                        'https://classiclatinamerica.com/wp-content/uploads/2018/07/Screen-Shot-2018-07-24-at-14.17.24.png',
-                        fit: BoxFit.cover,
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return const Center(
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          );
-                        },
+              // ----------------------------------------------------------------
+              // Archive folder widget
+              // ----------------------------------------------------------------
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.45, // Usa el 45% de la pantalla para el showcase
+                child: Center(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: ArchiveFolder(
+                      title: 'Memories',
+                      subtitle: 'Collection 2026',
+                      style: ArchiveFolderStyle(
+                        folderColor: _selectedColor,
+                        orientation: _orientation,
+                        enableItemRotation: _enableItemRotation,
+                        itemRevealDistance: 70.0,
+                        itemSpacing: _orientation == ArchiveFolderOrientation.horizontal ? 75.0 : 38.0,
                       ),
+                      items: [
+                        ArchiveItem(
+                          color: const Color(0xFFFDFCFB),
+                          label: 'HISTORIC STAMP',
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(2),
+                            child: Image.network(
+                              'https://classiclatinamerica.com/wp-content/uploads/2018/07/Screen-Shot-2018-07-24-at-14.17.24.png',
+                              fit: BoxFit.cover,
+                              errorBuilder: (_, __, ___) => const Center(child: Icon(Icons.image_not_supported_outlined, color: Colors.grey)),
+                            ),
+                          ),
+                        ),
+                        ArchiveItem(
+                          label: 'TROUPIAL STAMP',
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(2),
+                            child: Image.network(
+                              'https://www.birdtheme.org/showimages/venezuel/i/vzu196104l.jpg',
+                              fit: BoxFit.cover,
+                              errorBuilder: (_, __, ___) => const Center(child: Icon(Icons.image_not_supported_outlined, color: Colors.grey)),
+                            ),
+                          ),
+                        ),
+                        ArchiveItem(
+                          color: const Color(0xFFF5F7FA),
+                          label: 'BACHACO STAMP',
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(2),
+                            child: Image.network(
+                              'https://i.pinimg.com/736x/ce/a9/25/cea92554894220ac987269fb22f47c36.jpg',
+                              fit: BoxFit.cover,
+                              errorBuilder: (_, __, ___) => const Center(child: Icon(Icons.image_not_supported_outlined, color: Colors.grey)),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  ArchiveItem(
-                    label: 'TROUPIAL STAMP',
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(2),
-                      child: Image.network(
-                        'https://www.birdtheme.org/showimages/venezuel/i/vzu196104l.jpg',
-                        fit: BoxFit.cover,
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return const Center(
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                  ArchiveItem(
-                    color: const Color(0xFFF5F7FA),
-                    label: 'BACHACO STAMP',
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(2),
-                      child: Image.network(
-                        'https://i.pinimg.com/736x/ce/a9/25/cea92554894220ac987269fb22f47c36.jpg',
-                        fit: BoxFit.cover,
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return const Center(
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
                 ),
               ),
-            ),
 
-            const SizedBox(height: 40),
+              const SizedBox(height: 40),
 
             // ----------------------------------------------------------------
             // Colour picker
@@ -238,6 +222,7 @@ ArchiveFolder(
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 }
