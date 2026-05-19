@@ -38,6 +38,7 @@ import 'showcases/signature_draw_pad_showcase.dart';
 import 'showcases/premium_sortable_grid_showcase.dart';
 import 'showcases/cinematic_text_transition_showcase.dart';
 import 'showcases/archive_folder_showcase.dart';
+import 'showcases/folder_tabs_showcase.dart';
 
 
 
@@ -392,6 +393,12 @@ class _SpringyGrid extends StatelessWidget {
         icon: Icons.folder_open_rounded,
         category: 'Interactions',
         page: ArchiveFolderShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Folder Tabs',
+        icon: Icons.folder_shared_rounded,
+        category: 'Layout',
+        page: FolderTabsShowcase(),
       ),
     ];
 

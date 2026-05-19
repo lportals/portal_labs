@@ -179,3 +179,7 @@ export 'src/archive_folder/archive_folder.dart';
 export 'src/archive_folder/models/archive_folder_style.dart';
 export 'src/archive_folder/archive_item.dart';
 
+// Folder Tabs
+export 'src/folder_tabs/folder_tabs.dart';
+export 'src/folder_tabs/models/folder_tabs_style.dart';
+

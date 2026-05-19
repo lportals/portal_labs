@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.25.0] - 2026-05-19
+
+- **New Component**: **Folder Tabs** — A physics-driven Manila file folder tab container with organic S-curve custom bezier geometry, implicit height resizing, and dynamic proximity dissolve animations.
+  - **Custom Bezier S-Curve Painter**: Draws identical, beautiful tab shapes that smoothly morph into the folder's corner roundings at the edges, clipping horizontal shelves.
+  - **Filing Drawer Cabinet Depth**: Renders background static tab sheets with soft shadows to simulate a real nested drawer depth effect.
+  - **Proximity-Based Dissolve**: Background tabs dynamically fade out and blend their colors as the active tab slides over them, preventing double-tab overlap artifacts.
+  - **Implicit Vertical Resizing**: Uses dynamic layout measurements and `AnimatedSize` to smoothly grow and shrink the folder height based on content length.
+  - **Interactive File Selection**: Supports hover/press states with native ink splashes, custom haptic feedback, and dynamic floating toast actions.
+  - **Responsive Design**: Scales beautifully across dynamic tab counts (e.g. 3 tabs, 4 tabs) and custom sizes on both mobile and desktop screens.
+
 ## [0.24.1] - 2026-05-14
 
 - **Showcase**: Refined Archive Folder responsiveness and mobile centering.

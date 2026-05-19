@@ -76,6 +76,7 @@ external versioning conflicts.
 | 36 | **[Sortable Grid](#sortable-grid)**                           | Physics-based reorderable grid with smooth layout transitions and haptic feedback.                                 | Layout          | `/lib/src/premium_sortable_grid/`          |
 | 37 | **[Cinematic Text Transition](#cinematic-text-transition)**   | Sophisticated text transition with sequential character physics for premium headers.                               | Interaction     | `/lib/src/cinematic_text_transition/`      |
 | 38 | **[Archive Folder](#archive-folder)**                         | Premium glassmorphic folder interaction with staggered item reveal and physics-based motion.                       | Interaction     | `/lib/src/archive_folder/`                 |
+| 39 | **[Folder Tabs](#folder-tabs)**                               | Physics-driven Manila file folder tab container with organic S-curves and dynamic proximity-based tab dissolving. | Layout          | `/lib/src/folder_tabs/`                    |
 
 ---
 
@@ -1568,7 +1569,47 @@ ArchiveFolder(
 
 ---
 
+### Folder Tabs
 
+![Folder Tabs Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/folder_tabs.gif)
+
+A physics-driven Manila file folder tab container featuring organic S-curve geometry and implicit height resizing. It overlays static tabs in the background, simulating a physical stacked filing drawer with perfect simplicity and dynamic proximity-based tab dissolving.
+
+#### Key Features
+
+- **Organic S-Curve Painter**: Uses custom bezier path drawing to render clean, identical S-curves that seamlessly morph into corner roundings at the edges.
+- **Physical Depth Overlay**: Simulates a physical filing drawer with background tabs that cast soft shadows onto the active folder sheet.
+- **Proximity-Based Dissolve**: Background tabs dynamically fade out and blend their colors as the active tab approaches, eliminating double-tab overlap artifacts.
+- **Implicit Height Scaling**: Seamlessly expands and collapses its height using animated size constraints when transitioning between folders of different content lengths.
+- **Dynamic Theme Customization**: Fully customize folder colors (e.g., Manila Beige, Steel Blue, Sage Green, Dark Charcoal), tab height, margins, border radii, and monospace typewriter label styles.
+
+#### Integration
+
+```dart
+import 'package:portal_labs/portal_labs.dart';
+
+FolderTabs(
+  tabs: const ['Receipts', 'Contracts', 'Ideas'],
+  style: const FolderTabsStyle(
+    folderColor: Color(0xFFE6D7C3), // Warm Manila Beige
+    tabHeight: 38.0,
+    tabProtrusionWidth: 125.0,
+    activeLabelStyle: TextStyle(
+      fontSize: 12.5,
+      fontWeight: FontWeight.w800,
+      color: Color(0xFF2C2216), // Dark typewriter ink
+      fontFamily: 'Courier',
+    ),
+  ),
+  children: [
+    _buildFileList(['uber-trip-0512.pdf', 'starbucks-coffee.pdf']),
+    _buildFileList(['freelance-agreement.md', 'office-lease-v2.pdf']),
+    _buildFileList(['app-wireframes.sketch', 'marketing-strategy.md']),
+  ],
+)
+```
+
+---
 
 ## Contributing
 
