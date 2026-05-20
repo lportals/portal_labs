@@ -39,6 +39,7 @@ import 'showcases/premium_sortable_grid_showcase.dart';
 import 'showcases/cinematic_text_transition_showcase.dart';
 import 'showcases/archive_folder_showcase.dart';
 import 'showcases/folder_tabs_showcase.dart';
+import 'showcases/physics_collision_card_showcase.dart';
 
 
 
@@ -399,6 +400,12 @@ class _SpringyGrid extends StatelessWidget {
         icon: Icons.folder_shared_rounded,
         category: 'Layout',
         page: FolderTabsShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Physics Card',
+        icon: Icons.bubble_chart_rounded,
+        category: 'Interactions',
+        page: PhysicsCollisionCardShowcase(),
       ),
     ];
 

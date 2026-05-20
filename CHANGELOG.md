@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.26.0] - 2026-05-19
+
+- **New Component**: **Physics Collision Card** — An interactive 2D rigid-body physics simulation container for circular elements (avatars, badges, tech brand icons) that bounce elastically off walls and each other.
+  - **Kinetic Vector Physics**: High-fidelity simulation of customizable gravity vectors, damping/friction coefficients, and bounciness (restitution).
+  - **Tactile Drag & Throw**: Natural gesture tracking that integrates with platform velocity trackers for realistic throwing physics.
+  - **Rate-Throttled Collision Haptics**: Integrated vibration triggers on high-energy collisions, optimized to prevent continuous buzzing.
+  - **Smart Auto-Sleep Engine**: Intelligent sleep manager that pauses active tickers when objects come to rest, conserving CPU/battery.
+  - **Total Customization**: Highly customizable styling via `PhysicsCollisionCardStyle` for card borders, item decoration, and physical coefficients.
+
 ## [0.25.0] - 2026-05-19
 
 - **New Component**: **Folder Tabs** — A physics-driven Manila file folder tab container with organic S-curve custom bezier geometry, implicit height resizing, and dynamic proximity dissolve animations.
