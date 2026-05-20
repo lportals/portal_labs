@@ -8,7 +8,6 @@ import '../models/accordion_style.dart';
 /// and grouping them into solid blocks when collapsed, using smooth animations
 /// and precise corner rounding.
 class AccordionItemWidget extends StatefulWidget {
-
   /// Creates a new [AccordionItemWidget] with the required state flags.
   const AccordionItemWidget({
     super.key,
@@ -24,6 +23,7 @@ class AccordionItemWidget extends StatefulWidget {
     required this.isAtEndOfUpperSection,
     required this.isAtStartOfLowerSection,
   });
+
   /// The data model for this accordion item.
   final AccordionItem item;
 

@@ -22,14 +22,12 @@ void main() {
       ),
     ];
 
-    testWidgets('Should render initial selection correctly', (WidgetTester tester) async {
+    testWidgets('Should render initial selection correctly', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: DiscreteTabs(
-              tabs: mockTabs,
-            ),
-          ),
+          home: Scaffold(body: DiscreteTabs(tabs: mockTabs)),
         ),
       );
 
@@ -38,14 +36,16 @@ void main() {
       // Verify other tab labels are not visible
       expect(find.text('Search'), findsNothing);
       expect(find.text('Profile'), findsNothing);
-      
+
       // All icons should be present
       expect(find.byIcon(Icons.home), findsOneWidget);
       expect(find.byIcon(Icons.search), findsOneWidget);
       expect(find.byIcon(Icons.person), findsOneWidget);
     });
 
-    testWidgets('Should change selection when a different tab is tapped', (WidgetTester tester) async {
+    testWidgets('Should change selection when a different tab is tapped', (
+      WidgetTester tester,
+    ) async {
       int? selectedIndex;
       await tester.pumpWidget(
         MaterialApp(
@@ -67,15 +67,12 @@ void main() {
       expect(find.text('Home'), findsNothing);
     });
 
-    testWidgets('Should respect external currentIndex control', (WidgetTester tester) async {
+    testWidgets('Should respect external currentIndex control', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: DiscreteTabs(
-              tabs: mockTabs,
-              currentIndex: 2,
-            ),
-          ),
+          home: Scaffold(body: DiscreteTabs(tabs: mockTabs, currentIndex: 2)),
         ),
       );
 
@@ -85,12 +82,7 @@ void main() {
       // Update to Home
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: DiscreteTabs(
-              tabs: mockTabs,
-              currentIndex: 0,
-            ),
-          ),
+          home: Scaffold(body: DiscreteTabs(tabs: mockTabs, currentIndex: 0)),
         ),
       );
       await tester.pumpAndSettle();

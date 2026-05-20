@@ -57,7 +57,7 @@ class SplitToEditStyle {
   /// The internal padding of the segments.
   final EdgeInsetsGeometry padding;
 
-  /// The curve used for the expansion animation. 
+  /// The curve used for the expansion animation.
   /// If null, a spring is built from [stiffness], [damping], and [mass].
   final Curve? bounceCurve;
 

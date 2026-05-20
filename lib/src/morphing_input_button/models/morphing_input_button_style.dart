@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 /// Style configuration for the [MorphingInputButton] component.
 class MorphingInputButtonStyle {
-
   /// Creates a [MorphingInputButtonStyle] with the given animation and appearance properties.
   const MorphingInputButtonStyle({
     this.backgroundColor,
@@ -13,10 +12,11 @@ class MorphingInputButtonStyle {
     this.curve = Curves.easeOutBack,
     this.duration = const Duration(milliseconds: 500),
   });
+
   /// The background color of the outer container.
   final Color? backgroundColor;
 
-  /// The color of the button/input surface. 
+  /// The color of the button/input surface.
   final Color? buttonColor;
 
   /// The width of the button in its initial state.

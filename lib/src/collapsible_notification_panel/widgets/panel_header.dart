@@ -42,7 +42,8 @@ class PanelHeader extends StatefulWidget {
   State<PanelHeader> createState() => _PanelHeaderState();
 }
 
-class _PanelHeaderState extends State<PanelHeader> with SingleTickerProviderStateMixin {
+class _PanelHeaderState extends State<PanelHeader>
+    with SingleTickerProviderStateMixin {
   late AnimationController _bellController;
   bool _isPressed = false;
 
@@ -72,7 +73,7 @@ class _PanelHeaderState extends State<PanelHeader> with SingleTickerProviderStat
       animation: widget.expansionAnimation,
       builder: (context, child) {
         final t = widget.expansionAnimation.value;
-        
+
         final double iconSize = 52.0 - (8.0 * t); // 52 -> 44
         final double fontSize = 18.0 - (3.0 * t); // 18 -> 15
 
@@ -97,7 +98,8 @@ class _PanelHeaderState extends State<PanelHeader> with SingleTickerProviderStat
                   const SizedBox(width: 16),
                   Expanded(
                     child: SizedBox(
-                      height: iconSize, // Match icon height for perfect vertical centering
+                      height:
+                          iconSize, // Match icon height for perfect vertical centering
                       child: Stack(
                         children: [
                           // Title: Always perfectly centered vertically
@@ -131,7 +133,8 @@ class _PanelHeaderState extends State<PanelHeader> with SingleTickerProviderStat
                                   widget.subtitle,
                                   style: TextStyle(
                                     fontSize: 14,
-                                  color: widget.style.subtitleColor.withValues(alpha: 0.4),
+                                    color: widget.style.subtitleColor
+                                        .withValues(alpha: 0.4),
                                     fontWeight: FontWeight.w500,
                                   ),
                                   maxLines: 1,
@@ -157,11 +160,11 @@ class _PanelHeaderState extends State<PanelHeader> with SingleTickerProviderStat
     return AnimatedBuilder(
       animation: _bellController,
       builder: (context, child) {
-        final double rotation = math.sin(_bellController.value * math.pi * 4) * 0.15 * (1.0 - _bellController.value);
-        return Transform.rotate(
-          angle: rotation,
-          child: child,
-        );
+        final double rotation =
+            math.sin(_bellController.value * math.pi * 4) *
+            0.15 *
+            (1.0 - _bellController.value);
+        return Transform.rotate(angle: rotation, child: child);
       },
       child: Container(
         width: size,
@@ -205,11 +208,7 @@ class _PanelHeaderState extends State<PanelHeader> with SingleTickerProviderStat
           shape: BoxShape.circle,
         ),
         child: const Center(
-          child: Icon(
-            Icons.expand_more_rounded,
-            color: Colors.white,
-            size: 20,
-          ),
+          child: Icon(Icons.expand_more_rounded, color: Colors.white, size: 20),
         ),
       ),
     );

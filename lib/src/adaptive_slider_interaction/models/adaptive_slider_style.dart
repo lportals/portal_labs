@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 /// Defines the visual configuration for the Adaptive Slider.
 class AdaptiveSliderStyle {
-
   /// Creates an [AdaptiveSliderStyle] with the given visual properties.
   const AdaptiveSliderStyle({
     this.trackHeight = 44.0,
@@ -29,6 +28,7 @@ class AdaptiveSliderStyle {
       ),
     ],
   });
+
   /// Height of the slider track.
   final double trackHeight;
 
@@ -63,9 +63,9 @@ class AdaptiveSliderStyle {
 
 /// Represents a mapping between a value threshold and a set of colors.
 class AdaptiveColorStep {
-
   /// Creates an [AdaptiveColorStep] with a [threshold] and [colors].
   const AdaptiveColorStep({required this.threshold, required this.colors});
+
   /// The value (from 0.0 to 1.0) at which this step is fully active.
   final double threshold;
 

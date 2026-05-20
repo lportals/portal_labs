@@ -7,7 +7,6 @@ import 'models/premium_sortable_grid_style.dart';
 ///
 /// Features smooth animations, physical spring-like feel, and haptic feedback.
 class PremiumSortableGrid<T> extends StatefulWidget {
-
   /// Creates a [PremiumSortableGrid] with the given parameters.
   const PremiumSortableGrid({
     super.key,
@@ -18,6 +17,7 @@ class PremiumSortableGrid<T> extends StatefulWidget {
     this.style = const PremiumSortableGridStyle(),
     this.emptyBuilder,
   });
+
   /// The list of items to display in the grid.
   final List<T> items;
 
@@ -36,7 +36,6 @@ class PremiumSortableGrid<T> extends StatefulWidget {
   /// A builder for the empty state of the grid.
   final WidgetBuilder? emptyBuilder;
 
-
   @override
   State<PremiumSortableGrid<T>> createState() => _PremiumSortableGridState<T>();
 }
@@ -53,15 +52,19 @@ class _PremiumSortableGridState<T> extends State<PremiumSortableGrid<T>> {
           ? SizedBox(
               key: const ValueKey('empty'),
               width: double.infinity,
-              child: widget.emptyBuilder?.call(context) ?? const SizedBox.shrink(),
+              child:
+                  widget.emptyBuilder?.call(context) ?? const SizedBox.shrink(),
             )
           : LayoutBuilder(
               key: const ValueKey('grid'),
               builder: (context, constraints) {
                 final double itemWidth =
-                    (constraints.maxWidth - (widget.style.crossAxisCount - 1) * widget.style.spacing) /
-                        widget.style.crossAxisCount;
-                final double itemHeight = itemWidth / widget.style.itemAspectRatio;
+                    (constraints.maxWidth -
+                        (widget.style.crossAxisCount - 1) *
+                            widget.style.spacing) /
+                    widget.style.crossAxisCount;
+                final double itemHeight =
+                    itemWidth / widget.style.itemAspectRatio;
 
                 return SizedBox(
                   height: _calculateTotalHeight(itemHeight) + 40,
@@ -96,9 +99,16 @@ class _PremiumSortableGridState<T> extends State<PremiumSortableGrid<T>> {
                           },
                           onDragOver: (dragId) {
                             final now = DateTime.now();
-                            if (now.difference(_lastReorderTime).inMilliseconds < 150) return;
+                            if (now
+                                    .difference(_lastReorderTime)
+                                    .inMilliseconds <
+                                150) {
+                              return;
+                            }
 
-                            final oldIndex = widget.items.indexWhere((it) => widget.idBuilder(it) == dragId);
+                            final oldIndex = widget.items.indexWhere(
+                              (it) => widget.idBuilder(it) == dragId,
+                            );
                             if (oldIndex != -1 && oldIndex != index) {
                               _lastReorderTime = now;
                               widget.onReorder(oldIndex, index);
@@ -120,11 +130,18 @@ class _PremiumSortableGridState<T> extends State<PremiumSortableGrid<T>> {
                           onWillAcceptWithDetails: (details) => true,
                           onMove: (details) {
                             final now = DateTime.now();
-                            if (now.difference(_lastReorderTime).inMilliseconds < 150) return;
+                            if (now
+                                    .difference(_lastReorderTime)
+                                    .inMilliseconds <
+                                150) {
+                              return;
+                            }
 
-                            final oldIndex = widget.items.indexWhere((it) => widget.idBuilder(it) == details.data);
+                            final oldIndex = widget.items.indexWhere(
+                              (it) => widget.idBuilder(it) == details.data,
+                            );
                             final targetIndex = widget.items.length - 1;
-                            
+
                             if (oldIndex != -1 && oldIndex != targetIndex) {
                               _lastReorderTime = now;
                               widget.onReorder(oldIndex, targetIndex);
@@ -149,7 +166,7 @@ class _PremiumSortableGridState<T> extends State<PremiumSortableGrid<T>> {
     final int crossAxisCount = widget.style.crossAxisCount;
     final int fullRows = itemsCount ~/ crossAxisCount;
     final int itemsInLastRow = itemsCount % crossAxisCount;
-    
+
     if (itemsInLastRow == 0) return [];
 
     final int emptySlots = crossAxisCount - itemsInLastRow;
@@ -170,9 +187,11 @@ class _PremiumSortableGridState<T> extends State<PremiumSortableGrid<T>> {
             final now = DateTime.now();
             if (now.difference(_lastReorderTime).inMilliseconds < 150) return;
 
-            final oldIndex = widget.items.indexWhere((it) => widget.idBuilder(it) == details.data);
+            final oldIndex = widget.items.indexWhere(
+              (it) => widget.idBuilder(it) == details.data,
+            );
             final targetIndex = widget.items.length - 1;
-            
+
             if (oldIndex != -1 && oldIndex != targetIndex) {
               _lastReorderTime = now;
               widget.onReorder(oldIndex, targetIndex);
@@ -188,14 +207,14 @@ class _PremiumSortableGridState<T> extends State<PremiumSortableGrid<T>> {
   }
 
   double _calculateTotalHeight(double itemHeight) {
-    final int rowCount = (widget.items.length / widget.style.crossAxisCount).ceil();
+    final int rowCount = (widget.items.length / widget.style.crossAxisCount)
+        .ceil();
     if (rowCount == 0) return 0;
     return rowCount * itemHeight + (rowCount - 1) * widget.style.spacing;
   }
 }
 
 class _SortableGridItem<T> extends StatefulWidget {
-
   const _SortableGridItem({
     super.key,
     required this.index,
@@ -240,13 +259,10 @@ class _SortableGridItemState<T> extends State<_SortableGridItem<T>>
       vsync: this,
       duration: widget.style.pulseDuration,
     );
-    _pulseAnimation = Tween<double>(
-      begin: 1.0,
-      end: widget.style.pulseScale,
-    ).animate(CurvedAnimation(
-      parent: _pulseController,
-      curve: Curves.easeInOut,
-    ));
+    _pulseAnimation = Tween<double>(begin: 1.0, end: widget.style.pulseScale)
+        .animate(
+          CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
+        );
 
     _pulseController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
@@ -279,13 +295,14 @@ class _SortableGridItemState<T> extends State<_SortableGridItem<T>>
   }
 
   void _onDragEnd(DraggableDetails details) {
-    final RenderBox? stackBox = context.findAncestorRenderObjectOfType<RenderStack>();
+    final RenderBox? stackBox = context
+        .findAncestorRenderObjectOfType<RenderStack>();
     if (stackBox != null) {
       final localDropOffset = stackBox.globalToLocal(details.offset);
       setState(() {
         _dropOffset = localDropOffset;
       });
-      
+
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
           setState(() {
@@ -294,7 +311,7 @@ class _SortableGridItemState<T> extends State<_SortableGridItem<T>>
         }
       });
     }
-    
+
     widget.onDragEnded();
   }
 
@@ -311,14 +328,17 @@ class _SortableGridItemState<T> extends State<_SortableGridItem<T>>
     final double top = _dropOffset?.dy ?? targetTop;
 
     return AnimatedPositioned(
-      duration: isFlying ? widget.style.flybackDuration : widget.style.animationDuration,
+      duration: isFlying
+          ? widget.style.flybackDuration
+          : widget.style.animationDuration,
       curve: widget.style.animationCurve,
       left: left,
       top: top,
       width: widget.itemWidth,
       height: widget.itemHeight,
       child: DragTarget<Object>(
-        onWillAcceptWithDetails: (details) => details.data != widget.idBuilder(widget.item),
+        onWillAcceptWithDetails: (details) =>
+            details.data != widget.idBuilder(widget.item),
         onAcceptWithDetails: (data) => widget.onDragOver(data.data),
         onMove: (details) {
           if (details.data != widget.idBuilder(widget.item)) {
@@ -341,8 +361,9 @@ class _SortableGridItemState<T> extends State<_SortableGridItem<T>>
                 _stopPulse();
                 widget.onDragStarted();
               },
-              onDraggableCanceled: (velocity, offset) =>
-                  _onDragEnd(DraggableDetails(velocity: velocity, offset: offset)),
+              onDraggableCanceled: (velocity, offset) => _onDragEnd(
+                DraggableDetails(velocity: velocity, offset: offset),
+              ),
               onDragEnd: _onDragEnd,
               child: AnimatedBuilder(
                 animation: _pulseAnimation,
@@ -362,9 +383,7 @@ class _SortableGridItemState<T> extends State<_SortableGridItem<T>>
 
   Widget _buildChild() {
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: widget.style.borderRadius,
-      ),
+      decoration: BoxDecoration(borderRadius: widget.style.borderRadius),
       clipBehavior: Clip.antiAlias,
       child: widget.child,
     );

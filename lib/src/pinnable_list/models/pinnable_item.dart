@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 /// Model representing an item that can be pinned or unpinned in a list.
 class PinnableItem {
-
   /// Creates a [PinnableItem].
   const PinnableItem({
     required this.id,
@@ -13,6 +12,7 @@ class PinnableItem {
     this.order = 0,
     this.metadata = const {},
   });
+
   /// Unique identifier for the item.
   final String id;
 

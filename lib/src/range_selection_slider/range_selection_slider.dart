@@ -16,7 +16,6 @@ import 'models/range_slider_style.dart';
 /// - **Adaptive Formatting:** Automatic comma separation and currency prefixing.
 /// - **Zero-Dependency:** Using only vanilla Flutter components and internal utils.
 class RangeSelectionSlider extends StatefulWidget {
-
   /// Creates a [RangeSelectionSlider] with the given configuration.
   const RangeSelectionSlider({
     super.key,
@@ -31,6 +30,7 @@ class RangeSelectionSlider extends StatefulWidget {
     this.title = 'Price Range',
     this.showActions = true,
   });
+
   /// The current range values.
   final RangeValues values;
 
@@ -234,7 +234,6 @@ class _RangeSelectionSliderState extends State<RangeSelectionSlider> {
 /// A specialized internal field for displaying "From/To" values with flip animation.
 /// Now supports manual editing via TextField on tap.
 class _ValueField extends StatefulWidget {
-
   const _ValueField({
     super.key,
     required this.label,
@@ -261,7 +260,9 @@ class _ValueFieldState extends State<_ValueField> {
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: PortalUtils.formatNumber(widget.value));
+    _controller = TextEditingController(
+      text: PortalUtils.formatNumber(widget.value),
+    );
     _focusNode = FocusNode();
     _focusNode.addListener(_handleFocusChange);
   }
@@ -326,7 +327,12 @@ class _ValueFieldState extends State<_ValueField> {
               const SizedBox(width: 4),
               Expanded(
                 child: SizedBox(
-                  height: PortalUtils.measureText('8', style.fieldValueStyle).height * 2.0,
+                  height:
+                      PortalUtils.measureText(
+                        '8',
+                        style.fieldValueStyle,
+                      ).height *
+                      2.0,
                   child: Stack(
                     alignment: Alignment.centerLeft,
                     children: [
@@ -350,12 +356,19 @@ class _ValueFieldState extends State<_ValueField> {
                             keyboardType: TextInputType.number,
                             textAlignVertical: TextAlignVertical.center,
                             inputFormatters: [
-                              FilteringTextInputFormatter.allow(RegExp(r'[0-9,]')),
+                              FilteringTextInputFormatter.allow(
+                                RegExp(r'[0-9,]'),
+                              ),
                               _ThousandsFormatter(),
                             ],
                             style: style.fieldValueStyle,
                             cursorColor: style.activeTrackColor,
-                            cursorHeight: PortalUtils.measureText('8', style.fieldValueStyle).height * 0.8,
+                            cursorHeight:
+                                PortalUtils.measureText(
+                                  '8',
+                                  style.fieldValueStyle,
+                                ).height *
+                                0.8,
                             showCursor: true,
                             decoration: const InputDecoration(
                               isDense: true,
@@ -393,7 +406,6 @@ class _ValueFieldState extends State<_ValueField> {
 
 /// Complex price display that handles commas and animates digits.
 class _PriceFlipDisplay extends StatelessWidget {
-
   const _PriceFlipDisplay({
     required this.value,
     required this.upward,
@@ -417,7 +429,6 @@ class _PriceFlipDisplay extends StatelessWidget {
 }
 
 class _ActionButton extends StatelessWidget {
-
   const _ActionButton({
     required this.label,
     this.onPressed,
@@ -553,9 +564,9 @@ class _CustomRangeTrackShape extends RangeSliderTrackShape {
 /// A custom thumb shape for the range slider displaying a white circle
 /// with a colored border and a shadow.
 class _CustomRangeThumbShape extends RangeSliderThumbShape {
-
   /// Creates a [const] instance of [_CustomRangeThumbShape] with the given [borderColor].
   const _CustomRangeThumbShape({required this.borderColor});
+
   /// The color of the thumb's border.
   final Color borderColor;
 
@@ -608,7 +619,9 @@ class _CustomRangeThumbShape extends RangeSliderThumbShape {
 class _ThousandsFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
     if (newValue.text.isEmpty) return newValue;
 
     // Only allow digits and commas
@@ -618,19 +631,19 @@ class _ThousandsFormatter extends TextInputFormatter {
     if (value == null) return oldValue;
 
     final String formatted = PortalUtils.formatNumber(value);
-    
+
     // Calculate new cursor position
     int cursorPosition = newValue.selection.end;
     int commasBefore = 0;
     for (int i = 0; i < newValue.text.length && i < cursorPosition; i++) {
       if (newValue.text[i] == ',') commasBefore++;
     }
-    
+
     int digitsBefore = cursorPosition - commasBefore;
-    
+
     int digitsCount = 0;
     int newCursorPos = 0;
-    
+
     for (int i = 0; i < formatted.length; i++) {
       if (formatted[i] != ',') {
         digitsCount++;

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 /// Style configuration for the [ModernWeightPicker] component.
 class WeightPickerStyle {
-
   /// Creates a [WeightPickerStyle] with the given appearance properties.
   const WeightPickerStyle({
     this.activeColor = const Color(0xFF1D1D1F),
@@ -11,6 +10,7 @@ class WeightPickerStyle {
     this.backgroundColor = Colors.white,
     this.borderRadius = 44,
   });
+
   /// Primary color for the active value and indicator.
   final Color activeColor;
 

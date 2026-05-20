@@ -12,12 +12,8 @@ import '../common/portal_animations.dart';
 /// subtle rotation, and physics-based motion.
 class LoadingShapes extends StatefulWidget {
   /// Creates a new [LoadingShapes] instance.
-  LoadingShapes({
-    super.key,
-    LoadingShapesStyle? style,
-    this.isLoading = true,
-  }) : style = style ?? LoadingShapesStyle();
-
+  LoadingShapes({super.key, LoadingShapesStyle? style, this.isLoading = true})
+    : style = style ?? LoadingShapesStyle();
 
   /// The style configuration for the loading shapes.
   final LoadingShapesStyle style;
@@ -34,7 +30,7 @@ class _LoadingShapesState extends State<LoadingShapes>
   late AnimationController _morphController;
   late Animation<double> _morphAnimation;
   late Animation<double> _scaleAnimation;
-  
+
   double _totalRotation = 0.0;
   late Ticker _rotationTicker;
 
@@ -60,13 +56,17 @@ class _LoadingShapesState extends State<LoadingShapes>
     // Scale animation: Subtle "breathing" during transition
     _scaleAnimation = TweenSequence<double>([
       TweenSequenceItem(
-        tween: Tween<double>(begin: 1.0, end: 0.92)
-            .chain(CurveTween(curve: Curves.easeOutCubic)),
+        tween: Tween<double>(
+          begin: 1.0,
+          end: 0.92,
+        ).chain(CurveTween(curve: Curves.easeOutCubic)),
         weight: 50,
       ),
       TweenSequenceItem(
-        tween: Tween<double>(begin: 0.92, end: 1.0)
-            .chain(CurveTween(curve: Curves.elasticOut)),
+        tween: Tween<double>(
+          begin: 0.92,
+          end: 1.0,
+        ).chain(CurveTween(curve: Curves.elasticOut)),
         weight: 50,
       ),
     ]).animate(_morphController);
@@ -74,17 +74,17 @@ class _LoadingShapesState extends State<LoadingShapes>
     // Continuous rotation ticker for perfectly fluid momentum
     _rotationTicker = createTicker((elapsed) {
       if (!mounted || !widget.isLoading) return;
-      
+
       setState(() {
         // Base rotation speed from style
-        double speed = widget.style.baseRotationSpeed; 
-        
+        double speed = widget.style.baseRotationSpeed;
+
         // Add momentum boost during morphing using a bell curve (sin)
         if (_morphController.isAnimating) {
           final boostFactor = math.sin(_morphAnimation.value * math.pi);
           speed += boostFactor * widget.style.boostRotationSpeed;
         }
-        
+
         _totalRotation += speed;
       });
     });
@@ -265,13 +265,19 @@ class _ShapeMorphPainter extends CustomPainter {
     return path;
   }
 
-  double _getRadiusAtAngle(double angle, PortalShapeDefinition def, double maxRadius) {
+  double _getRadiusAtAngle(
+    double angle,
+    PortalShapeDefinition def,
+    double maxRadius,
+  ) {
     final n = def.sides;
-    
+
     // Polygon formula breaks for n < 3 (triangles are the minimum polygon)
     // For n < 3, we use a pure organic blob formula
     if (n < 3) {
-      return maxRadius * (def.innerRadiusRatio + (1 - def.innerRadiusRatio) * (math.cos(angle * n) + 1) / 2);
+      return maxRadius *
+          (def.innerRadiusRatio +
+              (1 - def.innerRadiusRatio) * (math.cos(angle * n) + 1) / 2);
     }
 
     final sectionAngle = (2 * math.pi) / n;
@@ -281,7 +287,10 @@ class _ShapeMorphPainter extends CustomPainter {
     final polyR = maxRadius * math.cos(math.pi / n) / math.cos(normalizedAngle);
 
     // Star/Blob component using sine wave
-    final starR = maxRadius * (def.innerRadiusRatio + (1 - def.innerRadiusRatio) * (math.cos(angle * n) + 1) / 2);
+    final starR =
+        maxRadius *
+        (def.innerRadiusRatio +
+            (1 - def.innerRadiusRatio) * (math.cos(angle * n) + 1) / 2);
 
     // Smoothness determines how much we lean towards the star/blob vs sharp polygon
     return lerpDouble(polyR, starR, def.smoothness)!;

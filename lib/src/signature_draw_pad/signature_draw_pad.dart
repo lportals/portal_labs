@@ -97,14 +97,15 @@ class SignatureDrawPad extends StatefulWidget {
   State<SignatureDrawPad> createState() => _SignatureDrawPadState();
 }
 
-class _SignatureDrawPadState extends State<SignatureDrawPad> with TickerProviderStateMixin {
+class _SignatureDrawPadState extends State<SignatureDrawPad>
+    with TickerProviderStateMixin {
   late final SignatureDrawPadController _controller;
-  
+
   // Animation controllers for playback sequence
   late final AnimationController _opacityController;
   late final AnimationController _playbackController;
   late final AnimationController _shimmerController;
-  
+
   // Animation for clear/restart transition
   late final AnimationController _clearController;
   bool _isLocked = false;
@@ -114,14 +115,19 @@ class _SignatureDrawPadState extends State<SignatureDrawPad> with TickerProvider
   void initState() {
     super.initState();
     final initialPalette = widget.paletteColors ?? widget.style.paletteColors;
-    final initialColor = widget.activeColor ?? 
-                        (initialPalette.isNotEmpty ? initialPalette.first : widget.style.activeColor);
+    final initialColor =
+        widget.activeColor ??
+        (initialPalette.isNotEmpty
+            ? initialPalette.first
+            : widget.style.activeColor);
 
-    _controller = widget.controller ?? SignatureDrawPadController(
-      initialColor: initialColor,
-      initialWidth: widget.style.strokeWidth,
-      enableHaptics: widget.style.enableHaptics,
-    );
+    _controller =
+        widget.controller ??
+        SignatureDrawPadController(
+          initialColor: initialColor,
+          initialWidth: widget.style.strokeWidth,
+          enableHaptics: widget.style.enableHaptics,
+        );
     _controller.addListener(_onControllerChanged);
 
     _opacityController = AnimationController(
@@ -169,18 +175,18 @@ class _SignatureDrawPadState extends State<SignatureDrawPad> with TickerProvider
 
   Future<void> _playSignature() async {
     if (_controller.isEmpty) return;
-    
+
     if (widget.style.enableHaptics) HapticFeedback.mediumImpact();
 
     // 1. Fade out background
     _opacityController.animateTo(0.1, curve: Curves.easeOut);
-    
+
     // 2. Animate playback
     await _playbackController.forward(from: 0.0);
-    
+
     // 3. Shimmer
     await _shimmerController.forward(from: 0.0);
-    
+
     // 4. Fade background back in
     _opacityController.animateTo(1.0, curve: Curves.easeIn);
     _playbackController.value = 1.0;
@@ -221,15 +227,17 @@ class _SignatureDrawPadState extends State<SignatureDrawPad> with TickerProvider
     final borderColor = widget.borderColor ?? widget.style.borderColor;
     final borderRadius = widget.borderRadius ?? widget.style.borderRadius;
     final borderWidth = widget.borderWidth ?? widget.style.borderWidth;
-    
+
     final viewIcon = widget.viewIcon ?? widget.style.viewIcon;
     final clearIcon = widget.clearIcon ?? widget.style.clearIcon;
     final undoIcon = widget.undoIcon ?? widget.style.undoIcon;
     final eraserIcon = widget.eraserIcon ?? widget.style.eraserIcon;
     final labelIcon = widget.labelIcon ?? widget.style.labelIcon;
-    final dottedColor = widget.dottedBorderColor ?? widget.style.dottedBorderColor;
-    final paletteRadius = widget.paletteBorderRadius ?? widget.style.paletteBorderRadius;
-    
+    final dottedColor =
+        widget.dottedBorderColor ?? widget.style.dottedBorderColor;
+    final paletteRadius =
+        widget.paletteBorderRadius ?? widget.style.paletteBorderRadius;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -238,10 +246,7 @@ class _SignatureDrawPadState extends State<SignatureDrawPad> with TickerProvider
           decoration: BoxDecoration(
             color: bgColor,
             borderRadius: borderRadius,
-            border: Border.all(
-              color: borderColor,
-              width: borderWidth,
-            ),
+            border: Border.all(color: borderColor, width: borderWidth),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.03),
@@ -257,12 +262,21 @@ class _SignatureDrawPadState extends State<SignatureDrawPad> with TickerProvider
                 padding: const EdgeInsets.all(16.0),
                 child: Row(
                   children: [
-                    Icon(labelIcon, size: 20, color: widget.style.labelStyle.color?.withValues(alpha: 0.6)),
+                    Icon(
+                      labelIcon,
+                      size: 20,
+                      color: widget.style.labelStyle.color?.withValues(
+                        alpha: 0.6,
+                      ),
+                    ),
                     const SizedBox(width: 8),
                     Text(widget.label, style: widget.style.labelStyle),
                     const Spacer(),
                     _AnimatedVisibility(
-                      isVisible: _controller.isNotEmpty && !_isLocked && !_isConfirming,
+                      isVisible:
+                          _controller.isNotEmpty &&
+                          !_isLocked &&
+                          !_isConfirming,
                       child: _HeaderAction(
                         icon: viewIcon,
                         onTap: _playSignature,
@@ -270,7 +284,10 @@ class _SignatureDrawPadState extends State<SignatureDrawPad> with TickerProvider
                       ),
                     ),
                     _AnimatedVisibility(
-                      isVisible: _controller.isNotEmpty && !_isLocked && !_isConfirming,
+                      isVisible:
+                          _controller.isNotEmpty &&
+                          !_isLocked &&
+                          !_isConfirming,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 12),
                         child: _HeaderAction(
@@ -300,7 +317,9 @@ class _SignatureDrawPadState extends State<SignatureDrawPad> with TickerProvider
                       Positioned.fill(
                         child: CustomPaint(
                           painter: _DottedFramePainter(
-                            color: dottedColor.withValues(alpha: 0.4), // Subtle but visible
+                            color: dottedColor.withValues(
+                              alpha: 0.4,
+                            ), // Subtle but visible
                             borderRadius: 12,
                           ),
                         ),
@@ -327,7 +346,9 @@ class _SignatureDrawPadState extends State<SignatureDrawPad> with TickerProvider
                                 return CustomPaint(
                                   painter: SignatureDrawPadPainter(
                                     strokes: _controller.strokes,
-                                    opacityValue: _opacityController.value * _clearController.value,
+                                    opacityValue:
+                                        _opacityController.value *
+                                        _clearController.value,
                                     playbackValue: _playbackController.value,
                                     shimmerValue: _shimmerController.value,
                                     shimmerColor: widget.style.shimmerColor,
@@ -352,7 +373,10 @@ class _SignatureDrawPadState extends State<SignatureDrawPad> with TickerProvider
                 child: Row(
                   children: [
                     _AnimatedVisibility(
-                      isVisible: _controller.isNotEmpty && !_isLocked && !_isConfirming,
+                      isVisible:
+                          _controller.isNotEmpty &&
+                          !_isLocked &&
+                          !_isConfirming,
                       child: _FooterAction(
                         icon: undoIcon,
                         onTap: _controller.undo,
@@ -360,7 +384,10 @@ class _SignatureDrawPadState extends State<SignatureDrawPad> with TickerProvider
                       ),
                     ),
                     _AnimatedVisibility(
-                      isVisible: _controller.isNotEmpty && !_isLocked && !_isConfirming,
+                      isVisible:
+                          _controller.isNotEmpty &&
+                          !_isLocked &&
+                          !_isConfirming,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 12),
                         child: _FooterAction(
@@ -406,7 +433,9 @@ class _SignatureDrawPadState extends State<SignatureDrawPad> with TickerProvider
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: colors.map((color) {
-                final isSelected = _controller.activeColor == color && !_controller.isEraserMode;
+                final isSelected =
+                    _controller.activeColor == color &&
+                    !_controller.isEraserMode;
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 6),
                   child: _ColorButton(
@@ -477,17 +506,19 @@ class _FooterAction extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: isActive 
-              ? style.activeColor.withValues(alpha: 0.1) 
+          color: isActive
+              ? style.activeColor.withValues(alpha: 0.1)
               : Colors.black.withValues(alpha: 0.04),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Icon(
           icon,
           size: 20,
-          color: isActive 
-              ? style.activeColor 
-              : style.labelStyle.color?.withValues(alpha: onTap == null ? 0.2 : 0.7),
+          color: isActive
+              ? style.activeColor
+              : style.labelStyle.color?.withValues(
+                  alpha: onTap == null ? 0.2 : 0.7,
+                ),
         ),
       ),
     );
@@ -554,7 +585,10 @@ class _ColorButton extends StatelessWidget {
                   height: 34,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(borderRadius - 4),
-                    border: Border.all(color: Colors.white.withValues(alpha: 0.8), width: 2.5),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.8),
+                      width: 2.5,
+                    ),
                   ),
                 ),
               ),
@@ -592,16 +626,17 @@ class _HoldToConfirmButton extends StatefulWidget {
   State<_HoldToConfirmButton> createState() => _HoldToConfirmButtonState();
 }
 
-class _HoldToConfirmButtonState extends State<_HoldToConfirmButton> with TickerProviderStateMixin {
+class _HoldToConfirmButtonState extends State<_HoldToConfirmButton>
+    with TickerProviderStateMixin {
   late final AnimationController _holdController;
   late final AnimationController _pressController;
   late final AnimationController _pulseController;
   late final AnimationController _successController;
-  
+
   late final Animation<double> _pressScale;
   late final Animation<double> _pulseScale;
   late final Animation<double> _successScale;
-  
+
   bool _isSuccess = false;
 
   @override
@@ -611,12 +646,12 @@ class _HoldToConfirmButtonState extends State<_HoldToConfirmButton> with TickerP
       vsync: this,
       duration: const Duration(seconds: 1),
     );
-    
+
     _pressController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
-    
+
     _pressScale = Tween<double>(begin: 1.0, end: 0.95).animate(
       CurvedAnimation(
         parent: _pressController,
@@ -630,10 +665,7 @@ class _HoldToConfirmButtonState extends State<_HoldToConfirmButton> with TickerP
     );
 
     _pulseScale = Tween<double>(begin: 0.0, end: 0.015).animate(
-      CurvedAnimation(
-        parent: _pulseController,
-        curve: Curves.easeInOutSine,
-      ),
+      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOutSine),
     );
 
     _successController = AnimationController(
@@ -643,18 +675,26 @@ class _HoldToConfirmButtonState extends State<_HoldToConfirmButton> with TickerP
 
     _successScale = TweenSequence<double>([
       TweenSequenceItem(
-        tween: Tween<double>(begin: 0.0, end: 0.1).chain(CurveTween(curve: Curves.easeOutBack)),
+        tween: Tween<double>(
+          begin: 0.0,
+          end: 0.1,
+        ).chain(CurveTween(curve: Curves.easeOutBack)),
         weight: 40,
       ),
       TweenSequenceItem(
-        tween: Tween<double>(begin: 0.1, end: 0.05).chain(CurveTween(curve: Curves.easeInOutCubic)),
+        tween: Tween<double>(
+          begin: 0.1,
+          end: 0.05,
+        ).chain(CurveTween(curve: Curves.easeInOutCubic)),
         weight: 60,
       ),
     ]).animate(_successController);
 
     _pulseController.addListener(() {
-      if (_pulseController.value > 0.48 && _pulseController.value < 0.52 && 
-          widget.style.enableHaptics && _holdController.isAnimating) {
+      if (_pulseController.value > 0.48 &&
+          _pulseController.value < 0.52 &&
+          widget.style.enableHaptics &&
+          _holdController.isAnimating) {
         HapticFeedback.selectionClick();
       }
     });
@@ -663,15 +703,15 @@ class _HoldToConfirmButtonState extends State<_HoldToConfirmButton> with TickerP
       if (status == AnimationStatus.completed) {
         _pulseController.reverse();
         if (widget.style.enableHaptics) HapticFeedback.heavyImpact();
-        
+
         setState(() => _isSuccess = true);
         _successController.forward(from: 0.0);
-        
+
         // Notify parent immediately so other UI elements can respond (e.g. hide buttons)
         widget.onConfirm?.call();
-        
+
         await Future.delayed(const Duration(milliseconds: 800));
-        
+
         if (mounted) {
           // Final completion after showing the success state
           widget.onComplete?.call();
@@ -712,7 +752,7 @@ class _HoldToConfirmButtonState extends State<_HoldToConfirmButton> with TickerP
   Widget build(BuildContext context) {
     final defaultBgColor = widget.color ?? widget.style.confirmButtonColor;
     final activeColor = widget.style.activeColor;
-    
+
     return GestureDetector(
       onLongPressDown: (_) => _handleTapDown(),
       onLongPressStart: (_) {
@@ -727,27 +767,29 @@ class _HoldToConfirmButtonState extends State<_HoldToConfirmButton> with TickerP
       child: AnimatedBuilder(
         animation: Listenable.merge([_pressScale, _pulseScale, _successScale]),
         builder: (context, child) {
-          final totalScale = _pressScale.value + _pulseScale.value + _successScale.value;
-          return Transform.scale(
-            scale: totalScale,
-            child: child,
-          );
+          final totalScale =
+              _pressScale.value + _pulseScale.value + _successScale.value;
+          return Transform.scale(scale: totalScale, child: child);
         },
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 250),
           curve: Curves.easeOutCubic,
           decoration: BoxDecoration(
-            color: _isSuccess 
-                ? activeColor 
-                : (widget.isEnabled ? defaultBgColor : defaultBgColor.withValues(alpha: 0.5)),
+            color: _isSuccess
+                ? activeColor
+                : (widget.isEnabled
+                      ? defaultBgColor
+                      : defaultBgColor.withValues(alpha: 0.5)),
             borderRadius: widget.style.confirmButtonBorderRadius,
             border: Border.all(
-              color: _isSuccess ? activeColor : Colors.white.withValues(alpha: 0.4),
+              color: _isSuccess
+                  ? activeColor
+                  : Colors.white.withValues(alpha: 0.4),
             ),
             boxShadow: [
               BoxShadow(
-                color: _isSuccess 
-                    ? activeColor.withValues(alpha: 0.4) 
+                color: _isSuccess
+                    ? activeColor.withValues(alpha: 0.4)
                     : Colors.black.withValues(alpha: 0.05),
                 blurRadius: _isSuccess ? 20 : 10,
                 offset: Offset(0, _isSuccess ? 8 : 4),
@@ -785,7 +827,7 @@ class _HoldToConfirmButtonState extends State<_HoldToConfirmButton> with TickerP
                         },
                       ),
                     ),
-                  
+
                   // Blur Crossfade Transition
                   AnimatedSwitcher(
                     duration: const Duration(milliseconds: 500),
@@ -806,12 +848,13 @@ class _HoldToConfirmButtonState extends State<_HoldToConfirmButton> with TickerP
                             child: FadeTransition(
                               opacity: animation,
                               child: ScaleTransition(
-                                scale: Tween<double>(begin: 0.9, end: 1.0).animate(
-                                  CurvedAnimation(
-                                    parent: animation,
-                                    curve: Curves.easeOutBack,
-                                  ),
-                                ),
+                                scale: Tween<double>(begin: 0.9, end: 1.0)
+                                    .animate(
+                                      CurvedAnimation(
+                                        parent: animation,
+                                        curve: Curves.easeOutBack,
+                                      ),
+                                    ),
                                 child: child,
                               ),
                             ),
@@ -825,7 +868,7 @@ class _HoldToConfirmButtonState extends State<_HoldToConfirmButton> with TickerP
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Icon(
-                                Icons.check_rounded, 
+                                Icons.check_rounded,
                                 color: Colors.white,
                                 size: 22,
                               ),
@@ -847,9 +890,10 @@ class _HoldToConfirmButtonState extends State<_HoldToConfirmButton> with TickerP
                             child: Text(
                               widget.text,
                               style: widget.style.confirmButtonStyle.copyWith(
-                                color: widget.isEnabled 
-                                    ? widget.style.confirmButtonStyle.color 
-                                    : widget.style.confirmButtonStyle.color?.withValues(alpha: 0.3),
+                                color: widget.isEnabled
+                                    ? widget.style.confirmButtonStyle.color
+                                    : widget.style.confirmButtonStyle.color
+                                          ?.withValues(alpha: 0.3),
                               ),
                             ),
                           ),
@@ -865,10 +909,7 @@ class _HoldToConfirmButtonState extends State<_HoldToConfirmButton> with TickerP
 }
 
 class _AnimatedScaleButton extends StatefulWidget {
-  const _AnimatedScaleButton({
-    required this.child,
-    this.onTap,
-  });
+  const _AnimatedScaleButton({required this.child, this.onTap});
 
   final Widget child;
   final VoidCallback? onTap;
@@ -877,7 +918,8 @@ class _AnimatedScaleButton extends StatefulWidget {
   State<_AnimatedScaleButton> createState() => _AnimatedScaleButtonState();
 }
 
-class _AnimatedScaleButtonState extends State<_AnimatedScaleButton> with SingleTickerProviderStateMixin {
+class _AnimatedScaleButtonState extends State<_AnimatedScaleButton>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _scaleAnimation;
 
@@ -888,9 +930,10 @@ class _AnimatedScaleButtonState extends State<_AnimatedScaleButton> with SingleT
       vsync: this,
       duration: const Duration(milliseconds: 100),
     );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
-    );
+    _scaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: 0.95,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
   }
 
   @override
@@ -907,19 +950,13 @@ class _AnimatedScaleButtonState extends State<_AnimatedScaleButton> with SingleT
       onTapCancel: () => _controller.reverse(),
       onTap: widget.onTap,
       behavior: HitTestBehavior.opaque,
-      child: ScaleTransition(
-        scale: _scaleAnimation,
-        child: widget.child,
-      ),
+      child: ScaleTransition(scale: _scaleAnimation, child: widget.child),
     );
   }
 }
 
 class _DottedFramePainter extends CustomPainter {
-  const _DottedFramePainter({
-    required this.color,
-    required this.borderRadius,
-  });
+  const _DottedFramePainter({required this.color, required this.borderRadius});
 
   final Color color;
   final double borderRadius;
@@ -932,15 +969,17 @@ class _DottedFramePainter extends CustomPainter {
       ..style = PaintingStyle.stroke;
 
     final path = Path()
-      ..addRRect(RRect.fromRectAndRadius(
-        Rect.fromLTWH(0, 0, size.width, size.height),
-        Radius.circular(borderRadius),
-      ));
+      ..addRRect(
+        RRect.fromRectAndRadius(
+          Rect.fromLTWH(0, 0, size.width, size.height),
+          Radius.circular(borderRadius),
+        ),
+      );
 
     // Draw dashed path
     const dashWidth = 5.0;
     const dashSpace = 5.0;
-    
+
     final metrics = path.computeMetrics();
     for (final metric in metrics) {
       double distance = 0.0;
@@ -959,10 +998,7 @@ class _DottedFramePainter extends CustomPainter {
 }
 
 class _AnimatedVisibility extends StatelessWidget {
-  const _AnimatedVisibility({
-    required this.isVisible,
-    required this.child,
-  });
+  const _AnimatedVisibility({required this.isVisible, required this.child});
 
   final bool isVisible;
   final Widget child;
@@ -977,10 +1013,7 @@ class _AnimatedVisibility extends StatelessWidget {
         duration: const Duration(milliseconds: 200),
         opacity: isVisible ? 1.0 : 0.0,
         curve: Curves.easeOut,
-        child: IgnorePointer(
-          ignoring: !isVisible,
-          child: child,
-        ),
+        child: IgnorePointer(ignoring: !isVisible, child: child),
       ),
     );
   }

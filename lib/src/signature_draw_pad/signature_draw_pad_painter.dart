@@ -56,7 +56,9 @@ class SignatureDrawPadPainter extends CustomPainter {
     if (stroke.points.length < 2) return;
 
     final paint = Paint()
-      ..color = stroke.isEraser ? Colors.transparent : stroke.color.withValues(alpha: opacity)
+      ..color = stroke.isEraser
+          ? Colors.transparent
+          : stroke.color.withValues(alpha: opacity)
       ..strokeWidth = stroke.width
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round
@@ -83,26 +85,28 @@ class SignatureDrawPadPainter extends CustomPainter {
 
     for (final stroke in strokes) {
       if (stroke.points.length < 2) continue;
-      
+
       final path = Path();
       path.moveTo(stroke.points.first.dx, stroke.points.first.dy);
       for (int i = 1; i < stroke.points.length; i++) {
         path.lineTo(stroke.points[i].dx, stroke.points[i].dy);
       }
-      
+
       final metrics = path.computeMetrics();
       double strokeLength = 0;
       for (final metric in metrics) {
         strokeLength += metric.length;
       }
-      
+
       totalLength += strokeLength;
-      metaList.add(_StrokeMetadata(
-        path: path,
-        color: stroke.color,
-        width: stroke.width,
-        isEraser: stroke.isEraser,
-      ));
+      metaList.add(
+        _StrokeMetadata(
+          path: path,
+          color: stroke.color,
+          width: stroke.width,
+          isEraser: stroke.isEraser,
+        ),
+      );
     }
 
     if (totalLength == 0) return;
@@ -129,7 +133,9 @@ class SignatureDrawPadPainter extends CustomPainter {
         final remainingLength = targetLength - currentLength;
         if (remainingLength <= 0) break;
 
-        final segmentLength = remainingLength < metric.length ? remainingLength : metric.length;
+        final segmentLength = remainingLength < metric.length
+            ? remainingLength
+            : metric.length;
         final extractPath = metric.extractPath(0, segmentLength);
         canvas.drawPath(extractPath, paint);
         currentLength += segmentLength;
@@ -139,24 +145,30 @@ class SignatureDrawPadPainter extends CustomPainter {
 
   void _drawShimmer(Canvas canvas, Size size) {
     final shimmerPaint = Paint()
-      ..shader = LinearGradient(
-        colors: [
-          shimmerColor.withValues(alpha: 0.0),
-          shimmerColor.withValues(alpha: 0.5),
-          shimmerColor.withValues(alpha: 0.0),
-        ],
-        stops: const [0.0, 0.5, 1.0],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-      ).createShader(Rect.fromLTWH(
-        (shimmerValue * size.width * 2) - size.width,
-        0,
-        size.width,
-        size.height,
-      ));
+      ..shader =
+          LinearGradient(
+            colors: [
+              shimmerColor.withValues(alpha: 0.0),
+              shimmerColor.withValues(alpha: 0.5),
+              shimmerColor.withValues(alpha: 0.0),
+            ],
+            stops: const [0.0, 0.5, 1.0],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ).createShader(
+            Rect.fromLTWH(
+              (shimmerValue * size.width * 2) - size.width,
+              0,
+              size.width,
+              size.height,
+            ),
+          );
 
     // Only shimmer over the drawn area
-    canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), shimmerPaint..blendMode = BlendMode.srcATop);
+    canvas.drawRect(
+      Rect.fromLTWH(0, 0, size.width, size.height),
+      shimmerPaint..blendMode = BlendMode.srcATop,
+    );
   }
 
   @override

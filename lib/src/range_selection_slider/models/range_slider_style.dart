@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 /// Allows customizing colors, typography, borders, and animations for
 /// the premium price range selector.
 class RangeSliderStyle {
-
   /// Creates a [RangeSliderStyle] with the given appearance properties.
   const RangeSliderStyle({
     this.backgroundColor = Colors.white,
@@ -49,6 +48,7 @@ class RangeSliderStyle {
 
   /// The default visual theme for Portal Labs components.
   factory RangeSliderStyle.portalLabs() => const RangeSliderStyle();
+
   /// The background color of the entire component.
   final Color backgroundColor;
 

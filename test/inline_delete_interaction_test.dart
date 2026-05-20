@@ -6,10 +6,16 @@ void main() {
   group('InlineDeleteInteraction', () {
     final testItems = [
       const InlineAction(title: 'Edit', icon: Icons.edit),
-      const InlineAction(title: 'Delete', icon: Icons.delete, isDestructive: true),
+      const InlineAction(
+        title: 'Delete',
+        icon: Icons.delete,
+        isDestructive: true,
+      ),
     ];
 
-    testWidgets('renders title and items correctly', (WidgetTester tester) async {
+    testWidgets('renders title and items correctly', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -28,7 +34,9 @@ void main() {
       expect(find.byIcon(Icons.close), findsOneWidget);
     });
 
-    testWidgets('shows confirmation buttons on destructive item tap', (WidgetTester tester) async {
+    testWidgets('shows confirmation buttons on destructive item tap', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -52,7 +60,9 @@ void main() {
       expect(find.text('Cancel'), findsOneWidget);
     });
 
-    testWidgets('triggers onConfirm when confirmation button is tapped', (WidgetTester tester) async {
+    testWidgets('triggers onConfirm when confirmation button is tapped', (
+      WidgetTester tester,
+    ) async {
       bool deleteTriggered = false;
       bool closeRequested = false;
 
@@ -88,7 +98,9 @@ void main() {
       expect(closeRequested, isTrue);
     });
 
-    testWidgets('returns to normal state on cancel tap', (WidgetTester tester) async {
+    testWidgets('returns to normal state on cancel tap', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -113,7 +125,9 @@ void main() {
       expect(find.text('Delete'), findsOneWidget);
     });
 
-    testWidgets('triggers onCloseRequested when close icon is tapped', (WidgetTester tester) async {
+    testWidgets('triggers onCloseRequested when close icon is tapped', (
+      WidgetTester tester,
+    ) async {
       bool closeRequested = false;
 
       await tester.pumpWidget(

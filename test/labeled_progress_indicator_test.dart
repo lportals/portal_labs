@@ -12,14 +12,13 @@ void main() {
       const ProgressStage(label: 'Finishing', endProgress: 1.0),
     ];
 
-    testWidgets('renders initial stage label correctly', (WidgetTester tester) async {
+    testWidgets('renders initial stage label correctly', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: LabeledProgressIndicator(
-              progress: 0.1,
-              stages: stages,
-            ),
+            body: LabeledProgressIndicator(progress: 0.1, stages: stages),
           ),
         ),
       );
@@ -28,14 +27,13 @@ void main() {
       expect(find.text('Loading Data'), findsNothing);
     });
 
-    testWidgets('transitions to next stage when progress increases', (WidgetTester tester) async {
+    testWidgets('transitions to next stage when progress increases', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: LabeledProgressIndicator(
-              progress: 0.1,
-              stages: stages,
-            ),
+            body: LabeledProgressIndicator(progress: 0.1, stages: stages),
           ),
         ),
       );
@@ -45,10 +43,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: LabeledProgressIndicator(
-              progress: 0.5,
-              stages: stages,
-            ),
+            body: LabeledProgressIndicator(progress: 0.5, stages: stages),
           ),
         ),
       );
@@ -56,22 +51,22 @@ void main() {
       // Start of AnimatedSwitcher transition (600ms in widget)
       await tester.pump(const Duration(milliseconds: 100));
       expect(find.text('Loading Data'), findsOneWidget);
-      
+
       await tester.pump(const Duration(seconds: 1));
       expect(find.text('Initializing'), findsNothing);
       expect(find.text('Loading Data'), findsOneWidget);
     });
 
-    testWidgets('shows percentage when enabled in style', (WidgetTester tester) async {
+    testWidgets('shows percentage when enabled in style', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: LabeledProgressIndicator(
               progress: 0.45,
               stages: stages,
-              style: const LabeledProgressIndicatorStyle(
-                showPercentage: true,
-              ),
+              style: const LabeledProgressIndicatorStyle(showPercentage: true),
             ),
           ),
         ),
@@ -96,13 +91,15 @@ void main() {
 
       expect(find.text('Upload Failed'), findsOneWidget);
       expect(find.text('Loading Data'), findsNothing);
-      
+
       // Verify color is red (Colors.red[400] is used in the widget)
       final textWidget = tester.widget<Text>(find.text('Upload Failed'));
       expect(textWidget.style?.color, Colors.red[400]);
     });
 
-    testWidgets('triggers onComplete when progress reaches 1.0', (WidgetTester tester) async {
+    testWidgets('triggers onComplete when progress reaches 1.0', (
+      WidgetTester tester,
+    ) async {
       bool completed = false;
 
       await tester.pumpWidget(

@@ -4,14 +4,13 @@ import 'package:portal_labs/portal_labs.dart';
 
 void main() {
   group('AdaptiveSliderInteraction Widget Tests', () {
-    testWidgets('Should render title and initial value', (WidgetTester tester) async {
+    testWidgets('Should render title and initial value', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: AdaptiveSliderInteraction(
-              value: 100,
-              onChanged: (val) {},
-            ),
+            body: AdaptiveSliderInteraction(value: 100, onChanged: (val) {}),
           ),
         ),
       );
@@ -22,7 +21,9 @@ void main() {
       expect(find.bySemanticsLabel('100'), findsOneWidget);
     });
 
-    testWidgets('Should call onChanged and snap value when tapped', (WidgetTester tester) async {
+    testWidgets('Should call onChanged and snap value when tapped', (
+      WidgetTester tester,
+    ) async {
       double? changedValue;
       await tester.pumpWidget(
         MaterialApp(
@@ -39,7 +40,7 @@ void main() {
       // Find the track (GestureDetector is a child of the Column)
       // We can find it by finding the CustomPaint or by finding the parent container
       final Finder trackFinder = find.byType(GestureDetector).last;
-      
+
       // Tap at the center (should be 250)
       await tester.tap(trackFinder);
       await tester.pump();
@@ -47,7 +48,9 @@ void main() {
       expect(changedValue, 250.0);
     });
 
-    testWidgets('Should call onChanged when dragging', (WidgetTester tester) async {
+    testWidgets('Should call onChanged when dragging', (
+      WidgetTester tester,
+    ) async {
       double? changedValue;
       await tester.pumpWidget(
         MaterialApp(
@@ -62,7 +65,7 @@ void main() {
       );
 
       final Finder trackFinder = find.byType(GestureDetector).last;
-      
+
       // Drag from left to right
       await tester.drag(trackFinder, const Offset(100, 0));
       await tester.pump();

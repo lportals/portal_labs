@@ -19,13 +19,14 @@ class CinematicTextTransition extends StatefulWidget {
   final CinematicTextTransitionStyle style;
 
   @override
-  State<CinematicTextTransition> createState() => _CinematicTextTransitionState();
+  State<CinematicTextTransition> createState() =>
+      _CinematicTextTransitionState();
 }
 
 class _CinematicTextTransitionState extends State<CinematicTextTransition>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
-  
+
   String? _exitingText;
   late String _currentText;
 
@@ -38,7 +39,7 @@ class _CinematicTextTransitionState extends State<CinematicTextTransition>
       duration: widget.style.duration,
       value: 1.0, // Ensure text is visible initially
     );
-    
+
     _controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         setState(() {
@@ -53,12 +54,12 @@ class _CinematicTextTransitionState extends State<CinematicTextTransition>
     super.didUpdateWidget(oldWidget);
     if (oldWidget.text != widget.text) {
       if (widget.style.enableHaptics) HapticFeedback.lightImpact();
-      
+
       setState(() {
         _exitingText = oldWidget.text;
         _currentText = widget.text;
       });
-      
+
       _controller.forward(from: 0.0);
     }
   }
@@ -83,7 +84,7 @@ class _CinematicTextTransitionState extends State<CinematicTextTransition>
             clipBehavior: Clip.none,
             children: [
               // 1. Exiting Layer (Sequential Fall Out)
-              if (_exitingText != null) 
+              if (_exitingText != null)
                 _buildCharLayer(_exitingText!, isExiting: true, progress: t),
 
               // 2. Entering Layer (Sequential Rise In)
@@ -95,21 +96,27 @@ class _CinematicTextTransitionState extends State<CinematicTextTransition>
     );
   }
 
-  Widget _buildCharLayer(String text, {required bool isExiting, required double progress}) {
+  Widget _buildCharLayer(
+    String text, {
+    required bool isExiting,
+    required double progress,
+  }) {
     final chars = text.split('');
     final int count = chars.length;
-    
+
     const double charWindow = 0.4;
     final double layerStart = isExiting ? 0.0 : 0.4;
     final double layerEnd = isExiting ? 0.6 : 1.0;
-    
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: List.generate(count, (i) {
-        final double staggerStep = count > 1 ? (layerEnd - layerStart - charWindow) / (count - 1) : 0;
+        final double staggerStep = count > 1
+            ? (layerEnd - layerStart - charWindow) / (count - 1)
+            : 0;
         final double start = (layerStart + i * staggerStep).clamp(0.0, 1.0);
         final double end = (start + charWindow).clamp(0.0, 1.0);
-        
+
         final animation = CurvedAnimation(
           parent: _controller,
           curve: Interval(
@@ -118,8 +125,8 @@ class _CinematicTextTransitionState extends State<CinematicTextTransition>
             curve: isExiting
                 ? Curves.easeIn
                 : (widget.style.enableElasticity
-                    ? Curves.easeOutBack
-                    : Curves.easeOutCubic),
+                      ? Curves.easeOutBack
+                      : Curves.easeOutCubic),
           ),
         );
 
@@ -129,10 +136,14 @@ class _CinematicTextTransitionState extends State<CinematicTextTransition>
 
         if (isExiting) {
           // Softened quadratic fade-out
-          opacity = 1.0 - (animation.value * animation.value); 
+          opacity = 1.0 - (animation.value * animation.value);
           // If bounce is off, no fall motion
-          yOffset = widget.style.enableElasticity ? animation.value * 14.0 : 0.0;
-          scale = widget.style.enableElasticity ? 1.0 - (animation.value * 0.1) : 1.0;
+          yOffset = widget.style.enableElasticity
+              ? animation.value * 14.0
+              : 0.0;
+          scale = widget.style.enableElasticity
+              ? 1.0 - (animation.value * 0.1)
+              : 1.0;
         } else {
           if (progress < start) {
             opacity = 0.0;
@@ -140,7 +151,9 @@ class _CinematicTextTransitionState extends State<CinematicTextTransition>
           } else {
             opacity = animation.value;
             // If bounce is off, no rise motion
-            yOffset = widget.style.enableElasticity ? (1.0 - animation.value) * 24.0 : 0.0;
+            yOffset = widget.style.enableElasticity
+                ? (1.0 - animation.value) * 24.0
+                : 0.0;
           }
         }
 
@@ -150,10 +163,7 @@ class _CinematicTextTransitionState extends State<CinematicTextTransition>
             offset: Offset(0, yOffset),
             child: Transform.scale(
               scale: scale,
-              child: Text(
-                chars[i],
-                style: widget.style.textStyle,
-              ),
+              child: Text(chars[i], style: widget.style.textStyle),
             ),
           ),
         );

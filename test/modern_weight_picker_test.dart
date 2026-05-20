@@ -4,7 +4,9 @@ import 'package:portal_labs/portal_labs.dart';
 
 void main() {
   group('ModernWeightPicker Widget Tests', () {
-    testWidgets('Should render title and initial value', (WidgetTester tester) async {
+    testWidgets('Should render title and initial value', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         PortalTheme(
           data: PortalThemeData.light(),
@@ -22,7 +24,9 @@ void main() {
       expect(find.text('Weight'), findsOneWidget);
     });
 
-    testWidgets('Should call onValueChanged when scrolled', (WidgetTester tester) async {
+    testWidgets('Should call onValueChanged when scrolled', (
+      WidgetTester tester,
+    ) async {
       double? changedValue;
       await tester.pumpWidget(
         PortalTheme(
@@ -40,7 +44,7 @@ void main() {
 
       // Find the SingleChildScrollView (interaction layer)
       final Finder scrollFinder = find.byType(SingleChildScrollView);
-      
+
       // Drag the scroller
       await tester.drag(scrollFinder, const Offset(-100, 0));
       await tester.pump();

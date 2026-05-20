@@ -17,12 +17,15 @@ class LabeledProgressIndicator extends StatefulWidget {
     this.onComplete,
     this.isError = false,
     this.errorLabel,
-  }) : assert(progress >= 0 && progress <= 1, 'Progress must be between 0 and 1');
+  }) : assert(
+         progress >= 0 && progress <= 1,
+         'Progress must be between 0 and 1',
+       );
 
   /// The current progress value from 0.0 to 1.0.
   final double progress;
 
-  /// The list of sequential stages to display. 
+  /// The list of sequential stages to display.
   final List<dynamic> stages;
 
   /// The style configuration for the indicator.
@@ -38,7 +41,8 @@ class LabeledProgressIndicator extends StatefulWidget {
   final String? errorLabel;
 
   @override
-  State<LabeledProgressIndicator> createState() => _LabeledProgressIndicatorState();
+  State<LabeledProgressIndicator> createState() =>
+      _LabeledProgressIndicatorState();
 }
 
 class _LabeledProgressIndicatorState extends State<LabeledProgressIndicator>
@@ -48,7 +52,7 @@ class _LabeledProgressIndicatorState extends State<LabeledProgressIndicator>
   late AnimationController _pulseController;
   late Animation<double> _progressAnimation;
   late Animation<double> _pulseAnimation;
-  
+
   double _lastProgress = 0;
 
   @override
@@ -69,13 +73,13 @@ class _LabeledProgressIndicatorState extends State<LabeledProgressIndicator>
       duration: const Duration(milliseconds: 600),
     );
 
-    _progressAnimation = Tween<double>(
-      begin: widget.progress,
-      end: widget.progress,
-    ).animate(CurvedAnimation(
-      parent: _progressController,
-      curve: const PortalSpringCurve(stiffness: 120, damping: 20),
-    ));
+    _progressAnimation =
+        Tween<double>(begin: widget.progress, end: widget.progress).animate(
+          CurvedAnimation(
+            parent: _progressController,
+            curve: const PortalSpringCurve(stiffness: 120, damping: 20),
+          ),
+        );
 
     _pulseAnimation = Tween<double>(begin: 1.0, end: 1.08).animate(
       CurvedAnimation(
@@ -91,13 +95,13 @@ class _LabeledProgressIndicatorState extends State<LabeledProgressIndicator>
   void didUpdateWidget(LabeledProgressIndicator oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.progress != widget.progress) {
-      _progressAnimation = Tween<double>(
-        begin: _lastProgress,
-        end: widget.progress,
-      ).animate(CurvedAnimation(
-        parent: _progressController,
-        curve: const PortalSpringCurve(stiffness: 120, damping: 20),
-      ));
+      _progressAnimation =
+          Tween<double>(begin: _lastProgress, end: widget.progress).animate(
+            CurvedAnimation(
+              parent: _progressController,
+              curve: const PortalSpringCurve(stiffness: 120, damping: 20),
+            ),
+          );
       _progressController.forward(from: 0);
       _lastProgress = widget.progress;
 
@@ -109,7 +113,7 @@ class _LabeledProgressIndicatorState extends State<LabeledProgressIndicator>
         });
       }
     }
-    
+
     if (oldWidget.isError != widget.isError) {
       if (widget.isError) {
         _shimmerController.stop();
@@ -117,7 +121,7 @@ class _LabeledProgressIndicatorState extends State<LabeledProgressIndicator>
         _shimmerController.repeat();
       }
     }
-    
+
     if (oldWidget.style.shimmerDuration != widget.style.shimmerDuration) {
       _shimmerController.duration = widget.style.shimmerDuration;
       if (!widget.isError) _shimmerController.repeat();
@@ -135,7 +139,7 @@ class _LabeledProgressIndicatorState extends State<LabeledProgressIndicator>
   String get _currentStage {
     if (widget.isError && widget.errorLabel != null) return widget.errorLabel!;
     if (widget.stages.isEmpty) return '';
-    
+
     // Handle List<ProgressStage>
     if (widget.stages.first is ProgressStage) {
       for (final stage in widget.stages) {
@@ -151,7 +155,7 @@ class _LabeledProgressIndicatorState extends State<LabeledProgressIndicator>
       final last = widget.stages.last;
       return (last is ProgressStage) ? last.label : last.toString();
     }
-    
+
     final int index = (widget.progress * widget.stages.length).floor();
     final current = widget.stages[index.clamp(0, widget.stages.length - 1)];
     return (current is ProgressStage) ? current.label : current.toString();
@@ -176,7 +180,7 @@ class _LabeledProgressIndicatorState extends State<LabeledProgressIndicator>
                 transitionBuilder: (child, animation) {
                   // Determine if this child is entering based on the current stage
                   final bool isEntering = child.key == ValueKey(currentStage);
-                  
+
                   return AnimatedBuilder(
                     animation: animation,
                     builder: (context, _) {
@@ -189,7 +193,9 @@ class _LabeledProgressIndicatorState extends State<LabeledProgressIndicator>
                       double opacity;
 
                       if (isEntering) {
-                        final bounceValue = const PortalSpringCurve(damping: 15).transform(entryValue);
+                        final bounceValue = const PortalSpringCurve(
+                          damping: 15,
+                        ).transform(entryValue);
                         scale = 0.85 + (0.15 * bounceValue);
                         skew = 0.2 * (1.0 - entryValue);
                         blur = 5.0 * (1.0 - entryValue);
@@ -206,11 +212,16 @@ class _LabeledProgressIndicatorState extends State<LabeledProgressIndicator>
                         child: Transform(
                           transform: Matrix4.identity()
                             ..setEntry(3, 2, 0.001)
-                            ..multiply(Matrix4.diagonal3Values(scale, scale, 1.0))
+                            ..multiply(
+                              Matrix4.diagonal3Values(scale, scale, 1.0),
+                            )
                             ..multiply(Matrix4.skewX(skew)),
                           alignment: Alignment.center,
                           child: ImageFiltered(
-                            imageFilter: ui.ImageFilter.blur(sigmaX: blur, sigmaY: blur),
+                            imageFilter: ui.ImageFilter.blur(
+                              sigmaX: blur,
+                              sigmaY: blur,
+                            ),
                             child: child,
                           ),
                         ),
@@ -224,25 +235,31 @@ class _LabeledProgressIndicatorState extends State<LabeledProgressIndicator>
                   textAlign: TextAlign.center,
                   softWrap: true,
                   style: widget.style.textStyle.copyWith(
-                    color: widget.isError ? Colors.red[400] : widget.style.textStyle.color,
+                    color: widget.isError
+                        ? Colors.red[400]
+                        : widget.style.textStyle.color,
                   ),
                 ),
               ),
             ),
-            
+
             // Optional Percentage (Separated to avoid triggering transitions)
             if (widget.style.showPercentage && !widget.isError) ...[
               const SizedBox(width: 8),
               Text(
                 widget.style.percentageFormat.replaceAll(
-                  '{val}', 
-                  (widget.progress * 100).toInt().toString()
+                  '{val}',
+                  (widget.progress * 100).toInt().toString(),
                 ),
-                style: widget.style.percentageTextStyle ?? widget.style.textStyle.copyWith(
-                  fontWeight: FontWeight.w400,
-                  fontSize: widget.style.textStyle.fontSize! * 0.9,
-                  color: widget.style.textStyle.color!.withValues(alpha: 0.5),
-                ),
+                style:
+                    widget.style.percentageTextStyle ??
+                    widget.style.textStyle.copyWith(
+                      fontWeight: FontWeight.w400,
+                      fontSize: widget.style.textStyle.fontSize! * 0.9,
+                      color: widget.style.textStyle.color!.withValues(
+                        alpha: 0.5,
+                      ),
+                    ),
               ),
             ],
           ],
@@ -264,7 +281,10 @@ class _LabeledProgressIndicatorState extends State<LabeledProgressIndicator>
               // 2. Consistent Shimmer (Clipped by progress)
               Positioned.fill(
                 child: AnimatedBuilder(
-                  animation: Listenable.merge([_shimmerController, _progressAnimation]),
+                  animation: Listenable.merge([
+                    _shimmerController,
+                    _progressAnimation,
+                  ]),
                   builder: (context, child) {
                     return _FixedShimmerEffect(
                       controller: _shimmerController,
@@ -309,10 +329,11 @@ class _FixedShimmerEffect extends StatelessWidget {
                 blendMode: BlendMode.srcATop,
                 shaderCallback: (bounds) {
                   if (isError) {
-                    return const LinearGradient(colors: [Colors.transparent, Colors.transparent])
-                        .createShader(bounds);
+                    return const LinearGradient(
+                      colors: [Colors.transparent, Colors.transparent],
+                    ).createShader(bounds);
                   }
-                  
+
                   final shimmerBaseColor = style.shimmerColor;
                   return LinearGradient(
                     begin: const Alignment(-2.0, -0.2),
@@ -329,7 +350,12 @@ class _FixedShimmerEffect extends StatelessWidget {
                       percent: controller.value,
                     ),
                   ).createShader(
-                    Rect.fromLTWH(0, 0, constraints.maxWidth, constraints.maxHeight),
+                    Rect.fromLTWH(
+                      0,
+                      0,
+                      constraints.maxWidth,
+                      constraints.maxHeight,
+                    ),
                   );
                 },
                 child: Container(
@@ -338,7 +364,9 @@ class _FixedShimmerEffect extends StatelessWidget {
                     gradient: LinearGradient(
                       colors: [
                         isError ? Colors.red : style.progressColor,
-                        isError ? Colors.redAccent : style.progressColor.withValues(alpha: 0.8),
+                        isError
+                            ? Colors.redAccent
+                            : style.progressColor.withValues(alpha: 0.8),
                       ],
                     ),
                     borderRadius: style.borderRadius,
@@ -354,14 +382,16 @@ class _FixedShimmerEffect extends StatelessWidget {
 }
 
 class _SlidingGradientTransform extends GradientTransform {
-  const _SlidingGradientTransform({
-    required this.percent,
-  });
+  const _SlidingGradientTransform({required this.percent});
 
   final double percent;
 
   @override
   Matrix4? transform(Rect bounds, {TextDirection? textDirection}) {
-    return Matrix4.translationValues(bounds.width * (4.0 * percent - 2.0), 0, 0);
+    return Matrix4.translationValues(
+      bounds.width * (4.0 * percent - 2.0),
+      0,
+      0,
+    );
   }
 }

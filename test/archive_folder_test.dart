@@ -21,7 +21,9 @@ void main() {
       expect(find.text('Test Subtitle'), findsOneWidget);
     });
 
-    testWidgets('toggles open state on tap and triggers callback', (tester) async {
+    testWidgets('toggles open state on tap and triggers callback', (
+      tester,
+    ) async {
       bool? isOpenState;
       await tester.pumpWidget(
         MaterialApp(
@@ -71,7 +73,7 @@ void main() {
 
       // Pump a small amount to verify animation has started
       await tester.pump(const Duration(milliseconds: 200));
-      
+
       // Verify items are present
       expect(find.byKey(const Key('item_0')), findsOneWidget);
       expect(find.byKey(const Key('item_1')), findsOneWidget);

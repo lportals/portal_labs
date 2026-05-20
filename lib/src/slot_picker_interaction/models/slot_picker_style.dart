@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 /// Style configuration for the [SlotPickerInteraction] component.
 class SlotPickerStyle {
-
   /// Creates a [SlotPickerStyle].
   const SlotPickerStyle({
     this.collapsedBackgroundColor = const Color(0xFFF2F2F7),
@@ -12,11 +11,7 @@ class SlotPickerStyle {
     this.slotTextColor = const Color(0xFF1C1C1E),
     this.borderRadius = const BorderRadius.all(Radius.circular(16)),
     this.shadows = const [
-      BoxShadow(
-        color: Color(0x0D000000),
-        blurRadius: 12,
-        offset: Offset(0, 4),
-      ),
+      BoxShadow(color: Color(0x0D000000), blurRadius: 12, offset: Offset(0, 4)),
     ],
     this.activeSwitchColor = Colors.black,
     this.inactiveSwitchColor = const Color(0xFFD1D1D6),
@@ -33,6 +28,7 @@ class SlotPickerStyle {
     this.headerPadding = const EdgeInsets.fromLTRB(16, 8, 16, 4),
     this.contentPadding = const EdgeInsets.fromLTRB(16, 0, 16, 16),
   });
+
   /// Background color of the container when collapsed.
   final Color collapsedBackgroundColor;
 
@@ -139,7 +135,8 @@ class SlotPickerStyle {
       dividerColor: dividerColor ?? this.dividerColor,
       addButtonTextStyle: addButtonTextStyle ?? this.addButtonTextStyle,
       removeIconColor: removeIconColor ?? this.removeIconColor,
-      removeButtonBackgroundColor: removeButtonBackgroundColor ?? this.removeButtonBackgroundColor,
+      removeButtonBackgroundColor:
+          removeButtonBackgroundColor ?? this.removeButtonBackgroundColor,
       headerPadding: headerPadding ?? this.headerPadding,
       contentPadding: contentPadding ?? this.contentPadding,
     );

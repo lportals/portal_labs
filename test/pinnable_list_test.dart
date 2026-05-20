@@ -5,19 +5,22 @@ import 'package:portal_labs/portal_labs.dart';
 void main() {
   group('PinnableList', () {
     final testItems = [
-      const PinnableItem(id: '1', title: 'Item 1', subtitle: 'Subtitle 1', isPinned: true),
+      const PinnableItem(
+        id: '1',
+        title: 'Item 1',
+        subtitle: 'Subtitle 1',
+        isPinned: true,
+      ),
       const PinnableItem(id: '2', title: 'Item 2', subtitle: 'Subtitle 2'),
       const PinnableItem(id: '3', title: 'Item 3', subtitle: 'Subtitle 3'),
     ];
 
-    testWidgets('renders section headers and items', (WidgetTester tester) async {
+    testWidgets('renders section headers and items', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: PinnableList(
-              items: testItems,
-            ),
-          ),
+          home: Scaffold(body: PinnableList(items: testItems)),
         ),
       );
 
@@ -56,11 +59,7 @@ void main() {
     testWidgets('shows badge with correct count', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: PinnableList(
-              items: testItems,
-            ),
-          ),
+          home: Scaffold(body: PinnableList(items: testItems)),
         ),
       );
 

@@ -10,7 +10,6 @@ import 'shimmer_text.dart';
 /// transitions from a simple icon to a detailed pill with text
 /// through a smooth bounce animation.
 class DiscreteTabs extends StatefulWidget {
-
   /// Creates a [DiscreteTabs] widget with the given [tabs] configuration.
   const DiscreteTabs({
     super.key,
@@ -21,6 +20,7 @@ class DiscreteTabs extends StatefulWidget {
     this.spacing = 10.0,
     this.style = const DiscreteTabsStyle(),
   }) : assert(tabs.length > 0);
+
   /// The list of tabs to display.
   final List<DiscreteTab> tabs;
 
@@ -106,7 +106,6 @@ class _DiscreteTabsState extends State<DiscreteTabs> {
 }
 
 class _DiscreteTabItem extends StatelessWidget {
-
   const _DiscreteTabItem({
     required this.tab,
     required this.isSelected,

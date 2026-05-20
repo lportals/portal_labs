@@ -6,10 +6,12 @@ class PremiumSortableGridShowcase extends StatefulWidget {
   const PremiumSortableGridShowcase({super.key});
 
   @override
-  State<PremiumSortableGridShowcase> createState() => _PremiumSortableGridShowcaseState();
+  State<PremiumSortableGridShowcase> createState() =>
+      _PremiumSortableGridShowcaseState();
 }
 
-class _PremiumSortableGridShowcaseState extends State<PremiumSortableGridShowcase> {
+class _PremiumSortableGridShowcaseState
+    extends State<PremiumSortableGridShowcase> {
   late List<Map<String, dynamic>> _items;
   int _crossAxisCount = 3;
 
@@ -21,17 +23,20 @@ class _PremiumSortableGridShowcaseState extends State<PremiumSortableGridShowcas
 
   void _resetItems() {
     setState(() {
-      _items = List.generate(6, (i) => {
-        'id': i + 1,
-        'color': [
-          Colors.blue,
-          Colors.orange,
-          Colors.red,
-          Colors.green,
-          Colors.purple,
-          Colors.amber
-        ][i % 6],
-      });
+      _items = List.generate(
+        6,
+        (i) => {
+          'id': i + 1,
+          'color': [
+            Colors.blue,
+            Colors.orange,
+            Colors.red,
+            Colors.green,
+            Colors.purple,
+            Colors.amber,
+          ][i % 6],
+        },
+      );
     });
   }
 
@@ -47,7 +52,8 @@ class _PremiumSortableGridShowcaseState extends State<PremiumSortableGridShowcas
     return ShowcaseShell(
       title: 'Sortable Grid',
       backgroundColor: Colors.white,
-      description: 'A high-fidelity reorderable grid powered by physics-based spring simulations. '
+      description:
+          'A high-fidelity reorderable grid powered by physics-based spring simulations. '
           'Features a tactile "Pulse-on-Hold" interaction and intelligent sensor zones for '
           'seamless organization even in empty grid areas.',
       infoItems: const [
@@ -57,7 +63,8 @@ class _PremiumSortableGridShowcaseState extends State<PremiumSortableGridShowcas
         'Haptic Engine: Integrated tactile feedback on every interaction phase.',
         'Adaptive Height: Automatically calculates grid bounds to maintain layout stability.',
       ],
-      codeSnippet: '''PremiumSortableGrid<Map<String, dynamic>>(
+      codeSnippet:
+          '''PremiumSortableGrid<Map<String, dynamic>>(
   items: _items,
   idBuilder: (item) => item['id'],
   onReorder: (oldIndex, newIndex) {
@@ -81,7 +88,10 @@ class _PremiumSortableGridShowcaseState extends State<PremiumSortableGridShowcas
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 8.0,
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -93,12 +103,16 @@ class _PremiumSortableGridShowcaseState extends State<PremiumSortableGridShowcas
                   child: Row(
                     children: [
                       IconButton(
-                        onPressed: _crossAxisCount > 1 ? () => setState(() => _crossAxisCount--) : null,
+                        onPressed: _crossAxisCount > 1
+                            ? () => setState(() => _crossAxisCount--)
+                            : null,
                         icon: const Icon(Icons.remove, size: 20),
                         visualDensity: VisualDensity.compact,
                       ),
                       IconButton(
-                        onPressed: _crossAxisCount < 5 ? () => setState(() => _crossAxisCount++) : null,
+                        onPressed: _crossAxisCount < 5
+                            ? () => setState(() => _crossAxisCount++)
+                            : null,
                         icon: const Icon(Icons.add, size: 20),
                         visualDensity: VisualDensity.compact,
                       ),
@@ -149,7 +163,10 @@ class _PremiumSortableGridShowcaseState extends State<PremiumSortableGridShowcas
           const SizedBox(height: 40),
           Icon(Icons.grid_off_rounded, size: 48, color: Colors.grey[200]),
           const SizedBox(height: 16),
-          TextButton(onPressed: _resetItems, child: const Text('Restore Items')),
+          TextButton(
+            onPressed: _resetItems,
+            child: const Text('Restore Items'),
+          ),
         ],
       ),
     );

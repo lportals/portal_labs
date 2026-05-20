@@ -6,10 +6,12 @@ class PhysicsCollisionCardShowcase extends StatefulWidget {
   const PhysicsCollisionCardShowcase({super.key});
 
   @override
-  State<PhysicsCollisionCardShowcase> createState() => _PhysicsCollisionCardShowcaseState();
+  State<PhysicsCollisionCardShowcase> createState() =>
+      _PhysicsCollisionCardShowcaseState();
 }
 
-class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowcase> {
+class _PhysicsCollisionCardShowcaseState
+    extends State<PhysicsCollisionCardShowcase> {
   // Configurable physics simulation settings
   Offset _gravity = const Offset(0.0, 900.0);
   double _restitution = 0.70;
@@ -19,7 +21,8 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
   // Avatars image mockup list with premium gradients
   final List<Map<String, dynamic>> _mockItems = [
     {
-      'url': 'https://developers.google.com/static/focus/images/aistudio-icon-2026.png',
+      'url':
+          'https://developers.google.com/static/focus/images/aistudio-icon-2026.png',
       'initials': 'AI',
       'radius': 36.0,
       'fit': BoxFit.contain,
@@ -27,7 +30,8 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
       'transparent': true,
     },
     {
-      'url': 'https://antigravity.google/assets/image/brand/antigravity-icon__full-color.png',
+      'url':
+          'https://antigravity.google/assets/image/brand/antigravity-icon__full-color.png',
       'initials': 'AG',
       'radius': 38.0,
       'fit': BoxFit.contain,
@@ -35,7 +39,8 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
       'transparent': true,
     },
     {
-      'url': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Google_Gemini_icon_2025.svg/250px-Google_Gemini_icon_2025.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail',
+      'url':
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Google_Gemini_icon_2025.svg/250px-Google_Gemini_icon_2025.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail',
       'initials': 'GE',
       'radius': 35.0,
       'fit': BoxFit.contain,
@@ -43,7 +48,8 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
       'transparent': true,
     },
     {
-      'url': 'https://www.gstatic.com/devrel-devsite/prod/vb08cbdb02acf7f66ad9727ddfba9d81df8806422eb5dd63dba194c9c8c7997f7/firebase/images/touchicon-180.png',
+      'url':
+          'https://www.gstatic.com/devrel-devsite/prod/vb08cbdb02acf7f66ad9727ddfba9d81df8806422eb5dd63dba194c9c8c7997f7/firebase/images/touchicon-180.png',
       'initials': 'FB',
       'radius': 32.0,
       'fit': BoxFit.contain,
@@ -51,7 +57,8 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
       'transparent': true,
     },
     {
-      'url': 'https://static.vecteezy.com/system/resources/previews/072/678/241/non_2x/google-flutter-logo-icon-free-png.png',
+      'url':
+          'https://static.vecteezy.com/system/resources/previews/072/678/241/non_2x/google-flutter-logo-icon-free-png.png',
       'initials': 'FL',
       'radius': 34.0,
       'fit': BoxFit.contain,
@@ -59,7 +66,8 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
       'transparent': true,
     },
     {
-      'url': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Android_robot_head.svg/1280px-Android_robot_head.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail',
+      'url':
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Android_robot_head.svg/1280px-Android_robot_head.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail',
       'initials': 'AD',
       'radius': 36.0,
       'fit': BoxFit.contain,
@@ -67,7 +75,8 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
       'transparent': true,
     },
     {
-      'url': 'https://crystalpng.com/wp-content/uploads/2025/05/google-logo.png',
+      'url':
+          'https://crystalpng.com/wp-content/uploads/2025/05/google-logo.png',
       'initials': 'GO',
       'radius': 32.0,
       'fit': BoxFit.contain,
@@ -129,7 +138,8 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
                       ? Image.network(
                           item['url'] as String,
                           fit: item['fit'] as BoxFit? ?? BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) => _buildFallback(item),
+                          errorBuilder: (context, error, stackTrace) =>
+                              _buildFallback(item),
                           loadingBuilder: (context, child, progress) {
                             if (progress == null) return child;
                             return _buildFallback(item);
@@ -173,7 +183,8 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
                   ? Image.network(
                       item['url'] as String,
                       fit: item['fit'] as BoxFit? ?? BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => _buildFallback(item),
+                      errorBuilder: (context, error, stackTrace) =>
+                          _buildFallback(item),
                       loadingBuilder: (context, child, progress) {
                         if (progress == null) return child;
                         return _buildFallback(item);
@@ -188,7 +199,8 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
 
     return ShowcaseShell(
       title: 'Physics Collision Card',
-      description: 'An interactive 2D rigid-body physics simulator. Drag, fling, '
+      description:
+          'An interactive 2D rigid-body physics simulator. Drag, fling, '
           'and toss cards to witness organic collisions. Adjust gravity, damping, '
           'and restitution coefficients in real-time.',
       codeSnippet: '''PhysicsCollisionCard(
@@ -222,7 +234,9 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
                   color: isSpaceMode ? const Color(0xFF030712) : Colors.white,
                   borderRadius: BorderRadius.circular(24),
                   border: Border.all(
-                    color: isSpaceMode ? const Color(0xFF1F2937) : const Color(0xFFECECEF),
+                    color: isSpaceMode
+                        ? const Color(0xFF1F2937)
+                        : const Color(0xFFECECEF),
                     width: 1.5,
                   ),
                   boxShadow: isSpaceMode
@@ -249,34 +263,49 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
                     Padding(
                       padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
                       child: SizedBox(
-                        height: 280, // Sized compact to fit beautifully on all device profiles
+                        height:
+                            280, // Sized compact to fit beautifully on all device profiles
                         child: PhysicsCollisionCard(
                           key: ValueKey('physics_card_$_resetCounter'),
                           items: physicsItems,
                           style: PhysicsCollisionCardStyle(
-                            cardDecoration: const BoxDecoration(), // Completely transparent
-                            gridPadding: EdgeInsets.zero, // Outer padding managed by parent Column
+                            cardDecoration:
+                                const BoxDecoration(), // Completely transparent
+                            gridPadding: EdgeInsets
+                                .zero, // Outer padding managed by parent Column
                             gridDecoration: BoxDecoration(
-                              color: isSpaceMode ? const Color(0xFF0B1120) : const Color(0xFFF9FAFC),
-                              borderRadius: BorderRadius.circular(16), // Concentric: 24 (parent) - 8 (padding)
+                              color: isSpaceMode
+                                  ? const Color(0xFF0B1120)
+                                  : const Color(0xFFF9FAFC),
+                              borderRadius: BorderRadius.circular(
+                                16,
+                              ), // Concentric: 24 (parent) - 8 (padding)
                               border: Border.all(
                                 color: isSpaceMode
                                     ? const Color(0xFF1E293B)
-                                    : const Color(0xFFE5E7EB).withAlpha((255 * 0.4).round()),
+                                    : const Color(
+                                        0xFFE5E7EB,
+                                      ).withAlpha((255 * 0.4).round()),
                                 width: 1.5,
                               ),
                             ),
                             itemDecoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: isSpaceMode ? const Color(0xFF1F2937) : Colors.white,
+                              color: isSpaceMode
+                                  ? const Color(0xFF1F2937)
+                                  : Colors.white,
                               boxShadow: [
                                 BoxShadow(
                                   color: isSpaceMode
-                                      ? const Color(0xFF6366F1).withValues(alpha: 0.4)
+                                      ? const Color(
+                                          0xFF6366F1,
+                                        ).withValues(alpha: 0.4)
                                       : const Color(0x22000000),
                                   blurRadius: isSpaceMode ? 12 : 10,
                                   spreadRadius: isSpaceMode ? 1 : 0,
-                                  offset: isSpaceMode ? Offset.zero : const Offset(0, 5),
+                                  offset: isSpaceMode
+                                      ? Offset.zero
+                                      : const Offset(0, 5),
                                 ),
                               ],
                             ),
@@ -287,9 +316,13 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
                             showGrid: true,
                             showStars: isSpaceMode,
                             gridColor: isSpaceMode
-                                ? const Color(0xFF1E293B).withValues(alpha: 0.25)
+                                ? const Color(
+                                    0xFF1E293B,
+                                  ).withValues(alpha: 0.25)
                                 : const Color(0xFFE5E7EB),
-                            gridBackgroundColor: isSpaceMode ? const Color(0xFF0B1120) : const Color(0xFFF9FAFC),
+                            gridBackgroundColor: isSpaceMode
+                                ? const Color(0xFF0B1120)
+                                : const Color(0xFFF9FAFC),
                           ),
                         ),
                       ),
@@ -297,23 +330,47 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
 
                     // Divider between simulation box and controls, keeping visual padding margins
                     const SizedBox(height: 12),
-                    Divider(height: 1, color: isSpaceMode ? const Color(0xFF1F2937) : const Color(0xFFECECEF)),
+                    Divider(
+                      height: 1,
+                      color: isSpaceMode
+                          ? const Color(0xFF1F2937)
+                          : const Color(0xFFECECEF),
+                    ),
                     const SizedBox(height: 12),
 
                     // Bottom: Gravity / Controls Panel (resting directly on parent white/dark card background)
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 20, left: 16, right: 16),
+                      padding: const EdgeInsets.only(
+                        bottom: 20,
+                        left: 16,
+                        right: 16,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           // Presets Horizontal Row
                           Row(
                             children: [
-                              _buildPresetButton('Earth', const Offset(0.0, 900.0), 0.70, 0.15),
+                              _buildPresetButton(
+                                'Earth',
+                                const Offset(0.0, 900.0),
+                                0.70,
+                                0.15,
+                              ),
                               const SizedBox(width: 12),
-                              _buildPresetButton('Jelly', const Offset(0.0, 450.0), 0.95, 0.05),
+                              _buildPresetButton(
+                                'Jelly',
+                                const Offset(0.0, 450.0),
+                                0.95,
+                                0.05,
+                              ),
                               const SizedBox(width: 12),
-                              _buildPresetButton('Heavy', const Offset(0.0, 1800.0), 0.15, 0.40),
+                              _buildPresetButton(
+                                'Heavy',
+                                const Offset(0.0, 1800.0),
+                                0.15,
+                                0.40,
+                              ),
                               const Spacer(),
                               GestureDetector(
                                 onTap: _resetSimulation,
@@ -322,16 +379,25 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w600,
-                                    color: isSpaceMode ? Colors.white70 : const Color(0xFF666666),
+                                    color: isSpaceMode
+                                        ? Colors.white70
+                                        : const Color(0xFF666666),
                                     decoration: TextDecoration.underline,
-                                    decorationColor: isSpaceMode ? Colors.white70 : const Color(0xFF666666),
+                                    decorationColor: isSpaceMode
+                                        ? Colors.white70
+                                        : const Color(0xFF666666),
                                   ),
                                 ),
                               ),
                             ],
                           ),
                           const SizedBox(height: 12),
-                          Divider(height: 1, color: isSpaceMode ? const Color(0xFF1F2937) : const Color(0xFFECECEF)),
+                          Divider(
+                            height: 1,
+                            color: isSpaceMode
+                                ? const Color(0xFF1F2937)
+                                : const Color(0xFFECECEF),
+                          ),
                           const SizedBox(height: 12),
 
                           // Gravity Option
@@ -345,21 +411,26 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
                                   width: 80,
                                   child: AnimatedSwitcher(
                                     duration: const Duration(milliseconds: 250),
-                                    transitionBuilder: (Widget child, Animation<double> animation) {
-                                      return FadeTransition(
-                                        opacity: animation,
-                                        child: SizeTransition(
-                                          sizeFactor: animation,
-                                          axis: Axis.horizontal,
-                                          axisAlignment: -1.0,
-                                          child: child,
-                                        ),
-                                      );
-                                    },
+                                    transitionBuilder:
+                                        (
+                                          Widget child,
+                                          Animation<double> animation,
+                                        ) {
+                                          return FadeTransition(
+                                            opacity: animation,
+                                            child: SizeTransition(
+                                              sizeFactor: animation,
+                                              axis: Axis.horizontal,
+                                              axisAlignment: -1.0,
+                                              child: child,
+                                            ),
+                                          );
+                                        },
                                     child: _gravity == Offset.zero
                                         ? const Column(
                                             key: ValueKey('anti_gravity_label'),
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               Text(
@@ -383,7 +454,9 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
                                             ],
                                           )
                                         : const Text(
-                                            key: ValueKey('normal_gravity_label'),
+                                            key: ValueKey(
+                                              'normal_gravity_label',
+                                            ),
                                             'GRAVITY',
                                             style: TextStyle(
                                               fontSize: 10,
@@ -400,7 +473,12 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
                             ],
                           ),
                           const SizedBox(height: 12),
-                          Divider(height: 1, color: isSpaceMode ? const Color(0xFF1F2937) : const Color(0xFFECECEF)),
+                          Divider(
+                            height: 1,
+                            color: isSpaceMode
+                                ? const Color(0xFF1F2937)
+                                : const Color(0xFFECECEF),
+                          ),
                           const SizedBox(height: 12),
 
                           // Restitution Slider
@@ -422,17 +500,28 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
                                 child: SliderTheme(
                                   data: SliderTheme.of(context).copyWith(
                                     trackHeight: 2.0,
-                                    activeTrackColor: isSpaceMode ? const Color(0xFF6366F1) : Colors.black,
-                                    inactiveTrackColor: isSpaceMode ? const Color(0xFF1F2937) : const Color(0xFFECECEF),
-                                    thumbColor: isSpaceMode ? const Color(0xFF6366F1) : Colors.black,
-                                    thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 5.0),
-                                    overlayShape: const RoundSliderOverlayShape(overlayRadius: 10.0),
+                                    activeTrackColor: isSpaceMode
+                                        ? const Color(0xFF6366F1)
+                                        : Colors.black,
+                                    inactiveTrackColor: isSpaceMode
+                                        ? const Color(0xFF1F2937)
+                                        : const Color(0xFFECECEF),
+                                    thumbColor: isSpaceMode
+                                        ? const Color(0xFF6366F1)
+                                        : Colors.black,
+                                    thumbShape: const RoundSliderThumbShape(
+                                      enabledThumbRadius: 5.0,
+                                    ),
+                                    overlayShape: const RoundSliderOverlayShape(
+                                      overlayRadius: 10.0,
+                                    ),
                                   ),
                                   child: Slider(
                                     value: _restitution,
                                     min: 0.0,
                                     max: 1.0,
-                                    onChanged: (val) => setState(() => _restitution = val),
+                                    onChanged: (val) =>
+                                        setState(() => _restitution = val),
                                   ),
                                 ),
                               ),
@@ -445,7 +534,9 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
                                   style: TextStyle(
                                     fontSize: 11,
                                     fontWeight: FontWeight.w600,
-                                    color: isSpaceMode ? Colors.white : Colors.black,
+                                    color: isSpaceMode
+                                        ? Colors.white
+                                        : Colors.black,
                                   ),
                                 ),
                               ),
@@ -472,17 +563,28 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
                                 child: SliderTheme(
                                   data: SliderTheme.of(context).copyWith(
                                     trackHeight: 2.0,
-                                    activeTrackColor: isSpaceMode ? const Color(0xFF6366F1) : Colors.black,
-                                    inactiveTrackColor: isSpaceMode ? const Color(0xFF1F2937) : const Color(0xFFECECEF),
-                                    thumbColor: isSpaceMode ? const Color(0xFF6366F1) : Colors.black,
-                                    thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 5.0),
-                                    overlayShape: const RoundSliderOverlayShape(overlayRadius: 10.0),
+                                    activeTrackColor: isSpaceMode
+                                        ? const Color(0xFF6366F1)
+                                        : Colors.black,
+                                    inactiveTrackColor: isSpaceMode
+                                        ? const Color(0xFF1F2937)
+                                        : const Color(0xFFECECEF),
+                                    thumbColor: isSpaceMode
+                                        ? const Color(0xFF6366F1)
+                                        : Colors.black,
+                                    thumbShape: const RoundSliderThumbShape(
+                                      enabledThumbRadius: 5.0,
+                                    ),
+                                    overlayShape: const RoundSliderOverlayShape(
+                                      overlayRadius: 10.0,
+                                    ),
                                   ),
                                   child: Slider(
                                     value: _damping,
                                     min: 0.0,
                                     max: 0.8,
-                                    onChanged: (val) => setState(() => _damping = val),
+                                    onChanged: (val) =>
+                                        setState(() => _damping = val),
                                   ),
                                 ),
                               ),
@@ -495,7 +597,9 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
                                   style: TextStyle(
                                     fontSize: 11,
                                     fontWeight: FontWeight.w600,
-                                    color: isSpaceMode ? Colors.white : Colors.black,
+                                    color: isSpaceMode
+                                        ? Colors.white
+                                        : Colors.black,
                                   ),
                                 ),
                               ),
@@ -515,9 +619,15 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
     );
   }
 
-  Widget _buildPresetButton(String name, Offset gravity, double restitution, double damping) {
+  Widget _buildPresetButton(
+    String name,
+    Offset gravity,
+    double restitution,
+    double damping,
+  ) {
     final bool isSpaceMode = _gravity == Offset.zero;
-    final bool isSelected = _gravity == gravity &&
+    final bool isSelected =
+        _gravity == gravity &&
         (_restitution - restitution).abs() < 0.02 &&
         (_damping - damping).abs() < 0.02;
 
@@ -536,7 +646,9 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
           fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
           color: isSelected
               ? (isSpaceMode ? Colors.white : Colors.black)
-              : (isSpaceMode ? const Color(0xFF9CA3AF) : const Color(0xFF8E8E93)),
+              : (isSpaceMode
+                    ? const Color(0xFF9CA3AF)
+                    : const Color(0xFF8E8E93)),
         ),
         child: Text(name),
       ),
@@ -552,7 +664,9 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
       {'vector': const Offset(900.0, 0.0), 'label': 'Right'},
     ];
 
-    final int selectedIndex = options.indexWhere((opt) => opt['vector'] == _gravity);
+    final int selectedIndex = options.indexWhere(
+      (opt) => opt['vector'] == _gravity,
+    );
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -562,7 +676,9 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
         return Container(
           height: 38,
           decoration: BoxDecoration(
-            color: isSpaceMode ? const Color(0xFF111827) : const Color(0xFFF4F4F6),
+            color: isSpaceMode
+                ? const Color(0xFF111827)
+                : const Color(0xFFF4F4F6),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Stack(
@@ -580,7 +696,9 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
                   opacity: selectedIndex >= 0 ? 1.0 : 0.0,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: isSpaceMode ? const Color(0xFF1F2937) : Colors.white,
+                      color: isSpaceMode
+                          ? const Color(0xFF1F2937)
+                          : Colors.white,
                       borderRadius: BorderRadius.circular(8),
                       boxShadow: isSpaceMode
                           ? null
@@ -612,10 +730,14 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
                           duration: const Duration(milliseconds: 150),
                           style: TextStyle(
                             fontSize: 12,
-                            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                            fontWeight: isSelected
+                                ? FontWeight.w600
+                                : FontWeight.w500,
                             color: isSelected
                                 ? (isSpaceMode ? Colors.white : Colors.black)
-                                : (isSpaceMode ? const Color(0xFF9CA3AF) : const Color(0xFF8E8E93)),
+                                : (isSpaceMode
+                                      ? const Color(0xFF9CA3AF)
+                                      : const Color(0xFF8E8E93)),
                           ),
                           child: Text(label),
                         ),
@@ -636,11 +758,7 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
     final String initials = item['initials'] as String;
     return Center(
       child: icon != null
-          ? Icon(
-              icon,
-              color: Colors.white,
-              size: 24,
-            )
+          ? Icon(icon, color: Colors.white, size: 24)
           : Text(
               initials,
               style: const TextStyle(

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 /// Represents a single tab item for the [PortalDiscreteTabs] widget.
 class DiscreteTab {
-
   /// Creates a [DiscreteTab] with the required visual and semantic properties.
   const DiscreteTab({
     required this.label,
@@ -10,6 +9,7 @@ class DiscreteTab {
     required this.activeColor,
     this.activeBackgroundColor,
   });
+
   /// The text label shown when the tab is active.
   final String label;
 

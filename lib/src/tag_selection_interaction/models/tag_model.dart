@@ -1,11 +1,8 @@
 /// Represents a tag in the selection interaction.
 class TagModel {
-
   /// Creates a new [TagModel].
-  const TagModel({
-    required this.id,
-    required this.label,
-  });
+  const TagModel({required this.id, required this.label});
+
   /// The unique identifier for the tag.
   final String id;
 

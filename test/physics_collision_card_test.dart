@@ -4,7 +4,9 @@ import 'package:portal_labs/portal_labs.dart';
 
 void main() {
   group('PhysicsCollisionCard Widget Tests', () {
-    testWidgets('renders PhysicsCollisionCard with items', (WidgetTester tester) async {
+    testWidgets('renders PhysicsCollisionCard with items', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -39,7 +41,9 @@ void main() {
       expect(find.byKey(const Key('item_2')), findsOneWidget);
     });
 
-    testWidgets('simulation updates item positions over time due to gravity', (WidgetTester tester) async {
+    testWidgets('simulation updates item positions over time due to gravity', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -70,10 +74,12 @@ void main() {
 
       // Check initial position of the positioned widget
       final initialPositioned = tester.widget<Positioned>(
-        find.ancestor(
-          of: find.byKey(const Key('item_1')),
-          matching: find.byType(Positioned),
-        ).first,
+        find
+            .ancestor(
+              of: find.byKey(const Key('item_1')),
+              matching: find.byType(Positioned),
+            )
+            .first,
       );
       final initialTop = initialPositioned.top;
 
@@ -82,10 +88,12 @@ void main() {
       await tester.pump(const Duration(milliseconds: 100));
 
       final updatedPositioned = tester.widget<Positioned>(
-        find.ancestor(
-          of: find.byKey(const Key('item_1')),
-          matching: find.byType(Positioned),
-        ).first,
+        find
+            .ancestor(
+              of: find.byKey(const Key('item_1')),
+              matching: find.byType(Positioned),
+            )
+            .first,
       );
       final updatedTop = updatedPositioned.top;
 
@@ -93,7 +101,9 @@ void main() {
       expect(updatedTop, greaterThan(initialTop!));
     });
 
-    testWidgets('dragging an item updates its position', (WidgetTester tester) async {
+    testWidgets('dragging an item updates its position', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -132,10 +142,12 @@ void main() {
 
       // Check positioned updated coordinates
       final positionedAfterDrag = tester.widget<Positioned>(
-        find.ancestor(
-          of: find.byKey(const Key('item_1')),
-          matching: find.byType(Positioned),
-        ).first,
+        find
+            .ancestor(
+              of: find.byKey(const Key('item_1')),
+              matching: find.byType(Positioned),
+            )
+            .first,
       );
 
       // Position center should be shifted by (40, -30)

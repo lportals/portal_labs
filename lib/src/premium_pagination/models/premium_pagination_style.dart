@@ -48,7 +48,7 @@ class PremiumPaginationStyle {
   /// Whether to pad the current page number with a leading zero.
   final bool padWithZero;
 
-  /// The maximum number of digits to show. If set, the current page column 
+  /// The maximum number of digits to show. If set, the current page column
   /// will have a fixed width based on this number of digits.
   final int? maxDigits;
 

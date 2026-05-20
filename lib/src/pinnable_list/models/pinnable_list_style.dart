@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 /// Style configuration for the [PinnableList] component.
 class PinnableListStyle {
-
   /// Creates a [PinnableListStyle].
   const PinnableListStyle({
     this.badgeBackgroundColor,
@@ -16,6 +15,7 @@ class PinnableListStyle {
     this.cardBorder,
     this.cardShadows,
   });
+
   /// The background color of the count badge in section headers.
   final Color? badgeBackgroundColor;
 
@@ -35,7 +35,7 @@ class PinnableListStyle {
   final double headerToItemsSpacing;
 
   // --- Card Specific Styling ---
-  
+
   /// The background color of the default cards.
   final Color? cardBackgroundColor;
 

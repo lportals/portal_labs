@@ -21,9 +21,7 @@ class RevealCopyShowcase extends StatelessWidget {
         child: Center(
           child: Padding(
             padding: EdgeInsets.all(24.0),
-            child: RevealCopyInteraction(
-              value: '4485 2291 0034 7516',
-            ),
+            child: RevealCopyInteraction(value: '4485 2291 0034 7516'),
           ),
         ),
       ),

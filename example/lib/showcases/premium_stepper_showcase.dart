@@ -6,8 +6,7 @@ class PremiumStepperShowcase extends StatefulWidget {
   const PremiumStepperShowcase({super.key});
 
   @override
-  State<PremiumStepperShowcase> createState() =>
-      _PremiumStepperShowcaseState();
+  State<PremiumStepperShowcase> createState() => _PremiumStepperShowcaseState();
 }
 
 class _PremiumStepperShowcaseState extends State<PremiumStepperShowcase> {

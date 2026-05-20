@@ -25,14 +25,12 @@ void main() {
       ),
     ];
 
-    testWidgets('Should render initial collapsed state correctly', (WidgetTester tester) async {
+    testWidgets('Should render initial collapsed state correctly', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: CardStackInteraction(
-              items: mockItems,
-            ),
-          ),
+          home: Scaffold(body: CardStackInteraction(items: mockItems)),
         ),
       );
 
@@ -40,12 +38,14 @@ void main() {
       expect(find.text('Camping'), findsOneWidget);
       expect(find.text('Road Trip'), findsOneWidget);
       expect(find.text('Beach Day'), findsOneWidget);
-      
+
       // Verify the button shows "Show All"
       expect(find.text('Show All'), findsOneWidget);
     });
 
-    testWidgets('Should toggle expansion on button tap', (WidgetTester tester) async {
+    testWidgets('Should toggle expansion on button tap', (
+      WidgetTester tester,
+    ) async {
       bool? isExpanded;
       await tester.pumpWidget(
         MaterialApp(
@@ -60,7 +60,7 @@ void main() {
 
       // Initial state
       expect(find.text('Show All'), findsOneWidget);
-      
+
       // Tap button to expand
       await tester.tap(find.text('Show All'));
       await tester.pumpAndSettle();
@@ -89,11 +89,7 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: CardStackInteraction(
-              items: manyItems,
-            ),
-          ),
+          home: Scaffold(body: CardStackInteraction(items: manyItems)),
         ),
       );
 
@@ -101,7 +97,7 @@ void main() {
       expect(find.text('Item 0'), findsOneWidget);
       expect(find.text('Item 1'), findsOneWidget);
       expect(find.text('Item 2'), findsOneWidget);
-      
+
       // Should NOT find item 3 and 4 (they are taken via .take(3))
       expect(find.text('Item 3'), findsNothing);
       expect(find.text('Item 4'), findsNothing);

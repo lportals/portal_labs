@@ -15,7 +15,6 @@ import 'tag_item_widget.dart';
 /// - "Apple-inspired" aesthetics with subtle shadows and high-fidelity transitions.
 /// - 100% Vanilla Flutter with zero external dependencies.
 class TagSelectionInteraction extends StatefulWidget {
-
   /// Creates a new [TagSelectionInteraction].
   const TagSelectionInteraction({
     super.key,
@@ -28,6 +27,7 @@ class TagSelectionInteraction extends StatefulWidget {
     this.selectedTitle = 'TAGS',
     this.style = TagSelectionStyle.light,
   });
+
   /// The list of all available tags.
   final List<TagModel> allTags;
 
@@ -69,9 +69,12 @@ class _TagSelectionInteractionState extends State<TagSelectionInteraction> {
 
   /// Calculates the size of a tag based on its state and the current style.
   Size _measureTag(TagModel tag, bool isSelected, TextScaler textScaler) {
-    final style = isSelected ? widget.style.selectedTextStyle : widget.style.unselectedTextStyle;
-    final cacheKey = '${tag.id}_${isSelected}_${textScaler.scale(style.fontSize ?? 14)}';
-    
+    final style = isSelected
+        ? widget.style.selectedTextStyle
+        : widget.style.unselectedTextStyle;
+    final cacheKey =
+        '${tag.id}_${isSelected}_${textScaler.scale(style.fontSize ?? 14)}';
+
     if (_sizeCache.containsKey(cacheKey)) return _sizeCache[cacheKey]!;
 
     // Measure text with scaling
@@ -80,13 +83,14 @@ class _TagSelectionInteractionState extends State<TagSelectionInteraction> {
       textDirection: TextDirection.ltr,
       textScaler: textScaler,
     )..layout();
-    
+
     final textSize = textPainter.size;
 
     // Horizontal: Left + Right + IconSlot(if selected) + TextWidth + Buffer
     final double horizontalPadding = widget.style.tagPadding.horizontal;
-    final width = horizontalPadding + textSize.width + (isSelected ? 20.0 : 0) + 12.0;
-    
+    final width =
+        horizontalPadding + textSize.width + (isSelected ? 20.0 : 0) + 12.0;
+
     // Vertical: We use a fixed height for perfect Wrap alignment
     const height = 40.0;
 
@@ -102,11 +106,11 @@ class _TagSelectionInteractionState extends State<TagSelectionInteraction> {
       } else {
         _selectedIds.add(id);
       }
-      
+
       if (widget.style.enableHaptics) {
         HapticFeedback.selectionClick();
       }
-      
+
       widget.onChanged?.call(_selectedIds);
     });
   }
@@ -119,30 +123,52 @@ class _TagSelectionInteractionState extends State<TagSelectionInteraction> {
         final textScaler = MediaQuery.textScalerOf(context);
 
         // Separate tags into selected and unselected
-        final selectedTags = widget.allTags.where((t) => _selectedIds.contains(t.id)).toList();
-        final unselectedTags = widget.allTags.where((t) => !_selectedIds.contains(t.id)).toList();
+        final selectedTags = widget.allTags
+            .where((t) => _selectedIds.contains(t.id))
+            .toList();
+        final unselectedTags = widget.allTags
+            .where((t) => !_selectedIds.contains(t.id))
+            .toList();
 
         // Calculate layout for selected tags
-        final selectedSizes = selectedTags.map((t) => _measureTag(t, true, textScaler)).toList();
+        final selectedSizes = selectedTags
+            .map((t) => _measureTag(t, true, textScaler))
+            .toList();
         final selectedOffsets = _calculateWrapOffsets(selectedSizes, maxWidth);
-        final selectedHeight = _calculateTotalHeight(selectedOffsets, selectedSizes, widget.runSpacing);
+        final selectedHeight = _calculateTotalHeight(
+          selectedOffsets,
+          selectedSizes,
+          widget.runSpacing,
+        );
 
         // Calculate layout for unselected tags (the pool)
-        final unselectedSizes = unselectedTags.map((t) => _measureTag(t, false, textScaler)).toList();
-        final unselectedOffsets = _calculateWrapOffsets(unselectedSizes, maxWidth);
-        final poolHeight = _calculateTotalHeight(unselectedOffsets, unselectedSizes, widget.runSpacing);
+        final unselectedSizes = unselectedTags
+            .map((t) => _measureTag(t, false, textScaler))
+            .toList();
+        final unselectedOffsets = _calculateWrapOffsets(
+          unselectedSizes,
+          maxWidth,
+        );
+        final poolHeight = _calculateTotalHeight(
+          unselectedOffsets,
+          unselectedSizes,
+          widget.runSpacing,
+        );
 
         const sectionGap = 16.0;
         const innerPadding = 12.0;
 
         const selectedAreaOffsetY = 0.0;
-        
+
         // Calculate the actual height the selected area is occupying
-        final actualSelectedHeight = selectedTags.isEmpty 
-            ? 0.0 
+        final actualSelectedHeight = selectedTags.isEmpty
+            ? 0.0
             : (selectedHeight + innerPadding * 2);
 
-        final poolAreaOffsetY = selectedAreaOffsetY + actualSelectedHeight + (selectedTags.isEmpty ? 0 : sectionGap);
+        final poolAreaOffsetY =
+            selectedAreaOffsetY +
+            actualSelectedHeight +
+            (selectedTags.isEmpty ? 0 : sectionGap);
 
         return Padding(
           padding: widget.padding,
@@ -193,10 +219,16 @@ class _TagSelectionInteractionState extends State<TagSelectionInteraction> {
                       Offset targetOffset;
                       if (isSelected) {
                         final index = selectedTags.indexOf(tag);
-                        targetOffset = selectedOffsets[index].translate(innerPadding, selectedAreaOffsetY + innerPadding);
+                        targetOffset = selectedOffsets[index].translate(
+                          innerPadding,
+                          selectedAreaOffsetY + innerPadding,
+                        );
                       } else {
                         final index = unselectedTags.indexOf(tag);
-                        targetOffset = unselectedOffsets[index].translate(0, poolAreaOffsetY);
+                        targetOffset = unselectedOffsets[index].translate(
+                          0,
+                          poolAreaOffsetY,
+                        );
                       }
 
                       return AnimatedPositioned(
@@ -214,7 +246,9 @@ class _TagSelectionInteractionState extends State<TagSelectionInteraction> {
                             damping: widget.style.damping,
                             stiffness: widget.style.stiffness,
                           ),
-                          scale: isSelected ? 1.0 : 1.0, // We can trigger a pulse here
+                          scale: isSelected
+                              ? 1.0
+                              : 1.0, // We can trigger a pulse here
                           child: TagItemWidget(
                             tag: tag,
                             isSelected: isSelected,
@@ -254,7 +288,11 @@ class _TagSelectionInteractionState extends State<TagSelectionInteraction> {
     return offsets;
   }
 
-  double _calculateTotalHeight(List<Offset> offsets, List<Size> sizes, double runSpacing) {
+  double _calculateTotalHeight(
+    List<Offset> offsets,
+    List<Size> sizes,
+    double runSpacing,
+  ) {
     if (offsets.isEmpty) return 0;
     double maxHeight = 0;
     for (int i = 0; i < offsets.length; i++) {
@@ -269,11 +307,7 @@ class _TagSelectionInteractionState extends State<TagSelectionInteraction> {
 /// It uses a damped harmonic oscillator approach to create a snappy,
 /// premium interaction feel without external dependencies.
 class _AppleSpringCurve extends Curve {
-
-  const _AppleSpringCurve({
-    required this.damping,
-    required this.stiffness,
-  });
+  const _AppleSpringCurve({required this.damping, required this.stiffness});
   final double damping;
   final double stiffness;
 

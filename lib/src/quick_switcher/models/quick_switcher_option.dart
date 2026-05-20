@@ -2,13 +2,13 @@ import 'package:flutter/widgets.dart';
 
 /// Represents an option in the [QuickSwitcher].
 class QuickSwitcherOption {
-
   /// Creates a [QuickSwitcherOption].
   const QuickSwitcherOption({
     required this.label,
     required this.icon,
     required this.placeholder,
   });
+
   /// The label to display in the input field.
   final String label;
 

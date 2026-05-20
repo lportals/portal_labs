@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 /// This painter handles the visual representation of the arc, the scaling of numbers
 /// near the center, and the smooth color interpolation between active and inactive states.
 class WeightRulerPainter extends CustomPainter {
-
   /// Creates a [WeightRulerPainter] with all required layout and styling parameters.
   WeightRulerPainter({
     required this.currentValue,
@@ -18,6 +17,7 @@ class WeightRulerPainter extends CustomPainter {
     required this.unit,
     this.anglePerUnit = math.pi / 9.0,
   });
+
   /// The current value being pointed at in the center.
   final double currentValue;
 

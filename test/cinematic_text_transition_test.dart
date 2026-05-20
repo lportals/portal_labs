@@ -7,9 +7,7 @@ void main() {
     testWidgets('renders initial text correctly', (WidgetTester tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: CinematicTextTransition(text: 'Initial'),
-          ),
+          home: Scaffold(body: CinematicTextTransition(text: 'Initial')),
         ),
       );
 
@@ -19,27 +17,25 @@ void main() {
       expect(find.text('t'), findsWidgets);
     });
 
-    testWidgets('starts animation when text changes', (WidgetTester tester) async {
+    testWidgets('starts animation when text changes', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: CinematicTextTransition(text: 'First'),
-          ),
+          home: Scaffold(body: CinematicTextTransition(text: 'First')),
         ),
       );
 
       // Change text
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: CinematicTextTransition(text: 'Second'),
-          ),
+          home: Scaffold(body: CinematicTextTransition(text: 'Second')),
         ),
       );
 
       // Wait for transition to start
       await tester.pump(const Duration(milliseconds: 600));
-      
+
       // Both layers should be present (characters from both words)
       expect(find.text('F'), findsWidgets);
       expect(find.text('S'), findsWidgets);
@@ -51,9 +47,11 @@ void main() {
       expect(find.text('S'), findsWidgets);
     });
 
-    testWidgets('respects custom duration from style', (WidgetTester tester) async {
+    testWidgets('respects custom duration from style', (
+      WidgetTester tester,
+    ) async {
       const duration = Duration(milliseconds: 500);
-      
+
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -78,10 +76,12 @@ void main() {
 
       await tester.pump(const Duration(milliseconds: 250)); // Halfway
       expect(find.text('B'), findsWidgets);
-      
-      await tester.pump(const Duration(milliseconds: 300)); // Should be finished
+
+      await tester.pump(
+        const Duration(milliseconds: 300),
+      ); // Should be finished
       await tester.pumpAndSettle();
-      
+
       expect(find.text('A'), findsNothing);
       expect(find.text('B'), findsWidgets);
     });

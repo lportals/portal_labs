@@ -10,8 +10,7 @@ class PremiumPaginationShowcase extends StatefulWidget {
       _PremiumPaginationShowcaseState();
 }
 
-class _PremiumPaginationShowcaseState
-    extends State<PremiumPaginationShowcase> {
+class _PremiumPaginationShowcaseState extends State<PremiumPaginationShowcase> {
   int _currentPage = 5;
   final int _totalPages = 10;
 

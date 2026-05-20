@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 /// Allows customizing colors, dimensions, and text styles to match
 /// your application's design system.
 class JournalStyle {
-
   /// Creates a [JournalStyle] with the given visual properties.
   const JournalStyle({
     this.backgroundColor = const Color(0xFFF2EFE8),
@@ -45,6 +44,7 @@ class JournalStyle {
 
   /// Factory for the default premium Portal Labs theme.
   factory JournalStyle.portalLabs() => const JournalStyle();
+
   /// Background color of the main container.
   final Color backgroundColor;
 

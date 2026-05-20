@@ -13,7 +13,6 @@ import 'widgets/slider_track_painter.dart';
 /// All values, dots, and colors are calculated dynamically based on the provided
 /// [min], [max], [step], and [dotCount] parameters.
 class AdaptiveSliderInteraction extends StatefulWidget {
-
   /// Creates an [AdaptiveSliderInteraction] with the given configuration.
   const AdaptiveSliderInteraction({
     super.key,
@@ -27,6 +26,7 @@ class AdaptiveSliderInteraction extends StatefulWidget {
     this.dotCount,
     this.step = 50.0,
   });
+
   /// The current value of the slider (between 0.0 and 1.0).
   final double value;
 
@@ -204,11 +204,7 @@ class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction>
             ((widget.max - widget.min) / widget.step).round() + 1;
 
         return Padding(
-          padding: const EdgeInsets.only(
-            left: 24,
-            right: 24,
-            top: 32,
-          ),
+          padding: const EdgeInsets.only(left: 24, right: 24, top: 32),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -359,7 +355,6 @@ class _AdaptiveSliderInteractionState extends State<AdaptiveSliderInteraction>
 
 /// The circular thumb of the slider with a white interior and thick colored border.
 class _SliderThumb extends StatelessWidget {
-
   const _SliderThumb({required this.size, required this.colors});
   final double size;
   final List<Color> colors;

@@ -35,7 +35,12 @@ class _SubscriptionPricingPickerShowcaseState
       isPopular: true,
       badgeText: 'Save 20%',
     ),
-    PricingPlan(id: 'pro_year', title: 'Pro', price: 199.90, periodText: 'year'),
+    PricingPlan(
+      id: 'pro_year',
+      title: 'Pro',
+      price: 199.90,
+      periodText: 'year',
+    ),
   ];
 
   @override
@@ -71,7 +76,9 @@ class _SubscriptionPricingPickerShowcaseState
                   onActionPressed: (plan, period) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Selected: ${plan.title} (${period.name})'),
+                        content: Text(
+                          'Selected: ${plan.title} (${period.name})',
+                        ),
                         behavior: SnackBarBehavior.floating,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),

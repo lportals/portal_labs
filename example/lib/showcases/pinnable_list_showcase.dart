@@ -33,8 +33,7 @@ class PinnableListShowcase extends StatelessWidget {
             children: [
               PinnableList(
                 style: PinnableListStyle(
-                  badgeBackgroundColor:
-                      Colors.black.withValues(alpha: 0.05),
+                  badgeBackgroundColor: Colors.black.withValues(alpha: 0.05),
                   badgeTextStyle: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
@@ -47,8 +46,10 @@ class PinnableListShowcase extends StatelessWidget {
                     title: 'Apple Store',
                     subtitle: 'Electronics · Closes 9:00 PM',
                     isPinned: true,
-                    icon: Icon(Icons.shopping_bag_outlined,
-                        color: Colors.black),
+                    icon: Icon(
+                      Icons.shopping_bag_outlined,
+                      color: Colors.black,
+                    ),
                   ),
                   PinnableItem(
                     id: '2',
@@ -62,24 +63,24 @@ class PinnableListShowcase extends StatelessWidget {
                     title: 'Uber Ride',
                     subtitle: 'Transportation · Available 24/7',
                     isPinned: false,
-                    icon: Icon(Icons.directions_car_outlined,
-                        color: Colors.black),
+                    icon: Icon(
+                      Icons.directions_car_outlined,
+                      color: Colors.black,
+                    ),
                   ),
                   PinnableItem(
                     id: '4',
                     title: 'Library Downtown',
                     subtitle: 'Library · Closes 8:00 PM',
                     isPinned: false,
-                    icon: Icon(Icons.menu_book_outlined,
-                        color: Colors.black),
+                    icon: Icon(Icons.menu_book_outlined, color: Colors.black),
                   ),
                   PinnableItem(
                     id: '5',
                     title: 'Spotify Premium',
                     subtitle: 'Music Streaming · Always Available',
                     isPinned: false,
-                    icon: Icon(Icons.music_note_outlined,
-                        color: Colors.black),
+                    icon: Icon(Icons.music_note_outlined, color: Colors.black),
                   ),
                   PinnableItem(
                     id: '6',

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 /// A configuration object that defines the visual aesthetic of the [TagSelectionInteraction].
 class TagSelectionStyle {
-
   /// Creates a [TagSelectionStyle] with custom values.
   const TagSelectionStyle({
     required this.selectedAreaColor,
@@ -13,11 +12,7 @@ class TagSelectionStyle {
     required this.closeIconColor,
     this.borderRadius = 12.0,
     this.selectedTagShadows = const [
-      BoxShadow(
-        color: Colors.black12,
-        blurRadius: 8.0,
-        offset: Offset(0, 4),
-      ),
+      BoxShadow(color: Colors.black12, blurRadius: 8.0, offset: Offset(0, 4)),
     ],
     this.selectedAreaBorderRadius = 16.0,
     this.tagPadding = const EdgeInsets.symmetric(horizontal: 12.0),
@@ -25,6 +20,7 @@ class TagSelectionStyle {
     this.stiffness = 1.0,
     this.enableHaptics = true,
   });
+
   /// The background color of the selected area container.
   final Color selectedAreaColor;
 

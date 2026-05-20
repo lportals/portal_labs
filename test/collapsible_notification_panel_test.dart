@@ -23,7 +23,9 @@ void main() {
       ),
     ];
 
-    testWidgets('renders header correctly in collapsed state', (WidgetTester tester) async {
+    testWidgets('renders header correctly in collapsed state', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -39,14 +41,12 @@ void main() {
       expect(find.text('Collapsed Subtitle'), findsOneWidget);
     });
 
-    testWidgets('expands and shows items when header is tapped', (WidgetTester tester) async {
+    testWidgets('expands and shows items when header is tapped', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: CollapsibleNotificationPanel(
-              items: testItems,
-            ),
-          ),
+          home: Scaffold(body: CollapsibleNotificationPanel(items: testItems)),
         ),
       );
 
@@ -58,7 +58,9 @@ void main() {
       expect(find.text('Test Title 2'), findsOneWidget);
     });
 
-    testWidgets('triggers onExpansionChanged callback', (WidgetTester tester) async {
+    testWidgets('triggers onExpansionChanged callback', (
+      WidgetTester tester,
+    ) async {
       bool expanded = false;
       await tester.pumpWidget(
         MaterialApp(
@@ -106,10 +108,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: CollapsibleNotificationPanel(
-              items: [],
-              style: customStyle,
-            ),
+            body: CollapsibleNotificationPanel(items: [], style: customStyle),
           ),
         ),
       );

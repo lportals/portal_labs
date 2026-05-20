@@ -14,8 +14,10 @@ class InlineAction {
     this.confirmLabel,
     this.cancelLabel,
     this.onTap,
-  }) : assert(icon != null || leading != null || isDestructive,
-            'Either icon or leading must be provided for non-destructive items.');
+  }) : assert(
+         icon != null || leading != null || isDestructive,
+         'Either icon or leading must be provided for non-destructive items.',
+       );
 
   /// The title text of the action.
   final String title;
@@ -39,7 +41,7 @@ class InlineAction {
   final VoidCallback? onTap;
 }
 
-/// A premium, inline interactive component for performing actions, 
+/// A premium, inline interactive component for performing actions,
 /// specialized for deletion with a two-step confirmation flow.
 class InlineDeleteInteraction extends StatefulWidget {
   /// Creates an [InlineDeleteInteraction].
@@ -68,7 +70,8 @@ class InlineDeleteInteraction extends StatefulWidget {
   final Animation<double>? appearanceAnimation;
 
   @override
-  State<InlineDeleteInteraction> createState() => _InlineDeleteInteractionState();
+  State<InlineDeleteInteraction> createState() =>
+      _InlineDeleteInteractionState();
 }
 
 class _InlineDeleteInteractionState extends State<InlineDeleteInteraction>
@@ -104,7 +107,7 @@ class _InlineDeleteInteractionState extends State<InlineDeleteInteraction>
     if (widget.style.enableHaptics) {
       HapticFeedback.lightImpact();
     }
-    
+
     if (show) {
       _confirmController.forward();
     } else {
@@ -187,9 +190,9 @@ class _InlineDeleteInteractionState extends State<InlineDeleteInteraction>
   }
 
   Widget _buildHeader(InlineDeleteStyle style) {
-    // For the header, we use a slightly larger padding to allow the title 
+    // For the header, we use a slightly larger padding to allow the title
     // to "breathe" within the large radius corner.
-    final headerPadding = style.modalPadding + 2; 
+    final headerPadding = style.modalPadding + 2;
 
     return _buildAnimatedItem(
       -1,
@@ -206,12 +209,7 @@ class _InlineDeleteInteractionState extends State<InlineDeleteInteraction>
         ),
         child: Row(
           children: [
-            Expanded(
-              child: Text(
-                widget.title,
-                style: style.titleStyle,
-              ),
-            ),
+            Expanded(child: Text(widget.title, style: style.titleStyle)),
             GestureDetector(
               onTap: widget.onCloseRequested,
               child: Container(
@@ -247,10 +245,7 @@ class _InlineDeleteInteractionState extends State<InlineDeleteInteraction>
       builder: (context, child) {
         return Transform.translate(
           offset: Offset(0, 15 * (1.0 - animation.value)),
-          child: Opacity(
-            opacity: animation.value,
-            child: child,
-          ),
+          child: Opacity(opacity: animation.value, child: child),
         );
       },
       child: child,
@@ -327,7 +322,8 @@ class _InteractiveRow extends StatelessWidget {
                           Expanded(
                             child: _ConfirmButton(
                               label: item.cancelLabel ?? 'Cancel',
-                              color: style.cancelButtonColor ?? Colors.transparent,
+                              color:
+                                  style.cancelButtonColor ?? Colors.transparent,
                               onTap: () => onToggle(false),
                               style: style,
                               padding: uniformPadding,
@@ -384,21 +380,21 @@ class _MenuRowState extends State<_MenuRow> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 100),
         height: widget.style.rowHeight,
-        padding: EdgeInsets.symmetric(horizontal: widget.style.modalPadding + 4),
+        padding: EdgeInsets.symmetric(
+          horizontal: widget.style.modalPadding + 4,
+        ),
         color: _isPressed
             ? (widget.style.borderColor ?? Colors.black.withValues(alpha: 0.05))
-                .withValues(alpha: 0.15)
+                  .withValues(alpha: 0.15)
             : Colors.transparent,
         child: Row(
           children: [
             if (widget.item.icon != null || widget.item.leading != null) ...[
-              widget.item.leading ?? Icon(widget.item.icon, size: 20, color: iconColor),
+              widget.item.leading ??
+                  Icon(widget.item.icon, size: 20, color: iconColor),
               const SizedBox(width: 16),
             ],
-            Text(
-              widget.item.title,
-              style: textStyle,
-            ),
+            Text(widget.item.title, style: textStyle),
           ],
         ),
       ),
@@ -452,7 +448,9 @@ class _ConfirmButtonState extends State<_ConfirmButton> {
           decoration: BoxDecoration(
             color: widget.color,
             borderRadius: BorderRadius.circular(buttonRadius),
-            border: widget.isDestructive ? null : Border.all(color: Colors.black.withValues(alpha: 0.08)),
+            border: widget.isDestructive
+                ? null
+                : Border.all(color: Colors.black.withValues(alpha: 0.08)),
           ),
           child: Text(
             widget.label,
@@ -468,5 +466,3 @@ class _ConfirmButtonState extends State<_ConfirmButton> {
     );
   }
 }
-
-

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 /// Represents a single notification item in the [CollapsibleNotificationPanel].
 class NotificationItem {
-
   /// Creates a [NotificationItem].
   const NotificationItem({
     required this.id,
@@ -13,6 +12,7 @@ class NotificationItem {
     this.color = const Color(0xFF1C1C1E),
     this.onTap,
   });
+
   /// Unique identifier for the notification.
   final String id;
 

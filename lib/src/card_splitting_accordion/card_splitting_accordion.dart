@@ -12,7 +12,6 @@ export 'models/accordion_style.dart';
 /// This component provides a high-end interaction paradigm common in modern
 /// OS interfaces, ensuring consistent visibility and smooth, organic animations.
 class CardSplittingAccordion extends StatefulWidget {
-
   /// Creates a new [CardSplittingAccordion].
   const CardSplittingAccordion({
     super.key,
@@ -21,6 +20,7 @@ class CardSplittingAccordion extends StatefulWidget {
     this.initialExpandedIndex,
     this.style = AccordionStyle.defaultStyle,
   });
+
   /// The list of items to display. Can handle any number of sections.
   final List<AccordionItem> items;
 

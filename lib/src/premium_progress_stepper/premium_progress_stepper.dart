@@ -183,7 +183,7 @@ class _PremiumProgressStepperState extends State<PremiumProgressStepper>
   void _handleBackButtonVisibility() {
     final bool shouldShow = widget.currentStep > 0;
     final double target = shouldShow ? 1.0 : 0.0;
-    
+
     final simulation = SpringSimulation(
       SpringDescription(
         mass: widget.style.springMass,
@@ -194,10 +194,9 @@ class _PremiumProgressStepperState extends State<PremiumProgressStepper>
       target,
       0,
     );
-    
+
     _backButtonController.animateWith(simulation);
   }
-
 
   @override
   void dispose() {
@@ -271,15 +270,22 @@ class _PremiumProgressStepperState extends State<PremiumProgressStepper>
                             borderRadius: widget.style.buttonBorderRadius,
                             height: widget.style.buttonHeight,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 24),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                              ),
                               child: Center(
                                 child: Text(
                                   widget.backText,
-                                  style: widget.style.buttonTextStyle?.copyWith(
-                                        color: widget.style.secondaryButtonTextColor,
+                                  style:
+                                      widget.style.buttonTextStyle?.copyWith(
+                                        color: widget
+                                            .style
+                                            .secondaryButtonTextColor,
                                       ) ??
                                       TextStyle(
-                                        color: widget.style.secondaryButtonTextColor,
+                                        color: widget
+                                            .style
+                                            .secondaryButtonTextColor,
                                         fontWeight: FontWeight.w600,
                                         fontSize: 16,
                                       ),
@@ -304,16 +310,13 @@ class _PremiumProgressStepperState extends State<PremiumProgressStepper>
                     child: AnimatedBuilder(
                       animation: _backButtonController,
                       builder: (context, child) {
-                        final double backVal =
-                            _backButtonController.value.clamp(0.0, 1.0);
+                        final double backVal = _backButtonController.value
+                            .clamp(0.0, 1.0);
                         final double expansionPop =
                             (1.0 - backVal) * (1.0 - backVal) * backVal * 0.12;
                         final double scale = 1.0 + expansionPop;
 
-                        return Transform.scale(
-                          scale: scale,
-                          child: child,
-                        );
+                        return Transform.scale(scale: scale, child: child);
                       },
                       child: _BounceButton(
                         onPressed: _handleNext,
@@ -326,9 +329,9 @@ class _PremiumProgressStepperState extends State<PremiumProgressStepper>
                         backgroundColor: !widget.canContinue
                             ? widget.style.disabledButtonColor
                             : isLastStep
-                                ? (widget.style.finishButtonColor ??
-                                    widget.style.primaryButtonColor)
-                                : widget.style.primaryButtonColor,
+                            ? (widget.style.finishButtonColor ??
+                                  widget.style.primaryButtonColor)
+                            : widget.style.primaryButtonColor,
                         borderRadius: widget.style.buttonBorderRadius,
                         height: widget.style.buttonHeight,
                         child: Center(
@@ -344,43 +347,57 @@ class _PremiumProgressStepperState extends State<PremiumProgressStepper>
                               key: ValueKey(buttonText),
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                              if (isLastStep && widget.style.showFinishIcon) ...[
-                                if (widget.style.finishIcon != null)
-                                  widget.style.finishIcon!
-                                else
-                                  TweenAnimationBuilder<Color?>(
-                                    duration: const Duration(milliseconds: 300),
-                                    tween: ColorTween(
-                                      begin: widget.canContinue
-                                          ? Colors.white
-                                          : widget.style.disabledButtonTextColor,
-                                      end: widget.canContinue
-                                          ? Colors.white
-                                          : widget.style.disabledButtonTextColor,
+                                if (isLastStep &&
+                                    widget.style.showFinishIcon) ...[
+                                  if (widget.style.finishIcon != null)
+                                    widget.style.finishIcon!
+                                  else
+                                    TweenAnimationBuilder<Color?>(
+                                      duration: const Duration(
+                                        milliseconds: 300,
+                                      ),
+                                      tween: ColorTween(
+                                        begin: widget.canContinue
+                                            ? Colors.white
+                                            : widget
+                                                  .style
+                                                  .disabledButtonTextColor,
+                                        end: widget.canContinue
+                                            ? Colors.white
+                                            : widget
+                                                  .style
+                                                  .disabledButtonTextColor,
+                                      ),
+                                      builder: (context, color, _) {
+                                        return Icon(
+                                          Icons.check_circle_outline,
+                                          color: color,
+                                          size: 20,
+                                        );
+                                      },
                                     ),
-                                    builder: (context, color, _) {
-                                      return Icon(
-                                        Icons.check_circle_outline,
-                                        color: color,
-                                        size: 20,
-                                      );
-                                    },
-                                  ),
-                                const SizedBox(width: 8),
-                              ],
+                                  const SizedBox(width: 8),
+                                ],
                                 AnimatedDefaultTextStyle(
                                   duration: const Duration(milliseconds: 300),
-                                  style: widget.style.buttonTextStyle?.copyWith(
+                                  style:
+                                      widget.style.buttonTextStyle?.copyWith(
                                         color: widget.canContinue
-                                            ? widget.style.primaryButtonTextColor
+                                            ? widget
+                                                  .style
+                                                  .primaryButtonTextColor
                                             : widget
-                                                .style.disabledButtonTextColor,
+                                                  .style
+                                                  .disabledButtonTextColor,
                                       ) ??
                                       TextStyle(
                                         color: widget.canContinue
-                                            ? widget.style.primaryButtonTextColor
+                                            ? widget
+                                                  .style
+                                                  .primaryButtonTextColor
                                             : widget
-                                                .style.disabledButtonTextColor,
+                                                  .style
+                                                  .disabledButtonTextColor,
                                         fontWeight: FontWeight.w600,
                                         fontSize: 16,
                                       ),
@@ -429,7 +446,7 @@ class _StepperPainter extends CustomPainter {
     // Draw stretching pill
     // The pill starts at the first dot and ends at the 'progress' position
     paint.color = style.activeColor;
-    
+
     // We want a pill that covers from 0 to 'progress'
     // But it should look like it's connecting the dots.
     final double startX = radius;
@@ -441,7 +458,7 @@ class _StepperPainter extends CustomPainter {
       endX + radius,
       centerY + radius,
     );
-    
+
     canvas.drawRRect(
       RRect.fromRectAndRadius(pillRect, Radius.circular(radius)),
       paint,
@@ -454,11 +471,11 @@ class _StepperPainter extends CustomPainter {
       // Calculate how much the dot should be visible based on progress
       // If progress is at i, dotScale is 1.0. If progress is at i-1, dotScale is 0.0.
       final double dotScale = (progress - i + 1.0).clamp(0.0, 1.0);
-      
+
       if (dotScale > 0) {
         canvas.drawCircle(
-          Offset(x, centerY), 
-          (style.dotSize / 2) * dotScale, 
+          Offset(x, centerY),
+          (style.dotSize / 2) * dotScale,
           paint..color = style.dotColor.withValues(alpha: dotScale),
         );
       }

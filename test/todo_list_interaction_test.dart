@@ -11,7 +11,12 @@ void main() {
 
     final testItems = [
       const TodoItem(id: 'a', title: 'Buy milk', categoryId: '1'),
-      const TodoItem(id: 'b', title: 'Call mom', categoryId: '1', isCompleted: true),
+      const TodoItem(
+        id: 'b',
+        title: 'Call mom',
+        categoryId: '1',
+        isCompleted: true,
+      ),
       const TodoItem(id: 'c', title: 'Finish report', categoryId: '2'),
     ];
 
@@ -31,7 +36,9 @@ void main() {
       expect(find.text('MAY 08 2026'), findsOneWidget);
     });
 
-    testWidgets('renders all categories and items', (WidgetTester tester) async {
+    testWidgets('renders all categories and items', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -51,7 +58,9 @@ void main() {
       expect(find.text('Finish report'), findsOneWidget);
     });
 
-    testWidgets('toggles item completion state on tap', (WidgetTester tester) async {
+    testWidgets('toggles item completion state on tap', (
+      WidgetTester tester,
+    ) async {
       List<TodoItem>? updatedItems;
 
       await tester.pumpWidget(
@@ -109,7 +118,9 @@ void main() {
       expect(find.text('Call mom'), findsOneWidget);
     });
 
-    testWidgets('collapses and expands categories', (WidgetTester tester) async {
+    testWidgets('collapses and expands categories', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -130,16 +141,18 @@ void main() {
       await tester.pump(const Duration(milliseconds: 500));
       await tester.pump(const Duration(milliseconds: 500));
 
-      // In the implementation, it uses AnimatedOpacity. 
-      // Instead of checking opacity which might be tricky with animations, 
+      // In the implementation, it uses AnimatedOpacity.
+      // Instead of checking opacity which might be tricky with animations,
       // let's check if the widget is still "hit-testable" or visible.
       // Actually, it uses AnimatedOpacity with opacity: isItemVisible ? 1.0 : 0.0
-      
-      final opacityFinder = find.ancestor(
-        of: find.text('Buy milk'),
-        matching: find.byType(AnimatedOpacity),
-      ).first;
-      
+
+      final opacityFinder = find
+          .ancestor(
+            of: find.text('Buy milk'),
+            matching: find.byType(AnimatedOpacity),
+          )
+          .first;
+
       final animatedOpacity = tester.widget<AnimatedOpacity>(opacityFinder);
       expect(animatedOpacity.opacity, 0.0);
     });

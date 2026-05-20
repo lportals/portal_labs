@@ -129,12 +129,15 @@ class PremiumProgressStepperStyle {
       inactiveColor: inactiveColor ?? this.inactiveColor,
       dotColor: dotColor ?? this.dotColor,
       primaryButtonColor: primaryButtonColor ?? this.primaryButtonColor,
-      primaryButtonTextColor: primaryButtonTextColor ?? this.primaryButtonTextColor,
+      primaryButtonTextColor:
+          primaryButtonTextColor ?? this.primaryButtonTextColor,
       finishButtonColor: finishButtonColor ?? this.finishButtonColor,
       secondaryButtonColor: secondaryButtonColor ?? this.secondaryButtonColor,
-      secondaryButtonTextColor: secondaryButtonTextColor ?? this.secondaryButtonTextColor,
+      secondaryButtonTextColor:
+          secondaryButtonTextColor ?? this.secondaryButtonTextColor,
       disabledButtonColor: disabledButtonColor ?? this.disabledButtonColor,
-      disabledButtonTextColor: disabledButtonTextColor ?? this.disabledButtonTextColor,
+      disabledButtonTextColor:
+          disabledButtonTextColor ?? this.disabledButtonTextColor,
       showFinishIcon: showFinishIcon ?? this.showFinishIcon,
       finishIcon: finishIcon ?? this.finishIcon,
       buttonBorderRadius: buttonBorderRadius ?? this.buttonBorderRadius,

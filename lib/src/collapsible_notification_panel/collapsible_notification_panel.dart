@@ -6,10 +6,8 @@ import 'models/panel_style.dart';
 import 'widgets/notification_tile.dart';
 import 'widgets/panel_header.dart';
 
-
 /// A premium notification panel that can be collapsed and expanded with spring physics.
 class CollapsibleNotificationPanel extends StatefulWidget {
-
   /// Creates a [CollapsibleNotificationPanel].
   const CollapsibleNotificationPanel({
     super.key,
@@ -18,14 +16,11 @@ class CollapsibleNotificationPanel extends StatefulWidget {
     this.headerIcon,
     this.initiallyExpanded = false,
     this.style = const CollapsibleNotificationPanelStyle(),
-    this.spring = const SpringDescription(
-      mass: 1,
-      stiffness: 100,
-      damping: 15,
-    ),
+    this.spring = const SpringDescription(mass: 1, stiffness: 100, damping: 15),
     this.onExpansionChanged,
     this.onItemTap,
   });
+
   /// The list of notifications to display.
   final List<NotificationItem> items;
 
@@ -51,10 +46,13 @@ class CollapsibleNotificationPanel extends StatefulWidget {
   final ValueChanged<NotificationItem>? onItemTap;
 
   @override
-  State<CollapsibleNotificationPanel> createState() => _CollapsibleNotificationPanelState();
+  State<CollapsibleNotificationPanel> createState() =>
+      _CollapsibleNotificationPanelState();
 }
 
-class _CollapsibleNotificationPanelState extends State<CollapsibleNotificationPanel> with SingleTickerProviderStateMixin {
+class _CollapsibleNotificationPanelState
+    extends State<CollapsibleNotificationPanel>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late bool _isExpanded;
 
@@ -87,11 +85,11 @@ class _CollapsibleNotificationPanelState extends State<CollapsibleNotificationPa
     );
 
     _controller.animateWith(simulation);
-    
+
     if (widget.style.enableHaptics) {
       HapticFeedback.lightImpact();
     }
-    
+
     widget.onExpansionChanged?.call(_isExpanded);
   }
 
@@ -105,13 +103,15 @@ class _CollapsibleNotificationPanelState extends State<CollapsibleNotificationPa
           decoration: BoxDecoration(
             color: widget.style.backgroundColor,
             borderRadius: BorderRadius.circular(widget.style.borderRadius),
-            boxShadow: widget.style.boxShadow ?? [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.08),
-                blurRadius: 30,
-                offset: const Offset(0, 10),
-              ),
-            ],
+            boxShadow:
+                widget.style.boxShadow ??
+                [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.08),
+                    blurRadius: 30,
+                    offset: const Offset(0, 10),
+                  ),
+                ],
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(widget.style.borderRadius),
@@ -151,9 +151,9 @@ class _CollapsibleNotificationPanelState extends State<CollapsibleNotificationPa
       child: Column(
         children: [
           Divider(
-            height: 1, 
-            indent: widget.style.tilePadding.left, 
-            endIndent: widget.style.tilePadding.right, 
+            height: 1,
+            indent: widget.style.tilePadding.left,
+            endIndent: widget.style.tilePadding.right,
             color: widget.style.dividerColor,
           ),
           const SizedBox(height: 8),
@@ -174,8 +174,10 @@ class _CollapsibleNotificationPanelState extends State<CollapsibleNotificationPa
         // Calculate a local animation value for this specific item
         // Stagger logic: delay entrance based on index
         final double staggerDelay = index * 0.1;
-        final double itemValue = (_controller.value - staggerDelay).clamp(0.0, 1.0) / (1.0 - staggerDelay);
-        
+        final double itemValue =
+            (_controller.value - staggerDelay).clamp(0.0, 1.0) /
+            (1.0 - staggerDelay);
+
         // Use a curve to make the individual item entrance more punchy
         final double t = Curves.easeOutQuart.transform(itemValue);
 

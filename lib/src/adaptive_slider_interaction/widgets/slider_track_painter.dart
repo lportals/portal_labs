@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 /// Paints the slider track with a background, active gradient, and internal indicator dots.
 class SliderTrackPainter extends CustomPainter {
-
   /// Creates a [SliderTrackPainter] with the given visual configuration.
   SliderTrackPainter({
     required this.progress,
@@ -15,6 +14,7 @@ class SliderTrackPainter extends CustomPainter {
     required this.activeDotColor,
     required this.inactiveDotColor,
   });
+
   /// Proportional progress of the slider (0.0 to 1.0).
   final double progress;
 

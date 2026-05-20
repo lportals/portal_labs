@@ -13,7 +13,6 @@ import 'models/pricing_plan.dart';
 /// *   Customizable popular badges.
 /// *   Tactile feedback on selection.
 class SubscriptionPricingPicker extends StatefulWidget {
-
   /// Creates a [SubscriptionPricingPicker] with the required plan lists.
   const SubscriptionPricingPicker({
     super.key,
@@ -27,6 +26,7 @@ class SubscriptionPricingPicker extends StatefulWidget {
     this.initialSelectedIndex = 1,
     this.initialPeriod = PricingPeriod.monthly,
   });
+
   /// The list of plans available for the 'monthly' period.
   final List<PricingPlan> monthlyPlans;
 
@@ -148,7 +148,6 @@ class _SubscriptionPricingPickerState extends State<SubscriptionPricingPicker> {
 }
 
 class _PricingToggle extends StatelessWidget {
-
   const _PricingToggle({
     required this.period,
     required this.monthlyLabel,
@@ -245,7 +244,6 @@ class _PricingToggle extends StatelessWidget {
 }
 
 class _PricingCard extends StatefulWidget {
-
   const _PricingCard({
     required this.plan,
     required this.isSelected,
@@ -379,7 +377,6 @@ class _PricingCardState extends State<_PricingCard> {
 }
 
 class _SelectionIndicator extends StatelessWidget {
-
   const _SelectionIndicator({required this.isSelected});
   final bool isSelected;
 
@@ -422,7 +419,6 @@ class _SelectionIndicator extends StatelessWidget {
 }
 
 class _ActionButton extends StatefulWidget {
-
   const _ActionButton({required this.label, this.onPressed});
   final String label;
   final VoidCallback? onPressed;

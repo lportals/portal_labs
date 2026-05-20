@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 /// Allows customizing colors, blur intensity, and text labels for
 /// a consistent premium look throughout the application.
 class MediaViewStyle {
-
   /// Creates a [MediaViewStyle] with the given appearance properties.
   const MediaViewStyle({
     this.backgroundColor = Colors.black,
@@ -20,6 +19,7 @@ class MediaViewStyle {
 
   /// The default visual theme for Portal LabsMedia components.
   factory MediaViewStyle.portalLabs() => const MediaViewStyle();
+
   /// Background color behind the video/blur frame.
   final Color backgroundColor;
 

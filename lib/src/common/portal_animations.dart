@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 
 /// A premium spring-based animation curve that uses [SpringSimulation].
-/// 
-/// This provides a more natural, physics-based motion compared to standard 
+///
+/// This provides a more natural, physics-based motion compared to standard
 /// duration-based curves like [Curves.easeOut].
 class PortalSpringCurve extends Curve {
   /// Creates a [PortalSpringCurve] with customizable physical parameters.
-  /// 
+  ///
   /// [mass] defines the weight of the object (default: 1.0).
   /// [stiffness] defines the spring's tension (default: 180.0).
   /// [damping] defines the friction that settles the motion (default: 22.0).
@@ -39,4 +39,3 @@ class PortalSpringCurve extends Curve {
     return simulation.x(t).clamp(-0.1, 1.1);
   }
 }
-

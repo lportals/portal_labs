@@ -8,6 +8,7 @@ class SlotPickerShowcase extends StatefulWidget {
   @override
   State<SlotPickerShowcase> createState() => _SlotPickerShowcaseState();
 }
+
 class _SlotPickerShowcaseState extends State<SlotPickerShowcase> {
   late final List<SlotPickerItem> _items;
 
@@ -54,8 +55,7 @@ class _SlotPickerShowcaseState extends State<SlotPickerShowcase> {
     });
   }
 
-  void _handleSlotChanged(
-      int itemIndex, int slotIndex, SlotRange newRange) {
+  void _handleSlotChanged(int itemIndex, int slotIndex, SlotRange newRange) {
     setState(() {
       final newSlots = List<SlotRange>.from(_items[itemIndex].slots);
       newSlots[slotIndex] = newRange;

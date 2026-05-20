@@ -5,7 +5,9 @@ import 'package:portal_labs/portal_labs.dart';
 
 void main() {
   group('PremiumPagination', () {
-    testWidgets('renders correctly with current and total pages', (WidgetTester tester) async {
+    testWidgets('renders correctly with current and total pages', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -21,20 +23,26 @@ void main() {
       expect(find.text('1'), findsOneWidget);
       expect(find.text('of'), findsOneWidget);
       expect(find.text('5'), findsOneWidget);
-      
+
       // Previous button should be disabled
-      final prevNode = tester.getSemantics(find.byKey(const ValueKey('pagination_prev')));
+      final prevNode = tester.getSemantics(
+        find.byKey(const ValueKey('pagination_prev')),
+      );
       expect(prevNode.label, 'Previous page');
       expect(prevNode.flagsCollection.isButton, isTrue);
       expect(prevNode.flagsCollection.isEnabled, Tristate.isFalse);
-      
-      final nextNode = tester.getSemantics(find.byKey(const ValueKey('pagination_next')));
+
+      final nextNode = tester.getSemantics(
+        find.byKey(const ValueKey('pagination_next')),
+      );
       expect(nextNode.label, 'Next page');
       expect(nextNode.flagsCollection.isButton, isTrue);
       expect(nextNode.flagsCollection.isEnabled, Tristate.isTrue);
     });
 
-    testWidgets('triggers onPageChanged when next is clicked', (WidgetTester tester) async {
+    testWidgets('triggers onPageChanged when next is clicked', (
+      WidgetTester tester,
+    ) async {
       int? changedPage;
       await tester.pumpWidget(
         MaterialApp(
@@ -54,7 +62,9 @@ void main() {
       expect(changedPage, 2);
     });
 
-    testWidgets('triggers onPageChanged when previous is clicked', (WidgetTester tester) async {
+    testWidgets('triggers onPageChanged when previous is clicked', (
+      WidgetTester tester,
+    ) async {
       int? changedPage;
       await tester.pumpWidget(
         MaterialApp(
@@ -88,12 +98,14 @@ void main() {
         ),
       );
 
-      final nextNode = tester.getSemantics(find.byKey(const ValueKey('pagination_next')));
+      final nextNode = tester.getSemantics(
+        find.byKey(const ValueKey('pagination_next')),
+      );
       expect(nextNode.flagsCollection.isEnabled, Tristate.isFalse);
-      
+
       await tester.tap(find.byKey(const ValueKey('pagination_next')));
       await tester.pump();
-      
+
       expect(changedPage, isNull);
     });
   });

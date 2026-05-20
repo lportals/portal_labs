@@ -6,14 +6,12 @@ void main() {
   group('RevealCopyInteraction Widget Tests', () {
     const String secretValue = '1234 5678 9012 3456';
 
-    testWidgets('Should render masked text initially', (WidgetTester tester) async {
+    testWidgets('Should render masked text initially', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: RevealCopyInteraction(
-              value: secretValue,
-            ),
-          ),
+          home: Scaffold(body: RevealCopyInteraction(value: secretValue)),
         ),
       );
 
@@ -56,7 +54,9 @@ void main() {
       expect(find.textContaining('1234'), findsOneWidget);
     });
 
-    testWidgets('Should copy text on tap when revealed', (WidgetTester tester) async {
+    testWidgets('Should copy text on tap when revealed', (
+      WidgetTester tester,
+    ) async {
       bool copied = false;
       await tester.runAsync(() async {
         await tester.pumpWidget(
@@ -78,11 +78,15 @@ void main() {
         );
 
         // Reveal first
-        await tester.tap(find.byKey(const ValueKey('reveal_copy_action_button')));
+        await tester.tap(
+          find.byKey(const ValueKey('reveal_copy_action_button')),
+        );
         await tester.pump(const Duration(milliseconds: 600));
 
         // Tap to copy
-        await tester.tap(find.byKey(const ValueKey('reveal_copy_action_button')));
+        await tester.tap(
+          find.byKey(const ValueKey('reveal_copy_action_button')),
+        );
         await tester.pump(const Duration(milliseconds: 600));
       });
 

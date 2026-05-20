@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-/// A premium archival item container designed to be used inside 
+/// A premium archival item container designed to be used inside
 /// the [ArchiveFolder], but also usable independently.
-/// It features a classic frame with a label area, suitable for 
+/// It features a classic frame with a label area, suitable for
 /// documents, stamps, photos, or cards.
 class ArchiveItem extends StatelessWidget {
   /// Creates a [ArchiveItem].
@@ -78,11 +78,13 @@ class ArchiveItem extends StatelessWidget {
             child: Center(
               child: Text(
                 label,
-                style: labelStyle ?? const TextStyle(
-                  fontSize: 8,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.black87,
-                ),
+                style:
+                    labelStyle ??
+                    const TextStyle(
+                      fontSize: 8,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.black87,
+                    ),
               ),
             ),
           ),

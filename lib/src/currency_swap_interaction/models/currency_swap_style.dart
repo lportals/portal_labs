@@ -4,11 +4,7 @@ import 'dart:ui' as ui;
 /// A model representing a currency for the [CurrencySwapInteraction].
 class Currency {
   /// Creates a [Currency] instance.
-  const Currency({
-    required this.code,
-    required this.flag,
-    required this.name,
-  });
+  const Currency({required this.code, required this.flag, required this.name});
 
   /// The currency code (e.g., "USD").
   final String code;

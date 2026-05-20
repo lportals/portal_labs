@@ -5,7 +5,9 @@ import 'package:portal_labs/portal_labs.dart';
 
 void main() {
   group('SplitButtonInteraction Interaction Tests', () {
-    testWidgets('renders initial state with main label', (WidgetTester tester) async {
+    testWidgets('renders initial state with main label', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -25,7 +27,9 @@ void main() {
       expect(find.text('Email'), findsOneWidget);
     });
 
-    testWidgets('expands and shows actions on tap', (WidgetTester tester) async {
+    testWidgets('expands and shows actions on tap', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -50,7 +54,9 @@ void main() {
       expect(find.byIcon(Icons.chevron_left_rounded), findsNWidgets(2));
     });
 
-    testWidgets('calls action onTap and collapses', (WidgetTester tester) async {
+    testWidgets('calls action onTap and collapses', (
+      WidgetTester tester,
+    ) async {
       bool editTapped = false;
       await tester.pumpWidget(
         MaterialApp(
@@ -74,15 +80,15 @@ void main() {
       expect(editTapped, isTrue);
     });
 
-    testWidgets('collapses when back button is tapped', (WidgetTester tester) async {
+    testWidgets('collapses when back button is tapped', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: SplitButtonInteraction(
               initialLabel: 'Settings',
-              actions: [
-                SplitAction(label: 'General', onTap: () {}),
-              ],
+              actions: [SplitAction(label: 'General', onTap: () {})],
             ),
           ),
         ),
@@ -98,7 +104,9 @@ void main() {
       // Should be collapsed (check controller state or internal state via behavior)
     });
 
-    testWidgets('SplitButtonController controls expansion state', (WidgetTester tester) async {
+    testWidgets('SplitButtonController controls expansion state', (
+      WidgetTester tester,
+    ) async {
       final controller = SplitButtonController();
       await tester.pumpWidget(
         MaterialApp(
@@ -106,9 +114,7 @@ void main() {
             body: SplitButtonInteraction(
               controller: controller,
               initialLabel: 'Controlled',
-              actions: [
-                SplitAction(label: 'Action', onTap: () {}),
-              ],
+              actions: [SplitAction(label: 'Action', onTap: () {})],
             ),
           ),
         ),
@@ -125,7 +131,9 @@ void main() {
       expect(find.text('Controlled'), findsOneWidget);
     });
 
-    testWidgets('triggers correct haptics on interaction', (WidgetTester tester) async {
+    testWidgets('triggers correct haptics on interaction', (
+      WidgetTester tester,
+    ) async {
       final List<MethodCall> log = [];
       tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
         SystemChannels.platform,
@@ -142,9 +150,7 @@ void main() {
           home: Scaffold(
             body: SplitButtonInteraction(
               initialLabel: 'Haptics',
-              actions: [
-                SplitAction(label: 'Action', onTap: () {}),
-              ],
+              actions: [SplitAction(label: 'Action', onTap: () {})],
             ),
           ),
         ),
@@ -153,12 +159,18 @@ void main() {
       // Expand haptic (light)
       await tester.tap(find.text('Haptics'));
       await tester.pumpAndSettle();
-      expect(log.any((m) => m.arguments == 'HapticFeedbackType.lightImpact'), isTrue);
+      expect(
+        log.any((m) => m.arguments == 'HapticFeedbackType.lightImpact'),
+        isTrue,
+      );
 
       // Action haptic (medium)
       await tester.tap(find.text('Action'));
       await tester.pumpAndSettle();
-      expect(log.any((m) => m.arguments == 'HapticFeedbackType.mediumImpact'), isTrue);
+      expect(
+        log.any((m) => m.arguments == 'HapticFeedbackType.mediumImpact'),
+        isTrue,
+      );
     });
   });
 }

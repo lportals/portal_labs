@@ -1,10 +1,8 @@
 /// Definition of a loading stage with a specific progress range.
 class ProgressStage {
   /// Creates a [ProgressStage].
-  const ProgressStage({
-    required this.label,
-    required this.endProgress,
-  }) : assert(endProgress >= 0 && endProgress <= 1.0);
+  const ProgressStage({required this.label, required this.endProgress})
+    : assert(endProgress >= 0 && endProgress <= 1.0);
 
   /// The text to display during this stage.
   final String label;

@@ -4,13 +4,11 @@ import 'package:portal_labs/portal_labs.dart';
 
 void main() {
   group('FeedbackInteraction', () {
-    testWidgets('renders initial idle state correctly', (WidgetTester tester) async {
+    testWidgets('renders initial idle state correctly', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: FeedbackInteraction(),
-          ),
-        ),
+        const MaterialApp(home: Scaffold(body: FeedbackInteraction())),
       );
 
       // Verify buttons are rendered
@@ -20,7 +18,9 @@ void main() {
       expect(find.byIcon(Icons.thumb_down_rounded), findsOneWidget);
     });
 
-    testWidgets('triggers onFeedbackSubmitted on positive tap', (WidgetTester tester) async {
+    testWidgets('triggers onFeedbackSubmitted on positive tap', (
+      WidgetTester tester,
+    ) async {
       bool? result;
 
       await tester.pumpWidget(
@@ -41,7 +41,9 @@ void main() {
       expect(result, isTrue);
     });
 
-    testWidgets('triggers onFeedbackSubmitted on negative tap', (WidgetTester tester) async {
+    testWidgets('triggers onFeedbackSubmitted on negative tap', (
+      WidgetTester tester,
+    ) async {
       bool? result;
 
       await tester.pumpWidget(
@@ -62,7 +64,9 @@ void main() {
       expect(result, isFalse);
     });
 
-    testWidgets('shows undo button and triggers onUndo when clicked', (WidgetTester tester) async {
+    testWidgets('shows undo button and triggers onUndo when clicked', (
+      WidgetTester tester,
+    ) async {
       bool undoTriggered = false;
 
       await tester.pumpWidget(
@@ -79,14 +83,21 @@ void main() {
 
       // Tap to select positive feedback
       await tester.tap(find.byIcon(Icons.thumb_up_rounded));
-      await tester.pump(const Duration(seconds: 1)); // Wait for spring to settle
+      await tester.pump(
+        const Duration(seconds: 1),
+      ); // Wait for spring to settle
 
       // Undo button should appear
       expect(find.text('Undo'), findsOneWidget);
 
       // Tap undo by executing its callback directly to bypass hit-testing issues with OverflowBox
       final gestureDetector = tester.widget<GestureDetector>(
-        find.ancestor(of: find.text('Undo'), matching: find.byType(GestureDetector)).first,
+        find
+            .ancestor(
+              of: find.text('Undo'),
+              matching: find.byType(GestureDetector),
+            )
+            .first,
       );
       gestureDetector.onTap!();
       await tester.pumpAndSettle();

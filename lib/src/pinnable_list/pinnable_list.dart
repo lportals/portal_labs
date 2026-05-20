@@ -6,14 +6,15 @@ import '../theme/portal_theme.dart';
 import '../common/portal_animations.dart';
 
 /// Function signature for building a custom card in the [PinnableList].
-typedef PinnableItemBuilder = Widget Function(
-  BuildContext context,
-  PinnableItem item,
-  VoidCallback onToggle,
-);
+typedef PinnableItemBuilder =
+    Widget Function(
+      BuildContext context,
+      PinnableItem item,
+      VoidCallback onToggle,
+    );
 
 /// The ultimate premium pinnable list.
-/// 
+///
 /// Features:
 /// - **Dynamic Measurements**: No hardcoded heights. Items can have any size.
 /// - **Spring "Flight" Physics**: Customizable spring motion for item displacement.
@@ -67,7 +68,9 @@ class _PinnableListState extends State<PinnableList> {
       _lastToggledId = id;
       final index = _items.indexWhere((it) => it.id == id);
       if (index != -1) {
-        _items[index] = _items[index].copyWith(isPinned: !_items[index].isPinned);
+        _items[index] = _items[index].copyWith(
+          isPinned: !_items[index].isPinned,
+        );
         widget.onChanged?.call(_items);
       }
     });
@@ -94,7 +97,7 @@ class _PinnableListState extends State<PinnableList> {
     }
 
     double currentTop = 0;
-    
+
     final double pinnedHeaderTop = currentTop;
     final Map<String, double> pinnedPositions = {};
     if (pinned.isNotEmpty) {
@@ -146,11 +149,11 @@ class _PinnableListState extends State<PinnableList> {
 
               ...[
                 ..._items.where((it) => it.id != _lastToggledId),
-                if (_lastToggledId != null) 
+                if (_lastToggledId != null)
                   ..._items.where((it) => it.id == _lastToggledId),
               ].map((item) {
-                final targetTop = item.isPinned 
-                    ? pinnedPositions[item.id] ?? 0 
+                final targetTop = item.isPinned
+                    ? pinnedPositions[item.id] ?? 0
                     : unpinnedPositions[item.id] ?? 0;
 
                 return AnimatedPositioned(
@@ -165,9 +168,14 @@ class _PinnableListState extends State<PinnableList> {
                     duration: const Duration(milliseconds: 500),
                     curve: Curves.easeOutBack,
                     child: _MeasureSize(
-                      onSizeChange: (size) => _updateHeight(item.id, size.height),
+                      onSizeChange: (size) =>
+                          _updateHeight(item.id, size.height),
                       child: widget.itemBuilder != null
-                          ? widget.itemBuilder!(context, item, () => _togglePin(item.id))
+                          ? widget.itemBuilder!(
+                              context,
+                              item,
+                              () => _togglePin(item.id),
+                            )
                           : PinnableItemCard(
                               item: item,
                               onPinToggle: () => _togglePin(item.id),
@@ -186,7 +194,6 @@ class _PinnableListState extends State<PinnableList> {
 }
 
 class _AdaptiveHeader extends StatelessWidget {
-
   const _AdaptiveHeader({
     required this.title,
     required this.count,
@@ -221,11 +228,13 @@ class _AdaptiveHeader extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: style.sectionHeaderStyle ?? PortalTheme.of(context).typography.h4,
+                  style:
+                      style.sectionHeaderStyle ??
+                      PortalTheme.of(context).typography.h4,
                 ),
                 const SizedBox(width: 8),
                 if (count > 0 && style.showHeaderBadge)
-                   _Badge(count: count, style: style),
+                  _Badge(count: count, style: style),
               ],
             ),
           ),
@@ -236,7 +245,6 @@ class _AdaptiveHeader extends StatelessWidget {
 }
 
 class _Badge extends StatelessWidget {
-
   const _Badge({required this.count, required this.style});
   final int count;
   final PinnableListStyle style;
@@ -247,23 +255,23 @@ class _Badge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
-        color: style.badgeBackgroundColor ?? theme.colors.border.withValues(alpha: 0.5),
+        color:
+            style.badgeBackgroundColor ??
+            theme.colors.border.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Text(
         count.toString(),
-        style: style.badgeTextStyle ?? theme.typography.caption.copyWith(fontWeight: FontWeight.bold),
+        style:
+            style.badgeTextStyle ??
+            theme.typography.caption.copyWith(fontWeight: FontWeight.bold),
       ),
     );
   }
 }
 
 class _MeasureSize extends StatefulWidget {
-
-  const _MeasureSize({
-    required this.onSizeChange,
-    required this.child,
-  });
+  const _MeasureSize({required this.onSizeChange, required this.child});
   final Widget child;
   final OnSizeChange onSizeChange;
 
@@ -288,4 +296,3 @@ class _MeasureSizeState extends State<_MeasureSize> {
     return widget.child;
   }
 }
-

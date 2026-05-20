@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 /// Defines the visual configuration for the [ScratchToReveal] component.
 class ScratchToRevealStyle {
-
   /// Creates a [ScratchToRevealStyle].
   const ScratchToRevealStyle({
     this.backgroundColor = Colors.white,
@@ -57,7 +56,7 @@ class ScratchToRevealStyle {
   /// The color of the diagonal grid lines on the surface.
   final Color gridColor;
 
-  /// The percentage of surface scratched (0.0 to 1.0) required to trigger 
+  /// The percentage of surface scratched (0.0 to 1.0) required to trigger
   /// completion or auto-reveal.
   final double successThreshold;
 
@@ -73,7 +72,7 @@ class ScratchToRevealStyle {
   /// The duration of the fade-out/reveal animation.
   final Duration animationDuration;
 
-  /// Creates a copy of this style but with the given fields replaced with 
+  /// Creates a copy of this style but with the given fields replaced with
   /// the new values.
   ScratchToRevealStyle copyWith({
     Color? backgroundColor,

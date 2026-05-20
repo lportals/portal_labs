@@ -5,7 +5,9 @@ import 'package:portal_labs/portal_labs.dart';
 
 void main() {
   group('ScratchToReveal Interaction Tests', () {
-    testWidgets('renders ScratchToReveal with title and surface', (WidgetTester tester) async {
+    testWidgets('renders ScratchToReveal with title and surface', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -27,7 +29,9 @@ void main() {
       expect(find.byType(ScratchSurface), findsOneWidget);
     });
 
-    testWidgets('scratching surface updates progress and reveals content', (WidgetTester tester) async {
+    testWidgets('scratching surface updates progress and reveals content', (
+      WidgetTester tester,
+    ) async {
       double? currentProgress;
 
       await tester.pumpWidget(
@@ -50,7 +54,7 @@ void main() {
 
       final surfaceFinder = find.byType(ScratchSurface);
       final center = tester.getCenter(surfaceFinder);
-      
+
       // Perform a scratch gesture
       await tester.dragFrom(center, const Offset(50, 50));
       await tester.pump();
@@ -59,7 +63,9 @@ void main() {
       expect(currentProgress!, greaterThan(0));
     });
 
-    testWidgets('ScratchController programmatically reveals and resets', (WidgetTester tester) async {
+    testWidgets('ScratchController programmatically reveals and resets', (
+      WidgetTester tester,
+    ) async {
       final controller = ScratchController();
       bool completed = false;
 
@@ -101,7 +107,9 @@ void main() {
       expect(controller.progress, 0.0);
     });
 
-    testWidgets('haptics are triggered on scratch start', (WidgetTester tester) async {
+    testWidgets('haptics are triggered on scratch start', (
+      WidgetTester tester,
+    ) async {
       // Setup haptic interceptor
       final List<MethodCall> log = [];
       tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
@@ -116,11 +124,7 @@ void main() {
 
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: ScratchSurface(
-              child: Text('REVEALED'),
-            ),
-          ),
+          home: Scaffold(body: ScratchSurface(child: Text('REVEALED'))),
         ),
       );
 

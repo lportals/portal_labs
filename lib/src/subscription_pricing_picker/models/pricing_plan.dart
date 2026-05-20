@@ -1,6 +1,5 @@
 /// A model representing a subscription pricing plan.
 class PricingPlan {
-
   /// Creates a [PricingPlan] with the given pricing attributes.
   const PricingPlan({
     required this.id,
@@ -10,6 +9,7 @@ class PricingPlan {
     this.isPopular = false,
     this.badgeText = 'Popular',
   });
+
   /// Unique identifier for the plan.
   final String id;
 

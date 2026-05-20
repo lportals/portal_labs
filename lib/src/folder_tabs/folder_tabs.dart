@@ -19,8 +19,8 @@ class FolderTabs extends StatefulWidget {
     this.initialIndex = 0,
     this.onSelect,
     this.style = const FolderTabsStyle(),
-  })  : assert(tabs.length > 0),
-        assert(children.length == tabs.length);
+  }) : assert(tabs.length > 0),
+       assert(children.length == tabs.length);
 
   /// The list of text labels for each tab.
   final List<String> tabs;
@@ -188,13 +188,17 @@ class _FolderTabsState extends State<FolderTabs>
                     switchOutCurve: Curves.easeInCubic,
                     transitionBuilder: (Widget child, Animation<double> animation) {
                       // Check if this child key matches the currently selected active index
-                      final isEntering = (child.key as ValueKey<int>?)?.value == _selectedIndex;
+                      final isEntering =
+                          (child.key as ValueKey<int>?)?.value ==
+                          _selectedIndex;
 
                       // Both entering and exiting widgets slide downwards:
                       // - Entering child starts above (-0.06) and slides down to 0.0
                       // - Exiting child starts at 0.0 and slides down to below (0.06)
                       final offsetAnimation = Tween<Offset>(
-                        begin: isEntering ? const Offset(0.0, -0.06) : const Offset(0.0, 0.06),
+                        begin: isEntering
+                            ? const Offset(0.0, -0.06)
+                            : const Offset(0.0, 0.06),
                         end: Offset.zero,
                       ).animate(animation);
 
@@ -274,13 +278,22 @@ class _FolderPainter extends CustomPainter {
       final path = Path()
         ..moveTo(0, size.height - r)
         ..lineTo(0, topLeftY + topLeftRadius)
-        ..arcToPoint(Offset(topLeftRadius, topLeftY), radius: Radius.circular(topLeftRadius));
+        ..arcToPoint(
+          Offset(topLeftRadius, topLeftY),
+          radius: Radius.circular(topLeftRadius),
+        );
 
       if (leftMorph > 0.0) {
         final double activeCurveL = tabCurveWidth * leftMorph;
-        final double cStartX = (tLeft - activeCurveL).clamp(topLeftRadius, size.width);
+        final double cStartX = (tLeft - activeCurveL).clamp(
+          topLeftRadius,
+          size.width,
+        );
         final double cLeft = tLeft.clamp(topLeftRadius, size.width);
-        final double cEndX = (tLeft + activeCurveL).clamp(topLeftRadius, size.width);
+        final double cEndX = (tLeft + activeCurveL).clamp(
+          topLeftRadius,
+          size.width,
+        );
 
         path
           ..lineTo(cStartX, topLeftY)
@@ -293,9 +306,15 @@ class _FolderPainter extends CustomPainter {
 
       if (rightMorph > 0.0) {
         final double activeCurveR = tabCurveWidth * rightMorph;
-        final double cStartX = (tRight - activeCurveR).clamp(0, size.width - topRightRadius);
+        final double cStartX = (tRight - activeCurveR).clamp(
+          0,
+          size.width - topRightRadius,
+        );
         final double cRight = tRight.clamp(0, size.width - topRightRadius);
-        final double cEndX = (tRight + activeCurveR).clamp(0, size.width - topRightRadius);
+        final double cEndX = (tRight + activeCurveR).clamp(
+          0,
+          size.width - topRightRadius,
+        );
 
         path
           ..lineTo(cStartX, 0)
@@ -306,9 +325,15 @@ class _FolderPainter extends CustomPainter {
 
       path
         ..lineTo(size.width - topRightRadius, topRightY)
-        ..arcToPoint(Offset(size.width, topRightY + topRightRadius), radius: Radius.circular(topRightRadius))
+        ..arcToPoint(
+          Offset(size.width, topRightY + topRightRadius),
+          radius: Radius.circular(topRightRadius),
+        )
         ..lineTo(size.width, size.height - r)
-        ..arcToPoint(Offset(size.width - r, size.height), radius: Radius.circular(r))
+        ..arcToPoint(
+          Offset(size.width - r, size.height),
+          radius: Radius.circular(r),
+        )
         ..lineTo(r, size.height)
         ..arcToPoint(Offset(0, size.height - r), radius: Radius.circular(r))
         ..close();
@@ -317,16 +342,19 @@ class _FolderPainter extends CustomPainter {
     }
 
     // 1. Draw inactive background folders first (sitting at exact same height)
-    final bgTabColor = Color.alphaBlend(Colors.black.withValues(alpha: 0.12), color);
-    
+    final bgTabColor = Color.alphaBlend(
+      Colors.black.withValues(alpha: 0.12),
+      color,
+    );
+
     for (int i = 0; i < tabCount; i++) {
       final double staticIndex = i.toDouble();
-      
+
       // Calculate how close the sliding active index is to this static tab position
       final double distance = (animatedIndex - staticIndex).abs();
       // Smooth visibility factor: 0.0 when active is directly on top, 1.0 when active is 1+ slots away
       final double visibility = distance.clamp(0.0, 1.0);
-      
+
       // Skip drawing if it is fully merged/covered
       if (visibility < 0.01) continue;
 
@@ -347,7 +375,12 @@ class _FolderPainter extends CustomPainter {
       );
 
       // Draw background tab fill (smoothly blends color as active approaches)
-      canvas.drawPath(bgPath, Paint()..color = fillTabColor..style = PaintingStyle.fill);
+      canvas.drawPath(
+        bgPath,
+        Paint()
+          ..color = fillTabColor
+          ..style = PaintingStyle.fill,
+      );
 
       // Draw subtle background tab outline separator
       canvas.drawPath(
@@ -366,7 +399,10 @@ class _FolderPainter extends CustomPainter {
     for (final shadow in shadows) {
       final shadowPaint = Paint()
         ..color = shadow.color
-        ..maskFilter = MaskFilter.blur(BlurStyle.normal, shadow.blurRadius * 0.5)
+        ..maskFilter = MaskFilter.blur(
+          BlurStyle.normal,
+          shadow.blurRadius * 0.5,
+        )
         ..style = PaintingStyle.fill;
 
       canvas.save();
@@ -376,7 +412,12 @@ class _FolderPainter extends CustomPainter {
     }
 
     // Draw main folder fill
-    canvas.drawPath(frontPath, Paint()..color = color..style = PaintingStyle.fill);
+    canvas.drawPath(
+      frontPath,
+      Paint()
+        ..color = color
+        ..style = PaintingStyle.fill,
+    );
 
     // Draw separation rim highlight on active front folder
     canvas.drawPath(

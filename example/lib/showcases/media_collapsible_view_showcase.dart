@@ -17,32 +17,38 @@ class _MediaCollapsibleViewShowcaseState
       id: '1',
       userName: 'mr_whiskers',
       text: 'Meow meow, this UI is purrr-fect! 🐾',
-      avatarImage:
-          const NetworkImage('https://plus.unsplash.com/premium_photo-1667030474693-6d0632f97029?q=80&w=987&auto=format&fit=crop'),
+      avatarImage: const NetworkImage(
+        'https://plus.unsplash.com/premium_photo-1667030474693-6d0632f97029?q=80&w=987&auto=format&fit=crop',
+      ),
       createdAt: DateTime.now(),
     ),
     MediaComment(
       id: '2',
       userName: 'tuna_lover_99',
-      text: 'I pushed my food bowl off the table while watching this. Worth it. 🥛',
-      avatarImage:
-          const NetworkImage('https://images.unsplash.com/photo-1561948955-570b270e7c36?q=80&w=901&auto=format&fit=crop'),
+      text:
+          'I pushed my food bowl off the table while watching this. Worth it. 🥛',
+      avatarImage: const NetworkImage(
+        'https://images.unsplash.com/photo-1561948955-570b270e7c36?q=80&w=901&auto=format&fit=crop',
+      ),
       createdAt: DateTime.now(),
     ),
     MediaComment(
       id: '3',
       userName: 'calico_queen',
-      text: "Where is the red dot? I've been staring at the screen for hours! 🔴",
-      avatarImage:
-          const NetworkImage('https://images.unsplash.com/photo-1533738363-b7f9aef128ce?q=80&w=1335&auto=format&fit=crop'),
+      text:
+          "Where is the red dot? I've been staring at the screen for hours! 🔴",
+      avatarImage: const NetworkImage(
+        'https://images.unsplash.com/photo-1533738363-b7f9aef128ce?q=80&w=1335&auto=format&fit=crop',
+      ),
       createdAt: DateTime.now(),
     ),
     MediaComment(
       id: '4',
       userName: 'grumpy_garfield',
       text: 'Hiss... too much scrolling, not enough lasagna. 😾',
-      avatarImage:
-          const NetworkImage('https://images.unsplash.com/photo-1571566882372-1598d88abd90?q=80&w=987&auto=format&fit=crop'),
+      avatarImage: const NetworkImage(
+        'https://images.unsplash.com/photo-1571566882372-1598d88abd90?q=80&w=987&auto=format&fit=crop',
+      ),
       createdAt: DateTime.now(),
     ),
   ];
@@ -63,8 +69,9 @@ class _MediaCollapsibleViewShowcaseState
           id: DateTime.now().toString(),
           userName: 'You (Cat)',
           text: text,
-          avatarImage:
-              const NetworkImage('https://images.unsplash.com/photo-1543852786-1cf6624b9987?q=80&w=987&auto=format&fit=crop'),
+          avatarImage: const NetworkImage(
+            'https://images.unsplash.com/photo-1543852786-1cf6624b9987?q=80&w=987&auto=format&fit=crop',
+          ),
           createdAt: DateTime.now(),
         ),
       );
@@ -95,10 +102,12 @@ class _MediaCollapsibleViewShowcaseState
       hasAppBar: false,
       showBackButton: false,
       child: MediaCollapsibleView(
-        mediaImage:
-            const NetworkImage("https://media2.giphy.com/media/v1.Y2lkPTZjMDliOTUyMTU3MnZhMnhja2t3dGFzcjBpcGt5bDZ0MGU0Zm1vNm40Nmp0azhnNSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/VbnUQpnihPSIgIXuZv/giphy.gif"),
-        userAvatarImage:
-            const NetworkImage('https://plus.unsplash.com/premium_photo-1667030474693-6d0632f97029?q=80&w=987&auto=format&fit=crop'),
+        mediaImage: const NetworkImage(
+          "https://media2.giphy.com/media/v1.Y2lkPTZjMDliOTUyMTU3MnZhMnhja2t3dGFzcjBpcGt5bDZ0MGU0Zm1vNm40Nmp0azhnNSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/VbnUQpnihPSIgIXuZv/giphy.gif",
+        ),
+        userAvatarImage: const NetworkImage(
+          'https://plus.unsplash.com/premium_photo-1667030474693-6d0632f97029?q=80&w=987&auto=format&fit=crop',
+        ),
         comments: _comments,
         style: const MediaViewStyle(
           sheetBackgroundColor: Color(0xFF0F0F12),

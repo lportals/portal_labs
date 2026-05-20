@@ -140,7 +140,8 @@ class SignatureDrawPadStyle {
       labelStyle: labelStyle ?? this.labelStyle,
       confirmButtonStyle: confirmButtonStyle ?? this.confirmButtonStyle,
       confirmButtonColor: confirmButtonColor ?? this.confirmButtonColor,
-      confirmButtonBorderRadius: confirmButtonBorderRadius ?? this.confirmButtonBorderRadius,
+      confirmButtonBorderRadius:
+          confirmButtonBorderRadius ?? this.confirmButtonBorderRadius,
       playbackDuration: playbackDuration ?? this.playbackDuration,
       shimmerColor: shimmerColor ?? this.shimmerColor,
       enableHaptics: enableHaptics ?? this.enableHaptics,

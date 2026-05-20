@@ -43,7 +43,7 @@ class _FeedbackInteractionState extends State<FeedbackInteraction>
 
   late final AnimationController _morphController;
 
-  // Use physics-driven simulations for all transitions to ensure 
+  // Use physics-driven simulations for all transitions to ensure
   // smooth, interruptible motion.
   @override
   void initState() {
@@ -65,13 +65,15 @@ class _FeedbackInteractionState extends State<FeedbackInteraction>
   TickerFuture _runSpringAnimation({required double target}) {
     final style = widget.style;
     final bool isClosing = target == 0.0;
-    
+
     // Physics-driven simulation using style-defined parameters.
-    // We apply principled ratios to differentiate the "opening" energy 
+    // We apply principled ratios to differentiate the "opening" energy
     // from the "magnetic" closing energy.
     final spring = SpringDescription(
       mass: 1.0,
-      stiffness: isClosing ? style.springStiffness * 1.1 : style.springStiffness,
+      stiffness: isClosing
+          ? style.springStiffness * 1.1
+          : style.springStiffness,
       damping: isClosing ? style.springDamping * 1.1 : style.springDamping,
     );
 
@@ -134,14 +136,18 @@ class _FeedbackInteractionState extends State<FeedbackInteraction>
     final style = widget.style;
     final totalIdleWidth = (style.buttonInitialWidth * 2) + style.spacing;
     final double expandedWidth = style.pillExpandedWidth;
-    const double height = 60.0; 
+    const double height = 60.0;
 
     return Center(
       child: AnimatedBuilder(
         animation: _morphController,
         builder: (context, child) {
-          final double currentWidth = lerpDouble(totalIdleWidth, expandedWidth, _morphController.value)!;
-          
+          final double currentWidth = lerpDouble(
+            totalIdleWidth,
+            expandedWidth,
+            _morphController.value,
+          )!;
+
           // Construct buttons inside builder to ensure they use current animation values
           final List<Widget> children = [
             _buildAnimatedButton(
@@ -165,14 +171,11 @@ class _FeedbackInteractionState extends State<FeedbackInteraction>
             final pos = children.removeAt(0);
             children.add(pos);
           }
-          
+
           return SizedBox(
             width: currentWidth,
             height: height,
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: children,
-            ),
+            child: Stack(clipBehavior: Clip.none, children: children),
           );
         },
       ),
@@ -188,34 +191,48 @@ class _FeedbackInteractionState extends State<FeedbackInteraction>
   }) {
     final style = widget.style;
     final bool isAnySelected = _isPositive != null;
-    
-    final double initialLeft = isPositive ? 0 : (style.buttonInitialWidth + style.spacing);
-    
+
+    final double initialLeft = isPositive
+        ? 0
+        : (style.buttonInitialWidth + style.spacing);
+
     // Smoothly transition from individual slot to full pill
-    final double currentLeft = isSelected 
-        ? lerpDouble(initialLeft, 0.0, _morphController.value)! 
+    final double currentLeft = isSelected
+        ? lerpDouble(initialLeft, 0.0, _morphController.value)!
         : initialLeft;
-        
-    final double currentWidth = isSelected 
-        ? lerpDouble(style.buttonInitialWidth, expandedWidth, _morphController.value)! 
+
+    final double currentWidth = isSelected
+        ? lerpDouble(
+            style.buttonInitialWidth,
+            expandedWidth,
+            _morphController.value,
+          )!
         : style.buttonInitialWidth;
 
-    // To keep the icon perfectly centered in the growing container, we calculate 
+    // To keep the icon perfectly centered in the growing container, we calculate
     // the delta between the pill's center and the button's center.
-    // We multiply by the controller value to "decay" the offset as we return to 
+    // We multiply by the controller value to "decay" the offset as we return to
     // the idle state, ensuring a seamless landing in the original slot.
-    final double currentContainerWidth = lerpDouble(totalIdleWidth, expandedWidth, _morphController.value)!;
+    final double currentContainerWidth = lerpDouble(
+      totalIdleWidth,
+      expandedWidth,
+      _morphController.value,
+    )!;
     final double containerCenter = currentContainerWidth / 2;
     final double buttonCenter = currentLeft + (currentWidth / 2);
-    
-    final double contentOffset = isSelected 
-        ? (containerCenter - buttonCenter) * _morphController.value.clamp(0.0, 1.0) 
+
+    final double contentOffset = isSelected
+        ? (containerCenter - buttonCenter) *
+              _morphController.value.clamp(0.0, 1.0)
         : 0.0;
 
     double opacity = 1.0;
     double blur = 0.0;
     if (isAnySelected && !isSelected) {
-      opacity = (1.0 - (_morphController.value * style.fadeVelocity)).clamp(0.0, 1.0);
+      opacity = (1.0 - (_morphController.value * style.fadeVelocity)).clamp(
+        0.0,
+        1.0,
+      );
       blur = _morphController.value.clamp(0.0, 1.0) * style.maxBlur;
     }
 
@@ -258,27 +275,32 @@ class _FeedbackInteractionState extends State<FeedbackInteraction>
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(icon, size: 24, color: style.foregroundColor),
-            
-            if (isSelected) 
+
+            if (isSelected)
               SizeTransition(
                 sizeFactor: _morphController,
                 axis: Axis.horizontal,
                 axisAlignment: -1.0,
                 child: Opacity(
-                  opacity: ((_morphController.value - 0.4) / 0.6).clamp(0.0, 1.0),
+                  opacity: ((_morphController.value - 0.4) / 0.6).clamp(
+                    0.0,
+                    1.0,
+                  ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const SizedBox(width: 8),
                       Text(
                         widget.message,
-                        style: style.messageTextStyle ?? TextStyle(
-                          color: style.foregroundColor,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14,
-                          letterSpacing: -0.2,
-                          height: 1.0, 
-                        ),
+                        style:
+                            style.messageTextStyle ??
+                            TextStyle(
+                              color: style.foregroundColor,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                              letterSpacing: -0.2,
+                              height: 1.0,
+                            ),
                       ),
                       const SizedBox(width: 10),
                       _buildUndoButton(style),
@@ -308,13 +330,15 @@ class _FeedbackInteractionState extends State<FeedbackInteraction>
             Icon(style.undoIcon, color: style.foregroundColor, size: 12),
             const SizedBox(width: 4),
             Text(
-              widget.undoLabel, 
-              style: style.undoTextStyle ?? TextStyle(
-                color: style.foregroundColor,
-                fontWeight: FontWeight.w700,
-                fontSize: 12,
-                height: 1.0,
-              ),
+              widget.undoLabel,
+              style:
+                  style.undoTextStyle ??
+                  TextStyle(
+                    color: style.foregroundColor,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 12,
+                    height: 1.0,
+                  ),
             ),
           ],
         ),

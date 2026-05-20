@@ -41,8 +41,7 @@ class _AdaptiveSliderShowcaseState extends State<AdaptiveSliderShowcase> {
                     value: _currentCalories,
                     min: 0,
                     max: 350,
-                    onChanged: (val) =>
-                        setState(() => _currentCalories = val),
+                    onChanged: (val) => setState(() => _currentCalories = val),
                     title: 'Calories',
                     unit: 'kCal',
                     step: 50,

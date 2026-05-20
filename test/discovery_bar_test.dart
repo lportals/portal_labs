@@ -11,7 +11,9 @@ void main() {
       const DiscoveryOption(label: 'Hotels', icon: Icons.hotel),
     ];
 
-    testWidgets('renders in searching state by default', (WidgetTester tester) async {
+    testWidgets('renders in searching state by default', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -29,14 +31,12 @@ void main() {
       expect(find.text('Coffee'), findsNothing);
     });
 
-    testWidgets('toggles to discovery state when close icon is tapped', (WidgetTester tester) async {
+    testWidgets('toggles to discovery state when close icon is tapped', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: DiscoveryBar(
-              options: options,
-            ),
-          ),
+          home: Scaffold(body: DiscoveryBar(options: options)),
         ),
       );
 
@@ -51,30 +51,31 @@ void main() {
       expect(find.byIcon(Icons.search), findsOneWidget);
     });
 
-    testWidgets('toggles back to search state when search icon is tapped in discovery mode', (WidgetTester tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: DiscoveryBar(
-              options: options,
-            ),
+    testWidgets(
+      'toggles back to search state when search icon is tapped in discovery mode',
+      (WidgetTester tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(body: DiscoveryBar(options: options)),
           ),
-        ),
-      );
+        );
 
-      // Switch to discovery
-      await tester.tap(find.byIcon(Icons.close));
-      await tester.pumpAndSettle();
+        // Switch to discovery
+        await tester.tap(find.byIcon(Icons.close));
+        await tester.pumpAndSettle();
 
-      // Tap search icon to switch back
-      await tester.tap(find.byIcon(Icons.search));
-      await tester.pumpAndSettle();
+        // Tap search icon to switch back
+        await tester.tap(find.byIcon(Icons.search));
+        await tester.pumpAndSettle();
 
-      expect(find.byType(TextField), findsOneWidget);
-      expect(find.text('Coffee'), findsNothing);
-    });
+        expect(find.byType(TextField), findsOneWidget);
+        expect(find.text('Coffee'), findsNothing);
+      },
+    );
 
-    testWidgets('triggers onOptionSelected when an option is tapped', (WidgetTester tester) async {
+    testWidgets('triggers onOptionSelected when an option is tapped', (
+      WidgetTester tester,
+    ) async {
       DiscoveryOption? selectedOption;
 
       await tester.pumpWidget(
@@ -100,7 +101,9 @@ void main() {
       expect(selectedOption?.label, 'Food');
     });
 
-    testWidgets('triggers onSearchSubmitted when search is submitted', (WidgetTester tester) async {
+    testWidgets('triggers onSearchSubmitted when search is submitted', (
+      WidgetTester tester,
+    ) async {
       String? submittedText;
 
       await tester.pumpWidget(

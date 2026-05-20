@@ -37,20 +37,22 @@ void main() {
       );
 
       // Find the switch track (GestureDetector in _PremiumSwitch)
-      // We can tap the title or the switch. The title row is wrapped in a Container, 
+      // We can tap the title or the switch. The title row is wrapped in a Container,
       // but the switch itself is a GestureDetector.
       await tester.tap(find.text('Toggle Me'));
       // Wait, let's check if the title row is interactive.
       // _DisclosureSwitchState.build -> Row -> _PremiumSwitch
       // Only _PremiumSwitch has a GestureDetector.
-      
+
       await tester.tap(find.byType(GestureDetector).last);
       await tester.pumpAndSettle();
 
       expect(newValue, isTrue);
     });
 
-    testWidgets('shows revealedChild when value is true', (WidgetTester tester) async {
+    testWidgets('shows revealedChild when value is true', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -68,7 +70,9 @@ void main() {
       expect(find.text('Hidden Content'), findsOneWidget);
     });
 
-    testWidgets('hides revealedChild when value is false', (WidgetTester tester) async {
+    testWidgets('hides revealedChild when value is false', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -85,7 +89,7 @@ void main() {
       // It might be in the tree but with opacity 0 or height 0.
       // The implementation uses Align with heightFactor: t.clamp(0.0, 1.0)
       // and returns SizedBox.shrink() if t <= 0.001.
-      
+
       await tester.pumpAndSettle();
       expect(find.text('Hidden Content'), findsNothing);
     });

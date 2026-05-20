@@ -80,14 +80,18 @@ class _LoadingShapesShowcaseState extends State<LoadingShapesShowcase> {
                 backgroundColor: const Color(0xFF1D1D1F),
                 foregroundColor: Colors.white,
                 elevation: 0,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 40, vertical: 18),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 40,
+                  vertical: 18,
+                ),
                 shape: const StadiumBorder(),
               ),
               child: Text(
                 _isLoading ? 'Stop Loading' : 'Start Loading',
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
               ),
             ),
           ],

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 /// A collection of color tokens used throughout the Portal Labs design system.
 class PortalColors {
-
   /// Creates a [PortalColors] instance with all required color tokens.
   const PortalColors({
     required this.primary,
@@ -42,6 +41,7 @@ class PortalColors {
       warning: Color(0xFFD4B300),
     );
   }
+
   /// The primary brand or action color.
   final Color primary;
 

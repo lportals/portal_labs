@@ -5,8 +5,9 @@ import 'package:portal_labs/src/fractional_picker/models/fractional_picker_style
 
 void main() {
   group('ModernFractionalPicker', () {
-    testWidgets('renders correctly with initial value', (WidgetTester tester) async {
-
+    testWidgets('renders correctly with initial value', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -20,7 +21,7 @@ void main() {
 
       // Verify the widget exists
       expect(find.byType(ModernFractionalPicker), findsOneWidget);
-      
+
       // Verify semantics/initial value
       final semantics = tester.getSemantics(find.byType(SingleChildScrollView));
       expect(semantics.value, '50');
@@ -44,7 +45,10 @@ void main() {
       );
 
       // Drag the ruler
-      await tester.drag(find.byType(SingleChildScrollView), const Offset(-64.0, 0.0));
+      await tester.drag(
+        find.byType(SingleChildScrollView),
+        const Offset(-64.0, 0.0),
+      );
       await tester.pump();
       await tester.pump(const Duration(seconds: 1));
 
@@ -52,7 +56,9 @@ void main() {
       expect(lastValue, closeTo(51.0, 0.1));
     });
 
-    testWidgets('snaps to integer values when decimalPlaces is 0', (WidgetTester tester) async {
+    testWidgets('snaps to integer values when decimalPlaces is 0', (
+      WidgetTester tester,
+    ) async {
       double lastValue = 50.0;
 
       await tester.pumpWidget(
@@ -70,15 +76,21 @@ void main() {
       );
 
       // Drag 33 pixels (more than half a unit). It should snap to 51.
-      await tester.drag(find.byType(SingleChildScrollView), const Offset(-33.0, 0.0));
+      await tester.drag(
+        find.byType(SingleChildScrollView),
+        const Offset(-33.0, 0.0),
+      );
       await tester.pump();
       await tester.pump(const Duration(seconds: 1));
 
       // Should be 51
       expect(lastValue, 51.0);
-      
+
       // Drag back 10 pixels. Should stay at 51 because it's not enough to cross the 0.5 threshold.
-      await tester.drag(find.byType(SingleChildScrollView), const Offset(10.0, 0.0));
+      await tester.drag(
+        find.byType(SingleChildScrollView),
+        const Offset(10.0, 0.0),
+      );
       await tester.pump();
       await tester.pump(const Duration(seconds: 1));
       expect(lastValue, 51.0);
@@ -105,7 +117,10 @@ void main() {
       // pixelsPerUnit for decimalPlaces: 1 is 120.0
       // stepWidth is 12.0 (120 / 10)
       // Drag 12 pixels to move 0.1 units
-      await tester.drag(find.byType(SingleChildScrollView), const Offset(-12.0, 0.0));
+      await tester.drag(
+        find.byType(SingleChildScrollView),
+        const Offset(-12.0, 0.0),
+      );
       await tester.pump();
       await tester.pump(const Duration(seconds: 1));
 
@@ -131,13 +146,19 @@ void main() {
       );
 
       // Drag way past max
-      await tester.drag(find.byType(SingleChildScrollView), const Offset(-500.0, 0.0));
+      await tester.drag(
+        find.byType(SingleChildScrollView),
+        const Offset(-500.0, 0.0),
+      );
       await tester.pump();
       await tester.pump(const Duration(seconds: 1));
       expect(lastValue, 2.0);
 
       // Drag way past min
-      await tester.drag(find.byType(SingleChildScrollView), const Offset(1000.0, 0.0));
+      await tester.drag(
+        find.byType(SingleChildScrollView),
+        const Offset(1000.0, 0.0),
+      );
       await tester.pump();
       await tester.pump(const Duration(seconds: 1));
       expect(lastValue, 0.0);

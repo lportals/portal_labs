@@ -19,7 +19,6 @@ import '../common/premium_flip_counter.dart';
 /// )
 /// ```
 class JournalNavigation extends StatefulWidget {
-
   /// Creates a [JournalNavigation] with the given [items] and optional configuration.
   const JournalNavigation({
     super.key,
@@ -29,6 +28,7 @@ class JournalNavigation extends StatefulWidget {
     this.style = const JournalStyle(),
     this.height = 340.0,
   });
+
   /// The list of items to display.
   final List<JournalItem> items;
 
@@ -295,7 +295,6 @@ class _JournalNavigationState extends State<JournalNavigation> {
 
 /// Private helper widget for the vertical date slider.
 class _DateSlider extends StatelessWidget {
-
   const _DateSlider({
     required this.style,
     required this.items,
@@ -445,7 +444,6 @@ class _DateSlider extends StatelessWidget {
 
 /// Navigation arrows widget with style injection.
 class _NavigationArrows extends StatelessWidget {
-
   const _NavigationArrows({required this.style, this.onPrevious, this.onNext});
   final JournalStyle style;
   final VoidCallback? onPrevious;
@@ -474,7 +472,6 @@ class _NavigationArrows extends StatelessWidget {
 }
 
 class _ArrowButton extends StatelessWidget {
-
   const _ArrowButton({
     required this.icon,
     this.onPressed,

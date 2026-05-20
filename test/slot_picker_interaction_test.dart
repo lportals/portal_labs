@@ -5,9 +5,7 @@ import 'package:portal_labs/portal_labs.dart';
 void main() {
   group('SlotPickerInteraction', () {
     final testItems = [
-      const SlotPickerItem(
-        title: 'Monday',
-      ),
+      const SlotPickerItem(title: 'Monday'),
       const SlotPickerItem(
         title: 'Tuesday',
         isEnabled: true,
@@ -20,14 +18,14 @@ void main() {
       ),
     ];
 
-    testWidgets('renders all items with correct titles', (WidgetTester tester) async {
+    testWidgets('renders all items with correct titles', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: SingleChildScrollView(
-              child: SlotPickerInteraction(
-                items: testItems,
-              ),
+              child: SlotPickerInteraction(items: testItems),
             ),
           ),
         ),
@@ -37,65 +35,66 @@ void main() {
       expect(find.text('Tuesday'), findsOneWidget);
     });
 
-    testWidgets('expands item and shows slots when tapped', (WidgetTester tester) async {
+    testWidgets('expands item and shows slots when tapped', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: SingleChildScrollView(
-              child: SlotPickerInteraction(
-                items: testItems,
-              ),
+              child: SlotPickerInteraction(items: testItems),
             ),
           ),
         ),
       );
 
       // Tuesday is already enabled, but let's check if its slots are visible
-      // By default it might not be expanded even if enabled, 
+      // By default it might not be expanded even if enabled,
       // but in the implementation _handleHeaderTap handles expansion.
       // Wait, let's check the code again.
       // In _SlotPickerInteractionState:
       // final isExpanded = _expandedIndices.contains(index);
-      
+
       // So Monday is collapsed. Let's tap it.
       await tester.tap(find.text('Monday'));
       await tester.pumpAndSettle();
 
-      // Monday should now be expanded. 
+      // Monday should now be expanded.
       // It should also have triggered onItemToggle and onAddSlot if slots were empty.
     });
 
-    testWidgets('triggers onItemToggle and onAddSlot when enabling an empty item', (WidgetTester tester) async {
-      int? toggledIndex;
-      bool? toggledState;
-      int? addedSlotIndex;
+    testWidgets(
+      'triggers onItemToggle and onAddSlot when enabling an empty item',
+      (WidgetTester tester) async {
+        int? toggledIndex;
+        bool? toggledState;
+        int? addedSlotIndex;
 
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: SlotPickerInteraction(
-              items: [
-                const SlotPickerItem(title: 'Monday'),
-              ],
-              onItemToggle: (index, state) {
-                toggledIndex = index;
-                toggledState = state;
-              },
-              onAddSlot: (index) {
-                addedSlotIndex = index;
-              },
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: SlotPickerInteraction(
+                items: [const SlotPickerItem(title: 'Monday')],
+                onItemToggle: (index, state) {
+                  toggledIndex = index;
+                  toggledState = state;
+                },
+                onAddSlot: (index) {
+                  addedSlotIndex = index;
+                },
+              ),
             ),
           ),
-        ),
-      );
+        );
 
-      await tester.tap(find.text('Monday'));
-      await tester.pumpAndSettle();
+        await tester.tap(find.text('Monday'));
+        await tester.pumpAndSettle();
 
-      expect(toggledIndex, 0);
-      expect(toggledState, true);
-      expect(addedSlotIndex, 0);
-    });
+        expect(toggledIndex, 0);
+        expect(toggledState, true);
+        expect(addedSlotIndex, 0);
+      },
+    );
 
     testWidgets('can remove a slot', (WidgetTester tester) async {
       int? removedItemIndex;
@@ -140,7 +139,9 @@ void main() {
       expect(removedSlotIndex, 0);
     });
 
-    testWidgets('can add a slot when "Add More" is tapped', (WidgetTester tester) async {
+    testWidgets('can add a slot when "Add More" is tapped', (
+      WidgetTester tester,
+    ) async {
       int? addedIndex;
 
       await tester.pumpWidget(
@@ -177,10 +178,10 @@ void main() {
       expect(addedIndex, 0);
     });
 
-    testWidgets('shows overlap error when enabled', (WidgetTester tester) async {
-      final style = const SlotPickerStyle(
-        errorColor: Colors.red,
-      );
+    testWidgets('shows overlap error when enabled', (
+      WidgetTester tester,
+    ) async {
+      final style = const SlotPickerStyle(errorColor: Colors.red);
 
       await tester.pumpWidget(
         MaterialApp(
@@ -217,7 +218,9 @@ void main() {
           final decoration = widget.decoration as BoxDecoration;
           // Use a more robust check for color
           final color = decoration.color;
-          return color != null && (color.r * 255).round() == (Colors.red.r * 255).round() && color.a < 0.1;
+          return color != null &&
+              (color.r * 255).round() == (Colors.red.r * 255).round() &&
+              color.a < 0.1;
         }
         return false;
       });

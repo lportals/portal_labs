@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 /// Defines the geometric properties of a single shape state.
 class PortalShapeDefinition {
   /// Creates a new [PortalShapeDefinition].
@@ -17,7 +16,7 @@ class PortalShapeDefinition {
   /// 1.0 creates a regular polygon, while lower values create stars.
   final double innerRadiusRatio;
 
-  /// How smooth the shape transitions are. 
+  /// How smooth the shape transitions are.
   /// 0.0 is a sharp polygon, 1.0 is a smooth organic blob.
   final double smoothness;
 }

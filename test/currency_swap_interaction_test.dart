@@ -10,7 +10,9 @@ void main() {
   ];
 
   group('CurrencySwapInteraction', () {
-    testWidgets('renders correctly and calculates initial conversion', (WidgetTester tester) async {
+    testWidgets('renders correctly and calculates initial conversion', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -32,7 +34,9 @@ void main() {
       expect(find.text('90'), findsOneWidget);
     });
 
-    testWidgets('swaps currencies and amounts when swap button is tapped', (WidgetTester tester) async {
+    testWidgets('swaps currencies and amounts when swap button is tapped', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -55,12 +59,14 @@ void main() {
       // After swap: 90 USD (was to) becomes the 'from', 100 EUR (was from) becomes the 'to'
       expect(find.byKey(const ValueKey('currency_code_EUR')), findsOneWidget);
       expect(find.byKey(const ValueKey('currency_code_USD')), findsOneWidget);
-      
+
       expect(find.text('90'), findsOneWidget);
       expect(find.text('100'), findsOneWidget);
     });
 
-    testWidgets('triggers onProceed when button is tapped', (WidgetTester tester) async {
+    testWidgets('triggers onProceed when button is tapped', (
+      WidgetTester tester,
+    ) async {
       bool proceeded = false;
       await tester.pumpWidget(
         MaterialApp(
@@ -81,7 +87,9 @@ void main() {
       expect(proceeded, isTrue);
     });
 
-    testWidgets('updates toAmount when fromAmount is changed', (WidgetTester tester) async {
+    testWidgets('updates toAmount when fromAmount is changed', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -99,7 +107,7 @@ void main() {
       // The flip counter might be complex, so let's find it by text '10'
       await tester.tap(find.text('10'), warnIfMissed: false);
       await tester.pump();
-      
+
       final textField = find.byType(TextField).first;
       await tester.enterText(textField, '50');
       await tester.pump();
@@ -108,7 +116,9 @@ void main() {
       expect(find.text('100'), findsOneWidget);
     });
 
-    testWidgets('opens currency selector and changes currency', (WidgetTester tester) async {
+    testWidgets('opens currency selector and changes currency', (
+      WidgetTester tester,
+    ) async {
       Currency? selected;
       await tester.pumpWidget(
         MaterialApp(

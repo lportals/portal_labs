@@ -47,18 +47,29 @@ class _DisclosureSwitchShowcaseState extends State<DisclosureSwitchShowcase> {
                 DisclosureSwitch(
                   title: 'Advanced Suggestions',
                   value: _advancedEnabled,
-                  onChanged: (val) =>
-                      setState(() => _advancedEnabled = val),
-                  icon: const Icon(Icons.tune_rounded,
-                      size: 24, color: Color(0xFF8E8E93)),
+                  onChanged: (val) => setState(() => _advancedEnabled = val),
+                  icon: const Icon(
+                    Icons.tune_rounded,
+                    size: 24,
+                    color: Color(0xFF8E8E93),
+                  ),
                   revealedChild: Column(
                     children: [
-                      _buildOptionRow('Inline Suggestions', _inlineSuggestions,
-                          (val) => setState(() => _inlineSuggestions = val)),
-                      _buildOptionRow('Auto-correct words', _autoCorrect,
-                          (val) => setState(() => _autoCorrect = val)),
-                      _buildOptionRow('Smart Replies', _smartReplies,
-                          (val) => setState(() => _smartReplies = val)),
+                      _buildOptionRow(
+                        'Inline Suggestions',
+                        _inlineSuggestions,
+                        (val) => setState(() => _inlineSuggestions = val),
+                      ),
+                      _buildOptionRow(
+                        'Auto-correct words',
+                        _autoCorrect,
+                        (val) => setState(() => _autoCorrect = val),
+                      ),
+                      _buildOptionRow(
+                        'Smart Replies',
+                        _smartReplies,
+                        (val) => setState(() => _smartReplies = val),
+                      ),
                     ],
                   ),
                 ),
@@ -71,7 +82,10 @@ class _DisclosureSwitchShowcaseState extends State<DisclosureSwitchShowcase> {
   }
 
   Widget _buildOptionRow(
-      String label, bool value, ValueChanged<bool> onChanged) {
+    String label,
+    bool value,
+    ValueChanged<bool> onChanged,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
@@ -79,11 +93,14 @@ class _DisclosureSwitchShowcaseState extends State<DisclosureSwitchShowcase> {
           _PremiumCheckbox(value: value, onChanged: onChanged),
           const SizedBox(width: 12),
           Expanded(
-            child: Text(label,
-                style: const TextStyle(
-                    fontSize: 16,
-                    color: Color(0xFF8E8E93),
-                    fontWeight: FontWeight.w500)),
+            child: Text(
+              label,
+              style: const TextStyle(
+                fontSize: 16,
+                color: Color(0xFF8E8E93),
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           ),
         ],
       ),
@@ -109,8 +126,7 @@ class _PremiumCheckbox extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           border: Border.all(
-            color:
-                value ? Colors.transparent : const Color(0xFF8E8E93),
+            color: value ? Colors.transparent : const Color(0xFF8E8E93),
             width: 1.5,
           ),
           gradient: value

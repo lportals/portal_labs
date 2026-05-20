@@ -10,7 +10,6 @@ import 'widgets/weight_ruler_painter.dart';
 /// Replicates a high-fidelity analog scale with haptic feedback,
 /// curved ruler interaction, and organic transitions.
 class ModernWeightPicker extends StatefulWidget {
-
   /// Creates a [ModernWeightPicker] with the given configuration.
   const ModernWeightPicker({
     super.key,
@@ -24,6 +23,7 @@ class ModernWeightPicker extends StatefulWidget {
     this.height = 320,
     this.style,
   });
+
   /// The minimum scrollable value.
   final double minValue;
 
@@ -123,10 +123,13 @@ class _ModernWeightPickerState extends State<ModernWeightPicker> {
   Widget build(BuildContext context) {
     final theme = PortalTheme.of(context);
     final activeColor = widget.style?.activeColor ?? theme.colors.primary;
-    final inactiveColor = widget.style?.inactiveColor ?? theme.colors.textSecondary;
+    final inactiveColor =
+        widget.style?.inactiveColor ?? theme.colors.textSecondary;
     final tickColor = widget.style?.tickColor ?? theme.colors.border;
     final bgColor = widget.style?.backgroundColor ?? theme.colors.surface;
-    final borderRadius = widget.style?.borderRadius ?? (widget.height / 7.27); // Standardize radius (44 / 320 ≈ 1/7.27)
+    final borderRadius =
+        widget.style?.borderRadius ??
+        (widget.height / 7.27); // Standardize radius (44 / 320 ≈ 1/7.27)
 
     return Container(
       height: widget.height,

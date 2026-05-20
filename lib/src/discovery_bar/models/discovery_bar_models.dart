@@ -3,13 +3,13 @@ import '../../common/portal_animations.dart';
 
 /// A model representing an option in the [DiscoveryBar].
 class DiscoveryOption {
-
   /// Creates a [DiscoveryOption].
   const DiscoveryOption({
     required this.label,
     required this.icon,
     this.activeColor = const Color(0xFFFF3B30),
   });
+
   /// The text label for this option.
   final String label;
 
@@ -44,11 +44,7 @@ class DiscoveryBarStyle {
     this.searchIconSize = 24.0,
     this.borderRadius,
     this.shadows = const [
-      BoxShadow(
-        color: Color(0x0D000000),
-        blurRadius: 15,
-        offset: Offset(0, 4),
-      ),
+      BoxShadow(color: Color(0x0D000000), blurRadius: 15, offset: Offset(0, 4)),
     ],
     this.enableHaptics = true,
   });

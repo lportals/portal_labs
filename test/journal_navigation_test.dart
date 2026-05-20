@@ -59,14 +59,12 @@ void main() {
       expect(selectedItem!.title, 'Day 2');
     });
 
-    testWidgets('Should navigate with vertical scroller', (WidgetTester tester) async {
+    testWidgets('Should navigate with vertical scroller', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: JournalNavigation(
-              items: mockItems,
-            ),
-          ),
+          home: Scaffold(body: JournalNavigation(items: mockItems)),
         ),
       );
 

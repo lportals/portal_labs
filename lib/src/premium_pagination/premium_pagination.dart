@@ -5,7 +5,7 @@ import '../common/premium_flip_counter.dart';
 import 'models/premium_pagination_style.dart';
 
 /// A premium, highly customizable pagination widget with mechanical flip animations.
-/// 
+///
 /// Displays pagination in the format: `[Prev] [Current] of [Total] [Next]`
 class PremiumPagination extends StatefulWidget {
   /// Creates a [PremiumPagination] widget.
@@ -19,7 +19,10 @@ class PremiumPagination extends StatefulWidget {
     this.previousIcon = Icons.arrow_back_rounded,
     this.nextIcon = Icons.arrow_forward_rounded,
     this.separatorText = 'of',
-  }) : assert(currentPage >= 1 && currentPage <= totalPages, 'currentPage must be between 1 and totalPages');
+  }) : assert(
+         currentPage >= 1 && currentPage <= totalPages,
+         'currentPage must be between 1 and totalPages',
+       );
 
   /// The current active page (1-indexed).
   final int currentPage;
@@ -76,12 +79,13 @@ class _PremiumPaginationState extends State<PremiumPagination> {
 
   @override
   Widget build(BuildContext context) {
-    final labelStyle = widget.style.labelStyle ?? 
+    final labelStyle =
+        widget.style.labelStyle ??
         widget.style.textStyle.copyWith(
           color: widget.style.textStyle.color?.withValues(alpha: 0.4),
           fontWeight: FontWeight.w400,
-          fontSize: widget.style.textStyle.fontSize != null 
-              ? widget.style.textStyle.fontSize! * 0.7 
+          fontSize: widget.style.textStyle.fontSize != null
+              ? widget.style.textStyle.fontSize! * 0.7
               : 16,
         );
 
@@ -90,7 +94,10 @@ class _PremiumPaginationState extends State<PremiumPagination> {
       decoration: BoxDecoration(
         color: widget.style.backgroundColor,
         borderRadius: BorderRadius.circular(widget.style.borderRadius),
-        border: Border.all(color: widget.style.borderColor, width: widget.style.borderWidth),
+        border: Border.all(
+          color: widget.style.borderColor,
+          width: widget.style.borderWidth,
+        ),
         boxShadow: widget.style.shadows,
       ),
       child: Row(
@@ -114,19 +121,15 @@ class _PremiumPaginationState extends State<PremiumPagination> {
                   upward: _isNext,
                   style: widget.style.textStyle,
                   padWithZero: widget.style.padWithZero,
-                  maxDigits: widget.style.maxDigits ?? widget.totalPages.toString().length,
+                  maxDigits:
+                      widget.style.maxDigits ??
+                      widget.totalPages.toString().length,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Text(
-                    widget.separatorText,
-                    style: labelStyle,
-                  ),
+                  child: Text(widget.separatorText, style: labelStyle),
                 ),
-                Text(
-                  '${widget.totalPages}',
-                  style: widget.style.textStyle,
-                ),
+                Text('${widget.totalPages}', style: widget.style.textStyle),
               ],
             ),
           ),
@@ -165,7 +168,8 @@ class _PaginationButton extends StatefulWidget {
   State<_PaginationButton> createState() => _PaginationButtonState();
 }
 
-class _PaginationButtonState extends State<_PaginationButton> with SingleTickerProviderStateMixin {
+class _PaginationButtonState extends State<_PaginationButton>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
   bool _isHovered = false;
@@ -178,10 +182,7 @@ class _PaginationButtonState extends State<_PaginationButton> with SingleTickerP
       duration: const Duration(milliseconds: 300),
     );
     _scaleAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const PortalSpringCurve(),
-      ),
+      CurvedAnimation(parent: _controller, curve: const PortalSpringCurve()),
     );
   }
 
@@ -202,7 +203,9 @@ class _PaginationButtonState extends State<_PaginationButton> with SingleTickerP
       child: MouseRegion(
         onEnter: (_) => setState(() => _isHovered = true),
         onExit: (_) => setState(() => _isHovered = false),
-        cursor: isActuallyEnabled ? SystemMouseCursors.click : SystemMouseCursors.forbidden,
+        cursor: isActuallyEnabled
+            ? SystemMouseCursors.click
+            : SystemMouseCursors.forbidden,
         child: GestureDetector(
           onTapDown: isActuallyEnabled ? (_) => _controller.forward() : null,
           onTapUp: isActuallyEnabled ? (_) => _controller.reverse() : null,
@@ -215,15 +218,17 @@ class _PaginationButtonState extends State<_PaginationButton> with SingleTickerP
               width: widget.style.buttonSize,
               height: widget.style.buttonSize,
               decoration: BoxDecoration(
-                shape: widget.style.buttonBorderRadius == null ? BoxShape.circle : BoxShape.rectangle,
-                borderRadius: widget.style.buttonBorderRadius != null 
-                    ? BorderRadius.circular(widget.style.buttonBorderRadius!) 
+                shape: widget.style.buttonBorderRadius == null
+                    ? BoxShape.circle
+                    : BoxShape.rectangle,
+                borderRadius: widget.style.buttonBorderRadius != null
+                    ? BorderRadius.circular(widget.style.buttonBorderRadius!)
                     : null,
                 boxShadow: isActuallyEnabled ? widget.style.shadows : null,
                 color: isActuallyEnabled
                     ? (_isHovered
-                        ? widget.style.buttonColor.withValues(alpha: 0.9)
-                        : widget.style.buttonColor)
+                          ? widget.style.buttonColor.withValues(alpha: 0.9)
+                          : widget.style.buttonColor)
                     : const Color(0xFFF2F2F7), // Soft grey when unavailable
               ),
               child: Icon(
@@ -240,4 +245,3 @@ class _PaginationButtonState extends State<_PaginationButton> with SingleTickerP
     );
   }
 }
-

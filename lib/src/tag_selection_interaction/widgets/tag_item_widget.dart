@@ -8,7 +8,6 @@ import '../models/tag_selection_style.dart';
 /// This widget handles its own visual state transitions (selected vs unselected)
 /// with smooth animations and high-fidelity styling.
 class TagItemWidget extends StatelessWidget {
-
   /// Creates a new [TagItemWidget].
   const TagItemWidget({
     super.key,
@@ -17,6 +16,7 @@ class TagItemWidget extends StatelessWidget {
     required this.onTap,
     required this.style,
   });
+
   /// The tag data model.
   final TagModel tag;
 
@@ -42,22 +42,22 @@ class TagItemWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(style.borderRadius),
           boxShadow: isSelected ? style.selectedTagShadows : null,
         ),
-        constraints: const BoxConstraints(
-          minHeight: 40.0,
-          maxHeight: 40.0,
-        ),
+        constraints: const BoxConstraints(minHeight: 40.0, maxHeight: 40.0),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               tag.label,
-              style: isSelected ? style.selectedTextStyle : style.unselectedTextStyle,
+              style: isSelected
+                  ? style.selectedTextStyle
+                  : style.unselectedTextStyle,
             ),
             // Smoothly animate the 'X' icon instead of popping it
             AnimatedContainer(
               duration: const Duration(milliseconds: 400),
-              curve: Curves.easeOut, // Changed to prevent negative width on back-bounce
+              curve: Curves
+                  .easeOut, // Changed to prevent negative width on back-bounce
               width: isSelected ? 20.0 : 0.0,
               child: AnimatedOpacity(
                 duration: const Duration(milliseconds: 300),

@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 /// Represents a single task in the [TodoListInteraction].
 @immutable
 class TodoItem {
-
   /// Creates a [TodoItem].
   const TodoItem({
     required this.id,
@@ -11,6 +10,7 @@ class TodoItem {
     required this.categoryId,
     this.isCompleted = false,
   });
+
   /// Unique identifier for the task.
   final String id;
 
@@ -24,11 +24,7 @@ class TodoItem {
   final bool isCompleted;
 
   /// Creates a copy of this task with updated fields.
-  TodoItem copyWith({
-    String? title,
-    String? categoryId,
-    bool? isCompleted,
-  }) {
+  TodoItem copyWith({String? title, String? categoryId, bool? isCompleted}) {
     return TodoItem(
       id: id,
       title: title ?? this.title,
@@ -48,5 +44,6 @@ class TodoItem {
           isCompleted == other.isCompleted;
 
   @override
-  int get hashCode => id.hashCode ^ title.hashCode ^ categoryId.hashCode ^ isCompleted.hashCode;
+  int get hashCode =>
+      id.hashCode ^ title.hashCode ^ categoryId.hashCode ^ isCompleted.hashCode;
 }

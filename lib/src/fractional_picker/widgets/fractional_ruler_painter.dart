@@ -62,7 +62,7 @@ class FractionalRulerPainter extends CustomPainter {
     // Visible range with 1-unit padding for overdraw margin.
     final double half = centerX / pixelsPerUnit;
     final double startVal = currentValue - half - 1.5;
-    final double endVal   = currentValue + half + 1.5;
+    final double endVal = currentValue + half + 1.5;
 
     final double tickY = size.height - 8;
 
@@ -70,7 +70,7 @@ class FractionalRulerPainter extends CustomPainter {
     // Decimal mode uses 0.1 steps (9 intermediate ticks).
     // Integer mode uses 0.2 steps (4 intermediate ticks).
     final int stepScale = decimalPlaces == 0 ? 5 : 10;
-    
+
     final int startStep = (startVal * stepScale).floor();
     final int endStep = (endVal * stepScale).ceil();
 
@@ -84,10 +84,9 @@ class FractionalRulerPainter extends CustomPainter {
       // In integer mode (step 0.2): t % 5 == 0 is major (integer)
       // In decimal mode (step 0.1): t % 10 == 0 is major (integer)
       final bool isMajor = decimalPlaces == 0 ? (t % 5 == 0) : (t % 10 == 0);
-      final bool isHalf  = decimalPlaces == 0 ? false : (t % 5 == 0 && !isMajor);
+      final bool isHalf = decimalPlaces == 0 ? false : (t % 5 == 0 && !isMajor);
       final double tickH = isMajor ? 14.0 : (isHalf ? 9.0 : 6.0);
 
-      
       // Fixed uniform color for all ticks, with high contrast
       _paint.color = tickColor.withValues(alpha: 0.7);
       canvas.drawLine(Offset(x, tickY), Offset(x, tickY - tickH), _paint);
@@ -104,14 +103,20 @@ class FractionalRulerPainter extends CustomPainter {
       // Sharp falloff for the 'active' state (color)
       // distance of 1.5 units is where it becomes fully inactive
       final double colorT = (1.0 - (dist / 1.5)).clamp(0.0, 1.0);
-      
+
       // All labels are visible (high alpha), but only center is dark
-      
-      final Color labelColor = Color.lerp(inactiveColor, activeColor, math.pow(colorT, 4).toDouble())!;
+
+      final Color labelColor = Color.lerp(
+        inactiveColor,
+        activeColor,
+        math.pow(colorT, 4).toDouble(),
+      )!;
       // Constant high alpha so numbers are visible at the edges
       final Color finalColor = labelColor.withValues(alpha: 0.85);
 
-      final String label = decimalPlaces == 0 ? n.toString() : i.toStringAsFixed(1);
+      final String label = decimalPlaces == 0
+          ? n.toString()
+          : i.toStringAsFixed(1);
 
       // ── TextPainter cache ───────────────────────────────────────────────────
       // We need a new TextPainter when color changes (each frame during scroll).
@@ -140,10 +145,7 @@ class FractionalRulerPainter extends CustomPainter {
         _textCache[cacheKey] = tp;
       }
 
-      tp.paint(
-        canvas,
-        Offset(x - tp.width / 2, centerY - tp.height / 2 - 4),
-      );
+      tp.paint(canvas, Offset(x - tp.width / 2, centerY - tp.height / 2 - 4));
     }
   }
 
@@ -151,11 +153,12 @@ class FractionalRulerPainter extends CustomPainter {
   bool shouldRepaint(covariant FractionalRulerPainter old) {
     // Skip repaint if the visual offset has not changed by at least 0.1px.
     // This avoids repaints from floating-point noise during fling deceleration.
-    final double pixelDelta = ((currentValue - old.currentValue) * pixelsPerUnit).abs();
+    final double pixelDelta =
+        ((currentValue - old.currentValue) * pixelsPerUnit).abs();
     return pixelDelta > 0.1 ||
-           old.decimalPlaces != decimalPlaces ||
-           old.activeColor   != activeColor   ||
-           old.inactiveColor != inactiveColor  ||
-           old.tickColor     != tickColor;
+        old.decimalPlaces != decimalPlaces ||
+        old.activeColor != activeColor ||
+        old.inactiveColor != inactiveColor ||
+        old.tickColor != tickColor;
   }
 }

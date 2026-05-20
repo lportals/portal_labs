@@ -296,40 +296,40 @@ class _ArchiveFolderState extends State<ArchiveFolder>
       child: SizedBox(
         width: _canvasWidth,
         height: _canvasHeight,
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: [
-              // Back flap
-              Positioned(
-                left: 0,
-                top: _folderTopInCanvas,
-                child: GestureDetector(
-                  onTap: _handleToggle,
-                  behavior: HitTestBehavior.opaque,
-                  child: _buildBackFlap(),
-                ),
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            // Back flap
+            Positioned(
+              left: 0,
+              top: _folderTopInCanvas,
+              child: GestureDetector(
+                onTap: _handleToggle,
+                behavior: HitTestBehavior.opaque,
+                child: _buildBackFlap(),
               ),
+            ),
 
-              // Items (non-selected)
-              ..._buildItemWidgets(order),
+            // Items (non-selected)
+            ..._buildItemWidgets(order),
 
-              // Selected item
-              if (_frontItemIndex != null && _animation.value >= 0.1)
-                ..._buildItemWidgets([_frontItemIndex!]),
+            // Selected item
+            if (_frontItemIndex != null && _animation.value >= 0.1)
+              ..._buildItemWidgets([_frontItemIndex!]),
 
-              // Front flap — always above items
-              Positioned(
-                left: 0,
-                top: _folderTopInCanvas,
-                child: GestureDetector(
-                  onTap: _handleToggle,
-                  behavior: HitTestBehavior.opaque,
-                  child: _buildFrontFlap(),
-                ),
+            // Front flap — always above items
+            Positioned(
+              left: 0,
+              top: _folderTopInCanvas,
+              child: GestureDetector(
+                onTap: _handleToggle,
+                behavior: HitTestBehavior.opaque,
+                child: _buildFrontFlap(),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
+      ),
     );
   }
 
@@ -362,16 +362,22 @@ class _ArchiveFolderState extends State<ArchiveFolder>
       // Arc: slight upward arc during the reveal so items "fly out".
       final double arc = (1.0 - staggeredProgress) * staggeredProgress * 36.0;
 
-      // Resting position: Add spread so they aren't perfectly stacked, and 
+      // Resting position: Add spread so they aren't perfectly stacked, and
       // push them rightward so they slightly protrude from the folder edge.
-      final bool isHorizontal = widget.style.orientation == ArchiveFolderOrientation.horizontal;
+      final bool isHorizontal =
+          widget.style.orientation == ArchiveFolderOrientation.horizontal;
       // In horizontal mode, we increase the Y spread to fan them out more side-to-side.
       final double restSpreadX = (i - (_count - 1) / 2) * 12.0;
-      final double restSpreadY = (i - (_count - 1) / 2) * (isHorizontal ? 20.0 : 8.0);
-      
+      final double restSpreadY =
+          (i - (_count - 1) / 2) * (isHorizontal ? 20.0 : 8.0);
+
       // We reduce the peek offset in horizontal mode so it doesn't protrude as much.
       final double peekOffset = 50.0;
-      final double restX = _bodyWidth / 2 + peekOffset + restSpreadX + (isHorizontal ? -15.0 : 0.0);
+      final double restX =
+          _bodyWidth / 2 +
+          peekOffset +
+          restSpreadX +
+          (isHorizontal ? -15.0 : 0.0);
       final double restY = _folderCenterY + restSpreadY;
 
       // Target: right of folder + reveal distance.
@@ -388,14 +394,17 @@ class _ArchiveFolderState extends State<ArchiveFolder>
 
       // Subtle resting tilt → 0 on reveal.
       final double restRot = (i - (_count - 1) / 2) * 0.012;
-      final double rotation = widget.style.itemBaseRotation + lerpDouble(restRot, organicRot, staggeredProgress)!;
+      final double rotation =
+          widget.style.itemBaseRotation +
+          lerpDouble(restRot, organicRot, staggeredProgress)!;
 
       // Bounding box swaps in horizontal mode because of the 90-degree rotation
       final double w = isHorizontal ? _itemH : _itemW;
       final double h = isHorizontal ? _itemW : _itemH;
 
       // Scale: compressed at rest, full size when revealed.
-      double scale = widget.style.itemBaseScale +
+      double scale =
+          widget.style.itemBaseScale +
           staggeredProgress * (1.0 - widget.style.itemBaseScale);
       if (_frontItemIndex == i) {
         scale *= 1.0 + (_popAnimation.value * 0.07);
@@ -446,7 +455,8 @@ class _ArchiveFolderState extends State<ArchiveFolder>
   // ---------------------------------------------------------------------------
 
   Widget _buildFrontFlap() {
-    final bool isHorizontal = widget.style.orientation == ArchiveFolderOrientation.horizontal;
+    final bool isHorizontal =
+        widget.style.orientation == ArchiveFolderOrientation.horizontal;
     final double p = _animation.value;
     final double r = widget.style.borderRadius;
 
@@ -509,32 +519,32 @@ class _ArchiveFolderState extends State<ArchiveFolder>
               child: RotatedBox(
                 quarterTurns: isHorizontal ? 1 : 0,
                 child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    widget.title,
-                    style: widget.style.titleStyle.copyWith(
-                      fontSize: 19,
-                      letterSpacing: -0.5,
-                      color: Colors.white.withValues(alpha: 0.95),
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      widget.title,
+                      style: widget.style.titleStyle.copyWith(
+                        fontSize: 19,
+                        letterSpacing: -0.5,
+                        color: Colors.white.withValues(alpha: 0.95),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    widget.subtitle,
-                    style: widget.style.subtitleStyle.copyWith(
-                      fontSize: 12,
-                      color: Colors.white.withValues(alpha: 0.82),
+                    const SizedBox(height: 4),
+                    Text(
+                      widget.subtitle,
+                      style: widget.style.subtitleStyle.copyWith(
+                        fontSize: 12,
+                        color: Colors.white.withValues(alpha: 0.82),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  CustomPaint(
-                    size: const Size(120, 8),
-                    painter: _FolderFrontDecoratorPainter(),
-                  ),
-                ],
-              ),
+                    const SizedBox(height: 10),
+                    CustomPaint(
+                      size: const Size(120, 8),
+                      painter: _FolderFrontDecoratorPainter(),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -610,7 +620,10 @@ class _FolderBackPainter extends CustomPainter {
       )
       // Left edge of body down to bottom-left
       ..lineTo(bodyWidth, size.height - r)
-      ..arcToPoint(Offset(bodyWidth - r, size.height), radius: Radius.circular(r))
+      ..arcToPoint(
+        Offset(bodyWidth - r, size.height),
+        radius: Radius.circular(r),
+      )
       ..lineTo(r, size.height)
       ..arcToPoint(Offset(0, size.height - r), radius: Radius.circular(r))
       ..close();
@@ -650,10 +663,7 @@ class _FolderFrontDecoratorPainter extends CustomPainter {
 
 /// Inner-stroke glass-border highlight for the front flap.
 class _GlassBorderPainter extends CustomPainter {
-  _GlassBorderPainter({
-    required this.borderRadius,
-    required this.borderColor,
-  });
+  _GlassBorderPainter({required this.borderRadius, required this.borderColor});
 
   final double borderRadius;
   final Color borderColor;
@@ -661,8 +671,7 @@ class _GlassBorderPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final rect = Offset.zero & size;
-    final rrect =
-        RRect.fromRectAndRadius(rect, Radius.circular(borderRadius));
+    final rrect = RRect.fromRectAndRadius(rect, Radius.circular(borderRadius));
 
     // Inner highlight stroke.
     canvas.drawRRect(
@@ -676,8 +685,10 @@ class _GlassBorderPainter extends CustomPainter {
     // Top-left rim light.
     final rimPath = Path()
       ..moveTo(0, borderRadius)
-      ..arcToPoint(Offset(borderRadius, 0),
-          radius: Radius.circular(borderRadius))
+      ..arcToPoint(
+        Offset(borderRadius, 0),
+        radius: Radius.circular(borderRadius),
+      )
       ..lineTo(size.width * 0.4, 0);
 
     canvas.drawPath(

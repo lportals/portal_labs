@@ -62,7 +62,8 @@ class CurrencySwapInteraction extends StatefulWidget {
   final CurrencySwapStyle style;
 
   @override
-  State<CurrencySwapInteraction> createState() => _CurrencySwapInteractionState();
+  State<CurrencySwapInteraction> createState() =>
+      _CurrencySwapInteractionState();
 }
 
 class _CurrencySwapInteractionState extends State<CurrencySwapInteraction> {
@@ -97,7 +98,8 @@ class _CurrencySwapInteractionState extends State<CurrencySwapInteraction> {
     }
   }
 
-  String _formatValue(double value) => value % 1 == 0 ? value.toInt().toString() : value.toStringAsFixed(2);
+  String _formatValue(double value) =>
+      value % 1 == 0 ? value.toInt().toString() : value.toStringAsFixed(2);
 
   @override
   void dispose() {
@@ -174,10 +176,7 @@ class _CurrencySwapInteractionState extends State<CurrencySwapInteraction> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              widget.title,
-              style: widget.style.titleStyle,
-            ),
+            Text(widget.title, style: widget.style.titleStyle),
             SizedBox(height: widget.style.spacing),
             Stack(
               alignment: Alignment.center,
@@ -215,10 +214,7 @@ class _CurrencySwapInteractionState extends State<CurrencySwapInteraction> {
                     ),
                   ],
                 ),
-                _SwapButton(
-                  style: widget.style,
-                  onPressed: _swapCurrencies,
-                ),
+                _SwapButton(style: widget.style, onPressed: _swapCurrencies),
               ],
             ),
             SizedBox(height: widget.style.spacing),
@@ -246,10 +242,7 @@ class _CurrencySwapInteractionState extends State<CurrencySwapInteraction> {
 }
 
 class _SwapButton extends StatefulWidget {
-  const _SwapButton({
-    required this.onPressed,
-    required this.style,
-  });
+  const _SwapButton({required this.onPressed, required this.style});
   final VoidCallback onPressed;
   final CurrencySwapStyle style;
 
@@ -257,7 +250,8 @@ class _SwapButton extends StatefulWidget {
   State<_SwapButton> createState() => _SwapButtonState();
 }
 
-class _SwapButtonState extends State<_SwapButton> with SingleTickerProviderStateMixin {
+class _SwapButtonState extends State<_SwapButton>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   double _turns = 0.0;
   bool _isHovered = false;
@@ -299,14 +293,14 @@ class _SwapButtonState extends State<_SwapButton> with SingleTickerProviderState
               duration: const Duration(milliseconds: 200),
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: _isHovered 
-                  ? widget.style.inputBackgroundColor 
-                  : widget.style.swapButtonBackgroundColor,
+                color: _isHovered
+                    ? widget.style.inputBackgroundColor
+                    : widget.style.swapButtonBackgroundColor,
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: _isHovered 
-                    ? widget.style.buttonColor.withValues(alpha: 0.5) 
-                    : widget.style.swapButtonBorderColor, 
+                  color: _isHovered
+                      ? widget.style.buttonColor.withValues(alpha: 0.5)
+                      : widget.style.swapButtonBorderColor,
                   width: 1.5,
                 ),
                 boxShadow: [
@@ -377,15 +371,22 @@ class _CurrencyInputBoxState extends State<_CurrencyInputBox> {
   Widget build(BuildContext context) {
     // Measure text height and add a small buffer (1.2x) to prevent overflows
     // especially when dealing with cursor height or specific font metrics.
-    final double textHeight = PortalUtils.measureText('8', widget.style.amountStyle).height * 1.2;
+    final double textHeight =
+        PortalUtils.measureText('8', widget.style.amountStyle).height * 1.2;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
         color: widget.style.inputBackgroundColor,
         borderRadius: widget.isTop
-            ? widget.style.inputBorderRadius.copyWith(bottomLeft: Radius.zero, bottomRight: Radius.zero)
-            : widget.style.inputBorderRadius.copyWith(topLeft: Radius.zero, topRight: Radius.zero),
+            ? widget.style.inputBorderRadius.copyWith(
+                bottomLeft: Radius.zero,
+                bottomRight: Radius.zero,
+              )
+            : widget.style.inputBorderRadius.copyWith(
+                topLeft: Radius.zero,
+                topRight: Radius.zero,
+              ),
       ),
       child: Row(
         children: [
@@ -417,7 +418,9 @@ class _CurrencyInputBoxState extends State<_CurrencyInputBox> {
                         controller: widget.controller,
                         focusNode: _focusNode,
                         textAlignVertical: TextAlignVertical.center,
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                        keyboardType: const TextInputType.numberWithOptions(
+                          decimal: true,
+                        ),
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
                         ],
@@ -475,7 +478,8 @@ class _CurrencySelector extends StatefulWidget {
   State<_CurrencySelector> createState() => _CurrencySelectorState();
 }
 
-class _CurrencySelectorState extends State<_CurrencySelector> with SingleTickerProviderStateMixin {
+class _CurrencySelectorState extends State<_CurrencySelector>
+    with SingleTickerProviderStateMixin {
   late AnimationController _menuController;
   final LayerLink _layerLink = LayerLink();
   OverlayEntry? _overlayEntry;
@@ -532,7 +536,7 @@ class _CurrencySelectorState extends State<_CurrencySelector> with SingleTickerP
             showWhenUnlinked: false,
             targetAnchor: Alignment.bottomRight,
             followerAnchor: Alignment.topRight,
-            offset: const Offset(0, 4), 
+            offset: const Offset(0, 4),
             child: Material(
               color: Colors.transparent,
               child: AnimatedBuilder(
@@ -550,7 +554,10 @@ class _CurrencySelectorState extends State<_CurrencySelector> with SingleTickerP
                   return Opacity(
                     opacity: _menuController.value.clamp(0.0, 1.0),
                     child: ImageFiltered(
-                      imageFilter: ui.ImageFilter.blur(sigmaX: blurSigma, sigmaY: blurSigma),
+                      imageFilter: ui.ImageFilter.blur(
+                        sigmaX: blurSigma,
+                        sigmaY: blurSigma,
+                      ),
                       child: Transform.translate(
                         // Slide UP from below (15px) to final position (0)
                         offset: Offset(0, 15 * (1 - curvedValue)),
@@ -568,7 +575,11 @@ class _CurrencySelectorState extends State<_CurrencySelector> with SingleTickerP
                   decoration: BoxDecoration(
                     color: widget.style.dropdownBackgroundColor,
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: widget.style.dropdownShadowColor.withValues(alpha: 0.1)),
+                    border: Border.all(
+                      color: widget.style.dropdownShadowColor.withValues(
+                        alpha: 0.1,
+                      ),
+                    ),
                     boxShadow: [
                       BoxShadow(
                         color: widget.style.dropdownShadowColor,
@@ -580,28 +591,43 @@ class _CurrencySelectorState extends State<_CurrencySelector> with SingleTickerP
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: widget.currencies.map((currency) {
-                      final isSelected = currency.code == widget.selectedCurrency.code;
+                      final isSelected =
+                          currency.code == widget.selectedCurrency.code;
                       return InkWell(
                         onTap: () {
                           widget.onChanged(currency);
                           _hideMenu();
                         },
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 2),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 2,
+                          ),
                           child: Row(
                             children: [
-                              Text(currency.flag, style: const TextStyle(fontSize: 16)),
+                              Text(
+                                currency.flag,
+                                style: const TextStyle(fontSize: 16),
+                              ),
                               const SizedBox(width: 10),
                               Expanded(
                                 child: Text(
                                   currency.code,
-                                  style: widget.style.currencyTextStyle.copyWith(
-                                    fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                                    fontSize: 13,
-                                  ),
+                                  style: widget.style.currencyTextStyle
+                                      .copyWith(
+                                        fontWeight: isSelected
+                                            ? FontWeight.bold
+                                            : FontWeight.normal,
+                                        fontSize: 13,
+                                      ),
                                 ),
                               ),
-                              if (isSelected) const Icon(Icons.check, size: 14, color: Colors.black54),
+                              if (isSelected)
+                                const Icon(
+                                  Icons.check,
+                                  size: 14,
+                                  color: Colors.black54,
+                                ),
                             ],
                           ),
                         ),
@@ -625,7 +651,10 @@ class _CurrencySelectorState extends State<_CurrencySelector> with SingleTickerP
         onTap: _toggleMenu,
         child: Container(
           constraints: const BoxConstraints(minWidth: 96),
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6), // Increased lateral padding
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 6,
+          ), // Increased lateral padding
           decoration: BoxDecoration(
             color: widget.style.backgroundColor,
             borderRadius: BorderRadius.circular(20),
@@ -654,20 +683,29 @@ class _CurrencySelectorState extends State<_CurrencySelector> with SingleTickerP
                 container: true,
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: List.generate(widget.selectedCurrency.code.length, (index) {
+                  children: List.generate(widget.selectedCurrency.code.length, (
+                    index,
+                  ) {
                     return AnimatedSwitcher(
                       duration: const Duration(milliseconds: 400),
-                      reverseDuration: const Duration(milliseconds: 50), // Disappear quickly!
+                      reverseDuration: const Duration(
+                        milliseconds: 50,
+                      ), // Disappear quickly!
                       transitionBuilder: (child, animation) {
                         // Staggered interval based on letter index (0.15s delay per letter)
                         final double start = (index * 0.15).clamp(0.0, 0.9);
-                        
+
                         final curve = CurvedAnimation(
                           parent: animation,
-                          curve: Interval(start, 1.0, curve: const PortalSpringCurve()),
-                          reverseCurve: Curves.easeIn, // Smooth and fast 50ms exit
+                          curve: Interval(
+                            start,
+                            1.0,
+                            curve: const PortalSpringCurve(),
+                          ),
+                          reverseCurve:
+                              Curves.easeIn, // Smooth and fast 50ms exit
                         );
-                        
+
                         return FadeTransition(
                           opacity: curve,
                           child: SlideTransition(
@@ -691,8 +729,8 @@ class _CurrencySelectorState extends State<_CurrencySelector> with SingleTickerP
               RotationTransition(
                 turns: _menuController.drive(Tween<double>(begin: 0, end: 0.5)),
                 child: Icon(
-                  Icons.keyboard_arrow_down, 
-                  size: 16, 
+                  Icons.keyboard_arrow_down,
+                  size: 16,
                   color: widget.style.currencyTextStyle.color,
                 ),
               ),
@@ -750,17 +788,23 @@ class _ProceedButtonState extends State<_ProceedButton> {
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 16),
               decoration: BoxDecoration(
-                color: widget.onPressed == null 
-                  ? widget.style.buttonColor.withValues(alpha: 0.5) 
-                  : (_isHovered ? widget.style.buttonColor.withValues(alpha: 0.9) : widget.style.buttonColor),
+                color: widget.onPressed == null
+                    ? widget.style.buttonColor.withValues(alpha: 0.5)
+                    : (_isHovered
+                          ? widget.style.buttonColor.withValues(alpha: 0.9)
+                          : widget.style.buttonColor),
                 borderRadius: widget.style.buttonBorderRadius,
-                boxShadow: _isHovered ? [
-                  BoxShadow(
-                    color: widget.style.buttonColor.withValues(alpha: 0.2),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                  )
-                ] : null,
+                boxShadow: _isHovered
+                    ? [
+                        BoxShadow(
+                          color: widget.style.buttonColor.withValues(
+                            alpha: 0.2,
+                          ),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ]
+                    : null,
               ),
               child: Center(
                 child: Text(
@@ -779,10 +823,7 @@ class _ProceedButtonState extends State<_ProceedButton> {
 }
 
 class _CurrencyFlipDisplay extends StatefulWidget {
-  const _CurrencyFlipDisplay({
-    required this.amount,
-    required this.style,
-  });
+  const _CurrencyFlipDisplay({required this.amount, required this.style});
 
   final double amount;
   final CurrencySwapStyle style;
@@ -811,8 +852,8 @@ class _CurrencyFlipDisplayState extends State<_CurrencyFlipDisplay> {
 
   @override
   Widget build(BuildContext context) {
-    final String formatted = widget.amount % 1 == 0 
-        ? widget.amount.toInt().toString() 
+    final String formatted = widget.amount % 1 == 0
+        ? widget.amount.toInt().toString()
         : widget.amount.toStringAsFixed(2);
 
     return PremiumFlipCounter(

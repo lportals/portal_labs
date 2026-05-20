@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 /// Allows customization of backgrounds, borders, shadows, and default colors
 /// to integrate seamlessly with any design system.
 class DiscreteTabsStyle {
-
   /// Creates a [DiscreteTabsStyle] with the given appearance properties.
   const DiscreteTabsStyle({
     this.backgroundColor = Colors.white,
@@ -16,6 +15,7 @@ class DiscreteTabsStyle {
     this.inactiveIconColor = Colors.black,
     this.borderRadius = const BorderRadius.all(Radius.circular(100)),
   });
+
   /// Background color of the tab pill.
   final Color backgroundColor;
 

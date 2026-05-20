@@ -12,7 +12,6 @@ import 'models/knob_slider_style.dart';
 /// - **Plug and Play:** Highly configurable with style and range settings.
 /// - **Tactile Feedback:** Built-in haptic vibrations when values change.
 class KnobSlider extends StatefulWidget {
-
   /// Creates a [KnobSlider] with the given configuration.
   const KnobSlider({
     super.key,
@@ -25,6 +24,7 @@ class KnobSlider extends StatefulWidget {
     this.enableHaptics = true,
     this.size,
   });
+
   /// The current value of the slider.
   final double value;
 
@@ -193,9 +193,7 @@ class _KnobSliderState extends State<KnobSlider> {
                   height: size * widget.style.knobScale,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    border: Border.all(
-                      color: widget.style.borderColor,
-                    ),
+                    border: Border.all(color: widget.style.borderColor),
                     gradient: const LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
@@ -228,7 +226,6 @@ class _KnobSliderState extends State<KnobSlider> {
 }
 
 class _KnobRingPainter extends CustomPainter {
-
   _KnobRingPainter({
     required this.value,
     required this.min,

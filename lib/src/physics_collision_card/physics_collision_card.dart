@@ -129,23 +129,28 @@ class _PhysicsCollisionCardState extends State<PhysicsCollisionCard>
         // Clamp spawn position inside container borders
         spawnPos = Offset(
           item.initialPosition!.dx.clamp(radius, _containerSize.width - radius),
-          item.initialPosition!.dy.clamp(radius, _containerSize.height - radius),
+          item.initialPosition!.dy.clamp(
+            radius,
+            _containerSize.height - radius,
+          ),
         );
       } else {
         spawnPos = _findRandomNonOverlappingPosition(radius);
       }
 
-      _bodies.add(_PhysicsBody(
-        id: i,
-        position: spawnPos,
-        velocity: item.initialVelocity,
-        radius: radius,
-        mass: mass,
-        child: item.child,
-        lastDragPosition: spawnPos,
-        decoration: item.decoration,
-        clipToCircle: item.clipToCircle,
-      ));
+      _bodies.add(
+        _PhysicsBody(
+          id: i,
+          position: spawnPos,
+          velocity: item.initialVelocity,
+          radius: radius,
+          mass: mass,
+          child: item.child,
+          lastDragPosition: spawnPos,
+          decoration: item.decoration,
+          clipToCircle: item.clipToCircle,
+        ),
+      );
     }
   }
 
@@ -201,7 +206,8 @@ class _PhysicsCollisionCardState extends State<PhysicsCollisionCard>
   void _updatePhysics(Duration elapsed) {
     if (_containerSize == Size.zero) return;
 
-    final double elapsedSeconds = elapsed.inMicroseconds / Duration.microsecondsPerSecond;
+    final double elapsedSeconds =
+        elapsed.inMicroseconds / Duration.microsecondsPerSecond;
     if (_lastElapsedSeconds == 0.0) {
       _lastElapsedSeconds = elapsedSeconds;
       return;
@@ -239,7 +245,12 @@ class _PhysicsCollisionCardState extends State<PhysicsCollisionCard>
 
       // 2. Wall collision resolutions
       for (final body in _bodies) {
-        _resolveWallCollision(body, _containerSize.width, _containerSize.height, restitution);
+        _resolveWallCollision(
+          body,
+          _containerSize.width,
+          _containerSize.height,
+          restitution,
+        );
       }
 
       // 3. Circle-to-Circle elastic body collisions
@@ -257,7 +268,8 @@ class _PhysicsCollisionCardState extends State<PhysicsCollisionCard>
         allResting = false;
         break;
       }
-      if (body.velocity.distanceSquared > 0.1 || body.angularVelocity.abs() > 0.05) {
+      if (body.velocity.distanceSquared > 0.1 ||
+          body.angularVelocity.abs() > 0.05) {
         allResting = false;
         break;
       }
@@ -279,7 +291,11 @@ class _PhysicsCollisionCardState extends State<PhysicsCollisionCard>
 
   /// Resolves bounds collision with wall boundaries.
   void _resolveWallCollision(
-      _PhysicsBody body, double width, double height, double restitution) {
+    _PhysicsBody body,
+    double width,
+    double height,
+    double restitution,
+  ) {
     bool collided = false;
     double bounceSpeed = 0.0;
     final r = body.radius;
@@ -293,10 +309,13 @@ class _PhysicsCollisionCardState extends State<PhysicsCollisionCard>
         body.velocity = Offset(-oldVx * restitution, body.velocity.dy);
 
         // Apply wall friction: tangent component is velocity.dy
-        final double surfaceVelocity = body.velocity.dy - body.angularVelocity * r;
+        final double surfaceVelocity =
+            body.velocity.dy - body.angularVelocity * r;
         double deltaVt = -surfaceVelocity / 3.0;
         double maxFriction = 0.3 * normalSpeed * (1.0 + restitution);
-        final double limit = maxFriction.isNaN || maxFriction.isInfinite ? 0.0 : maxFriction.abs();
+        final double limit = maxFriction.isNaN || maxFriction.isInfinite
+            ? 0.0
+            : maxFriction.abs();
         deltaVt = deltaVt.clamp(-limit, limit);
 
         body.velocity = Offset(body.velocity.dx, body.velocity.dy + deltaVt);
@@ -313,10 +332,13 @@ class _PhysicsCollisionCardState extends State<PhysicsCollisionCard>
         body.velocity = Offset(-oldVx * restitution, body.velocity.dy);
 
         // Apply wall friction: tangent component is -velocity.dy
-        final double surfaceVelocity = -body.velocity.dy - body.angularVelocity * r;
+        final double surfaceVelocity =
+            -body.velocity.dy - body.angularVelocity * r;
         double deltaVt = -surfaceVelocity / 3.0;
         double maxFriction = 0.3 * normalSpeed * (1.0 + restitution);
-        final double limit = maxFriction.isNaN || maxFriction.isInfinite ? 0.0 : maxFriction.abs();
+        final double limit = maxFriction.isNaN || maxFriction.isInfinite
+            ? 0.0
+            : maxFriction.abs();
         deltaVt = deltaVt.clamp(-limit, limit);
 
         body.velocity = Offset(body.velocity.dx, body.velocity.dy - deltaVt);
@@ -336,10 +358,13 @@ class _PhysicsCollisionCardState extends State<PhysicsCollisionCard>
         body.velocity = Offset(body.velocity.dx, -oldVy * restitution);
 
         // Apply wall friction: tangent component is -velocity.dx
-        final double surfaceVelocity = -body.velocity.dx - body.angularVelocity * r;
+        final double surfaceVelocity =
+            -body.velocity.dx - body.angularVelocity * r;
         double deltaVt = -surfaceVelocity / 3.0;
         double maxFriction = 0.3 * normalSpeed * (1.0 + restitution);
-        final double limit = maxFriction.isNaN || maxFriction.isInfinite ? 0.0 : maxFriction.abs();
+        final double limit = maxFriction.isNaN || maxFriction.isInfinite
+            ? 0.0
+            : maxFriction.abs();
         deltaVt = deltaVt.clamp(-limit, limit);
 
         body.velocity = Offset(body.velocity.dx - deltaVt, body.velocity.dy);
@@ -356,10 +381,13 @@ class _PhysicsCollisionCardState extends State<PhysicsCollisionCard>
         body.velocity = Offset(body.velocity.dx, -oldVy * restitution);
 
         // Apply wall friction: tangent component is velocity.dx
-        final double surfaceVelocity = body.velocity.dx - body.angularVelocity * r;
+        final double surfaceVelocity =
+            body.velocity.dx - body.angularVelocity * r;
         double deltaVt = -surfaceVelocity / 3.0;
         double maxFriction = 0.3 * normalSpeed * (1.0 + restitution);
-        final double limit = maxFriction.isNaN || maxFriction.isInfinite ? 0.0 : maxFriction.abs();
+        final double limit = maxFriction.isNaN || maxFriction.isInfinite
+            ? 0.0
+            : maxFriction.abs();
         deltaVt = deltaVt.clamp(-limit, limit);
 
         body.velocity = Offset(body.velocity.dx + deltaVt, body.velocity.dy);
@@ -376,7 +404,11 @@ class _PhysicsCollisionCardState extends State<PhysicsCollisionCard>
   }
 
   /// Resolves collision between two circles.
-  void _resolveBodyCollision(_PhysicsBody b1, _PhysicsBody b2, double restitution) {
+  void _resolveBodyCollision(
+    _PhysicsBody b1,
+    _PhysicsBody b2,
+    double restitution,
+  ) {
     final Offset normal = b2.position - b1.position;
     final double dist = normal.distance;
     final double minDist = b1.radius + b2.radius;
@@ -402,7 +434,8 @@ class _PhysicsCollisionCardState extends State<PhysicsCollisionCard>
 
     // 2. Resolve elastic velocities along collision normal
     final Offset relVelocity = b2.velocity - b1.velocity;
-    final double velAlongNormal = relVelocity.dx * normalUnit.dx + relVelocity.dy * normalUnit.dy;
+    final double velAlongNormal =
+        relVelocity.dx * normalUnit.dx + relVelocity.dy * normalUnit.dy;
 
     // Do not resolve if velocities are already separating
     if (velAlongNormal > 0) return;
@@ -411,7 +444,8 @@ class _PhysicsCollisionCardState extends State<PhysicsCollisionCard>
     final double m2Inv = b2.isDragged ? 0.0 : (1.0 / b2.mass);
     if (m1Inv + m2Inv == 0.0) return;
 
-    final double impulseScalar = -(1.0 + restitution) * velAlongNormal / (m1Inv + m2Inv);
+    final double impulseScalar =
+        -(1.0 + restitution) * velAlongNormal / (m1Inv + m2Inv);
     final Offset impulse = normalUnit * impulseScalar;
 
     if (!b1.isDragged) {
@@ -423,8 +457,9 @@ class _PhysicsCollisionCardState extends State<PhysicsCollisionCard>
 
     // 3. Resolve friction and rotational angular momentum (tangent friction)
     final Offset tangentUnit = Offset(-normalUnit.dy, normalUnit.dx);
-    final double relVelTangent = (b2.velocity.dx - b1.velocity.dx) * tangentUnit.dx +
-                                 (b2.velocity.dy - b1.velocity.dy) * tangentUnit.dy;
+    final double relVelTangent =
+        (b2.velocity.dx - b1.velocity.dx) * tangentUnit.dx +
+        (b2.velocity.dy - b1.velocity.dy) * tangentUnit.dy;
 
     // Relative velocity at the contact point including angular velocities
     final double rotVel1 = b1.angularVelocity * b1.radius;
@@ -437,12 +472,15 @@ class _PhysicsCollisionCardState extends State<PhysicsCollisionCard>
       final double inertia1 = b1.isDragged ? 0.0 : (2.0 * m1Inv);
       final double inertia2 = b2.isDragged ? 0.0 : (2.0 * m2Inv);
 
-      double tangentImpulse = -relTangentSpeed / (totalInvMass + inertia1 + inertia2);
+      double tangentImpulse =
+          -relTangentSpeed / (totalInvMass + inertia1 + inertia2);
 
       // Coulomb's law friction cap: |tangentImpulse| <= mu * normalImpulse
       const double mu = 0.35; // coefficient of friction
       double maxFriction = mu * impulseScalar;
-      final double limit = maxFriction.isNaN || maxFriction.isInfinite ? 0.0 : maxFriction.abs();
+      final double limit = maxFriction.isNaN || maxFriction.isInfinite
+          ? 0.0
+          : maxFriction.abs();
       tangentImpulse = tangentImpulse.clamp(-limit, limit);
 
       final Offset tangentImpulseVec = tangentUnit * tangentImpulse;
@@ -473,7 +511,11 @@ class _PhysicsCollisionCardState extends State<PhysicsCollisionCard>
   }
 
   /// Gesture callbacks for handling manual grabbing and throwing physics.
-  void _onDragStart(_PhysicsBody body, DragStartDetails details, Offset localOffset) {
+  void _onDragStart(
+    _PhysicsBody body,
+    DragStartDetails details,
+    Offset localOffset,
+  ) {
     _wakeUp();
     body.isDragged = true;
     body.velocity = Offset.zero;
@@ -501,17 +543,22 @@ class _PhysicsCollisionCardState extends State<PhysicsCollisionCard>
 
     // Track instant velocity and spin calculation for throwing mechanics
     final DateTime now = DateTime.now();
-    final double dt = now.difference(body.lastDragTime).inMicroseconds /
+    final double dt =
+        now.difference(body.lastDragTime).inMicroseconds /
         Duration.microsecondsPerSecond;
 
     if (dt > 0.001) {
-      final Offset instantVelocity = (body.position - body.lastDragPosition) / dt;
+      final Offset instantVelocity =
+          (body.position - body.lastDragPosition) / dt;
       // Exponential moving average filter for velocity smoothing
-      body.velocity = Offset.lerp(body.velocity, instantVelocity, 0.4) ?? instantVelocity;
+      body.velocity =
+          Offset.lerp(body.velocity, instantVelocity, 0.4) ?? instantVelocity;
 
       // Track rotational spin induced by horizontal dragging motion
-      final double instantAngularVelocity = (body.position.dx - body.lastDragPosition.dx) / r / dt;
-      body.angularVelocity = (body.angularVelocity * 0.6) + (instantAngularVelocity * 0.4);
+      final double instantAngularVelocity =
+          (body.position.dx - body.lastDragPosition.dx) / r / dt;
+      body.angularVelocity =
+          (body.angularVelocity * 0.6) + (instantAngularVelocity * 0.4);
     }
 
     body.lastDragTime = now;
@@ -534,7 +581,6 @@ class _PhysicsCollisionCardState extends State<PhysicsCollisionCard>
     body.angularVelocity = body.angularVelocity.clamp(-40.0, 40.0);
     setState(() {});
   }
-
 
   Offset _clampSpeed(Offset velocity, double maxSpeed) {
     final double speed = velocity.distance;
@@ -577,7 +623,8 @@ class _PhysicsCollisionCardState extends State<PhysicsCollisionCard>
       width: size,
       height: size,
       child: GestureDetector(
-        onPanStart: (details) => _onDragStart(body, details, details.localPosition),
+        onPanStart: (details) =>
+            _onDragStart(body, details, details.localPosition),
         onPanUpdate: (details) => _onDragUpdate(body, details),
         onPanEnd: (details) => _onDragEnd(body, details),
         child: AnimatedScale(
@@ -606,17 +653,29 @@ class _PhysicsCollisionCardState extends State<PhysicsCollisionCard>
     return LayoutBuilder(
       builder: (context, constraints) {
         final double width = constraints.maxWidth.isInfinite
-            ? widget.width.isInfinite ? 350.0 : widget.width
+            ? widget.width.isInfinite
+                  ? 350.0
+                  : widget.width
             : constraints.maxWidth;
         final double height = constraints.maxHeight.isInfinite
-            ? widget.height.isInfinite ? 300.0 : widget.height
+            ? widget.height.isInfinite
+                  ? 300.0
+                  : widget.height
             : constraints.maxHeight;
 
-        final double padHorizontal = widget.style.gridPadding.left + widget.style.gridPadding.right;
-        final double padVertical = widget.style.gridPadding.top + widget.style.gridPadding.bottom;
+        final double padHorizontal =
+            widget.style.gridPadding.left + widget.style.gridPadding.right;
+        final double padVertical =
+            widget.style.gridPadding.top + widget.style.gridPadding.bottom;
 
-        final double innerWidth = (width - padHorizontal).clamp(0.0, double.infinity);
-        final double innerHeight = (height - padVertical).clamp(0.0, double.infinity);
+        final double innerWidth = (width - padHorizontal).clamp(
+          0.0,
+          double.infinity,
+        );
+        final double innerHeight = (height - padVertical).clamp(
+          0.0,
+          double.infinity,
+        );
 
         // Schedule bounds sync check
         SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -634,13 +693,17 @@ class _PhysicsCollisionCardState extends State<PhysicsCollisionCard>
             padding: widget.style.gridPadding,
             child: Container(
               clipBehavior: Clip.antiAlias,
-              decoration: widget.style.gridDecoration ?? BoxDecoration(
-                color: widget.style.gridBackgroundColor,
-                borderRadius: BorderRadius.circular(16.0),
-                border: Border.all(
-                  color: widget.style.gridColor.withAlpha((255 * 0.4).round()),
-                ),
-              ),
+              decoration:
+                  widget.style.gridDecoration ??
+                  BoxDecoration(
+                    color: widget.style.gridBackgroundColor,
+                    borderRadius: BorderRadius.circular(16.0),
+                    border: Border.all(
+                      color: widget.style.gridColor.withAlpha(
+                        (255 * 0.4).round(),
+                      ),
+                    ),
+                  ),
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
@@ -654,9 +717,7 @@ class _PhysicsCollisionCardState extends State<PhysicsCollisionCard>
                     ),
                   if (widget.style.showStars)
                     const Positioned.fill(
-                      child: CustomPaint(
-                        painter: _StarPainter(),
-                      ),
+                      child: CustomPaint(painter: _StarPainter()),
                     ),
                   for (final body in _bodies) _buildBodyWidget(body),
                 ],
@@ -772,4 +833,3 @@ class _StarPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant _StarPainter oldDelegate) => false;
 }
-

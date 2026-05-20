@@ -10,32 +10,28 @@ void main() {
       controller = StackedToastController();
     });
 
-    testWidgets('renders multiple toasts in a stack', (WidgetTester tester) async {
+    testWidgets('renders multiple toasts in a stack', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: StackedToastInteraction(
-              controller: controller,
-            ),
-          ),
+          home: Scaffold(body: StackedToastInteraction(controller: controller)),
         ),
       );
 
-      controller.show(const StackedToastItem(
-        id: '1',
-        title: 'Toast 1',
-        message: 'Message 1',
-      ));
+      controller.show(
+        const StackedToastItem(id: '1', title: 'Toast 1', message: 'Message 1'),
+      );
       await tester.pump(); // Start entry animation
-      await tester.pump(const Duration(milliseconds: 500)); // Finish entry animation
+      await tester.pump(
+        const Duration(milliseconds: 500),
+      ); // Finish entry animation
 
       expect(find.text('Toast 1'), findsOneWidget);
 
-      controller.show(const StackedToastItem(
-        id: '2',
-        title: 'Toast 2',
-        message: 'Message 2',
-      ));
+      controller.show(
+        const StackedToastItem(id: '2', title: 'Toast 2', message: 'Message 2'),
+      );
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 500));
 
@@ -43,25 +39,25 @@ void main() {
       expect(find.text('Toast 1'), findsOneWidget);
     });
 
-    testWidgets('dismisses toast on action button tap', (WidgetTester tester) async {
+    testWidgets('dismisses toast on action button tap', (
+      WidgetTester tester,
+    ) async {
       bool actionTriggered = false;
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: StackedToastInteraction(
-              controller: controller,
-            ),
-          ),
+          home: Scaffold(body: StackedToastInteraction(controller: controller)),
         ),
       );
 
-      controller.show(StackedToastItem(
-        id: '1',
-        title: 'Action Toast',
-        message: 'Message',
-        actionLabel: 'Undo',
-        onAction: () => actionTriggered = true,
-      ));
+      controller.show(
+        StackedToastItem(
+          id: '1',
+          title: 'Action Toast',
+          message: 'Message',
+          actionLabel: 'Undo',
+          onAction: () => actionTriggered = true,
+        ),
+      );
       await tester.pumpAndSettle();
 
       expect(find.text('Undo'), findsOneWidget);
@@ -73,23 +69,23 @@ void main() {
       expect(find.text('Action Toast'), findsNothing);
     });
 
-    testWidgets('dismisses toast automatically after duration', (WidgetTester tester) async {
+    testWidgets('dismisses toast automatically after duration', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: StackedToastInteraction(
-              controller: controller,
-            ),
-          ),
+          home: Scaffold(body: StackedToastInteraction(controller: controller)),
         ),
       );
 
-      controller.show(const StackedToastItem(
-        id: '1',
-        title: 'Auto Dismiss',
-        message: 'Message',
-        duration: Duration(seconds: 1),
-      ));
+      controller.show(
+        const StackedToastItem(
+          id: '1',
+          title: 'Auto Dismiss',
+          message: 'Message',
+          duration: Duration(seconds: 1),
+        ),
+      );
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 500));
       await tester.pump(const Duration(milliseconds: 500));
@@ -99,7 +95,7 @@ void main() {
       // Wait for duration
       await tester.pump(const Duration(seconds: 1));
       // Trigger the _removeToast call
-      await tester.pump(); 
+      await tester.pump();
       // Wait for animationDuration (Future.delayed)
       await tester.pump(const Duration(milliseconds: 600));
       // Wait for spring settling
@@ -112,19 +108,13 @@ void main() {
     testWidgets('dismisses toast on swipe up', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: StackedToastInteraction(
-              controller: controller,
-            ),
-          ),
+          home: Scaffold(body: StackedToastInteraction(controller: controller)),
         ),
       );
 
-      controller.show(const StackedToastItem(
-        id: '1',
-        title: 'Swipe Me',
-        message: 'Message',
-      ));
+      controller.show(
+        const StackedToastItem(id: '1', title: 'Swipe Me', message: 'Message'),
+      );
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 500));
       await tester.pump(const Duration(milliseconds: 500));

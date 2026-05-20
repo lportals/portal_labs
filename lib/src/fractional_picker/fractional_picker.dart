@@ -72,7 +72,8 @@ class _ModernFractionalPickerState extends State<ModernFractionalPicker> {
     _lastReportedValue = widget.initialValue;
 
     _scrollController = ScrollController(
-      initialScrollOffset: (widget.initialValue - widget.minValue) * _pixelsPerUnit,
+      initialScrollOffset:
+          (widget.initialValue - widget.minValue) * _pixelsPerUnit,
     );
 
     _scrollController.addListener(_onScrollPositionChanged);
@@ -92,8 +93,9 @@ class _ModernFractionalPickerState extends State<ModernFractionalPicker> {
 
     final double step = widget.decimalPlaces == 0 ? 1.0 : 0.1;
     // Round to the nearest step to determine which value we're "at".
-    final double snapped =
-        double.parse(((clamped / step).round() * step).toStringAsFixed(widget.decimalPlaces));
+    final double snapped = double.parse(
+      ((clamped / step).round() * step).toStringAsFixed(widget.decimalPlaces),
+    );
 
     if ((snapped - _lastReportedValue).abs() >= step * 0.99) {
       if (widget.enableHaptics) HapticFeedback.selectionClick();
@@ -123,7 +125,9 @@ class _ModernFractionalPickerState extends State<ModernFractionalPicker> {
   @override
   Widget build(BuildContext context) {
     final style = widget.style ?? const FractionalPickerStyle();
-    final double stepWidth = widget.decimalPlaces == 0 ? _pixelsPerUnit : (_pixelsPerUnit / 10.0);
+    final double stepWidth = widget.decimalPlaces == 0
+        ? _pixelsPerUnit
+        : (_pixelsPerUnit / 10.0);
 
     return Container(
       height: widget.height,
@@ -187,9 +191,9 @@ class _ModernFractionalPickerState extends State<ModernFractionalPicker> {
           // ── 3. Interaction layer ─────────────────────────────────────────────
           Positioned.fill(
             child: ScrollConfiguration(
-              behavior: ScrollConfiguration.of(context).copyWith(
-                scrollbars: false,
-              ),
+              behavior: ScrollConfiguration.of(
+                context,
+              ).copyWith(scrollbars: false),
               child: Semantics(
                 label: 'Fractional value picker',
                 value: _currentRulerValue.toStringAsFixed(widget.decimalPlaces),
@@ -203,7 +207,8 @@ class _ModernFractionalPickerState extends State<ModernFractionalPicker> {
                     parent: const ClampingScrollPhysics(),
                   ),
                   child: SizedBox(
-                    width: (widget.maxValue - widget.minValue) * _pixelsPerUnit +
+                    width:
+                        (widget.maxValue - widget.minValue) * _pixelsPerUnit +
                         MediaQuery.sizeOf(context).width,
                     height: widget.height,
                   ),
@@ -216,6 +221,7 @@ class _ModernFractionalPickerState extends State<ModernFractionalPicker> {
     );
   }
 }
+
 /// A custom [ScrollPhysics] that snaps the ruler to discrete step boundaries.
 ///
 /// Uses [SpringDescription.withDampingRatio] with ratio > 1.0 to guarantee
@@ -244,24 +250,24 @@ class _StepSnapScrollPhysics extends ScrollPhysics {
   }
 
   @override
-  Simulation? createBallisticSimulation(ScrollMetrics position, double velocity) {
+  Simulation? createBallisticSimulation(
+    ScrollMetrics position,
+    double velocity,
+  ) {
     if ((velocity <= 0.0 && position.pixels <= position.minScrollExtent) ||
         (velocity >= 0.0 && position.pixels >= position.maxScrollExtent)) {
       return super.createBallisticSimulation(position, velocity);
     }
 
     final Tolerance tolerance = toleranceFor(position);
-    
+
     // 1. Prediction based on customizable friction.
     final double finalPos = position.pixels + (velocity / (friction * 10.0));
     final double snappedTarget = (finalPos / stepWidth).round() * stepWidth;
 
     // 2. Snap with customizable stiffness.
     return ScrollSpringSimulation(
-      SpringDescription.withDampingRatio(
-        mass: 1.0,
-        stiffness: snapStiffness, 
-      ),
+      SpringDescription.withDampingRatio(mass: 1.0, stiffness: snapStiffness),
       position.pixels,
       snappedTarget,
       velocity,
@@ -304,7 +310,12 @@ class _PointerPainter extends CustomPainter {
       ..moveTo(0, rectHeight) // Start from full width at border
       ..lineTo(size.width, rectHeight)
       ..lineTo(size.width / 2 + 2, size.height - 4)
-      ..quadraticBezierTo(size.width / 2, size.height - 1, size.width / 2 - 2, size.height - 4)
+      ..quadraticBezierTo(
+        size.width / 2,
+        size.height - 1,
+        size.width / 2 - 2,
+        size.height - 4,
+      )
       ..close();
 
     canvas.drawPath(path, paint);

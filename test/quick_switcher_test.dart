@@ -5,19 +5,29 @@ import 'package:portal_labs/portal_labs.dart';
 void main() {
   group('QuickSwitcher', () {
     final List<QuickSwitcherOption> testOptions = [
-      const QuickSwitcherOption(label: 'Search', icon: Icons.search, placeholder: 'Search something...'),
-      const QuickSwitcherOption(label: 'Link', icon: Icons.link, placeholder: 'Enter URL...'),
-      const QuickSwitcherOption(label: 'Email', icon: Icons.email, placeholder: 'Email address...'),
+      const QuickSwitcherOption(
+        label: 'Search',
+        icon: Icons.search,
+        placeholder: 'Search something...',
+      ),
+      const QuickSwitcherOption(
+        label: 'Link',
+        icon: Icons.link,
+        placeholder: 'Enter URL...',
+      ),
+      const QuickSwitcherOption(
+        label: 'Email',
+        icon: Icons.email,
+        placeholder: 'Email address...',
+      ),
     ];
 
-    testWidgets('renders current option icon and placeholder', (WidgetTester tester) async {
+    testWidgets('renders current option icon and placeholder', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: QuickSwitcher(
-              options: testOptions,
-            ),
-          ),
+          home: Scaffold(body: QuickSwitcher(options: testOptions)),
         ),
       );
 
@@ -50,17 +60,19 @@ void main() {
     testWidgets('shows menu on long press', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: QuickSwitcher(
-              options: testOptions,
-            ),
-          ),
+          home: Scaffold(body: QuickSwitcher(options: testOptions)),
         ),
       );
 
-      final gesture = await tester.startGesture(tester.getCenter(find.byIcon(Icons.search)));
-      await tester.pump(const Duration(milliseconds: 600)); // triggers onLongPressStart
-      await tester.pump(const Duration(milliseconds: 450)); // lets holdController (400ms) complete
+      final gesture = await tester.startGesture(
+        tester.getCenter(find.byIcon(Icons.search)),
+      );
+      await tester.pump(
+        const Duration(milliseconds: 600),
+      ); // triggers onLongPressStart
+      await tester.pump(
+        const Duration(milliseconds: 450),
+      ); // lets holdController (400ms) complete
       await gesture.up();
       await tester.pumpAndSettle();
 
@@ -68,10 +80,12 @@ void main() {
       // We expect at least one more instance of the placeholders.
       expect(find.text('Search something...'), findsAtLeast(1));
       expect(find.text('Enter URL...'), findsAtLeast(1));
-      expect(find.text('Email address...'), findsOneWidget); 
+      expect(find.text('Email address...'), findsOneWidget);
     });
 
-    testWidgets('submits text when action button is tapped', (WidgetTester tester) async {
+    testWidgets('submits text when action button is tapped', (
+      WidgetTester tester,
+    ) async {
       String? submittedText;
       await tester.pumpWidget(
         MaterialApp(

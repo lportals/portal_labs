@@ -88,9 +88,7 @@ class _LabeledProgressIndicatorShowcaseState
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _buildModernCard(),
-            ],
+            children: [_buildModernCard()],
           ),
         ),
       ),

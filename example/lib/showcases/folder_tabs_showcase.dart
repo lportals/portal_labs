@@ -59,7 +59,8 @@ class _FolderTabsShowcaseState extends State<FolderTabsShowcase> {
           'An interactive, physics-driven file folder container. Tweak the visible height '
           'constraints and swap material color schemes dynamically using the Studio Controls panel below.',
       backgroundColor: const Color(0xFFF0F0F3),
-      codeSnippet: '''FolderTabs(
+      codeSnippet:
+          '''FolderTabs(
   tabs: const ['Receipts', 'Contracts', 'Ideas'],
   style: FolderTabsStyle(
     folderColor: ${_activeTheme.folderColor.toString()},
@@ -85,7 +86,10 @@ class _FolderTabsShowcaseState extends State<FolderTabsShowcase> {
                   tabHeight: 38.0,
                   tabProtrusionWidth: 125.0,
                   borderRadius: 24.0,
-                  padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 32.0),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 28.0,
+                    vertical: 32.0,
+                  ),
                   activeLabelStyle: TextStyle(
                     fontSize: 12.5,
                     fontWeight: FontWeight.w800,
@@ -233,10 +237,11 @@ class _FolderTabsShowcaseState extends State<FolderTabsShowcase> {
                                     boxShadow: isSelected
                                         ? [
                                             BoxShadow(
-                                              color: Colors.blue.shade200.withValues(alpha: 0.4),
+                                              color: Colors.blue.shade200
+                                                  .withValues(alpha: 0.4),
                                               blurRadius: 6.0,
                                               spreadRadius: 1.0,
-                                            )
+                                            ),
                                           ]
                                         : null,
                                   ),
@@ -258,7 +263,11 @@ class _FolderTabsShowcaseState extends State<FolderTabsShowcase> {
 
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 18.0),
-                      child: Divider(height: 1.0, thickness: 1.0, color: Color(0xFFF0F0F0)),
+                      child: Divider(
+                        height: 1.0,
+                        thickness: 1.0,
+                        color: Color(0xFFF0F0F0),
+                      ),
                     ),
 
                     // Max Visible Items Slider
@@ -294,7 +303,9 @@ class _FolderTabsShowcaseState extends State<FolderTabsShowcase> {
                             activeTrackColor: Colors.blue.shade400,
                             inactiveTrackColor: Colors.grey.shade200,
                             thumbColor: Colors.blue.shade500,
-                            overlayColor: Colors.blue.shade100.withValues(alpha: 0.3),
+                            overlayColor: Colors.blue.shade100.withValues(
+                              alpha: 0.3,
+                            ),
                             valueIndicatorColor: Colors.blue.shade600,
                           ),
                           child: Slider(
@@ -356,9 +367,7 @@ class _FolderContentList extends StatelessWidget {
     final double capHeight = 43.0 * maxItems;
 
     return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxHeight: capHeight,
-      ),
+      constraints: BoxConstraints(maxHeight: capHeight),
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
@@ -399,7 +408,10 @@ class _FolderContentList extends StatelessWidget {
                     highlightColor: inkColor.withValues(alpha: 0.08),
                     splashColor: inkColor.withValues(alpha: 0.12),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 12.0,
+                        horizontal: 8.0,
+                      ),
                       child: Text(
                         fileName,
                         style: TextStyle(

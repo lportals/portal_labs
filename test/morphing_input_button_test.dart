@@ -5,7 +5,9 @@ import 'package:portal_labs/portal_labs.dart';
 
 void main() {
   group('MorphingInputButton Interaction Tests', () {
-    testWidgets('renders initial state with button text', (WidgetTester tester) async {
+    testWidgets('renders initial state with button text', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -19,13 +21,15 @@ void main() {
 
       expect(find.text('Join Waitlist'), findsOneWidget);
       expect(find.byType(TextField), findsOneWidget);
-      
+
       // Verify TextField is initially hidden (opacity 0)
       final opacity = tester.widget<AnimatedOpacity>(
-        find.descendant(
-          of: find.byType(MorphingInputButton),
-          matching: find.byType(AnimatedOpacity),
-        ).first,
+        find
+            .descendant(
+              of: find.byType(MorphingInputButton),
+              matching: find.byType(AnimatedOpacity),
+            )
+            .first,
       );
       expect(opacity.opacity, 0.0);
     });
@@ -34,10 +38,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: MorphingInputButton(
-              buttonText: 'Join',
-              placeholder: 'Email',
-            ),
+            body: MorphingInputButton(buttonText: 'Join', placeholder: 'Email'),
           ),
         ),
       );
@@ -57,18 +58,22 @@ void main() {
         find.byType(AnimatedContainer).first,
       );
       expect(expandedContainer.constraints?.maxWidth, 320.0);
-      
+
       // Verify TextField is now visible
       final opacity = tester.widget<AnimatedOpacity>(
-        find.descendant(
-          of: find.byType(MorphingInputButton),
-          matching: find.byType(AnimatedOpacity),
-        ).first,
+        find
+            .descendant(
+              of: find.byType(MorphingInputButton),
+              matching: find.byType(AnimatedOpacity),
+            )
+            .first,
       );
       expect(opacity.opacity, 1.0);
     });
 
-    testWidgets('calls onSubmitted when text is entered and button is tapped', (WidgetTester tester) async {
+    testWidgets('calls onSubmitted when text is entered and button is tapped', (
+      WidgetTester tester,
+    ) async {
       String? submittedValue;
       await tester.pumpWidget(
         MaterialApp(
@@ -95,7 +100,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(submittedValue, 'John Doe');
-      
+
       // Verify it morphed back
       final container = tester.widget<AnimatedContainer>(
         find.byType(AnimatedContainer).first,
@@ -103,7 +108,9 @@ void main() {
       expect(container.constraints?.maxWidth, 140.0);
     });
 
-    testWidgets('calls onSubmitted on keyboard submit', (WidgetTester tester) async {
+    testWidgets('calls onSubmitted on keyboard submit', (
+      WidgetTester tester,
+    ) async {
       String? submittedValue;
       await tester.pumpWidget(
         MaterialApp(

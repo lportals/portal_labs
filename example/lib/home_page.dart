@@ -41,14 +41,6 @@ import 'showcases/archive_folder_showcase.dart';
 import 'showcases/folder_tabs_showcase.dart';
 import 'showcases/physics_collision_card_showcase.dart';
 
-
-
-
-
-
-
-
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -66,7 +58,6 @@ class _HomePageState extends State<HomePage> {
     'Interactions',
     'Feedback',
   ];
-
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +121,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          // Replaced SliverGrid with a custom SpringyGrid for fluid physics-based 
+          // Replaced SliverGrid with a custom SpringyGrid for fluid physics-based
           // transitions between categories. Items now 'fly' to their new positions.
           SliverToBoxAdapter(
             child: _SpringyGrid(
@@ -409,7 +400,6 @@ class _SpringyGrid extends StatelessWidget {
       ),
     ];
 
-
     return Padding(
       padding: const EdgeInsets.all(20),
       child: LayoutBuilder(
@@ -418,19 +408,23 @@ class _SpringyGrid extends StatelessWidget {
           const double spacing = 16.0;
           final double itemWidth =
               (constraints.maxWidth - (spacing * (crossAxisCount - 1))) /
-                  crossAxisCount;
+              crossAxisCount;
           final double itemHeight = itemWidth / 0.82;
 
           // Filter items and calculate their target positions
           final List<_ComponentItem> visibleItems = allItems
-              .where((it) =>
-                  selectedCategory == 'All' || it.category == selectedCategory)
+              .where(
+                (it) =>
+                    selectedCategory == 'All' ||
+                    it.category == selectedCategory,
+              )
               .toList();
 
-          final int totalRowsVisible =
-              (visibleItems.length / crossAxisCount).ceil();
+          final int totalRowsVisible = (visibleItems.length / crossAxisCount)
+              .ceil();
           final double totalHeight =
-              (totalRowsVisible * itemHeight) + ((totalRowsVisible - 1) * spacing);
+              (totalRowsVisible * itemHeight) +
+              ((totalRowsVisible - 1) * spacing);
 
           return AnimatedContainer(
             duration: const Duration(milliseconds: 800),
@@ -452,8 +446,8 @@ class _SpringyGrid extends StatelessWidget {
                   targetTop = row * (itemHeight + spacing);
                   targetLeft = col * (itemWidth + spacing);
                 } else {
-                  // Move out-of-view items to a predictable hidden area 
-                  // or just let them fade in place. 
+                  // Move out-of-view items to a predictable hidden area
+                  // or just let them fade in place.
                   // Moving them slightly down/right feels more organic.
                   final int originalIndex = allItems.indexOf(item);
                   final int row = originalIndex ~/ crossAxisCount;
@@ -498,7 +492,6 @@ class _SpringyGrid extends StatelessWidget {
     );
   }
 }
-
 
 class _ComponentIcon extends StatelessWidget {
   final String title;

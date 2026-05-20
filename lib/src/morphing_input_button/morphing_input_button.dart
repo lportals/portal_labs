@@ -6,10 +6,9 @@ import 'models/morphing_input_button_style.dart';
 /// A premium, zero-dependency "Morphing Input Button" widget.
 ///
 /// Features a fluid, soft-focus transition where a "Call to Action" button
-/// morphs into a detailed text input field. Designed for waitlists, 
+/// morphs into a detailed text input field. Designed for waitlists,
 /// notifications, and minimal signup flows.
 class MorphingInputButton extends StatefulWidget {
-
   /// Creates a [MorphingInputButton] with a [buttonText] and [placeholder].
   const MorphingInputButton({
     super.key,
@@ -19,6 +18,7 @@ class MorphingInputButton extends StatefulWidget {
     this.onSubmitted,
     this.style = const MorphingInputButtonStyle(),
   });
+
   /// The text displayed on the initial button (e.g., "Notify Me").
   final String buttonText;
 
@@ -59,7 +59,7 @@ class _MorphingInputButtonState extends State<MorphingInputButton> {
         _focusNode.unfocus();
       }
     });
-    
+
     // Aesthetic haptic feedback
     HapticFeedback.lightImpact();
   }
@@ -69,12 +69,14 @@ class _MorphingInputButtonState extends State<MorphingInputButton> {
     // Outer pill is always a soft grey.
     // Inner button is transparent white when closed, and turns pure white when expanded.
     // This prevents the dark grey flicker during AnimatedContainer color interpolation.
-    const defaultBgColor = Color(0xFFF2F2F5); 
-    final defaultBtnColor = _isExpanded ? Colors.white : Colors.white.withValues(alpha: 0.0);
-    
+    const defaultBgColor = Color(0xFFF2F2F5);
+    final defaultBtnColor = _isExpanded
+        ? Colors.white
+        : Colors.white.withValues(alpha: 0.0);
+
     final bgColor = widget.style.backgroundColor ?? defaultBgColor;
     final btnSurfaceColor = widget.style.buttonColor ?? defaultBtnColor;
-    
+
     final height = widget.style.height;
     final duration = widget.style.duration;
     final curve = widget.style.curve;
@@ -102,15 +104,13 @@ class _MorphingInputButtonState extends State<MorphingInputButton> {
               left: _isExpanded ? 24 : 0,
               right: _isExpanded ? 130 : initialWidth,
               child: TweenAnimationBuilder<double>(
-                tween: Tween<double>(
-                  begin: 0.0, 
-                  end: _isExpanded ? 1.0 : 0.0,
-                ),
+                tween: Tween<double>(begin: 0.0, end: _isExpanded ? 1.0 : 0.0),
                 duration: duration,
                 builder: (context, value, child) {
-                  final double blur = (1.0 - (value - 0.5).abs() * 2).clamp(0.0, 1.0) * 1.5;
+                  final double blur =
+                      (1.0 - (value - 0.5).abs() * 2).clamp(0.0, 1.0) * 1.5;
                   if (blur < 0.05) return child!;
-                  
+
                   return ImageFiltered(
                     imageFilter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
                     child: child,
@@ -159,12 +159,14 @@ class _MorphingInputButtonState extends State<MorphingInputButton> {
               child: MouseRegion(
                 cursor: SystemMouseCursors.click,
                 child: GestureDetector(
-                  onTap: _isExpanded ? () {
-                    if (_controller.text.isNotEmpty) {
-                      widget.onSubmitted?.call(_controller.text);
-                    }
-                    _toggleExpanded();
-                  } : _toggleExpanded,
+                  onTap: _isExpanded
+                      ? () {
+                          if (_controller.text.isNotEmpty) {
+                            widget.onSubmitted?.call(_controller.text);
+                          }
+                          _toggleExpanded();
+                        }
+                      : _toggleExpanded,
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 300),
                     curve: Curves.easeInOut,
@@ -188,21 +190,26 @@ class _MorphingInputButtonState extends State<MorphingInputButton> {
                                   duration: const Duration(milliseconds: 200),
                                   scale: _isExpanded ? 0.8 : 1.0,
                                   child: widget.icon != null && !_isExpanded
-                                    ? Row(
-                                        children: [
-                                          Icon(widget.icon, color: Colors.black, size: 20),
-                                          const SizedBox(width: 8),
-                                        ],
-                                      )
-                                    : const SizedBox.shrink(),
+                                      ? Row(
+                                          children: [
+                                            Icon(
+                                              widget.icon,
+                                              color: Colors.black,
+                                              size: 20,
+                                            ),
+                                            const SizedBox(width: 8),
+                                          ],
+                                        )
+                                      : const SizedBox.shrink(),
                                 ),
                               ),
                               Text(
                                 widget.buttonText,
                                 style: const TextStyle(
-                                  color: Colors.black, // Dark text, as seen in the image
+                                  color: Colors
+                                      .black, // Dark text, as seen in the image
                                   fontSize: 16,
-                                  fontWeight: FontWeight.w700, 
+                                  fontWeight: FontWeight.w700,
                                   letterSpacing: 0.2,
                                 ),
                               ),

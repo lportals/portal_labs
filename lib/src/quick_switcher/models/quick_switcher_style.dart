@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 /// Defines the visual aesthetic for the [QuickSwitcher].
 class QuickSwitcherStyle {
-
   /// Creates a [QuickSwitcherStyle].
   const QuickSwitcherStyle({
     this.backgroundColor = const Color(0xFFF5F5F7),
@@ -13,6 +12,7 @@ class QuickSwitcherStyle {
     this.pulseColor = const Color(0xFFE8E8ED),
     this.enableHaptics = true,
   });
+
   /// The background color of the main container.
   final Color backgroundColor;
 

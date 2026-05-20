@@ -5,7 +5,6 @@ import '../../theme/portal_theme.dart';
 
 /// A premium card component for [PinnableItem]s.
 class PinnableItemCard extends StatelessWidget {
-
   /// Creates a [PinnableItemCard].
   const PinnableItemCard({
     super.key,
@@ -13,6 +12,7 @@ class PinnableItemCard extends StatelessWidget {
     required this.onPinToggle,
     this.style,
   });
+
   /// The item to display.
   final PinnableItem item;
 
@@ -25,7 +25,7 @@ class PinnableItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = PortalTheme.of(context);
-    
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 12.0),
       child: Container(
@@ -33,17 +33,21 @@ class PinnableItemCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: style?.cardBackgroundColor ?? theme.colors.surface,
           borderRadius: style?.cardBorderRadius ?? BorderRadius.circular(20),
-          border: style?.cardBorder ?? Border.all(
-            color: theme.colors.border.withValues(alpha: 0.5),
-            width: 1.5,
-          ),
-          boxShadow: style?.cardShadows ?? [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.03),
-              blurRadius: 20,
-              offset: const Offset(0, 8),
-            ),
-          ],
+          border:
+              style?.cardBorder ??
+              Border.all(
+                color: theme.colors.border.withValues(alpha: 0.5),
+                width: 1.5,
+              ),
+          boxShadow:
+              style?.cardShadows ??
+              [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.03),
+                  blurRadius: 20,
+                  offset: const Offset(0, 8),
+                ),
+              ],
         ),
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         child: Row(
@@ -58,10 +62,12 @@ class PinnableItemCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(14),
               ),
               child: Center(
-                child: item.icon ?? Icon(
-                  Icons.category_rounded,
-                  color: theme.colors.textPrimary,
-                ),
+                child:
+                    item.icon ??
+                    Icon(
+                      Icons.category_rounded,
+                      color: theme.colors.textPrimary,
+                    ),
               ),
             ),
             const SizedBox(width: 14),
@@ -72,24 +78,15 @@ class PinnableItemCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    item.title,
-                    style: theme.typography.bodyLarge,
-                  ),
+                  Text(item.title, style: theme.typography.bodyLarge),
                   const SizedBox(height: 2),
-                  Text(
-                    item.subtitle,
-                    style: theme.typography.caption,
-                  ),
+                  Text(item.subtitle, style: theme.typography.caption),
                 ],
               ),
             ),
             const SizedBox(width: 10),
             // Pin Button
-            _PinButton(
-              isPinned: item.isPinned,
-              onPressed: onPinToggle,
-            ),
+            _PinButton(isPinned: item.isPinned, onPressed: onPinToggle),
           ],
         ),
       ),
@@ -98,11 +95,7 @@ class PinnableItemCard extends StatelessWidget {
 }
 
 class _PinButton extends StatefulWidget {
-
-  const _PinButton({
-    required this.isPinned,
-    required this.onPressed,
-  });
+  const _PinButton({required this.isPinned, required this.onPressed});
   final bool isPinned;
   final VoidCallback onPressed;
 
@@ -110,7 +103,8 @@ class _PinButton extends StatefulWidget {
   State<_PinButton> createState() => _PinButtonState();
 }
 
-class _PinButtonState extends State<_PinButton> with SingleTickerProviderStateMixin {
+class _PinButtonState extends State<_PinButton>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
 
@@ -121,9 +115,10 @@ class _PinButtonState extends State<_PinButton> with SingleTickerProviderStateMi
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _scaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: 0.9,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -160,16 +155,20 @@ class _PinButtonState extends State<_PinButton> with SingleTickerProviderStateMi
           decoration: BoxDecoration(
             color: widget.isPinned ? activeColor : theme.colors.background,
             shape: BoxShape.circle,
-            border: widget.isPinned 
-                ? null 
+            border: widget.isPinned
+                ? null
                 : Border.all(color: theme.colors.border, width: 1.5),
             boxShadow: activeShadows,
           ),
           child: Center(
             child: Icon(
-              widget.isPinned ? Icons.push_pin_rounded : Icons.push_pin_outlined,
+              widget.isPinned
+                  ? Icons.push_pin_rounded
+                  : Icons.push_pin_outlined,
               size: 18,
-              color: widget.isPinned ? Colors.white : theme.colors.textSecondary,
+              color: widget.isPinned
+                  ? Colors.white
+                  : theme.colors.textSecondary,
             ),
           ),
         ),

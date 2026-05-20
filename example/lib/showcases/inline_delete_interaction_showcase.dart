@@ -30,11 +30,7 @@ class InlineDeleteInteractionShowcase extends StatelessWidget {
     ),
   ],
 )''',
-      child: const SafeArea(
-        child: Center(
-          child: _MenuTrigger(),
-        ),
-      ),
+      child: const SafeArea(child: Center(child: _MenuTrigger())),
     );
   }
 }
@@ -74,7 +70,7 @@ class _MenuTriggerState extends State<_MenuTrigger> {
 
   @override
   Widget build(BuildContext context) {
-    // Determine the target scale: 
+    // Determine the target scale:
     // 1. If menu is open, we stay at a slightly reduced scale.
     // 2. If finger is down (pressed), we go even lower for that "click" feel.
     double targetScale = 1.0;

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 ///
 /// Allows customization of colors, radii, spacing, and animation durations.
 class AccordionStyle {
-
   /// Creating a theme for the accordion.
   const AccordionStyle({
     this.backgroundColor = Colors.white,
@@ -16,6 +15,7 @@ class AccordionStyle {
     this.spacing = 16.0,
     this.animationDuration = const Duration(milliseconds: 400),
   });
+
   /// The background color of each card.
   final Color backgroundColor;
 

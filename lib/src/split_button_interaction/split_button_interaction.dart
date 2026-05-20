@@ -34,7 +34,6 @@ class SplitButtonController extends ChangeNotifier {
 
 /// A configuration object for an individual action within the [SplitButtonInteraction].
 class SplitAction {
-
   /// Creates a [SplitAction] with a [label] and [onTap] callback.
   const SplitAction({
     required this.label,
@@ -42,6 +41,7 @@ class SplitAction {
     this.icon,
     this.closeOnTap = true,
   });
+
   /// The label displayed when expanded.
   final String label;
 
@@ -57,7 +57,6 @@ class SplitAction {
 
 /// Aesthetic styling for [SplitButtonInteraction].
 class SplitButtonStyle {
-
   /// Creates a [SplitButtonStyle] with the given appearance properties.
   const SplitButtonStyle({
     this.backgroundColor = const Color(0xFFE5E5EA), // iOS style gray
@@ -73,6 +72,7 @@ class SplitButtonStyle {
       letterSpacing: -0.3,
     ),
   });
+
   /// Background color of the button in its collapsed state.
   final Color backgroundColor;
 
@@ -104,7 +104,6 @@ class SplitButtonStyle {
 /// transitions into a row of nested actions with a back button,
 /// using smooth bounce expansion, motion blur emergence, and a tactile pop bounce.
 class SplitButtonInteraction extends StatefulWidget {
-
   /// Creates a [SplitButtonInteraction] with an [initialLabel] and list of [actions].
   const SplitButtonInteraction({
     super.key,
@@ -114,6 +113,7 @@ class SplitButtonInteraction extends StatefulWidget {
     this.spacing = 8.0,
     this.style = const SplitButtonStyle(),
   }) : assert(actions.length > 0);
+
   /// The initial label of the main button.
   final String initialLabel;
 
@@ -253,7 +253,7 @@ class _SplitButtonInteractionState extends State<SplitButtonInteraction>
                 animation: _controller,
                 builder: (context, child) {
                   if (_controller.value == 1.0) return child!;
-                  
+
                   final double t = _expandAnimation.value.clamp(0.0, 1.0);
                   final double blur = (1.0 - t) * 4.0;
                   final double opacity = t;
@@ -296,16 +296,13 @@ class _SplitButtonInteractionState extends State<SplitButtonInteraction>
                   // Text fade and blur to create a premium "emergence" effect
                   final double t = (1.0 - _fadeAnimation.value).clamp(0.0, 1.0);
                   final double blur = (1.0 - t) * 4.0;
-                  
+
                   return ImageFiltered(
                     imageFilter: ImageFilter.blur(
                       sigmaX: blur > 0.001 ? blur : 0,
                       sigmaY: blur > 0.001 ? blur : 0,
                     ),
-                    child: Opacity(
-                      opacity: t,
-                      child: child,
-                    ),
+                    child: Opacity(opacity: t, child: child),
                   );
                 },
                 child: Text(
@@ -409,10 +406,7 @@ class _SplitButtonInteractionState extends State<SplitButtonInteraction>
             // 6% pop bounce (parabolic pulse)
             scale = 1.0 + (4 * n * (1 - n) * 0.06);
           }
-          return Transform.scale(
-            scale: scale,
-            child: child,
-          );
+          return Transform.scale(scale: scale, child: child);
         },
         child: Stack(
           alignment: Alignment.centerLeft,

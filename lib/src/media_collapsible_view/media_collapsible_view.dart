@@ -10,7 +10,6 @@ export 'package:portal_labs/src/media_collapsible_view/models/media_view_style.d
 
 /// A high-fidelity Reels-inspired view with MATHEMATICAL Safe Area transitions.
 class MediaCollapsibleView extends StatefulWidget {
-
   /// Creates a [MediaCollapsibleView] with the given media content and callbacks.
   const MediaCollapsibleView({
     super.key,
@@ -353,7 +352,9 @@ class _MediaCollapsibleViewState extends State<MediaCollapsibleView>
                             width: 40,
                             margin: const EdgeInsets.symmetric(vertical: 12),
                             decoration: BoxDecoration(
-                              color: widget.style.textColor.withValues(alpha: 0.2),
+                              color: widget.style.textColor.withValues(
+                                alpha: 0.2,
+                              ),
                               borderRadius: BorderRadius.circular(2),
                             ),
                           ),
@@ -421,10 +422,7 @@ class _MediaCollapsibleViewState extends State<MediaCollapsibleView>
           const SizedBox(height: 12),
           Row(
             children: [
-              CircleAvatar(
-                radius: 17,
-                backgroundImage: widget.userAvatarImage,
-              ),
+              CircleAvatar(radius: 17, backgroundImage: widget.userAvatarImage),
               const SizedBox(width: 12),
               Expanded(
                 child: Container(

@@ -7,7 +7,7 @@ import 'models/todo_list_style.dart';
 import '../theme/portal_theme.dart';
 
 /// A premium, interactive To-do list with a concentric "Island" design system.
-/// 
+///
 /// All visual properties and physics parameters are fully customizable via [TodoListStyle].
 class TodoListInteraction extends StatefulWidget {
   /// Creates a new [TodoListInteraction].
@@ -54,7 +54,9 @@ class _TodoListInteractionState extends State<TodoListInteraction> {
     setState(() {
       final index = _items.indexWhere((it) => it.id == id);
       if (index != -1) {
-        _items[index] = _items[index].copyWith(isCompleted: !_items[index].isCompleted);
+        _items[index] = _items[index].copyWith(
+          isCompleted: !_items[index].isCompleted,
+        );
         widget.onChanged?.call(_items);
       }
     });
@@ -63,7 +65,7 @@ class _TodoListInteractionState extends State<TodoListInteraction> {
   @override
   Widget build(BuildContext context) {
     final theme = PortalTheme.of(context);
-    
+
     return Container(
       decoration: BoxDecoration(
         color: widget.style.outerBackgroundColor,
@@ -77,12 +79,14 @@ class _TodoListInteractionState extends State<TodoListInteraction> {
             padding: const EdgeInsets.only(top: 24, bottom: 16),
             child: Text(
               widget.dateString,
-              style: widget.style.dateStyle ?? theme.typography.bodyMedium.copyWith(
-                color: theme.colors.textSecondary,
-                fontWeight: FontWeight.w700,
-                letterSpacing: 0.2,
-                fontFamily: 'Courier',
-              ),
+              style:
+                  widget.style.dateStyle ??
+                  theme.typography.bodyMedium.copyWith(
+                    color: theme.colors.textSecondary,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.2,
+                    fontFamily: 'Courier',
+                  ),
             ),
           ),
           Container(
@@ -90,9 +94,11 @@ class _TodoListInteractionState extends State<TodoListInteraction> {
             padding: const EdgeInsets.only(top: 16, bottom: 24),
             decoration: BoxDecoration(
               color: widget.style.cardBackgroundColor,
-              borderRadius: BorderRadius.circular(widget.style.cardBorderRadius),
+              borderRadius: BorderRadius.circular(
+                widget.style.cardBorderRadius,
+              ),
               boxShadow: [
-                 BoxShadow(
+                BoxShadow(
                   color: Colors.black.withValues(alpha: 0.02),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
@@ -109,7 +115,9 @@ class _TodoListInteractionState extends State<TodoListInteraction> {
                 ),
                 const SizedBox(height: 12),
                 ...widget.categories.map((category) {
-                  final categoryItems = _items.where((it) => it.categoryId == category.id).toList();
+                  final categoryItems = _items
+                      .where((it) => it.categoryId == category.id)
+                      .toList();
                   return _TodoCategoryGroup(
                     key: ValueKey('group_${category.id}'),
                     category: category,
@@ -151,44 +159,53 @@ class _TodoCategoryGroup extends StatefulWidget {
 class _TodoCategoryGroupState extends State<_TodoCategoryGroup> {
   final Map<String, double> _heights = {};
   double _headerHeight = 40.0;
-  
+
   /// Track which IDs are currently in their completion animation cycle
   final Set<String> _flyingIds = {};
-  
+
   /// Track which IDs are horizontally displaced to the right
   final Set<String> _displacedIds = {};
-  
+
   bool _isExpanded = true;
 
   Future<void> _internalToggle(String id) async {
     final itemIndex = widget.items.indexWhere((it) => it.id == id);
     if (itemIndex == -1) return;
     final item = widget.items[itemIndex];
-    final sortedBefore = List<TodoItem>.from(widget.items)..sort((a,b)=>a.isCompleted == b.isCompleted ? 0 : (a.isCompleted ? 1 : -1));
+    final sortedBefore = List<TodoItem>.from(widget.items)
+      ..sort(
+        (a, b) => a.isCompleted == b.isCompleted ? 0 : (a.isCompleted ? 1 : -1),
+      );
     final sortedAfter = List<TodoItem>.from(widget.items);
     final idx = sortedAfter.indexWhere((it) => it.id == id);
     sortedAfter[idx] = item.copyWith(isCompleted: !item.isCompleted);
-    sortedAfter.sort((a,b)=>a.isCompleted == b.isCompleted ? 0 : (a.isCompleted ? 1 : -1));
+    sortedAfter.sort(
+      (a, b) => a.isCompleted == b.isCompleted ? 0 : (a.isCompleted ? 1 : -1),
+    );
 
-    final bool willMoveUp = item.isCompleted && !sortedAfter.firstWhere((it) => it.id == id).isCompleted;
-    final bool willStayAtSamePosition = sortedBefore.indexOf(item) == sortedAfter.indexWhere((it) => it.id == id);
+    final bool willMoveUp =
+        item.isCompleted &&
+        !sortedAfter.firstWhere((it) => it.id == id).isCompleted;
+    final bool willStayAtSamePosition =
+        sortedBefore.indexOf(item) ==
+        sortedAfter.indexWhere((it) => it.id == id);
 
     if (willMoveUp || willStayAtSamePosition) {
       widget.onToggle(id);
       return;
     }
 
-    setState(() { 
-      _flyingIds.add(id); 
-      _displacedIds.add(id); 
+    setState(() {
+      _flyingIds.add(id);
+      _displacedIds.add(id);
     });
 
     await Future.delayed(const Duration(milliseconds: 350));
-    if (mounted) { 
-      setState(() { 
-        widget.onToggle(id); 
-        _displacedIds.remove(id); 
-      }); 
+    if (mounted) {
+      setState(() {
+        widget.onToggle(id);
+        _displacedIds.remove(id);
+      });
     }
 
     await Future.delayed(const Duration(milliseconds: 1000));
@@ -197,7 +214,9 @@ class _TodoCategoryGroupState extends State<_TodoCategoryGroup> {
 
   void _updateHeight(String key, double height) {
     if (_heights[key] != height) {
-      WidgetsBinding.instance.addPostFrameCallback((_) { if (mounted) setState(() => _heights[key] = height); });
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) setState(() => _heights[key] = height);
+      });
     }
   }
 
@@ -205,7 +224,7 @@ class _TodoCategoryGroupState extends State<_TodoCategoryGroup> {
   Widget build(BuildContext context) {
     final theme = PortalTheme.of(context);
     List<TodoItem> visibleItems = widget.items;
-    
+
     if (widget.activeFilter == 'Completed') {
       visibleItems = widget.items.where((it) => it.isCompleted).toList();
     } else if (widget.activeFilter == 'Pending') {
@@ -213,7 +232,10 @@ class _TodoCategoryGroupState extends State<_TodoCategoryGroup> {
     }
 
     if (visibleItems.isEmpty) return const SizedBox.shrink();
-    final sortedItems = List<TodoItem>.from(visibleItems)..sort((a, b) => a.isCompleted == b.isCompleted ? 0 : (a.isCompleted ? 1 : -1));
+    final sortedItems = List<TodoItem>.from(visibleItems)
+      ..sort(
+        (a, b) => a.isCompleted == b.isCompleted ? 0 : (a.isCompleted ? 1 : -1),
+      );
 
     double currentTop = 0;
     final double headerTop = currentTop;
@@ -229,7 +251,10 @@ class _TodoCategoryGroupState extends State<_TodoCategoryGroup> {
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 800),
-      curve: _TodoSpringCurve(stiffness: widget.style.springStiffness, damping: widget.style.springDamping),
+      curve: _TodoSpringCurve(
+        stiffness: widget.style.springStiffness,
+        damping: widget.style.springDamping,
+      ),
       height: currentTop + 4.0,
       clipBehavior: Clip.antiAlias,
       decoration: const BoxDecoration(),
@@ -246,13 +271,15 @@ class _TodoCategoryGroupState extends State<_TodoCategoryGroup> {
             final isFlying = _flyingIds.contains(item.id);
             final isDisplaced = _displacedIds.contains(item.id);
             final isItemVisible = _isExpanded && sortedItems.contains(item);
-            
+
             return AnimatedPositioned(
               key: ValueKey('item_${item.id}'),
               duration: Duration(milliseconds: isFlying ? 900 : 800),
               curve: _TodoSpringCurve(
-                stiffness: isFlying ? widget.style.springStiffness * 0.8 : widget.style.springStiffness, 
-                damping: widget.style.springDamping
+                stiffness: isFlying
+                    ? widget.style.springStiffness * 0.8
+                    : widget.style.springStiffness,
+                damping: widget.style.springDamping,
               ),
               top: targetTop,
               left: isDisplaced ? 20.0 : 0.0,
@@ -264,7 +291,11 @@ class _TodoCategoryGroupState extends State<_TodoCategoryGroup> {
                   ignoring: !isItemVisible,
                   child: _MeasureSize(
                     onSizeChange: (size) => _updateHeight(item.id, size.height),
-                    child: _TodoItemTile(item: item, onToggle: () => _internalToggle(item.id), style: widget.style),
+                    child: _TodoItemTile(
+                      item: item,
+                      onToggle: () => _internalToggle(item.id),
+                      style: widget.style,
+                    ),
                   ),
                 ),
               ),
@@ -273,32 +304,41 @@ class _TodoCategoryGroupState extends State<_TodoCategoryGroup> {
 
           AnimatedPositioned(
             duration: const Duration(milliseconds: 800),
-            curve: _TodoSpringCurve(stiffness: widget.style.springStiffness, damping: widget.style.springDamping),
+            curve: _TodoSpringCurve(
+              stiffness: widget.style.springStiffness,
+              damping: widget.style.springDamping,
+            ),
             top: headerTop,
             left: 0,
             right: 0,
             child: _MeasureSize(
-              onSizeChange: (size) => setState(() => _headerHeight = size.height),
+              onSizeChange: (size) =>
+                  setState(() => _headerHeight = size.height),
               child: GestureDetector(
                 onTap: () => setState(() => _isExpanded = !_isExpanded),
                 behavior: HitTestBehavior.opaque,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 4,
+                  ),
                   child: Row(
                     children: [
                       _AnimatedSpringRotation(
-                        isExpanded: _isExpanded, 
+                        isExpanded: _isExpanded,
                         style: widget.style,
                         child: const Icon(Icons.arrow_right_rounded, size: 28),
                       ),
                       const SizedBox(width: 4),
                       Text(
-                        widget.category.title, 
-                        style: widget.style.categoryHeaderStyle ?? theme.typography.h3.copyWith(
-                          fontWeight: FontWeight.w800, 
-                          fontFamily: 'Courier', 
-                          fontSize: 17
-                        )
+                        widget.category.title,
+                        style:
+                            widget.style.categoryHeaderStyle ??
+                            theme.typography.h3.copyWith(
+                              fontWeight: FontWeight.w800,
+                              fontFamily: 'Courier',
+                              fontSize: 17,
+                            ),
                       ),
                     ],
                   ),
@@ -323,31 +363,51 @@ class _AnimatedSpringRotation extends StatefulWidget {
   final Widget child;
   final TodoListStyle style;
   @override
-  State<_AnimatedSpringRotation> createState() => _AnimatedSpringRotationState();
+  State<_AnimatedSpringRotation> createState() =>
+      _AnimatedSpringRotationState();
 }
 
-class _AnimatedSpringRotationState extends State<_AnimatedSpringRotation> with SingleTickerProviderStateMixin {
+class _AnimatedSpringRotationState extends State<_AnimatedSpringRotation>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 800));
-    _animation = Tween<double>(begin: 0, end: 0.25).animate(CurvedAnimation(
-      parent: _controller, 
-      curve: _TodoSpringCurve(stiffness: widget.style.springStiffness, damping: widget.style.springDamping * 0.75)
-    ));
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    );
+    _animation = Tween<double>(begin: 0, end: 0.25).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: _TodoSpringCurve(
+          stiffness: widget.style.springStiffness,
+          damping: widget.style.springDamping * 0.75,
+        ),
+      ),
+    );
     if (widget.isExpanded) _controller.value = 1.0;
   }
+
   @override
   void didUpdateWidget(covariant _AnimatedSpringRotation oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.isExpanded != oldWidget.isExpanded) widget.isExpanded ? _controller.forward() : _controller.reverse();
+    if (widget.isExpanded != oldWidget.isExpanded) {
+      widget.isExpanded ? _controller.forward() : _controller.reverse();
+    }
   }
+
   @override
-  void dispose() { _controller.dispose(); super.dispose(); }
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
-  Widget build(BuildContext context) { return RotationTransition(turns: _animation, child: widget.child); }
+  Widget build(BuildContext context) {
+    return RotationTransition(turns: _animation, child: widget.child);
+  }
 }
 
 class _TodoTabs extends StatelessWidget {
@@ -376,13 +436,18 @@ class _TodoTabs extends StatelessWidget {
       ),
       child: LayoutBuilder(
         builder: (context, constraints) {
-          final tabWidth = (constraints.maxWidth - 8) / (filters.isEmpty ? 1 : filters.length);
-          
+          final tabWidth =
+              (constraints.maxWidth - 8) /
+              (filters.isEmpty ? 1 : filters.length);
+
           return Stack(
             children: [
               AnimatedPositioned(
                 duration: const Duration(milliseconds: 600),
-                curve: _TodoSpringCurve(stiffness: style.springStiffness, damping: style.springDamping),
+                curve: _TodoSpringCurve(
+                  stiffness: style.springStiffness,
+                  damping: style.springDamping,
+                ),
                 left: 4 + (activeIndex * tabWidth),
                 top: 4,
                 bottom: 4,
@@ -421,13 +486,19 @@ class _TodoTabs extends StatelessWidget {
                         alignment: Alignment.center,
                         child: AnimatedDefaultTextStyle(
                           duration: const Duration(milliseconds: 300),
-                          style: style.tabTextStyle ?? theme.typography.bodyMedium.copyWith(
-                            fontWeight: isActive ? FontWeight.w800 : FontWeight.w600,
-                            color: isActive ? Colors.black : theme.colors.textSecondary,
-                            fontSize: 13,
-                            fontFamily: 'Courier',
-                            letterSpacing: -0.3,
-                          ),
+                          style:
+                              style.tabTextStyle ??
+                              theme.typography.bodyMedium.copyWith(
+                                fontWeight: isActive
+                                    ? FontWeight.w800
+                                    : FontWeight.w600,
+                                color: isActive
+                                    ? Colors.black
+                                    : theme.colors.textSecondary,
+                                fontSize: 13,
+                                fontFamily: 'Courier',
+                                letterSpacing: -0.3,
+                              ),
                           child: Text(filter, maxLines: 1),
                         ),
                       ),
@@ -470,25 +541,43 @@ class _TodoItemTile extends StatelessWidget {
                 width: 18,
                 height: 18,
                 decoration: BoxDecoration(
-                  color: item.isCompleted ? (style.checkboxActiveColor ?? theme.colors.primary) : Colors.transparent,
-                  border: Border.all(color: item.isCompleted ? (style.checkboxActiveColor ?? theme.colors.primary) : (style.checkboxBorderColor ?? theme.colors.border)),
+                  color: item.isCompleted
+                      ? (style.checkboxActiveColor ?? theme.colors.primary)
+                      : Colors.transparent,
+                  border: Border.all(
+                    color: item.isCompleted
+                        ? (style.checkboxActiveColor ?? theme.colors.primary)
+                        : (style.checkboxBorderColor ?? theme.colors.border),
+                  ),
                   borderRadius: BorderRadius.circular(4),
                 ),
-                child: item.isCompleted ? const Icon(Icons.check, size: 12, color: Colors.white) : null,
+                child: item.isCompleted
+                    ? const Icon(Icons.check, size: 12, color: Colors.white)
+                    : null,
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: AnimatedDefaultTextStyle(
                   duration: const Duration(milliseconds: 300),
-                  style: style.itemTextStyle ?? theme.typography.bodyMedium.copyWith(
-                    color: item.isCompleted ? theme.colors.textSecondary.withValues(alpha: 0.6) : theme.colors.textPrimary,
-                    decoration: item.isCompleted ? TextDecoration.lineThrough : null,
-                    decorationColor: theme.colors.textSecondary,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: 'Courier',
+                  style:
+                      style.itemTextStyle ??
+                      theme.typography.bodyMedium.copyWith(
+                        color: item.isCompleted
+                            ? theme.colors.textSecondary.withValues(alpha: 0.6)
+                            : theme.colors.textPrimary,
+                        decoration: item.isCompleted
+                            ? TextDecoration.lineThrough
+                            : null,
+                        decorationColor: theme.colors.textSecondary,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Courier',
+                      ),
+                  child: Text(
+                    item.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  child: Text(item.title, maxLines: 1, overflow: TextOverflow.ellipsis),
                 ),
               ),
             ],
@@ -500,26 +589,42 @@ class _TodoItemTile extends StatelessWidget {
 }
 
 class _MeasureSize extends StatefulWidget {
-  const _MeasureSize({
-    required this.onSizeChange,
-    required this.child,
-  });
+  const _MeasureSize({required this.onSizeChange, required this.child});
 
   final Widget child;
   final _OnSizeChange onSizeChange;
   @override
   State<_MeasureSize> createState() => _MeasureSizeState();
 }
+
 typedef _OnSizeChange = void Function(Size size);
+
 class _MeasureSizeState extends State<_MeasureSize> {
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) { if (mounted) { final RenderBox? renderBox = context.findRenderObject() as RenderBox?; if (renderBox != null && renderBox.hasSize) widget.onSizeChange(renderBox.size); } });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        final RenderBox? renderBox = context.findRenderObject() as RenderBox?;
+        if (renderBox != null && renderBox.hasSize) {
+          widget.onSizeChange(renderBox.size);
+        }
+      }
+    });
     return widget.child;
   }
 }
+
 class _TodoSpringCurve extends Curve {
-  _TodoSpringCurve({double mass = 1.0, required double stiffness, required double damping}) : simulation = SpringSimulation(SpringDescription(mass: mass, stiffness: stiffness, damping: damping), 0.0, 1.0, 0.0);
+  _TodoSpringCurve({
+    double mass = 1.0,
+    required double stiffness,
+    required double damping,
+  }) : simulation = SpringSimulation(
+         SpringDescription(mass: mass, stiffness: stiffness, damping: damping),
+         0.0,
+         1.0,
+         0.0,
+       );
   final SpringSimulation simulation;
   @override
   double transformInternal(double t) => simulation.x(t).clamp(-0.2, 1.2);

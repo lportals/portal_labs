@@ -62,7 +62,7 @@ class _SplitToEditDurationState extends State<SplitToEditDuration>
   final FocusNode _rightFocusNode = FocusNode();
 
   late final AnimationController _controller;
-  
+
   // High-fidelity staggered animations
   late final Animation<double> _leftAnimation;
   late final Animation<double> _rightAnimation;
@@ -83,21 +83,24 @@ class _SplitToEditDurationState extends State<SplitToEditDuration>
     _rightController.addListener(_onTextChanged);
 
     // Opening curves from style or generated from physics parameters
-    final openingCurve = widget.style.bounceCurve ?? 
+    final openingCurve =
+        widget.style.bounceCurve ??
         PortalSpringCurve(
           stiffness: widget.style.stiffness,
           damping: widget.style.damping,
           mass: widget.style.mass,
         );
-        
-    final closingCurve = widget.style.closeCurve?.flipped ?? 
+
+    final closingCurve =
+        widget.style.closeCurve?.flipped ??
         PortalSpringCurve(
           stiffness: widget.style.stiffness * 0.8, // Slightly softer closing
-          damping: widget.style.damping * 1.4,     // More damped closing for fluidity
+          damping:
+              widget.style.damping * 1.4, // More damped closing for fluidity
           mass: widget.style.mass,
         ).flipped;
 
-    // Symmetrical staggering: Left starts first when opening, 
+    // Symmetrical staggering: Left starts first when opening,
     // Right starts first when closing for a natural "pulling" feel.
     _leftAnimation = CurvedAnimation(
       parent: _controller,
@@ -179,14 +182,14 @@ class _SplitToEditDurationState extends State<SplitToEditDuration>
       builder: (context, child) {
         final leftVal = _leftAnimation.value;
         final rightVal = _rightAnimation.value;
-        
+
         // Use the average for unified visual properties like shadow/radius
         final unifiedProgress = (leftVal + rightVal) / 2;
         final clampedProgress = unifiedProgress.clamp(0.0, 1.0);
 
         final double leftShift = leftVal * spacing;
         final double rightShift = rightVal * spacing;
-        
+
         // No overlap correction needed when widths are tight
         const double overlapCorrection = 0.0;
 
@@ -270,7 +273,10 @@ class _SplitToEditDurationState extends State<SplitToEditDuration>
                         builder: (context, _) {
                           final blurAmount = (1.0 - animation.value) * 6.0;
                           if (blurAmount < 0.05) {
-                            return FadeTransition(opacity: animation, child: child);
+                            return FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            );
                           }
                           return ImageFiltered(
                             imageFilter: ImageFilter.blur(
@@ -280,9 +286,13 @@ class _SplitToEditDurationState extends State<SplitToEditDuration>
                             child: FadeTransition(
                               opacity: animation,
                               child: ScaleTransition(
-                                scale: Tween<double>(begin: 0.9, end: 1.0).animate(
-                                  CurvedAnimation(parent: animation, curve: Curves.easeOutCubic),
-                                ),
+                                scale: Tween<double>(begin: 0.9, end: 1.0)
+                                    .animate(
+                                      CurvedAnimation(
+                                        parent: animation,
+                                        curve: Curves.easeOutCubic,
+                                      ),
+                                    ),
                                 child: child,
                               ),
                             ),
@@ -293,7 +303,9 @@ class _SplitToEditDurationState extends State<SplitToEditDuration>
                     child: Icon(
                       _isEditing ? Icons.check_rounded : Icons.edit_rounded,
                       key: ValueKey(_isEditing),
-                      color: _isEditing ? Colors.black : Colors.black.withValues(alpha: 0.54),
+                      color: _isEditing
+                          ? Colors.black
+                          : Colors.black.withValues(alpha: 0.54),
                       size: 24,
                     ),
                   ),
@@ -346,14 +358,22 @@ class _SegmentWrapperState extends State<_SegmentWrapper> {
     BorderRadius mergedRadius;
     switch (widget.position) {
       case _SegmentPosition.left:
-        mergedRadius = BorderRadius.horizontal(left: Radius.circular(widget.borderRadius));
+        mergedRadius = BorderRadius.horizontal(
+          left: Radius.circular(widget.borderRadius),
+        );
       case _SegmentPosition.middle:
         mergedRadius = BorderRadius.zero;
       case _SegmentPosition.right:
-        mergedRadius = BorderRadius.horizontal(right: Radius.circular(widget.borderRadius));
+        mergedRadius = BorderRadius.horizontal(
+          right: Radius.circular(widget.borderRadius),
+        );
     }
 
-    final currentRadius = BorderRadius.lerp(mergedRadius, lerpRadius, clampedProgress)!;
+    final currentRadius = BorderRadius.lerp(
+      mergedRadius,
+      lerpRadius,
+      clampedProgress,
+    )!;
 
     // Use internal padding from style
     final basePadding = widget.style.padding as EdgeInsets;
@@ -365,11 +385,19 @@ class _SegmentWrapperState extends State<_SegmentWrapper> {
     if (!widget.isEditing) {
       // 1. LEFT SEGMENT: Protect outer left, squeeze inner right
       if (widget.position == _SegmentPosition.left) {
-        rightPadding = lerpDouble(widget.style.innerSpacing, basePadding.right, clampedProgress)!;
+        rightPadding = lerpDouble(
+          widget.style.innerSpacing,
+          basePadding.right,
+          clampedProgress,
+        )!;
       }
       // 2. MIDDLE SEGMENT: Squeeze both sides to stay tight
       if (widget.position == _SegmentPosition.middle) {
-        leftPadding = lerpDouble(widget.style.innerSpacing, basePadding.left, clampedProgress)!;
+        leftPadding = lerpDouble(
+          widget.style.innerSpacing,
+          basePadding.left,
+          clampedProgress,
+        )!;
         rightPadding = lerpDouble(0.0, basePadding.right, clampedProgress)!;
       }
       // 3. ACTION SEGMENT: Squeeze inner left, protect outer right
@@ -381,20 +409,26 @@ class _SegmentWrapperState extends State<_SegmentWrapper> {
 
     // Dynamic width using style tokens
     final actionWidth = lerpDouble(
-      widget.style.actionWidthClosed, 
-      widget.style.actionWidthExpanded, 
+      widget.style.actionWidthClosed,
+      widget.style.actionWidthExpanded,
       clampedProgress,
     )!;
-    
-    final minWidth = isAction 
-      ? actionWidth 
-      : lerpDouble(0.0, 120.0, clampedProgress)!;
+
+    final minWidth = isAction
+        ? actionWidth
+        : lerpDouble(0.0, 120.0, clampedProgress)!;
 
     return GestureDetector(
       // Only handle taps and pulse if expanded OR if it's the action button
-      onTapDown: !widget.isEditing && !isAction ? null : (_) => setState(() => _isPressed = true),
-      onTapUp: !widget.isEditing && !isAction ? null : (_) => setState(() => _isPressed = false),
-      onTapCancel: !widget.isEditing && !isAction ? null : () => setState(() => _isPressed = false),
+      onTapDown: !widget.isEditing && !isAction
+          ? null
+          : (_) => setState(() => _isPressed = true),
+      onTapUp: !widget.isEditing && !isAction
+          ? null
+          : (_) => setState(() => _isPressed = false),
+      onTapCancel: !widget.isEditing && !isAction
+          ? null
+          : () => setState(() => _isPressed = false),
       onTap: !widget.isEditing && !isAction ? null : widget.onTap,
       behavior: HitTestBehavior.opaque,
       child: AnimatedScale(
@@ -415,17 +449,13 @@ class _SegmentWrapperState extends State<_SegmentWrapper> {
             borderRadius: currentRadius,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(
-                  alpha: 0.08 * clampedProgress,
-                ),
+                color: Colors.black.withValues(alpha: 0.08 * clampedProgress),
                 blurRadius: 40,
                 offset: Offset(0, 8 * clampedProgress),
               ),
             ],
           ),
-          child: ClipRect(
-            child: Center(child: widget.child),
-          ),
+          child: ClipRect(child: Center(child: widget.child)),
         ),
       ),
     );
@@ -451,7 +481,8 @@ class _EditableValueUnit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = style.textStyle ??
+    final textStyle =
+        style.textStyle ??
         const TextStyle(
           fontSize: 26,
           fontWeight: FontWeight.w700,
@@ -459,7 +490,8 @@ class _EditableValueUnit extends StatelessWidget {
           letterSpacing: -1.0,
         );
 
-    final unitStyle = style.unitStyle ??
+    final unitStyle =
+        style.unitStyle ??
         TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.w500,
@@ -472,13 +504,14 @@ class _EditableValueUnit extends StatelessWidget {
       text: TextSpan(text: controller.text, style: textStyle),
       textDirection: TextDirection.ltr,
     )..layout();
-    
+
     final naturalWidth = textPainter.width;
-    
+
     // Use a dynamic target width: natural width plus a small editing buffer (12px)
     // when expanded. This makes the component feel "alive" and tailored to its content.
-    final targetWidth = naturalWidth + (style.fieldWidth - 24.0).clamp(8.0, 16.0);
-    
+    final targetWidth =
+        naturalWidth + (style.fieldWidth - 24.0).clamp(8.0, 16.0);
+
     final currentFieldWidth = lerpDouble(naturalWidth, targetWidth, progress)!;
 
     return Row(

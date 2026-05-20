@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 /// Style configuration for the [KnobSlider] component.
 class KnobSliderStyle {
-
   /// Creates a [KnobSliderStyle] with the given appearance properties.
   const KnobSliderStyle({
     this.ringColor = const Color(0xFFF2F2F7),
@@ -30,6 +29,7 @@ class KnobSliderStyle {
     this.shadowColor = const Color(0xFF000000),
     this.blurRadius = 20.0,
   });
+
   /// The background color of the outer ring.
   final Color ringColor;
 

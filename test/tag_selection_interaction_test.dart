@@ -14,11 +14,7 @@ void main() {
     testWidgets('renders all tags correctly', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: TagSelectionInteraction(
-              allTags: testTags,
-            ),
-          ),
+          home: Scaffold(body: TagSelectionInteraction(allTags: testTags)),
         ),
       );
 
@@ -41,7 +37,9 @@ void main() {
 
       // Verify that the tag with id '1' is selected
       expect(
-        find.byWidgetPredicate((w) => w is TagItemWidget && (w).tag.id == '1' && (w).isSelected),
+        find.byWidgetPredicate(
+          (w) => w is TagItemWidget && (w).tag.id == '1' && (w).isSelected,
+        ),
         findsOneWidget,
       );
     });
@@ -71,7 +69,9 @@ void main() {
 
       expect(selected, contains('1'));
       expect(
-        find.byWidgetPredicate((w) => w is TagItemWidget && (w).tag.id == '1' && (w).isSelected),
+        find.byWidgetPredicate(
+          (w) => w is TagItemWidget && (w).tag.id == '1' && (w).isSelected,
+        ),
         findsOneWidget,
       );
 

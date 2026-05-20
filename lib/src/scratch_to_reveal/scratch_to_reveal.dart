@@ -6,7 +6,7 @@ import 'models/scratch_to_reveal_style.dart';
 
 /// A controller for a [ScratchSurface] or [ScratchToReveal] component.
 ///
-/// It allows programmatic control over the scratching state and 
+/// It allows programmatic control over the scratching state and
 /// provides access to the current reveal progress.
 class ScratchController extends ChangeNotifier {
   double _progress = 0;
@@ -167,12 +167,7 @@ class _ScratchToRevealState extends State<ScratchToReveal> {
       children: [
         Icon(widget.icon, size: 24, color: Colors.black),
         const SizedBox(width: 12),
-        Expanded(
-          child: Text(
-            widget.title,
-            style: widget.style.titleStyle,
-          ),
-        ),
+        Expanded(child: Text(widget.title, style: widget.style.titleStyle)),
         if (_internalController.isCompleted)
           GestureDetector(
             onTap: () {
@@ -235,13 +230,12 @@ class ScratchSurface extends StatefulWidget {
   State<ScratchSurface> createState() => _ScratchSurfaceState();
 }
 
-class _ScratchSurfaceState extends State<ScratchSurface> 
+class _ScratchSurfaceState extends State<ScratchSurface>
     with TickerProviderStateMixin {
-  
   late ScratchController _controller;
   final List<List<Offset>> _paths = [];
   final List<_JaggedShard> _jaggedShards = [];
-  
+
   late AnimationController _fadeController;
   late Animation<double> _fadeAnimation;
 
@@ -287,7 +281,9 @@ class _ScratchSurfaceState extends State<ScratchSurface>
   }
 
   void _onInternalControllerChanged() {
-    if (_controller.isCompleted && !_fadeController.isAnimating && _fadeController.value == 0) {
+    if (_controller.isCompleted &&
+        !_fadeController.isAnimating &&
+        _fadeController.value == 0) {
       _fadeController.forward();
       widget.onCompleted?.call();
     } else if (!_controller.isCompleted && _fadeController.value > 0) {
@@ -333,7 +329,7 @@ class _ScratchSurfaceState extends State<ScratchSurface>
       if (p.life <= 0) {
         _particles.removeAt(i);
       } else {
-        p.velocity += const Offset(0, 1200) * dt; 
+        p.velocity += const Offset(0, 1200) * dt;
         p.position += p.velocity * dt;
         p.angle += p.angularVelocity * dt;
         needsPaint = true;
@@ -346,50 +342,64 @@ class _ScratchSurfaceState extends State<ScratchSurface>
   }
 
   void _spawnParticles(Offset position) {
-    int count = _random.nextInt(4) + 2; 
+    int count = _random.nextInt(4) + 2;
     for (int i = 0; i < count; i++) {
-        final double dx = (_random.nextDouble() - 0.5) * 300;
-        final double dy = (_random.nextDouble() - 0.5) * 300 - 150; 
-        final double size = _random.nextDouble() * 5 + 2; 
-        
-        _particles.add(_ScratchParticle(
-            position: position + Offset((_random.nextDouble() - 0.5) * widget.style.brushSize, (_random.nextDouble() - 0.5) * widget.style.brushSize),
-            velocity: Offset(dx, dy),
-            angle: _random.nextDouble() * math.pi * 2,
-            angularVelocity: (_random.nextDouble() - 0.5) * 15,
-            size: size,
-        ));
+      final double dx = (_random.nextDouble() - 0.5) * 300;
+      final double dy = (_random.nextDouble() - 0.5) * 300 - 150;
+      final double size = _random.nextDouble() * 5 + 2;
+
+      _particles.add(
+        _ScratchParticle(
+          position:
+              position +
+              Offset(
+                (_random.nextDouble() - 0.5) * widget.style.brushSize,
+                (_random.nextDouble() - 0.5) * widget.style.brushSize,
+              ),
+          velocity: Offset(dx, dy),
+          angle: _random.nextDouble() * math.pi * 2,
+          angularVelocity: (_random.nextDouble() - 0.5) * 15,
+          size: size,
+        ),
+      );
     }
   }
 
   void _addJaggedEdges(Offset position) {
-    int count = _random.nextInt(3) + 2; 
+    int count = _random.nextInt(3) + 2;
     for (int i = 0; i < count; i++) {
       final double offsetRadius = widget.style.brushSize * 0.5;
       final double dx = (_random.nextDouble() - 0.5) * offsetRadius * 2;
       final double dy = (_random.nextDouble() - 0.5) * offsetRadius * 2;
-      final double size = _random.nextDouble() * (widget.style.brushSize * 0.4) + (widget.style.brushSize * 0.1);
+      final double size =
+          _random.nextDouble() * (widget.style.brushSize * 0.4) +
+          (widget.style.brushSize * 0.1);
       final double angle = _random.nextDouble() * math.pi * 2;
-      
-      _jaggedShards.add(_JaggedShard(
-        position: position + Offset(dx, dy), 
-        size: size,
-        angle: angle,
-      ));
+
+      _jaggedShards.add(
+        _JaggedShard(
+          position: position + Offset(dx, dy),
+          size: size,
+          angle: angle,
+        ),
+      );
     }
   }
 
   bool _trackGridCoverage(Offset point, Size size) {
     final double cellWidth = size.width / widget.style.gridColumns;
     final double cellHeight = size.height / widget.style.gridRows;
-    
+
     final int centerX = (point.dx / cellWidth).floor();
     final int centerY = (point.dy / cellHeight).floor();
 
     bool addedNew = false;
     for (int x = centerX - 1; x <= centerX + 1; x++) {
       for (int y = centerY - 1; y <= centerY + 1; y++) {
-        if (x >= 0 && x < widget.style.gridColumns && y >= 0 && y < widget.style.gridRows) {
+        if (x >= 0 &&
+            x < widget.style.gridColumns &&
+            y >= 0 &&
+            y < widget.style.gridRows) {
           if (_scratchedCells.add(y * widget.style.gridColumns + x)) {
             addedNew = true;
           }
@@ -402,10 +412,10 @@ class _ScratchSurfaceState extends State<ScratchSurface>
   double _calculateCoverage() {
     int targetTotal = 0;
     int targetScratched = 0;
-    
+
     const int marginX = 2;
     const int marginY = 2;
-    
+
     for (int x = marginX; x < widget.style.gridColumns - marginX; x++) {
       for (int y = marginY; y < widget.style.gridRows - marginY; y++) {
         targetTotal++;
@@ -414,7 +424,7 @@ class _ScratchSurfaceState extends State<ScratchSurface>
         }
       }
     }
-    
+
     final coverage = targetTotal == 0 ? 0.0 : targetScratched / targetTotal;
     _controller.updateProgress(coverage);
     widget.onProgress?.call(coverage);
@@ -452,10 +462,14 @@ class _ScratchSurfaceState extends State<ScratchSurface>
                     return Transform.scale(
                       scale: _controller.isCompleted ? scale : 1.0,
                       child: Opacity(
-                        opacity: _controller.isCompleted ? _fadeAnimation.value : 0.8,
+                        opacity: _controller.isCompleted
+                            ? _fadeAnimation.value
+                            : 0.8,
                         child: ColorFiltered(
                           colorFilter: ColorFilter.mode(
-                            Colors.black.withValues(alpha: (1.0 - _fadeAnimation.value) * 0.2),
+                            Colors.black.withValues(
+                              alpha: (1.0 - _fadeAnimation.value) * 0.2,
+                            ),
                             BlendMode.srcATop,
                           ),
                           child: widget.child,
@@ -492,7 +506,8 @@ class _ScratchSurfaceState extends State<ScratchSurface>
                       }
                     });
 
-                    if (!_controller.isCompleted && _calculateCoverage() > widget.style.successThreshold) {
+                    if (!_controller.isCompleted &&
+                        _calculateCoverage() > widget.style.successThreshold) {
                       _handleCompletion();
                     }
                   },
@@ -597,7 +612,11 @@ class _ScratchPainter extends CustomPainter {
         canvas.drawPath(scratchPath, scratchPaint);
       } else if (path.isNotEmpty) {
         canvas.drawRect(
-          Rect.fromCenter(center: path[0], width: style.brushSize, height: style.brushSize), 
+          Rect.fromCenter(
+            center: path[0],
+            width: style.brushSize,
+            height: style.brushSize,
+          ),
           scratchPaint..style = PaintingStyle.fill,
         );
         scratchPaint.style = PaintingStyle.stroke;
@@ -607,13 +626,17 @@ class _ScratchPainter extends CustomPainter {
     final Paint shardPaint = Paint()
       ..blendMode = BlendMode.clear
       ..style = PaintingStyle.fill;
-    
+
     for (final shard in jaggedShards) {
       canvas.save();
       canvas.translate(shard.position.dx, shard.position.dy);
       canvas.rotate(shard.angle);
       canvas.drawRect(
-        Rect.fromCenter(center: Offset.zero, width: shard.size, height: shard.size), 
+        Rect.fromCenter(
+          center: Offset.zero,
+          width: shard.size,
+          height: shard.size,
+        ),
         shardPaint,
       );
       canvas.restore();
@@ -626,10 +649,12 @@ class _ScratchPainter extends CustomPainter {
       canvas.save();
       canvas.translate(p.position.dx, p.position.dy);
       canvas.rotate(p.angle);
-      particlePaint.color = style.particleColor.withValues(alpha: p.life.clamp(0.0, 1.0));
-      
+      particlePaint.color = style.particleColor.withValues(
+        alpha: p.life.clamp(0.0, 1.0),
+      );
+
       canvas.drawRect(
-        Rect.fromCenter(center: Offset.zero, width: p.size, height: p.size), 
+        Rect.fromCenter(center: Offset.zero, width: p.size, height: p.size),
         particlePaint,
       );
       canvas.restore();
@@ -643,10 +668,18 @@ class _ScratchPainter extends CustomPainter {
 
     const double spacing = 14.0;
     for (double i = -size.height; i < size.width; i += spacing) {
-      canvas.drawLine(Offset(i, 0), Offset(i + size.height, size.height), gridPaint);
+      canvas.drawLine(
+        Offset(i, 0),
+        Offset(i + size.height, size.height),
+        gridPaint,
+      );
     }
     for (double i = 0; i < size.width + size.height; i += spacing) {
-      canvas.drawLine(Offset(i, 0), Offset(i - size.height, size.height), gridPaint);
+      canvas.drawLine(
+        Offset(i, 0),
+        Offset(i - size.height, size.height),
+        gridPaint,
+      );
     }
   }
 
@@ -657,7 +690,10 @@ class _ScratchPainter extends CustomPainter {
       textDirection: TextDirection.ltr,
     )..layout(maxWidth: size.width - 60);
 
-    tp.paint(canvas, Offset((size.width - tp.width) / 2, (size.height - tp.height) / 2));
+    tp.paint(
+      canvas,
+      Offset((size.width - tp.width) / 2, (size.height - tp.height) / 2),
+    );
   }
 
   @override
@@ -675,7 +711,11 @@ class _SmallMenuIcon extends StatelessWidget {
         color: Color(0xFFF2F2F7),
         shape: BoxShape.circle,
       ),
-      child: const Icon(Icons.more_horiz_rounded, size: 18, color: Colors.black),
+      child: const Icon(
+        Icons.more_horiz_rounded,
+        size: 18,
+        color: Colors.black,
+      ),
     );
   }
 }

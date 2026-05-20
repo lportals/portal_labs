@@ -4,14 +4,13 @@ import 'package:portal_labs/portal_labs.dart';
 
 void main() {
   group('PremiumProgressStepper', () {
-    testWidgets('renders correctly and shows progress dots', (WidgetTester tester) async {
+    testWidgets('renders correctly and shows progress dots', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: PremiumProgressStepper(
-              totalSteps: 3,
-              currentStep: 0,
-            ),
+            body: PremiumProgressStepper(totalSteps: 3, currentStep: 0),
           ),
         ),
       );
@@ -24,14 +23,13 @@ void main() {
       expect(find.text('Back'), findsNothing);
     });
 
-    testWidgets('shows Back button when currentStep > 0', (WidgetTester tester) async {
+    testWidgets('shows Back button when currentStep > 0', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: PremiumProgressStepper(
-              totalSteps: 3,
-              currentStep: 1,
-            ),
+            body: PremiumProgressStepper(totalSteps: 3, currentStep: 1),
           ),
         ),
       );
@@ -46,10 +44,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: PremiumProgressStepper(
-              totalSteps: 3,
-              currentStep: 2,
-            ),
+            body: PremiumProgressStepper(totalSteps: 3, currentStep: 2),
           ),
         ),
       );
@@ -60,7 +55,9 @@ void main() {
       expect(find.text('Continue'), findsNothing);
     });
 
-    testWidgets('triggers onStepChanged when Continue is tapped', (WidgetTester tester) async {
+    testWidgets('triggers onStepChanged when Continue is tapped', (
+      WidgetTester tester,
+    ) async {
       int? nextStep;
       await tester.pumpWidget(
         MaterialApp(
@@ -80,7 +77,9 @@ void main() {
       expect(nextStep, 1);
     });
 
-    testWidgets('triggers onStepChanged when Back is tapped', (WidgetTester tester) async {
+    testWidgets('triggers onStepChanged when Back is tapped', (
+      WidgetTester tester,
+    ) async {
       int? prevStep;
       await tester.pumpWidget(
         MaterialApp(
@@ -101,7 +100,9 @@ void main() {
       expect(prevStep, 0);
     });
 
-    testWidgets('triggers onFinish when Finish is tapped', (WidgetTester tester) async {
+    testWidgets('triggers onFinish when Finish is tapped', (
+      WidgetTester tester,
+    ) async {
       bool finished = false;
       await tester.pumpWidget(
         MaterialApp(

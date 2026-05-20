@@ -24,7 +24,9 @@ void main() {
       expect(find.text('Item 3'), findsOneWidget);
     });
 
-    testWidgets('triggers onReorder when item is dragged over another', (WidgetTester tester) async {
+    testWidgets('triggers onReorder when item is dragged over another', (
+      WidgetTester tester,
+    ) async {
       int? reorderedOld;
       int? reorderedNew;
 
@@ -42,9 +44,7 @@ void main() {
                   reorderedOld = oldIndex;
                   reorderedNew = newIndex;
                 },
-                style: const PremiumSortableGridStyle(
-                  spacing: 0,
-                ),
+                style: const PremiumSortableGridStyle(spacing: 0),
                 itemBuilder: (context, item) => SizedBox(
                   key: ValueKey('box_$item'),
                   width: 100,
@@ -60,14 +60,16 @@ void main() {
       // Long press to start drag on Item 1
       final firstItem = find.text('Item 1');
       final firstItemCenter = tester.getCenter(firstItem);
-      
+
       final gesture = await tester.startGesture(firstItemCenter);
-      await tester.pump(const Duration(milliseconds: 600)); // Long press duration
+      await tester.pump(
+        const Duration(milliseconds: 600),
+      ); // Long press duration
 
       // Drag to Item 2
       final secondItem = find.text('Item 2');
       final secondItemCenter = tester.getCenter(secondItem);
-      
+
       await gesture.moveTo(secondItemCenter);
       await tester.pump();
 

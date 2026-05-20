@@ -4,7 +4,6 @@ import 'portal_typography.dart';
 
 /// Central theme data class for the Portal Labs UI Library.
 class PortalThemeData {
-
   /// Creates a [PortalThemeData] with the required color and typography tokens.
   const PortalThemeData({
     required this.colors,
@@ -36,6 +35,7 @@ class PortalThemeData {
       ),
     );
   }
+
   /// The full set of color tokens for this theme.
   final PortalColors colors;
 
@@ -51,7 +51,6 @@ class PortalThemeData {
 
 /// The InheritedWidget used to propagate [PortalThemeData] down the tree.
 class PortalTheme extends InheritedWidget {
-
   /// Creates a [PortalTheme] with the given [data] and [child].
   const PortalTheme({super.key, required this.data, required super.child});
 

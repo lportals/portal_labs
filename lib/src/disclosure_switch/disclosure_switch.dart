@@ -67,7 +67,7 @@ class _DisclosureSwitchState extends State<DisclosureSwitch>
       vsync: this,
       duration: const Duration(milliseconds: 500),
     );
-    
+
     // We use the controller directly as the animation because animateWith handles the values
     _expandAnimation = _expandController;
 
@@ -85,12 +85,12 @@ class _DisclosureSwitchState extends State<DisclosureSwitch>
           ? const SpringDescription(
               mass: 1.0,
               stiffness: 250, // Powerful opening
-              damping: 12,    // Under-damped = nice bounce
+              damping: 12, // Under-damped = nice bounce
             )
           : const SpringDescription(
               mass: 1.0,
               stiffness: 200, // Slightly softer closing
-              damping: 28,    // Critically damped = no bounce back up
+              damping: 28, // Critically damped = no bounce back up
             );
 
       final simulation = SpringSimulation(
@@ -122,7 +122,7 @@ class _DisclosureSwitchState extends State<DisclosureSwitch>
       builder: (context, child) {
         // Clamp the animation for visual properties like alpha
         final animValue = _expandAnimation.value.clamp(0.0, 1.0);
-        
+
         return Container(
           decoration: BoxDecoration(
             color: bg,
@@ -151,10 +151,15 @@ class _DisclosureSwitchState extends State<DisclosureSwitch>
         children: [
           // Grey Inset Header
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 2.5, vertical: 2.5), // Slightly more inset for the "Island"
+            padding: const EdgeInsets.symmetric(
+              horizontal: 2.5,
+              vertical: 2.5,
+            ), // Slightly more inset for the "Island"
             child: Container(
               decoration: BoxDecoration(
-                color: const Color(0xFFF2F2F7), // Grey background for the header "island"
+                color: const Color(
+                  0xFFF2F2F7,
+                ), // Grey background for the header "island"
                 borderRadius: BorderRadius.circular(22),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
@@ -186,14 +191,14 @@ class _DisclosureSwitchState extends State<DisclosureSwitch>
               ),
             ),
           ),
-          
+
           // Revealed Content Area
           if (widget.revealedChild != null)
             AnimatedBuilder(
               animation: _expandAnimation,
               builder: (context, child) {
                 final double t = _expandAnimation.value;
-                
+
                 // If practically closed, don't take any space
                 if (t <= 0.001 && !widget.value) {
                   return const SizedBox.shrink();
@@ -219,12 +224,14 @@ class _DisclosureSwitchState extends State<DisclosureSwitch>
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const SizedBox(height: 2), // Tighter gap for better "island" integrity
+                    const SizedBox(
+                      height: 2,
+                    ), // Tighter gap for better "island" integrity
                     Padding(
                       padding: const EdgeInsets.only(
-                        left: 14, 
-                        right: 20, 
-                        top: 8, 
+                        left: 14,
+                        right: 20,
+                        top: 8,
                         bottom: 24,
                       ),
                       child: SlideTransition(
@@ -277,7 +284,9 @@ class _PremiumSwitch extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(height / 2),
           gradient: value ? activeGradient : null,
-          color: value ? (activeGradient == null ? activeColor : null) : inactiveColor,
+          color: value
+              ? (activeGradient == null ? activeColor : null)
+              : inactiveColor,
         ),
         child: Stack(
           children: [
@@ -308,5 +317,3 @@ class _PremiumSwitch extends StatelessWidget {
     );
   }
 }
-
-

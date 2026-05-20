@@ -47,8 +47,8 @@ class SignatureDrawPadController extends ChangeNotifier {
     Color initialColor = const Color(0xFF1D1D1F),
     double initialWidth = 3.0,
     this.enableHaptics = true,
-  })  : _activeColor = initialColor,
-        _strokeWidth = initialWidth;
+  }) : _activeColor = initialColor,
+       _strokeWidth = initialWidth;
 
   final List<SignatureStroke> _strokes = [];
   Color _activeColor;
@@ -92,12 +92,14 @@ class SignatureDrawPadController extends ChangeNotifier {
 
   /// Starts a new stroke at the given [point].
   void startStroke(Offset point) {
-    _strokes.add(SignatureStroke(
-      points: [point],
-      color: _isEraserMode ? Colors.transparent : _activeColor,
-      width: _strokeWidth,
-      isEraser: _isEraserMode,
-    ));
+    _strokes.add(
+      SignatureStroke(
+        points: [point],
+        color: _isEraserMode ? Colors.transparent : _activeColor,
+        width: _strokeWidth,
+        isEraser: _isEraserMode,
+      ),
+    );
     if (enableHaptics) HapticFeedback.selectionClick();
     notifyListeners();
   }

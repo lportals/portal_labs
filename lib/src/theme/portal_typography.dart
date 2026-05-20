@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 /// A collection of [TextStyle] tokens following the Portal Labs design scale.
 class PortalTypography {
-
   /// Creates a [PortalTypography] instance with all required text style scale tokens.
   const PortalTypography({
     required this.h1,
@@ -69,6 +68,7 @@ class PortalTypography {
       ),
     );
   }
+
   /// The primary heading style for page titles.
   final TextStyle h1;
 

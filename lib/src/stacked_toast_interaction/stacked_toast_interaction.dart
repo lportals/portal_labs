@@ -26,7 +26,8 @@ class StackedToastInteraction extends StatefulWidget {
   final Duration animationDuration;
 
   @override
-  State<StackedToastInteraction> createState() => _StackedToastInteractionState();
+  State<StackedToastInteraction> createState() =>
+      _StackedToastInteractionState();
 }
 
 class _StackedToastInteractionState extends State<StackedToastInteraction> {
@@ -61,7 +62,7 @@ class _StackedToastInteractionState extends State<StackedToastInteraction> {
 
   void _removeToast(String id) {
     if (!mounted || _exitingToastIds.contains(id)) return;
-    
+
     setState(() {
       _exitingToastIds.add(id);
     });
@@ -78,30 +79,38 @@ class _StackedToastInteractionState extends State<StackedToastInteraction> {
 
   @override
   Widget build(BuildContext context) {
-    final topPadding = MediaQuery.of(context).padding.top + widget.style.topMargin;
+    final topPadding =
+        MediaQuery.of(context).padding.top + widget.style.topMargin;
 
     return Stack(
       alignment: Alignment.topCenter,
       clipBehavior: Clip.none,
       children: [
-        ..._activeToasts.asMap().entries.map((entry) {
-          final index = entry.key;
-          final toast = entry.value;
-          final isExiting = _exitingToastIds.contains(toast.id);
+        ..._activeToasts
+            .asMap()
+            .entries
+            .map((entry) {
+              final index = entry.key;
+              final toast = entry.value;
+              final isExiting = _exitingToastIds.contains(toast.id);
 
-          if (index > widget.style.maxStackedItems && !isExiting) return const SizedBox.shrink();
+              if (index > widget.style.maxStackedItems && !isExiting) {
+                return const SizedBox.shrink();
+              }
 
-          return _AnimatedToastCard(
-            key: ValueKey(toast.id),
-            toast: toast,
-            index: index,
-            isExiting: isExiting,
-            style: widget.style,
-            duration: widget.animationDuration,
-            topPadding: topPadding,
-            onClose: () => _removeToast(toast.id),
-          );
-        }).toList().reversed,
+              return _AnimatedToastCard(
+                key: ValueKey(toast.id),
+                toast: toast,
+                index: index,
+                isExiting: isExiting,
+                style: widget.style,
+                duration: widget.animationDuration,
+                topPadding: topPadding,
+                onClose: () => _removeToast(toast.id),
+              );
+            })
+            .toList()
+            .reversed,
       ],
     );
   }
@@ -118,7 +127,6 @@ class StackedToastController {
 }
 
 class _AnimatedToastCard extends StatefulWidget {
-
   const _AnimatedToastCard({
     required super.key,
     required this.toast,
@@ -141,19 +149,17 @@ class _AnimatedToastCard extends StatefulWidget {
   State<_AnimatedToastCard> createState() => _AnimatedToastCardState();
 }
 
-class _AnimatedToastCardState extends State<_AnimatedToastCard> with SingleTickerProviderStateMixin {
+class _AnimatedToastCardState extends State<_AnimatedToastCard>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    );
+    _controller = AnimationController(vsync: this, duration: widget.duration);
     _animation = _controller;
-    
+
     _runSpring(true);
   }
 
@@ -166,11 +172,9 @@ class _AnimatedToastCardState extends State<_AnimatedToastCard> with SingleTicke
   }
 
   void _runSpring(bool entering) {
-    final spring = widget.style.spring ?? const SpringDescription(
-      mass: 1.0,
-      stiffness: 180,
-      damping: 20,
-    );
+    final spring =
+        widget.style.spring ??
+        const SpringDescription(mass: 1.0, stiffness: 180, damping: 20);
 
     final simulation = SpringSimulation(
       spring,
@@ -195,10 +199,14 @@ class _AnimatedToastCardState extends State<_AnimatedToastCard> with SingleTicke
       builder: (context, child) {
         final t = _animation.value;
         final bool isFront = widget.index == 0;
-        
-        final double offset = (1.0 - t) * -200.0 + (widget.index * widget.style.stackOffset);
-        final double scale = (0.95 + (0.05 * t)) - (widget.index * widget.style.stackScaleFactor);
-        final double opacity = t * (1.0 - (widget.index * 0.15)).clamp(0.0, 1.0);
+
+        final double offset =
+            (1.0 - t) * -200.0 + (widget.index * widget.style.stackOffset);
+        final double scale =
+            (0.95 + (0.05 * t)) -
+            (widget.index * widget.style.stackScaleFactor);
+        final double opacity =
+            t * (1.0 - (widget.index * 0.15)).clamp(0.0, 1.0);
 
         return Positioned(
           top: widget.topPadding + offset,
@@ -231,7 +239,6 @@ class _AnimatedToastCardState extends State<_AnimatedToastCard> with SingleTicke
 }
 
 class _ToastContent extends StatelessWidget {
-
   const _ToastContent({
     required this.toast,
     required this.globalStyle,
@@ -258,7 +265,10 @@ class _ToastContent extends StatelessWidget {
       constraints: const BoxConstraints(minHeight: 88),
       decoration: BoxDecoration(
         color: toast.backgroundColor ?? Colors.white,
-        borderRadius: toast.borderRadius ?? globalStyle.borderRadius ?? BorderRadius.circular(28),
+        borderRadius:
+            toast.borderRadius ??
+            globalStyle.borderRadius ??
+            BorderRadius.circular(28),
         boxShadow: globalStyle.shadows,
         border: Border.all(
           color: Colors.black.withValues(alpha: 0.05),
@@ -283,24 +293,30 @@ class _ToastContent extends StatelessWidget {
                   toast.title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: toast.titleTextStyle ?? globalStyle.titleTextStyle ?? TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w700,
-                    color: toast.primaryColor ?? theme.primary,
-                    letterSpacing: -0.4,
-                  ),
+                  style:
+                      toast.titleTextStyle ??
+                      globalStyle.titleTextStyle ??
+                      TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w700,
+                        color: toast.primaryColor ?? theme.primary,
+                        letterSpacing: -0.4,
+                      ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   toast.message,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: toast.messageTextStyle ?? globalStyle.messageTextStyle ?? const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xFF8E8E93),
-                    height: 1.2,
-                  ),
+                  style:
+                      toast.messageTextStyle ??
+                      globalStyle.messageTextStyle ??
+                      const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF8E8E93),
+                        height: 1.2,
+                      ),
                 ),
               ],
             ),
@@ -315,18 +331,24 @@ class _ToastContent extends StatelessWidget {
                 onClose();
               },
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 10,
+                ),
                 decoration: BoxDecoration(
                   color: toast.primaryColor ?? theme.primary,
                   borderRadius: BorderRadius.circular(100),
                 ),
                 child: Text(
                   toast.actionLabel,
-                  style: toast.actionTextStyle ?? globalStyle.actionTextStyle ?? TextStyle(
-                    color: theme.onPrimary,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                  ),
+                  style:
+                      toast.actionTextStyle ??
+                      globalStyle.actionTextStyle ??
+                      TextStyle(
+                        color: theme.onPrimary,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                      ),
                 ),
               ),
             ),
@@ -372,7 +394,6 @@ class _ToastContent extends StatelessWidget {
 }
 
 class _ToastTheme {
-
   _ToastTheme({
     required this.primary,
     required this.onPrimary,

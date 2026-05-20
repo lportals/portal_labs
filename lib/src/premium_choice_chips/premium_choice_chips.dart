@@ -8,7 +8,6 @@ import '../common/premium_flip_counter.dart';
 ///
 /// Supports [ChoiceItem] items which can contain emojis, icons, or images.
 class PremiumChoiceChips extends StatefulWidget {
-
   /// Creates a [PremiumChoiceChips] with the given items and configuration.
   const PremiumChoiceChips({
     super.key,
@@ -21,6 +20,7 @@ class PremiumChoiceChips extends StatefulWidget {
     this.buttonLabel = 'Item',
     this.buttonPluralLabel = 'Items',
   });
+
   /// The title displayed at the top of the component.
   final String title;
 
@@ -258,7 +258,6 @@ class _FlyingMediaData {
 }
 
 class _ChoiceMedia extends StatelessWidget {
-
   const _ChoiceMedia({required this.item, this.size = 20, this.color});
   final ChoiceItem item;
   final double size;
@@ -291,7 +290,6 @@ class _ChoiceMedia extends StatelessWidget {
 }
 
 class _ChoiceChip extends StatelessWidget {
-
   const _ChoiceChip({
     required this.item,
     required this.isSelected,
@@ -351,7 +349,6 @@ class _ChoiceChip extends StatelessWidget {
 }
 
 class _BottomActionButton extends StatefulWidget {
-
   const _BottomActionButton({
     required this.count,
     required this.accentColor,
@@ -447,7 +444,6 @@ class _BottomActionButtonState extends State<_BottomActionButton> {
 }
 
 class _FlyingMedia extends StatefulWidget {
-
   const _FlyingMedia({
     super.key,
     required this.item,

@@ -5,7 +5,6 @@ import 'dart:async';
 /// A customizable, premium interaction widget that allows revealing
 /// and optionally copying sensitive numbers with elegant animations.
 class RevealCopyInteraction extends StatefulWidget {
-
   /// Creates a [RevealCopyInteraction] with the given [value] to mask and reveal.
   const RevealCopyInteraction({
     super.key,
@@ -22,6 +21,7 @@ class RevealCopyInteraction extends StatefulWidget {
     this.onCopied,
     this.onRevealed,
   });
+
   /// The sensitive text to display (e.g., a credit card number).
   final String value;
 
@@ -368,7 +368,6 @@ class _RevealCopyInteractionState extends State<RevealCopyInteraction>
 /// A [GradientTransform] that translates a gradient horizontally based on an [offset]
 /// value ranging from 0.0 to 1.0. Used to create a shimmer sweep effect.
 class SlidingGradientTransform extends GradientTransform {
-
   /// Creates a [SlidingGradientTransform] with the given normalized [offset].
   const SlidingGradientTransform({required this.offset});
 
@@ -384,7 +383,6 @@ class SlidingGradientTransform extends GradientTransform {
 /// A [CustomPainter] that draws a rounded-rectangle progress border starting
 /// from the top center and sweeping clockwise based on [progress].
 class RectProgressPainter extends CustomPainter {
-
   /// Creates a [RectProgressPainter] with the given display properties.
   RectProgressPainter({
     required this.progress,

@@ -4,23 +4,26 @@ import 'package:portal_labs/portal_labs.dart';
 
 void main() {
   group('LoadingShapes', () {
-    testWidgets('renders correctly when isLoading is true', (WidgetTester tester) async {
+    testWidgets('renders correctly when isLoading is true', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: LoadingShapes(),
-          ),
-        ),
+        MaterialApp(home: Scaffold(body: LoadingShapes())),
       );
 
       expect(find.byType(LoadingShapes), findsOneWidget);
       expect(
-        find.descendant(of: find.byType(LoadingShapes), matching: find.byType(CustomPaint)),
+        find.descendant(
+          of: find.byType(LoadingShapes),
+          matching: find.byType(CustomPaint),
+        ),
         findsOneWidget,
       );
     });
 
-    testWidgets('does not render when isLoading is false', (WidgetTester tester) async {
+    testWidgets('does not render when isLoading is false', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -33,29 +36,25 @@ void main() {
       );
 
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: LoadingShapes(isLoading: false),
-          ),
-        ),
+        MaterialApp(home: Scaffold(body: LoadingShapes(isLoading: false))),
       );
-      
+
       expect(
-        find.descendant(of: find.byType(LoadingShapes), matching: find.byType(CustomPaint)),
+        find.descendant(
+          of: find.byType(LoadingShapes),
+          matching: find.byType(CustomPaint),
+        ),
         findsOneWidget,
       );
     });
-    
+
     testWidgets('respects custom style', (WidgetTester tester) async {
       const customColor = Colors.red;
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: LoadingShapes(
-              style: LoadingShapesStyle(
-                color: customColor,
-                size: 50.0,
-              ),
+              style: LoadingShapesStyle(color: customColor, size: 50.0),
             ),
           ),
         ),

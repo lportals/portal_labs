@@ -66,19 +66,21 @@ class _PremiumProgressStepperShowcaseState
               onPageChanged: (index) {
                 setState(() => _currentStep = index);
               },
-              physics: _canContinue 
-                  ? const BouncingScrollPhysics() 
+              physics: _canContinue
+                  ? const BouncingScrollPhysics()
                   : const NeverScrollableScrollPhysics(),
               children: [
                 _StepContent(
                   title: 'High-Fidelity UI',
-                  subtitle: 'Engineered with precision for Apple-like aesthetics.',
+                  subtitle:
+                      'Engineered with precision for Apple-like aesthetics.',
                   icon: Icons.palette_rounded,
                   accentColor: const Color(0xFF424245),
                 ),
                 _StepContent(
                   title: 'Fluid Interactions',
-                  subtitle: 'Spring physics and tactile feedback in every single gesture.',
+                  subtitle:
+                      'Spring physics and tactile feedback in every single gesture.',
                   icon: Icons.touch_app_rounded,
                   accentColor: const Color(0xFF636366),
                   child: Row(
@@ -87,7 +89,8 @@ class _PremiumProgressStepperShowcaseState
                       Checkbox.adaptive(
                         value: _hasAcceptedTerms,
                         activeColor: const Color(0xFF1D1D1F),
-                        onChanged: (val) => setState(() => _hasAcceptedTerms = val ?? false),
+                        onChanged: (val) =>
+                            setState(() => _hasAcceptedTerms = val ?? false),
                       ),
                       const Text(
                         'Accept Interaction Terms',
@@ -102,13 +105,15 @@ class _PremiumProgressStepperShowcaseState
                 ),
                 _StepContent(
                   title: 'Fully Customizable',
-                  subtitle: 'Control every aspect of the design system with ease.',
+                  subtitle:
+                      'Control every aspect of the design system with ease.',
                   icon: Icons.tune_rounded,
                   accentColor: const Color(0xFF8E8E93),
                 ),
                 _StepContent(
                   title: 'Ready for Launch',
-                  subtitle: 'Zero dependencies, maximum performance, and total reusability.',
+                  subtitle:
+                      'Zero dependencies, maximum performance, and total reusability.',
                   icon: Icons.verified_rounded,
                   accentColor: const Color(0xFF424245),
                 ),
@@ -182,11 +187,7 @@ class _StepContent extends StatelessWidget {
                 ),
               ],
             ),
-            child: Icon(
-              icon,
-              size: 48,
-              color: accentColor,
-            ),
+            child: Icon(icon, size: 48, color: accentColor),
           ),
           const SizedBox(height: 48),
           Text(
@@ -210,10 +211,7 @@ class _StepContent extends StatelessWidget {
               fontWeight: FontWeight.w400,
             ),
           ),
-          if (child != null) ...[
-            const SizedBox(height: 32),
-            child!,
-          ],
+          if (child != null) ...[const SizedBox(height: 32), child!],
         ],
       ),
     );

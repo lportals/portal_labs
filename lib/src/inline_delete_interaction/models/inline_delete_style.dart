@@ -121,27 +121,31 @@ class InlineDeleteStyle {
     final isDark = theme.brightness == Brightness.dark;
 
     return InlineDeleteStyle(
-      backgroundColor: backgroundColor ??
-          (isDark ? const Color(0xFF1C1C1E) : Colors.white),
+      backgroundColor:
+          backgroundColor ?? (isDark ? const Color(0xFF1C1C1E) : Colors.white),
       borderRadius: borderRadius ?? BorderRadius.circular(24),
       shadowColor: shadowColor,
-      borderColor: borderColor ??
+      borderColor:
+          borderColor ??
           (isDark ? const Color(0xFF2C2C2E) : const Color(0xFFF0F0F0)),
-      itemTextStyle: itemTextStyle ??
+      itemTextStyle:
+          itemTextStyle ??
           TextStyle(
             fontSize: 14,
             color: isDark ? Colors.white : const Color(0xFF1C1C1E),
             fontWeight: FontWeight.w500,
             letterSpacing: -0.2,
           ),
-      destructiveTextStyle: destructiveTextStyle ??
+      destructiveTextStyle:
+          destructiveTextStyle ??
           const TextStyle(
             fontSize: 14,
             color: Color(0xFFE54D4D),
             fontWeight: FontWeight.w500,
             letterSpacing: -0.2,
           ),
-          titleStyle: titleStyle ??
+      titleStyle:
+          titleStyle ??
           TextStyle(
             fontSize: 12,
             color: isDark
@@ -154,16 +158,19 @@ class InlineDeleteStyle {
       iconColor: iconColor ?? (isDark ? Colors.white : const Color(0xFF1C1C1E)),
       destructiveIconColor: destructiveIconColor ?? const Color(0xFFE54D4D),
       confirmButtonColor: confirmButtonColor,
-      confirmButtonTextStyle: confirmButtonTextStyle ??
+      confirmButtonTextStyle:
+          confirmButtonTextStyle ??
           const TextStyle(
             color: Colors.white,
             fontSize: 13,
             fontWeight: FontWeight.w700,
             letterSpacing: -0.1,
           ),
-      cancelButtonColor: cancelButtonColor ??
+      cancelButtonColor:
+          cancelButtonColor ??
           (isDark ? const Color(0xFF2C2C2E) : const Color(0xFFF5F5F5)),
-      cancelButtonTextStyle: cancelButtonTextStyle ??
+      cancelButtonTextStyle:
+          cancelButtonTextStyle ??
           TextStyle(
             color: isDark
                 ? Colors.white.withValues(alpha: 0.8)
@@ -178,7 +185,8 @@ class InlineDeleteStyle {
       modalPadding: modalPadding,
       titlePadding: titlePadding ?? const EdgeInsets.fromLTRB(16, 20, 16, 12),
       backdropBlur: backdropBlur,
-      barrierColor: barrierColor ?? Colors.black.withValues(alpha: 0.02), // Ultra subtle
+      barrierColor:
+          barrierColor ?? Colors.black.withValues(alpha: 0.02), // Ultra subtle
       springMass: springMass,
       springStiffness: springStiffness,
       springDamping: springDamping,
@@ -250,5 +258,3 @@ class InlineDeleteStyle {
     );
   }
 }
-
-

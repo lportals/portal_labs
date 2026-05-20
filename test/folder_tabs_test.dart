@@ -4,8 +4,9 @@ import 'package:portal_labs/portal_labs.dart';
 
 void main() {
   group('FolderTabs Widget Tests', () {
-    testWidgets('renders all tab labels and the active child content',
-        (WidgetTester tester) async {
+    testWidgets('renders all tab labels and the active child content', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -32,8 +33,9 @@ void main() {
       expect(find.text('Content C'), findsNothing);
     });
 
-    testWidgets('switches content and invokes callback on tab tap',
-        (WidgetTester tester) async {
+    testWidgets('switches content and invokes callback on tab tap', (
+      WidgetTester tester,
+    ) async {
       int? selectedIndex;
 
       await tester.pumpWidget(
@@ -67,8 +69,9 @@ void main() {
       expect(find.text('Content A'), findsNothing);
     });
 
-    testWidgets('supports controlled state using currentIndex',
-        (WidgetTester tester) async {
+    testWidgets('supports controlled state using currentIndex', (
+      WidgetTester tester,
+    ) async {
       int activeIndex = 0;
 
       // Stateful wrapper to mock parent state changes
@@ -85,10 +88,7 @@ void main() {
                       activeIndex = index;
                     });
                   },
-                  children: const [
-                    Text('Content X'),
-                    Text('Content Y'),
-                  ],
+                  children: const [Text('Content X'), Text('Content Y')],
                 );
               },
             ),

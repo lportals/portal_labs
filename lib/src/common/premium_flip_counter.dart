@@ -43,7 +43,8 @@ class PremiumFlipCounter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size textSize = PortalUtils.measureText('8', style);
-    final double width = digitWidth ?? (textSize.width + (style.letterSpacing ?? 0));
+    final double width =
+        digitWidth ?? (textSize.width + (style.letterSpacing ?? 0));
     final double height = textSize.height;
 
     String strValue;
@@ -56,7 +57,7 @@ class PremiumFlipCounter extends StatelessWidget {
     if (maxDigits != null && strValue.length < maxDigits!) {
       strValue = strValue.padLeft(maxDigits!);
     }
-    
+
     final List<String> segments = strValue.split('');
     final int dotIndex = strValue.indexOf('.');
 
@@ -72,11 +73,11 @@ class PremiumFlipCounter extends StatelessWidget {
             final int index = entry.key;
             final String char = entry.value;
             final int? digit = int.tryParse(char);
-    
+
             if (digit == null) {
               return Text(char, style: style);
             }
-    
+
             // Align keys relative to the decimal point for stable animations.
             // Digits to the left of the dot get positive power (1 for units, 2 for tens...).
             // Digits to the right get negative power (-1 for tenths, -2 for hundredths...).
@@ -87,14 +88,14 @@ class PremiumFlipCounter extends StatelessWidget {
             } else {
               powerOfTen = strValue.length - index;
             }
-    
+
             return AnimatedContainer(
               key: ValueKey('reel_digit_container_$powerOfTen'),
               duration: const Duration(milliseconds: 500),
               curve: Curves.easeOutBack,
               width: width,
               height: height,
-              color: Colors.transparent, 
+              color: Colors.transparent,
               clipBehavior: Clip.hardEdge,
               child: _ReelDigit(
                 digit: digit,
@@ -139,7 +140,7 @@ class _ReelDigitState extends State<_ReelDigit>
   void initState() {
     super.initState();
     _lastFiredValue = widget.digit.toDouble();
-    
+
     _controller = AnimationController(
       vsync: this,
       lowerBound: double.negativeInfinity,
@@ -175,10 +176,10 @@ class _ReelDigitState extends State<_ReelDigit>
     // We want the digit to flip in the direction specified by 'upward'.
     // If upward is true, we always move to the next higher occurrence of targetDigit.
     // If upward is false, we always move to the next lower occurrence.
-    
+
     final double currentMod = start % 10;
     double diff;
-    
+
     if (widget.upward) {
       diff = (targetDigit - currentMod) % 10;
       if (diff < 0) diff += 10;
@@ -193,7 +194,7 @@ class _ReelDigitState extends State<_ReelDigit>
       const SpringDescription(
         mass: 1.2, // Slightly heavier feel
         stiffness: 200, // More relaxed
-        damping: 25, 
+        damping: 25,
       ),
       start,
       end,
@@ -315,8 +316,8 @@ class _DigitView extends StatelessWidget {
             digit.toString(),
             style: style.copyWith(
               height: 1.0,
-              color: style.color?.withValues(alpha: 
-                (1.0 - normalizedOffset.abs().clamp(0.0, 1.0)),
+              color: style.color?.withValues(
+                alpha: (1.0 - normalizedOffset.abs().clamp(0.0, 1.0)),
               ),
             ),
           ),

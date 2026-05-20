@@ -5,26 +5,15 @@ import 'package:portal_labs/portal_labs.dart';
 void main() {
   group('CardSplittingAccordion Widget Tests', () {
     final List<AccordionItem> mockItems = [
-      const AccordionItem(
-        title: 'Item 1',
-        content: 'Content 1',
-      ),
-      const AccordionItem(
-        title: 'Item 2',
-        content: 'Content 2',
-      ),
-      const AccordionItem(
-        title: 'Item 3',
-        content: 'Content 3',
-      ),
+      const AccordionItem(title: 'Item 1', content: 'Content 1'),
+      const AccordionItem(title: 'Item 2', content: 'Content 2'),
+      const AccordionItem(title: 'Item 3', content: 'Content 3'),
     ];
 
     testWidgets('Should render all items', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: CardSplittingAccordion(items: mockItems),
-          ),
+          home: Scaffold(body: CardSplittingAccordion(items: mockItems)),
         ),
       );
 
@@ -36,9 +25,7 @@ void main() {
     testWidgets('Should expand item on tap', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: CardSplittingAccordion(items: mockItems),
-          ),
+          home: Scaffold(body: CardSplittingAccordion(items: mockItems)),
         ),
       );
 
@@ -49,7 +36,9 @@ void main() {
       expect(find.text('Content 1'), findsOneWidget);
     });
 
-    testWidgets('Should close other items when one is expanded (exclusive)', (WidgetTester tester) async {
+    testWidgets('Should close other items when one is expanded (exclusive)', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(

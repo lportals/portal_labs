@@ -77,7 +77,10 @@ class _PremiumStepperState extends State<PremiumStepper> {
       decoration: BoxDecoration(
         color: widget.style.backgroundColor,
         borderRadius: BorderRadius.circular(widget.style.borderRadius),
-        border: Border.all(color: widget.style.borderColor, width: widget.style.borderWidth),
+        border: Border.all(
+          color: widget.style.borderColor,
+          width: widget.style.borderWidth,
+        ),
         boxShadow: widget.style.shadows,
       ),
       child: Row(
@@ -92,8 +95,8 @@ class _PremiumStepperState extends State<PremiumStepper> {
             label: 'Decrement',
           ),
           SizedBox(
-            width: widget.style.valueWidth, 
-            height: widget.style.buttonSize, 
+            width: widget.style.valueWidth,
+            height: widget.style.buttonSize,
             child: FittedBox(
               fit: BoxFit.scaleDown,
               child: PremiumFlipCounter(
@@ -140,7 +143,8 @@ class _StepperButton extends StatefulWidget {
   State<_StepperButton> createState() => _StepperButtonState();
 }
 
-class _StepperButtonState extends State<_StepperButton> with SingleTickerProviderStateMixin {
+class _StepperButtonState extends State<_StepperButton>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
   bool _isHovered = false;
@@ -174,7 +178,9 @@ class _StepperButtonState extends State<_StepperButton> with SingleTickerProvide
       child: MouseRegion(
         onEnter: (_) => setState(() => _isHovered = true),
         onExit: (_) => setState(() => _isHovered = false),
-        cursor: isActuallyEnabled ? SystemMouseCursors.click : SystemMouseCursors.forbidden,
+        cursor: isActuallyEnabled
+            ? SystemMouseCursors.click
+            : SystemMouseCursors.forbidden,
         child: GestureDetector(
           onTapDown: isActuallyEnabled ? (_) => _controller.forward() : null,
           onTapUp: isActuallyEnabled ? (_) => _controller.reverse() : null,
@@ -187,14 +193,16 @@ class _StepperButtonState extends State<_StepperButton> with SingleTickerProvide
               width: widget.style.buttonSize,
               height: widget.style.buttonSize,
               decoration: BoxDecoration(
-                shape: widget.style.buttonBorderRadius == null ? BoxShape.circle : BoxShape.rectangle,
-                borderRadius: widget.style.buttonBorderRadius != null 
-                    ? BorderRadius.circular(widget.style.buttonBorderRadius!) 
+                shape: widget.style.buttonBorderRadius == null
+                    ? BoxShape.circle
+                    : BoxShape.rectangle,
+                borderRadius: widget.style.buttonBorderRadius != null
+                    ? BorderRadius.circular(widget.style.buttonBorderRadius!)
                     : null,
                 color: isActuallyEnabled
                     ? (_isHovered
-                        ? widget.style.buttonColor.withValues(alpha: 0.8)
-                        : widget.style.buttonColor)
+                          ? widget.style.buttonColor.withValues(alpha: 0.8)
+                          : widget.style.buttonColor)
                     : widget.style.buttonColor.withValues(alpha: 0.3),
               ),
               child: Icon(
@@ -211,4 +219,3 @@ class _StepperButtonState extends State<_StepperButton> with SingleTickerProvide
     );
   }
 }
-

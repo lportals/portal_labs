@@ -6,17 +6,19 @@ class CinematicTextTransitionShowcase extends StatefulWidget {
   const CinematicTextTransitionShowcase({super.key});
 
   @override
-  State<CinematicTextTransitionShowcase> createState() => _CinematicTextTransitionShowcaseState();
+  State<CinematicTextTransitionShowcase> createState() =>
+      _CinematicTextTransitionShowcaseState();
 }
 
-class _CinematicTextTransitionShowcaseState extends State<CinematicTextTransitionShowcase> {
+class _CinematicTextTransitionShowcaseState
+    extends State<CinematicTextTransitionShowcase> {
   final List<String> _texts = [
     "Build Premium UI",
     "Craft Smart Apps",
     "Create Smooth UI",
     "Design High Flow",
   ];
-  
+
   int _currentIndex = 0;
   bool _useElasticity = true;
 
@@ -30,7 +32,8 @@ class _CinematicTextTransitionShowcaseState extends State<CinematicTextTransitio
   Widget build(BuildContext context) {
     return ShowcaseShell(
       title: 'Cinematic Text Transition',
-      description: 'A cinematic text transition that performs a sequential character '
+      description:
+          'A cinematic text transition that performs a sequential character '
           'fall-out and rise-in. Supports physics-based elastic settles and '
           'staggered timing for a premium feel.',
       codeSnippet: '''CinematicTextTransition(
@@ -62,7 +65,7 @@ class _CinematicTextTransitionShowcaseState extends State<CinematicTextTransitio
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    height: 100, 
+                    height: 100,
                     alignment: Alignment.center,
                     child: CinematicTextTransition(
                       text: _texts[_currentIndex],
@@ -78,15 +81,16 @@ class _CinematicTextTransitionShowcaseState extends State<CinematicTextTransitio
                       ),
                     ),
                   ),
-                  
+
                   const SizedBox(height: 16),
-                  
+
                   _ResponsiveButton(onTap: _next),
-                  
+
                   const SizedBox(height: 20),
-                  
+
                   GestureDetector(
-                    onTap: () => setState(() => _useElasticity = !_useElasticity),
+                    onTap: () =>
+                        setState(() => _useElasticity = !_useElasticity),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -96,8 +100,11 @@ class _CinematicTextTransitionShowcaseState extends State<CinematicTextTransitio
                           child: Checkbox(
                             value: _useElasticity,
                             activeColor: const Color(0xFF1D1D1F),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                            onChanged: (val) => setState(() => _useElasticity = val ?? true),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            onChanged: (val) =>
+                                setState(() => _useElasticity = val ?? true),
                           ),
                         ),
                         const SizedBox(width: 10),
@@ -106,7 +113,9 @@ class _CinematicTextTransitionShowcaseState extends State<CinematicTextTransitio
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
-                            color: const Color(0xFF1D1D1F).withValues(alpha: 0.6),
+                            color: const Color(
+                              0xFF1D1D1F,
+                            ).withValues(alpha: 0.6),
                           ),
                         ),
                       ],

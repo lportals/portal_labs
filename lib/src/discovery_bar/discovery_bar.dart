@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'models/discovery_bar_models.dart';
 import '../common/portal_animations.dart';
 
-/// A premium Discovery Bar widget that uses robust morphing containers to switch 
+/// A premium Discovery Bar widget that uses robust morphing containers to switch
 /// between search and discovery states without layout overflows.
 class DiscoveryBar extends StatefulWidget {
   /// Creates a [DiscoveryBar].
@@ -71,7 +71,10 @@ class _DiscoveryBarState extends State<DiscoveryBar> {
       builder: (context, constraints) {
         final totalWidth = constraints.maxWidth;
         final circleSize = height;
-        final pillWidth = (totalWidth - circleSize - spacing).clamp(circleSize, totalWidth);
+        final pillWidth = (totalWidth - circleSize - spacing).clamp(
+          circleSize,
+          totalWidth,
+        );
 
         return SizedBox(
           height: height,
@@ -102,8 +105,8 @@ class _DiscoveryBarState extends State<DiscoveryBar> {
                           children: [
                             const SizedBox(width: 16),
                             Icon(
-                              Icons.search, 
-                              color: widget.style.textStyle.color, 
+                              Icons.search,
+                              color: widget.style.textStyle.color,
                               size: widget.style.searchIconSize,
                             ),
                             Expanded(
@@ -115,10 +118,14 @@ class _DiscoveryBarState extends State<DiscoveryBar> {
                                     child: AnimatedBuilder(
                                       animation: animation,
                                       builder: (context, child) {
-                                        final blur = (1.0 - animation.value) * 6.0;
+                                        final blur =
+                                            (1.0 - animation.value) * 6.0;
                                         if (blur < 0.1) return child!;
                                         return ImageFiltered(
-                                          imageFilter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
+                                          imageFilter: ImageFilter.blur(
+                                            sigmaX: blur,
+                                            sigmaY: blur,
+                                          ),
                                           child: child,
                                         );
                                       },
@@ -126,9 +133,11 @@ class _DiscoveryBarState extends State<DiscoveryBar> {
                                     ),
                                   );
                                 },
-                                child: _isSearching 
-                                    ? _buildSearchInput() 
-                                    : const SizedBox.shrink(key: ValueKey('empty')),
+                                child: _isSearching
+                                    ? _buildSearchInput()
+                                    : const SizedBox.shrink(
+                                        key: ValueKey('empty'),
+                                      ),
                               ),
                             ),
                           ],
@@ -153,18 +162,25 @@ class _DiscoveryBarState extends State<DiscoveryBar> {
                     switchInCurve: Curves.easeOutCubic,
                     switchOutCurve: Curves.easeInCubic,
                     transitionBuilder: (child, animation) {
-                      final isIncoming = child.key == const ValueKey('options_selector_final');
-                      
+                      final isIncoming =
+                          child.key == const ValueKey('options_selector_final');
+
                       return FadeTransition(
-                        opacity: isIncoming 
-                            ? animation 
-                            : CurvedAnimation(parent: animation, curve: const Interval(0.0, 0.3)),
+                        opacity: isIncoming
+                            ? animation
+                            : CurvedAnimation(
+                                parent: animation,
+                                curve: const Interval(0.0, 0.3),
+                              ),
                         child: ScaleTransition(
-                          scale: isIncoming 
+                          scale: isIncoming
                               ? Tween<double>(begin: 0.8, end: 1.0).animate(
                                   CurvedAnimation(
-                                    parent: animation, 
-                                    curve: const PortalSpringCurve(stiffness: 200, damping: 15),
+                                    parent: animation,
+                                    curve: const PortalSpringCurve(
+                                      stiffness: 200,
+                                      damping: 15,
+                                    ),
                                   ),
                                 )
                               : animation,
@@ -172,7 +188,9 @@ class _DiscoveryBarState extends State<DiscoveryBar> {
                         ),
                       );
                     },
-                    child: _isSearching ? _buildXIconOnly() : _buildOptionsSelector(),
+                    child: _isSearching
+                        ? _buildXIconOnly()
+                        : _buildOptionsSelector(),
                   ),
                 ),
               ),
@@ -187,14 +205,13 @@ class _DiscoveryBarState extends State<DiscoveryBar> {
     return Container(
       decoration: BoxDecoration(
         color: widget.style.backgroundColor,
-        borderRadius: widget.style.borderRadius ?? BorderRadius.circular(widget.style.height / 2),
+        borderRadius:
+            widget.style.borderRadius ??
+            BorderRadius.circular(widget.style.height / 2),
         boxShadow: widget.style.shadows,
       ),
       clipBehavior: Clip.antiAlias,
-      child: Material(
-        color: Colors.transparent,
-        child: child,
-      ),
+      child: Material(color: Colors.transparent, child: child),
     );
   }
 
@@ -229,8 +246,8 @@ class _DiscoveryBarState extends State<DiscoveryBar> {
       fullArea: true,
       child: Center(
         child: Icon(
-          Icons.close, 
-          color: widget.style.textStyle.color, 
+          Icons.close,
+          color: widget.style.textStyle.color,
           size: widget.style.searchIconSize,
         ),
       ),
@@ -250,11 +267,15 @@ class _DiscoveryBarState extends State<DiscoveryBar> {
               duration: const Duration(milliseconds: 400),
               curve: const PortalSpringCurve(stiffness: 200, damping: 15),
               left: _selectedOptionIndex * optionWidth + 4,
-              top: 4, bottom: 4, width: (optionWidth - 8).clamp(0.0, double.infinity),
+              top: 4,
+              bottom: 4,
+              width: (optionWidth - 8).clamp(0.0, double.infinity),
               child: Container(
                 decoration: BoxDecoration(
                   color: widget.style.indicatorColor.withValues(alpha: 0.1),
-                  borderRadius: widget.style.borderRadius ?? BorderRadius.circular(widget.style.height / 2),
+                  borderRadius:
+                      widget.style.borderRadius ??
+                      BorderRadius.circular(widget.style.height / 2),
                 ),
               ),
             ),
@@ -269,7 +290,9 @@ class _DiscoveryBarState extends State<DiscoveryBar> {
                       onTap: () {
                         setState(() => _selectedOptionIndex = index);
                         widget.onOptionSelected?.call(option);
-                        if (widget.style.enableHaptics) HapticFeedback.lightImpact();
+                        if (widget.style.enableHaptics) {
+                          HapticFeedback.lightImpact();
+                        }
                       },
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
@@ -277,7 +300,9 @@ class _DiscoveryBarState extends State<DiscoveryBar> {
                         child: AnimatedDefaultTextStyle(
                           duration: const Duration(milliseconds: 300),
                           curve: Curves.easeOutCubic,
-                          style: isSelected ? widget.style.activeTextStyle : widget.style.textStyle,
+                          style: isSelected
+                              ? widget.style.activeTextStyle
+                              : widget.style.textStyle,
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -285,10 +310,18 @@ class _DiscoveryBarState extends State<DiscoveryBar> {
                                 duration: const Duration(milliseconds: 300),
                                 tween: ColorTween(
                                   begin: widget.style.inactiveColor,
-                                  end: isSelected ? option.activeColor : widget.style.inactiveColor.withValues(alpha: 0.6),
+                                  end: isSelected
+                                      ? option.activeColor
+                                      : widget.style.inactiveColor.withValues(
+                                          alpha: 0.6,
+                                        ),
                                 ),
                                 builder: (context, color, _) {
-                                  return Icon(option.icon, color: color, size: widget.style.iconSize);
+                                  return Icon(
+                                    option.icon,
+                                    color: color,
+                                    size: widget.style.iconSize,
+                                  );
                                 },
                               ),
                               const SizedBox(width: 8),
@@ -311,11 +344,10 @@ class _DiscoveryBarState extends State<DiscoveryBar> {
 
 /// A micro-interaction wrapper that pulses (scales up then down) when tapped.
 class _TapPulseWrapper extends StatefulWidget {
-
   const _TapPulseWrapper({
-    super.key, 
-    required this.child, 
-    this.onTap, 
+    super.key,
+    required this.child,
+    this.onTap,
     this.active = true,
     this.fullArea = false,
   });
@@ -328,7 +360,8 @@ class _TapPulseWrapper extends StatefulWidget {
   State<_TapPulseWrapper> createState() => _TapPulseWrapperState();
 }
 
-class _TapPulseWrapperState extends State<_TapPulseWrapper> with SingleTickerProviderStateMixin {
+class _TapPulseWrapperState extends State<_TapPulseWrapper>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
 
@@ -340,8 +373,20 @@ class _TapPulseWrapperState extends State<_TapPulseWrapper> with SingleTickerPro
       duration: const Duration(milliseconds: 150),
     );
     _scaleAnimation = TweenSequence<double>([
-      TweenSequenceItem(tween: Tween(begin: 1.0, end: 1.1).chain(CurveTween(curve: Curves.easeOutCubic)), weight: 50),
-      TweenSequenceItem(tween: Tween(begin: 1.1, end: 1.0).chain(CurveTween(curve: Curves.easeInCubic)), weight: 50),
+      TweenSequenceItem(
+        tween: Tween(
+          begin: 1.0,
+          end: 1.1,
+        ).chain(CurveTween(curve: Curves.easeOutCubic)),
+        weight: 50,
+      ),
+      TweenSequenceItem(
+        tween: Tween(
+          begin: 1.1,
+          end: 1.0,
+        ).chain(CurveTween(curve: Curves.easeInCubic)),
+        weight: 50,
+      ),
     ]).animate(_controller);
   }
 
@@ -363,7 +408,7 @@ class _TapPulseWrapperState extends State<_TapPulseWrapper> with SingleTickerPro
     if (!widget.active && widget.onTap == null) {
       return widget.child;
     }
-    
+
     Widget pulseChild = ScaleTransition(
       scale: _scaleAnimation,
       child: widget.child,
@@ -372,7 +417,7 @@ class _TapPulseWrapperState extends State<_TapPulseWrapper> with SingleTickerPro
     return GestureDetector(
       onTap: _handleTap,
       behavior: HitTestBehavior.opaque,
-      child: widget.fullArea 
+      child: widget.fullArea
           ? Container(
               color: Colors.transparent,
               width: double.infinity,

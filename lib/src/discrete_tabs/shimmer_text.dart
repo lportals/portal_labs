@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 /// It uses a [ShaderMask] with a moving [LinearGradient] to create a
 /// subtle shimmering light effect across the text.
 class ShimmerText extends StatefulWidget {
-
   /// Creates a [ShimmerText] with the given text, style, and shimmer colors.
   const ShimmerText({
     super.key,
@@ -16,6 +15,7 @@ class ShimmerText extends StatefulWidget {
     required this.highlightColor,
     this.duration = const Duration(milliseconds: 1500),
   });
+
   /// The text to render with the shimmer effect.
   final String text;
 
@@ -85,7 +85,6 @@ class _ShimmerTextState extends State<ShimmerText>
 }
 
 class _SlidingGradientTransform extends GradientTransform {
-
   const _SlidingGradientTransform({required this.offset});
   final double offset;
 

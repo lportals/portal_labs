@@ -14,10 +14,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: PremiumChoiceChips(
-              title: 'Test Choices',
-              items: mockItems,
-            ),
+            body: PremiumChoiceChips(title: 'Test Choices', items: mockItems),
           ),
         ),
       );
@@ -27,7 +24,9 @@ void main() {
       expect(find.text('🍎'), findsOneWidget);
     });
 
-    testWidgets('Should select item and show action button', (WidgetTester tester) async {
+    testWidgets('Should select item and show action button', (
+      WidgetTester tester,
+    ) async {
       List<ChoiceItem>? selected;
       await tester.pumpWidget(
         MaterialApp(
@@ -53,12 +52,17 @@ void main() {
       expect(selected![0].label, 'Chip 1');
 
       // Action button should now be visible
-      expect(find.byKey(const ValueKey('bottom_action_button')), findsOneWidget);
+      expect(
+        find.byKey(const ValueKey('bottom_action_button')),
+        findsOneWidget,
+      );
       expect(find.byType(PremiumFlipCounter), findsOneWidget);
       expect(find.textContaining('Item'), findsOneWidget);
     });
 
-    testWidgets('Should call onActionPressed when button is tapped', (WidgetTester tester) async {
+    testWidgets('Should call onActionPressed when button is tapped', (
+      WidgetTester tester,
+    ) async {
       bool actionPressed = false;
       await tester.pumpWidget(
         MaterialApp(
@@ -82,7 +86,9 @@ void main() {
       expect(actionPressed, isTrue);
     });
 
-    testWidgets('Should handle multiple selection', (WidgetTester tester) async {
+    testWidgets('Should handle multiple selection', (
+      WidgetTester tester,
+    ) async {
       List<ChoiceItem>? selected;
       await tester.pumpWidget(
         MaterialApp(

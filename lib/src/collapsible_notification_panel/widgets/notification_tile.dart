@@ -66,7 +66,9 @@ class _NotificationTileState extends State<NotificationTile> {
               margin: const EdgeInsets.symmetric(vertical: 2),
               padding: widget.style.tilePadding,
               decoration: BoxDecoration(
-                color: _isPressed ? const Color(0xFFF2F2F7) : Colors.transparent,
+                color: _isPressed
+                    ? const Color(0xFFF2F2F7)
+                    : Colors.transparent,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
@@ -93,7 +95,9 @@ class _NotificationTileState extends State<NotificationTile> {
                               widget.item.timestamp,
                               style: TextStyle(
                                 fontSize: 12,
-                                color: widget.style.subtitleColor.withValues(alpha: 0.4),
+                                color: widget.style.subtitleColor.withValues(
+                                  alpha: 0.4,
+                                ),
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -104,7 +108,9 @@ class _NotificationTileState extends State<NotificationTile> {
                           widget.item.description,
                           style: TextStyle(
                             fontSize: 13,
-                            color: widget.style.descriptionColor.withValues(alpha: 0.6),
+                            color: widget.style.descriptionColor.withValues(
+                              alpha: 0.6,
+                            ),
                             fontWeight: FontWeight.w400,
                             height: 1.3,
                           ),
@@ -136,11 +142,7 @@ class _NotificationTileState extends State<NotificationTile> {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Center(
-        child: Icon(
-          widget.item.icon,
-          color: Colors.white,
-          size: 22,
-        ),
+        child: Icon(widget.item.icon, color: Colors.white, size: 22),
       ),
     );
   }

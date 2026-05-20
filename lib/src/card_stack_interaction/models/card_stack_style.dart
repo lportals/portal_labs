@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 /// Allows customizing the layout's visual properties, including text styles,
 /// container colors, and interaction button appearances.
 class CardStackStyle {
-
   /// Creates a [CardStackStyle] with the given appearance properties.
   const CardStackStyle({
     this.cardBackgroundColor = Colors.white,
@@ -26,6 +25,7 @@ class CardStackStyle {
 
   /// The default high-fidelity theme for Portal Labs Stack.
   factory CardStackStyle.portalLabs() => const CardStackStyle();
+
   /// The background color of each individual card.
   final Color cardBackgroundColor;
 

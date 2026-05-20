@@ -41,8 +41,7 @@ class _RangeSelectionSliderShowcaseState
                     values: _priceRange,
                     min: 0,
                     max: 5000,
-                    onChanged: (values) =>
-                        setState(() => _priceRange = values),
+                    onChanged: (values) => setState(() => _priceRange = values),
                     onApply: (values) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(

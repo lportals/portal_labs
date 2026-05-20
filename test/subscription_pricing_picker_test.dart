@@ -36,7 +36,9 @@ void main() {
       ),
     ];
 
-    testWidgets('Should render monthly plans by default', (WidgetTester tester) async {
+    testWidgets('Should render monthly plans by default', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -57,7 +59,10 @@ void main() {
       // Verify monthly price
       expect(find.bySemanticsLabel('9'), findsOneWidget); // Basic int part
       expect(find.bySemanticsLabel('19'), findsOneWidget); // Pro int part
-      expect(find.bySemanticsLabel('99'), findsNWidgets(2)); // Both decimal parts
+      expect(
+        find.bySemanticsLabel('99'),
+        findsNWidgets(2),
+      ); // Both decimal parts
     });
 
     testWidgets('Should toggle to yearly plans', (WidgetTester tester) async {
@@ -80,11 +85,19 @@ void main() {
       await tester.pumpAndSettle();
 
       // Verify yearly price
-      expect(find.bySemanticsLabel('99'), findsOneWidget); // Basic int part (99.00)
-      expect(find.bySemanticsLabel('199'), findsOneWidget); // Pro int part (199.00)
+      expect(
+        find.bySemanticsLabel('99'),
+        findsOneWidget,
+      ); // Basic int part (99.00)
+      expect(
+        find.bySemanticsLabel('199'),
+        findsOneWidget,
+      ); // Pro int part (199.00)
     });
 
-    testWidgets('Should call onSelect when a plan is tapped', (WidgetTester tester) async {
+    testWidgets('Should call onSelect when a plan is tapped', (
+      WidgetTester tester,
+    ) async {
       PricingPlan? selectedPlan;
       await tester.pumpWidget(
         MaterialApp(
@@ -108,7 +121,9 @@ void main() {
       expect(selectedPlan, monthlyPlans[0]);
     });
 
-    testWidgets('Should call onActionPressed when CTA is tapped', (WidgetTester tester) async {
+    testWidgets('Should call onActionPressed when CTA is tapped', (
+      WidgetTester tester,
+    ) async {
       PricingPlan? actionPlan;
       await tester.pumpWidget(
         MaterialApp(

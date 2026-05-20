@@ -40,7 +40,8 @@ class SlotPickerInteraction extends StatefulWidget {
   final Function(int itemIndex, int slotIndex)? onRemoveSlot;
 
   /// Callback when a slot's time range is updated.
-  final Function(int itemIndex, int slotIndex, SlotRange newRange)? onSlotChanged;
+  final Function(int itemIndex, int slotIndex, SlotRange newRange)?
+  onSlotChanged;
 
   /// Semantic styling for the picker.
   final SlotPickerStyle style;
@@ -70,15 +71,15 @@ class _SlotPickerInteractionState extends State<SlotPickerInteraction> {
   void _handleHeaderTap(int index) {
     final item = widget.items[index];
     final newEnabledState = !item.isEnabled;
-    
+
     // Toggle the switch state
     widget.onItemToggle?.call(index, newEnabledState);
-    
+
     // Auto-add a slot if enabling and currently empty
     if (newEnabledState && item.slots.isEmpty) {
       widget.onAddSlot?.call(index);
     }
-    
+
     setState(() {
       if (newEnabledState) {
         _expandedIndices.add(index);
@@ -86,7 +87,7 @@ class _SlotPickerInteractionState extends State<SlotPickerInteraction> {
         _expandedIndices.remove(index);
       }
     });
-    
+
     HapticFeedback.lightImpact();
   }
 
@@ -109,7 +110,7 @@ class _SlotPickerInteractionState extends State<SlotPickerInteraction> {
             onHeaderTap: () => _handleHeaderTap(index),
             onToggle: (val) {
               if (val != item.isEnabled) {
-                 _handleHeaderTap(index);
+                _handleHeaderTap(index);
               }
             },
             onAddSlot: () => widget.onAddSlot?.call(index),
@@ -121,7 +122,8 @@ class _SlotPickerInteractionState extends State<SlotPickerInteraction> {
                 _handleHeaderTap(index);
               }
             },
-            onSlotChanged: (slotIndex, range) => widget.onSlotChanged?.call(index, slotIndex, range),
+            onSlotChanged: (slotIndex, range) =>
+                widget.onSlotChanged?.call(index, slotIndex, range),
             style: widget.style,
             maxSlots: widget.maxSlots,
             enableSmartValidation: widget.enableSmartValidation,
@@ -135,7 +137,6 @@ class _SlotPickerInteractionState extends State<SlotPickerInteraction> {
 }
 
 class _SlotPickerItemWidget extends StatefulWidget {
-
   const _SlotPickerItemWidget({
     required this.item,
     required this.isExpanded,
@@ -187,7 +188,9 @@ class _SlotPickerItemWidgetState extends State<_SlotPickerItemWidget>
     );
 
     _expandAnimation = _controller;
-    _clampedAnimation = _expandAnimation.drive(_ClampedTween(begin: 0.0, end: 1.0));
+    _clampedAnimation = _expandAnimation.drive(
+      _ClampedTween(begin: 0.0, end: 1.0),
+    );
 
     if (widget.isExpanded) {
       _controller.value = 1.0;
@@ -195,11 +198,7 @@ class _SlotPickerItemWidgetState extends State<_SlotPickerItemWidget>
   }
 
   void _runSpringAnimation(bool expand, {double velocity = 0}) {
-    const spring = SpringDescription(
-      mass: 1.0,
-      stiffness: 180,
-      damping: 15,
-    );
+    const spring = SpringDescription(mass: 1.0, stiffness: 180, damping: 15);
 
     final simulation = SpringSimulation(
       spring,
@@ -223,7 +222,7 @@ class _SlotPickerItemWidgetState extends State<_SlotPickerItemWidget>
     if (_currentSlots.length < newSlots.length) {
       final startIndex = _currentSlots.length;
       final count = newSlots.length - _currentSlots.length;
-      
+
       setState(() {
         _currentSlots = List.from(newSlots);
         if (widget.isExpanded) {
@@ -235,7 +234,7 @@ class _SlotPickerItemWidgetState extends State<_SlotPickerItemWidget>
         if (!mounted) return;
         for (int i = 0; i < count; i++) {
           _listKey.currentState?.insertItem(
-            startIndex + i, 
+            startIndex + i,
             duration: const Duration(milliseconds: 250),
           );
         }
@@ -243,7 +242,7 @@ class _SlotPickerItemWidgetState extends State<_SlotPickerItemWidget>
     } else if (_currentSlots.length > newSlots.length) {
       final oldSlots = List.from(_currentSlots);
       final count = _currentSlots.length - newSlots.length;
-      
+
       final updatedSlots = List<SlotRange>.from(newSlots);
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -257,7 +256,7 @@ class _SlotPickerItemWidgetState extends State<_SlotPickerItemWidget>
             duration: const Duration(milliseconds: 200),
           );
         }
-        
+
         if (mounted) {
           setState(() {
             _currentSlots = updatedSlots;
@@ -265,8 +264,8 @@ class _SlotPickerItemWidgetState extends State<_SlotPickerItemWidget>
         }
       });
     } else {
-        // Just update the instances if count is same
-        _currentSlots = List.from(newSlots);
+      // Just update the instances if count is same
+      _currentSlots = List.from(newSlots);
     }
   }
 
@@ -275,7 +274,7 @@ class _SlotPickerItemWidgetState extends State<_SlotPickerItemWidget>
       parent: animation,
       curve: Curves.easeOutCubic,
     );
-    
+
     return FadeTransition(
       opacity: _ClampedTween(begin: 0.0, end: 1.0).animate(animation),
       child: SizeTransition(
@@ -305,7 +304,7 @@ class _SlotPickerItemWidgetState extends State<_SlotPickerItemWidget>
     int endA = a.endTime.hour * 60 + a.endTime.minute;
     int startB = b.startTime.hour * 60 + b.startTime.minute;
     int endB = b.endTime.hour * 60 + b.endTime.minute;
-    
+
     // Handle 12:00 AM as end of day for validation
     if (endA == 0) endA = 1440;
     if (endB == 0) endB = 1440;
@@ -315,7 +314,7 @@ class _SlotPickerItemWidgetState extends State<_SlotPickerItemWidget>
 
   Set<int> _getOverlappingIndices() {
     if (!widget.enableOverlapDetection) return <int>{};
-    
+
     final overlaps = <int>{};
     for (int i = 0; i < _currentSlots.length; i++) {
       for (int j = i + 1; j < _currentSlots.length; j++) {
@@ -337,16 +336,18 @@ class _SlotPickerItemWidgetState extends State<_SlotPickerItemWidget>
       animation: _expandAnimation,
       builder: (context, child) {
         final isActuallyEnabled = widget.item.isEnabled;
-        
-        final Color backgroundColor = isActuallyEnabled 
-            ? Colors.white 
+
+        final Color backgroundColor = isActuallyEnabled
+            ? Colors.white
             : widget.style.collapsedBackgroundColor;
 
         return Container(
           decoration: BoxDecoration(
             color: backgroundColor,
             borderRadius: widget.style.borderRadius,
-            boxShadow: (isActuallyEnabled && widget.isExpanded) ? widget.style.shadows : null,
+            boxShadow: (isActuallyEnabled && widget.isExpanded)
+                ? widget.style.shadows
+                : null,
             border: Border.all(
               color: Color.lerp(
                 Colors.grey.withValues(alpha: 0.05),
@@ -384,43 +385,64 @@ class _SlotPickerItemWidgetState extends State<_SlotPickerItemWidget>
                             physics: const NeverScrollableScrollPhysics(),
                             initialItemCount: _currentSlots.length,
                             itemBuilder: (context, index, animation) {
-                              if (index >= _currentSlots.length) return const SizedBox.shrink();
-                              
+                              if (index >= _currentSlots.length) {
+                                return const SizedBox.shrink();
+                              }
+
                               final bounceAnimation = CurvedAnimation(
                                 parent: animation,
                                 curve: Curves.easeOutCubic,
                               );
-   
+
                               return FadeTransition(
-                                opacity: _ClampedTween(begin: 0.0, end: 1.0).animate(animation),
-                                 child: SizeTransition(
+                                opacity: _ClampedTween(
+                                  begin: 0.0,
+                                  end: 1.0,
+                                ).animate(animation),
+                                child: SizeTransition(
                                   sizeFactor: bounceAnimation,
                                   child: ScaleTransition(
-                                    scale: Tween<double>(begin: 0.95, end: 1.0).animate(bounceAnimation),
+                                    scale: Tween<double>(
+                                      begin: 0.95,
+                                      end: 1.0,
+                                    ).animate(bounceAnimation),
                                     child: SlideTransition(
                                       position: _clampedAnimation.drive(
                                         Tween<Offset>(
                                           begin: const Offset(0, 0.05),
                                           end: Offset.zero,
-                                        ).chain(CurveTween(
-                                          curve: Interval(
-                                            (index * 0.03).clamp(0.0, 0.3),
-                                            (index * 0.03 + 0.6).clamp(0.0, 1.0),
-                                            curve: Curves.easeOutCubic,
+                                        ).chain(
+                                          CurveTween(
+                                            curve: Interval(
+                                              (index * 0.03).clamp(0.0, 0.3),
+                                              (index * 0.03 + 0.6).clamp(
+                                                0.0,
+                                                1.0,
+                                              ),
+                                              curve: Curves.easeOutCubic,
+                                            ),
                                           ),
-                                        )),
+                                        ),
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.only(bottom: 10.0),
-                                          child: _SlotRow(
-                                            slot: _currentSlots[index],
-                                            onRemove: () => widget.onRemoveSlot(index),
-                                            onChanged: (range) => widget.onSlotChanged(index, range),
-                                            style: widget.style,
-                                            hasError: overlappingIndices.contains(index),
-                                            enableSmartValidation: widget.enableSmartValidation,
-                                            validationInterval: widget.validationInterval,
+                                        padding: const EdgeInsets.only(
+                                          bottom: 10.0,
+                                        ),
+                                        child: _SlotRow(
+                                          slot: _currentSlots[index],
+                                          onRemove: () =>
+                                              widget.onRemoveSlot(index),
+                                          onChanged: (range) => widget
+                                              .onSlotChanged(index, range),
+                                          style: widget.style,
+                                          hasError: overlappingIndices.contains(
+                                            index,
                                           ),
+                                          enableSmartValidation:
+                                              widget.enableSmartValidation,
+                                          validationInterval:
+                                              widget.validationInterval,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -428,16 +450,23 @@ class _SlotPickerItemWidgetState extends State<_SlotPickerItemWidget>
                               );
                             },
                           ),
-                          if (widget.maxSlots == null || _currentSlots.length < widget.maxSlots!) ...[
+                          if (widget.maxSlots == null ||
+                              _currentSlots.length < widget.maxSlots!) ...[
                             const SizedBox(height: 4),
                             SlideTransition(
                               position: _clampedAnimation.drive(
                                 Tween<Offset>(
                                   begin: const Offset(0, 0.05),
                                   end: Offset.zero,
-                                ).chain(CurveTween(
-                                  curve: const Interval(0.3, 0.9, curve: Curves.easeOutCubic),
-                                )),
+                                ).chain(
+                                  CurveTween(
+                                    curve: const Interval(
+                                      0.3,
+                                      0.9,
+                                      curve: Curves.easeOutCubic,
+                                    ),
+                                  ),
+                                ),
                               ),
                               child: _AddMoreButton(
                                 onTap: widget.onAddSlot,
@@ -458,9 +487,7 @@ class _SlotPickerItemWidgetState extends State<_SlotPickerItemWidget>
   }
 }
 
-
 class _ItemHeader extends StatelessWidget {
-
   const _ItemHeader({
     required this.title,
     required this.isEnabled,
@@ -487,18 +514,24 @@ class _ItemHeader extends StatelessWidget {
             Expanded(
               child: Text(
                 title,
-                style: style.titleStyle ??
+                style:
+                    style.titleStyle ??
                     TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w600,
-                      color: isEnabled ? style.labelColor : style.secondaryLabelColor,
+                      color: isEnabled
+                          ? style.labelColor
+                          : style.secondaryLabelColor,
                       letterSpacing: -0.4,
                     ),
               ),
             ),
             AbsorbPointer(
               child: Transform.translate(
-                offset: const Offset(8, 0), // Compensating for switch's internal margin
+                offset: const Offset(
+                  8,
+                  0,
+                ), // Compensating for switch's internal margin
                 child: Transform.scale(
                   scale: 0.82,
                   child: Switch.adaptive(
@@ -518,7 +551,6 @@ class _ItemHeader extends StatelessWidget {
 }
 
 class _SlotRow extends StatelessWidget {
-
   const _SlotRow({
     required this.slot,
     required this.onRemove,
@@ -564,7 +596,12 @@ class _SlotRow extends StatelessWidget {
               Container(
                 height: 44,
                 decoration: BoxDecoration(
-                  border: Border(bottom: BorderSide(color: CupertinoColors.separator.resolveFrom(context), width: 0.5)),
+                  border: Border(
+                    bottom: BorderSide(
+                      color: CupertinoColors.separator.resolveFrom(context),
+                      width: 0.5,
+                    ),
+                  ),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -576,7 +613,9 @@ class _SlotRow extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
-                          color: CupertinoColors.label.resolveFrom(context).withValues(alpha: 0.6),
+                          color: CupertinoColors.label
+                              .resolveFrom(context)
+                              .withValues(alpha: 0.6),
                           decoration: TextDecoration.none,
                         ),
                       ),
@@ -584,12 +623,12 @@ class _SlotRow extends StatelessWidget {
                     CupertinoButton(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: const Text(
-                        'Done', 
+                        'Done',
                         style: TextStyle(
-                          fontWeight: FontWeight.w600, 
+                          fontWeight: FontWeight.w600,
                           color: CupertinoColors.activeBlue,
                           decoration: TextDecoration.none,
-                        )
+                        ),
                       ),
                       onPressed: () => Navigator.pop(context),
                     ),
@@ -599,36 +638,61 @@ class _SlotRow extends StatelessWidget {
               Expanded(
                 child: CupertinoDatePicker(
                   mode: CupertinoDatePickerMode.time,
-                  minuteInterval: (validationInterval.inMinutes % 60 == 0) ? 1 : 
-                                 (validationInterval.inMinutes < 60 ? validationInterval.inMinutes : 1),
-                  initialDateTime: DateTime(2024, 1, 1, initialTime.hour, initialTime.minute),
+                  minuteInterval: (validationInterval.inMinutes % 60 == 0)
+                      ? 1
+                      : (validationInterval.inMinutes < 60
+                            ? validationInterval.inMinutes
+                            : 1),
+                  initialDateTime: DateTime(
+                    2024,
+                    1,
+                    1,
+                    initialTime.hour,
+                    initialTime.minute,
+                  ),
                   onDateTimeChanged: (dt) {
                     selectedTime = TimeOfDay(hour: dt.hour, minute: dt.minute);
-                    
+
                     if (!enableSmartValidation) {
-                       onChanged(isStart 
-                          ? slot.copyWith(startTime: selectedTime) 
-                          : slot.copyWith(endTime: selectedTime));
-                       return;
+                      onChanged(
+                        isStart
+                            ? slot.copyWith(startTime: selectedTime)
+                            : slot.copyWith(endTime: selectedTime),
+                      );
+                      return;
                     }
 
                     if (isStart) {
                       final startMins = _toMinutes(selectedTime);
                       final endMins = _toMinutes(slot.endTime);
-                      
+
                       if (startMins >= endMins) {
-                        final newEnd = _fromMinutes(startMins + validationInterval.inMinutes);
-                        onChanged(slot.copyWith(startTime: selectedTime, endTime: newEnd));
+                        final newEnd = _fromMinutes(
+                          startMins + validationInterval.inMinutes,
+                        );
+                        onChanged(
+                          slot.copyWith(
+                            startTime: selectedTime,
+                            endTime: newEnd,
+                          ),
+                        );
                       } else {
                         onChanged(slot.copyWith(startTime: selectedTime));
                       }
                     } else {
                       final startMins = _toMinutes(slot.startTime);
                       final endMins = _toMinutes(selectedTime);
-                      
+
                       if (endMins <= startMins) {
-                        final newStart = _fromMinutes(endMins - validationInterval.inMinutes);
-                        onChanged(slot.copyWith(startTime: newStart, endTime: selectedTime));
+                        final newStart = _fromMinutes(
+                          endMins - validationInterval.inMinutes,
+                        );
+                        onChanged(
+                          slot.copyWith(
+                            startTime: newStart,
+                            endTime: selectedTime,
+                          ),
+                        );
                       } else {
                         onChanged(slot.copyWith(endTime: selectedTime));
                       }
@@ -658,18 +722,22 @@ class _SlotRow extends StatelessWidget {
       );
       if (picked != null) {
         if (!enableSmartValidation) {
-           onChanged(isStart 
-              ? slot.copyWith(startTime: picked) 
-              : slot.copyWith(endTime: picked));
-           return;
+          onChanged(
+            isStart
+                ? slot.copyWith(startTime: picked)
+                : slot.copyWith(endTime: picked),
+          );
+          return;
         }
 
         if (isStart) {
           final startMins = _toMinutes(picked);
           final endMins = _toMinutes(slot.endTime);
-          
+
           if (startMins >= endMins) {
-            final newEnd = _fromMinutes(startMins + validationInterval.inMinutes);
+            final newEnd = _fromMinutes(
+              startMins + validationInterval.inMinutes,
+            );
             onChanged(slot.copyWith(startTime: picked, endTime: newEnd));
           } else {
             onChanged(slot.copyWith(startTime: picked));
@@ -677,9 +745,11 @@ class _SlotRow extends StatelessWidget {
         } else {
           final startMins = _toMinutes(slot.startTime);
           final endMins = _toMinutes(picked);
-          
+
           if (endMins <= startMins) {
-            final newStart = _fromMinutes(endMins - validationInterval.inMinutes);
+            final newStart = _fromMinutes(
+              endMins - validationInterval.inMinutes,
+            );
             onChanged(slot.copyWith(startTime: newStart, endTime: picked));
           } else {
             onChanged(slot.copyWith(endTime: picked));
@@ -704,10 +774,7 @@ class _SlotRow extends StatelessWidget {
         const SizedBox(width: 8),
         Text(
           'To',
-          style: TextStyle(
-            fontSize: 14,
-            color: style.secondaryLabelColor,
-          ),
+          style: TextStyle(fontSize: 14, color: style.secondaryLabelColor),
         ),
         const SizedBox(width: 8),
         Expanded(
@@ -733,7 +800,6 @@ class _SlotRow extends StatelessWidget {
 }
 
 class _TimeInput extends StatelessWidget {
-
   const _TimeInput({
     required this.timeString,
     required this.onTap,
@@ -753,15 +819,19 @@ class _TimeInput extends StatelessWidget {
         height: 38,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: hasError ? style.errorColor.withValues(alpha: 0.05) : style.inputFillColor,
+          color: hasError
+              ? style.errorColor.withValues(alpha: 0.05)
+              : style.inputFillColor,
           borderRadius: BorderRadius.circular(10),
-          border: hasError 
+          border: hasError
               ? Border.all(color: style.errorColor)
-              : (style.inputBorder ?? Border.all(color: Colors.grey.withValues(alpha: 0.15))),
+              : (style.inputBorder ??
+                    Border.all(color: Colors.grey.withValues(alpha: 0.15))),
         ),
         child: Text(
           timeString,
-          style: style.slotTextStyle ??
+          style:
+              style.slotTextStyle ??
               TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w400,
@@ -774,7 +844,6 @@ class _TimeInput extends StatelessWidget {
 }
 
 class _IconButton extends StatelessWidget {
-
   const _IconButton({
     required this.icon,
     required this.backgroundColor,
@@ -794,21 +863,13 @@ class _IconButton extends StatelessWidget {
         color: backgroundColor,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Icon(
-        icon,
-        size: 16,
-        color: iconColor,
-      ),
+      child: Icon(icon, size: 16, color: iconColor),
     );
   }
 }
 
 class _AddMoreButton extends StatelessWidget {
-
-  const _AddMoreButton({
-    required this.onTap,
-    required this.style,
-  });
+  const _AddMoreButton({required this.onTap, required this.style});
   final VoidCallback onTap;
   final SlotPickerStyle style;
 
@@ -828,20 +889,18 @@ class _AddMoreButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.add,
-              size: 18,
-              color: Color(0xFF636366),
-            ),
+            const Icon(Icons.add, size: 18, color: Color(0xFF636366)),
             const SizedBox(width: 4),
             Text(
               'Add More',
-              style: style.addButtonTextStyle ?? TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: style.secondaryLabelColor,
-                letterSpacing: -0.2,
-              ),
+              style:
+                  style.addButtonTextStyle ??
+                  TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: style.secondaryLabelColor,
+                    letterSpacing: -0.2,
+                  ),
             ),
           ],
         ),
@@ -852,7 +911,6 @@ class _AddMoreButton extends StatelessWidget {
 
 /// A premium press-scale interaction wrapper.
 class _PressScale extends StatefulWidget {
-
   const _PressScale({required this.child, this.onTap});
   final Widget child;
   final VoidCallback? onTap;
@@ -861,7 +919,8 @@ class _PressScale extends StatefulWidget {
   State<_PressScale> createState() => _PressScaleState();
 }
 
-class _PressScaleState extends State<_PressScale> with SingleTickerProviderStateMixin {
+class _PressScaleState extends State<_PressScale>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scale;
 
@@ -872,9 +931,10 @@ class _PressScaleState extends State<_PressScale> with SingleTickerProviderState
       vsync: this,
       duration: const Duration(milliseconds: 80),
     );
-    _scale = Tween<double>(begin: 1.0, end: 0.985).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
-    );
+    _scale = Tween<double>(
+      begin: 1.0,
+      end: 0.985,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
   }
 
   @override
@@ -894,10 +954,7 @@ class _PressScaleState extends State<_PressScale> with SingleTickerProviderState
       onTapCancel: () => _controller.reverse(),
       onTap: widget.onTap,
       behavior: HitTestBehavior.opaque,
-      child: ScaleTransition(
-        scale: _scale,
-        child: widget.child,
-      ),
+      child: ScaleTransition(scale: _scale, child: widget.child),
     );
   }
 }

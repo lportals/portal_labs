@@ -3,7 +3,6 @@ import '../../common/portal_animations.dart';
 
 /// Style configuration for the [PremiumSortableGrid].
 class PremiumSortableGridStyle {
-
   /// Creates a [PremiumSortableGridStyle] with the given parameters.
   const PremiumSortableGridStyle({
     this.crossAxisCount = 3,
@@ -16,17 +15,14 @@ class PremiumSortableGridStyle {
     this.dragScale = 1.1,
     this.dragOpacity = 0.8,
     this.dragShadow = const [
-      BoxShadow(
-        color: Colors.black26,
-        blurRadius: 10,
-        offset: Offset(0, 4),
-      ),
+      BoxShadow(color: Colors.black26, blurRadius: 10, offset: Offset(0, 4)),
     ],
     this.pulseDuration = const Duration(milliseconds: 400),
     this.pulseScale = 1.05,
     this.showMagneticGhost = true,
     this.flybackDuration = const Duration(milliseconds: 800),
   });
+
   /// The number of columns in the grid.
   final int crossAxisCount;
 

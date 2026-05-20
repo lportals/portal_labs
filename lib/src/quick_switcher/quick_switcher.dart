@@ -46,11 +46,11 @@ class _QuickSwitcherState extends State<QuickSwitcher>
     with TickerProviderStateMixin {
   late int _currentIndex;
   late final TextEditingController _textController;
-  
+
   late final AnimationController _pulseController;
   late final AnimationController _holdController;
   late final AnimationController _pressController;
-  
+
   late final Animation<double> _buttonScaleAnimation;
   late final Animation<double> _pulseScaleAnimation;
   late final Animation<double> _pulseOpacityAnimation;
@@ -81,11 +81,17 @@ class _QuickSwitcherState extends State<QuickSwitcher>
     // Toggle pop animation
     _buttonScaleAnimation = TweenSequence<double>([
       TweenSequenceItem(
-        tween: Tween<double>(begin: 1.0, end: 0.88).chain(CurveTween(curve: Curves.easeOut)),
+        tween: Tween<double>(
+          begin: 1.0,
+          end: 0.88,
+        ).chain(CurveTween(curve: Curves.easeOut)),
         weight: 20,
       ),
       TweenSequenceItem(
-        tween: Tween<double>(begin: 0.88, end: 1.0).chain(CurveTween(curve: Curves.elasticOut)),
+        tween: Tween<double>(
+          begin: 0.88,
+          end: 1.0,
+        ).chain(CurveTween(curve: Curves.elasticOut)),
         weight: 80,
       ),
     ]).animate(_pulseController);
@@ -107,10 +113,7 @@ class _QuickSwitcherState extends State<QuickSwitcher>
 
     // Smooth sink that triggers the menu
     _holdBreathing = Tween<double>(begin: 0.0, end: -0.02).animate(
-      CurvedAnimation(
-        parent: _holdController,
-        curve: Curves.easeInOutCubic,
-      ),
+      CurvedAnimation(parent: _holdController, curve: Curves.easeInOutCubic),
     );
 
     // Smooth press-down scale
@@ -128,11 +131,17 @@ class _QuickSwitcherState extends State<QuickSwitcher>
 
     _successScale = TweenSequence<double>([
       TweenSequenceItem(
-        tween: Tween<double>(begin: 0.0, end: 0.08).chain(CurveTween(curve: Curves.easeOutBack)),
+        tween: Tween<double>(
+          begin: 0.0,
+          end: 0.08,
+        ).chain(CurveTween(curve: Curves.easeOutBack)),
         weight: 40,
       ),
       TweenSequenceItem(
-        tween: Tween<double>(begin: 0.08, end: 0.0).chain(CurveTween(curve: Curves.easeInOutCubic)),
+        tween: Tween<double>(
+          begin: 0.08,
+          end: 0.0,
+        ).chain(CurveTween(curve: Curves.easeInOutCubic)),
         weight: 60,
       ),
     ]).animate(_successController);
@@ -165,7 +174,7 @@ class _QuickSwitcherState extends State<QuickSwitcher>
 
   void _updateIndex(int newIndex) {
     if (newIndex == _currentIndex) return;
-    
+
     setState(() {
       _currentIndex = newIndex;
     });
@@ -189,7 +198,7 @@ class _QuickSwitcherState extends State<QuickSwitcher>
   void _handleHoldComplete() {
     // Start the rewarding success pop
     _successController.forward(from: 0.0);
-    
+
     // Smoothly return the other states
     _holdController.reverse();
     _pressController.reverse();
@@ -268,7 +277,9 @@ class _QuickSwitcherState extends State<QuickSwitcher>
                     width: 52,
                     height: 40,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(widget.style.borderRadius - 4),
+                      borderRadius: BorderRadius.circular(
+                        widget.style.borderRadius - 4,
+                      ),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withValues(alpha: 0.06),
@@ -288,15 +299,18 @@ class _QuickSwitcherState extends State<QuickSwitcher>
                           width: 60,
                           height: 48,
                           decoration: BoxDecoration(
-                            color: widget.style.pulseColor
-                                .withValues(alpha: _pulseOpacityAnimation.value),
-                            borderRadius: BorderRadius.circular(widget.style.borderRadius),
+                            color: widget.style.pulseColor.withValues(
+                              alpha: _pulseOpacityAnimation.value,
+                            ),
+                            borderRadius: BorderRadius.circular(
+                              widget.style.borderRadius,
+                            ),
                           ),
                         ),
                       );
                     },
                   ),
-                  
+
                   // Main Pill Button
                   AnimatedBuilder(
                     animation: Listenable.merge([
@@ -306,20 +320,20 @@ class _QuickSwitcherState extends State<QuickSwitcher>
                       _successScale,
                     ]),
                     builder: (context, child) {
-                      final totalScale = (_buttonScaleAnimation.value * _pressScale.value) 
-                          + _holdBreathing.value 
-                          + _successScale.value;
-                      return Transform.scale(
-                        scale: totalScale,
-                        child: child,
-                      );
+                      final totalScale =
+                          (_buttonScaleAnimation.value * _pressScale.value) +
+                          _holdBreathing.value +
+                          _successScale.value;
+                      return Transform.scale(scale: totalScale, child: child);
                     },
                     child: Container(
                       width: 60,
                       height: 48,
                       decoration: BoxDecoration(
                         color: widget.style.switchButtonColor,
-                        borderRadius: BorderRadius.circular(widget.style.borderRadius - 4),
+                        borderRadius: BorderRadius.circular(
+                          widget.style.borderRadius - 4,
+                        ),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -330,10 +344,7 @@ class _QuickSwitcherState extends State<QuickSwitcher>
                             layoutBuilder: (currentChild, previousChildren) {
                               return Stack(
                                 alignment: Alignment.center,
-                                children: [
-                                  ...previousChildren,
-                                  ?currentChild,
-                                ],
+                                children: [...previousChildren, ?currentChild],
                               );
                             },
                             transitionBuilder: (child, animation) {
@@ -345,7 +356,10 @@ class _QuickSwitcherState extends State<QuickSwitcher>
                                     final sigma = (1.0 - animation.value) * 1.5;
                                     if (sigma < 0.05) return child!;
                                     return ImageFiltered(
-                                      imageFilter: ImageFilter.blur(sigmaX: sigma, sigmaY: sigma),
+                                      imageFilter: ImageFilter.blur(
+                                        sigmaX: sigma,
+                                        sigmaY: sigma,
+                                      ),
                                       child: child,
                                     );
                                   },
@@ -369,7 +383,8 @@ class _QuickSwitcherState extends State<QuickSwitcher>
                                 offset: const Offset(0, 7),
                                 child: Icon(
                                   Icons.keyboard_arrow_up_rounded,
-                                  color: widget.style.foregroundColor.withValues(alpha: 0.3),
+                                  color: widget.style.foregroundColor
+                                      .withValues(alpha: 0.3),
                                   size: 22,
                                 ),
                               ),
@@ -377,7 +392,8 @@ class _QuickSwitcherState extends State<QuickSwitcher>
                                 offset: const Offset(0, -7),
                                 child: Icon(
                                   Icons.keyboard_arrow_down_rounded,
-                                  color: widget.style.foregroundColor.withValues(alpha: 0.3),
+                                  color: widget.style.foregroundColor
+                                      .withValues(alpha: 0.3),
                                   size: 22,
                                 ),
                               ),
@@ -409,16 +425,13 @@ class _QuickSwitcherState extends State<QuickSwitcher>
                     valueListenable: _textController,
                     builder: (context, value, child) {
                       if (value.text.isNotEmpty) return const SizedBox.shrink();
-                      
+
                       return AnimatedSwitcher(
                         duration: const Duration(milliseconds: 300),
                         layoutBuilder: (currentChild, previousChildren) {
                           return Stack(
                             alignment: Alignment.centerLeft,
-                            children: [
-                              ...previousChildren,
-                              ?currentChild,
-                            ],
+                            children: [...previousChildren, ?currentChild],
                           );
                         },
                         transitionBuilder: (child, animation) {
@@ -430,7 +443,10 @@ class _QuickSwitcherState extends State<QuickSwitcher>
                                 final sigma = (1.0 - animation.value) * 1.5;
                                 if (sigma < 0.1) return child!;
                                 return ImageFiltered(
-                                  imageFilter: ImageFilter.blur(sigmaX: sigma, sigmaY: sigma),
+                                  imageFilter: ImageFilter.blur(
+                                    sigmaX: sigma,
+                                    sigmaY: sigma,
+                                  ),
                                   child: child,
                                 );
                               },
@@ -442,7 +458,9 @@ class _QuickSwitcherState extends State<QuickSwitcher>
                           currentOption.placeholder,
                           key: ValueKey('hint_$_currentIndex'),
                           style: TextStyle(
-                            color: widget.style.foregroundColor.withValues(alpha: 0.4),
+                            color: widget.style.foregroundColor.withValues(
+                              alpha: 0.4,
+                            ),
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                           ),
@@ -457,7 +475,8 @@ class _QuickSwitcherState extends State<QuickSwitcher>
                     style: TextStyle(
                       color: widget.style.foregroundColor,
                       fontSize: 16,
-                      fontWeight: FontWeight.w700, // Stronger weight for typed input
+                      fontWeight:
+                          FontWeight.w700, // Stronger weight for typed input
                     ),
                     decoration: const InputDecoration(
                       hintText: '',
@@ -519,7 +538,6 @@ class _QuickSwitcherState extends State<QuickSwitcher>
 
 /// A glassmorphic dropdown menu that appears above the QuickSwitcher.
 class _QuickSwitcherMenu extends StatefulWidget {
-
   const _QuickSwitcherMenu({
     required this.options,
     required this.currentIndex,
@@ -560,12 +578,10 @@ class _QuickSwitcherMenuState extends State<_QuickSwitcherMenu>
       curve: Curves.easeOut,
     );
 
-    _slideAnimation = Tween<double>(begin: 12.0, end: 0.0).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeOutCubic,
-      ),
-    );
+    _slideAnimation = Tween<double>(
+      begin: 12.0,
+      end: 0.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
 
     _controller.forward();
   }
@@ -587,62 +603,71 @@ class _QuickSwitcherMenuState extends State<_QuickSwitcherMenu>
       color: Colors.transparent, // Required to stop the yellow underline
       child: Stack(
         children: [
-        // Transparent Dismiss Layer
-        GestureDetector(
-          onTap: _handleDismiss,
-          behavior: HitTestBehavior.opaque,
-          child: const SizedBox.expand(),
-        ),
+          // Transparent Dismiss Layer
+          GestureDetector(
+            onTap: _handleDismiss,
+            behavior: HitTestBehavior.opaque,
+            child: const SizedBox.expand(),
+          ),
 
-        // Menu Container
-        Positioned(
-          left: widget.switcherOffset.dx,
-          bottom: MediaQuery.of(context).size.height - widget.switcherOffset.dy + 8,
-          width: widget.switcherWidth,
-          child: AnimatedBuilder(
-            animation: _controller,
-            builder: (context, child) {
-              return Transform.translate(
-                offset: Offset(0, _slideAnimation.value),
-                child: FadeTransition(
-                  opacity: _fadeAnimation,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(widget.style.borderRadius),
-                      border: Border.all(
-                        color: Colors.black.withValues(alpha: 0.05),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.08),
-                          blurRadius: 12,
-                          offset: const Offset(0, 4),
+          // Menu Container
+          Positioned(
+            left: widget.switcherOffset.dx,
+            bottom:
+                MediaQuery.of(context).size.height -
+                widget.switcherOffset.dy +
+                8,
+            width: widget.switcherWidth,
+            child: AnimatedBuilder(
+              animation: _controller,
+              builder: (context, child) {
+                return Transform.translate(
+                  offset: Offset(0, _slideAnimation.value),
+                  child: FadeTransition(
+                    opacity: _fadeAnimation,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(
+                          widget.style.borderRadius,
                         ),
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(widget.style.borderRadius),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: widget.options.asMap().entries.map((entry) {
-                          final index = entry.key;
-                          final option = entry.value;
-                          final isSelected = index == widget.currentIndex;
+                        border: Border.all(
+                          color: Colors.black.withValues(alpha: 0.05),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.08),
+                            blurRadius: 12,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(
+                          widget.style.borderRadius,
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: widget.options.asMap().entries.map((entry) {
+                            final index = entry.key;
+                            final option = entry.value;
+                            final isSelected = index == widget.currentIndex;
 
-                          return GestureDetector(
-                            onTap: () => widget.onSelect(index),
-                            behavior: HitTestBehavior.opaque,
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 12,
-                              ),
+                            return GestureDetector(
+                              onTap: () => widget.onSelect(index),
+                              behavior: HitTestBehavior.opaque,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 12,
+                                ),
                                 decoration: BoxDecoration(
                                   border: index != widget.options.length - 1
                                       ? Border(
                                           bottom: BorderSide(
-                                            color: Colors.black.withValues(alpha: 0.05),
+                                            color: Colors.black.withValues(
+                                              alpha: 0.05,
+                                            ),
                                             width: 0.5,
                                           ),
                                         )
@@ -668,7 +693,9 @@ class _QuickSwitcherMenuState extends State<_QuickSwitcherMenu>
                                               : FontWeight.w600,
                                           color: isSelected
                                               ? Colors.black
-                                              : Colors.black.withValues(alpha: 0.4),
+                                              : Colors.black.withValues(
+                                                  alpha: 0.4,
+                                                ),
                                         ),
                                       ),
                                     ),
@@ -681,18 +708,18 @@ class _QuickSwitcherMenuState extends State<_QuickSwitcherMenu>
                                   ],
                                 ),
                               ),
-                          );
-                        }).toList(),
+                            );
+                          }).toList(),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
-        ),
-      ],
-    ),
-   );
+        ],
+      ),
+    );
   }
 }

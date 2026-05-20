@@ -7,7 +7,6 @@ import 'package:flutter/widgets.dart';
 /// 2. [icon] - A Flutter [IconData] object (best for vector designs).
 /// 3. [imagePath] - A URL or asset path (best for photographic content).
 class ChoiceItem {
-
   /// Creates a [ChoiceItem] with at least a [label] and one visual representation.
   const ChoiceItem({
     required this.label,
@@ -15,6 +14,7 @@ class ChoiceItem {
     this.icon,
     this.imagePath,
   });
+
   /// The human-readable name of the item (e.g., 'Music', 'Apples').
   final String label;
 

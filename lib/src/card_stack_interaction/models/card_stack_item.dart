@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 /// Each item includes a title, subtitle, date, and an icon which are used
 /// to populate the card's UI.
 class CardStackItem {
-
   /// Creates a [CardStackItem] with all required display properties.
   const CardStackItem({
     required this.title,
@@ -14,6 +13,7 @@ class CardStackItem {
     required this.icon,
     this.iconBackgroundColor,
   });
+
   /// The main heading of the card (e.g., 'Camping').
   final String title;
 
