@@ -58,10 +58,11 @@ void main() {
         ),
       );
 
-      await tester.longPress(find.byIcon(Icons.search));
-      // Pump several times for the menu animation
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 300));
+      final gesture = await tester.startGesture(tester.getCenter(find.byIcon(Icons.search)));
+      await tester.pump(const Duration(milliseconds: 600)); // triggers onLongPressStart
+      await tester.pump(const Duration(milliseconds: 450)); // lets holdController (400ms) complete
+      await gesture.up();
+      await tester.pumpAndSettle();
 
       // Menu should be visible. In the menu, it displays the placeholder.
       // We expect at least one more instance of the placeholders.

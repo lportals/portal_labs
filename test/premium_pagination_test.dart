@@ -1,3 +1,4 @@
+import 'dart:ui' show Tristate;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:portal_labs/portal_labs.dart';
@@ -25,12 +26,12 @@ void main() {
       final prevNode = tester.getSemantics(find.byKey(const ValueKey('pagination_prev')));
       expect(prevNode.label, 'Previous page');
       expect(prevNode.flagsCollection.isButton, isTrue);
-      expect(prevNode.flagsCollection.isEnabled, isFalse);
+      expect(prevNode.flagsCollection.isEnabled, Tristate.isFalse);
       
       final nextNode = tester.getSemantics(find.byKey(const ValueKey('pagination_next')));
       expect(nextNode.label, 'Next page');
       expect(nextNode.flagsCollection.isButton, isTrue);
-      expect(nextNode.flagsCollection.isEnabled, isTrue);
+      expect(nextNode.flagsCollection.isEnabled, Tristate.isTrue);
     });
 
     testWidgets('triggers onPageChanged when next is clicked', (WidgetTester tester) async {
@@ -41,7 +42,7 @@ void main() {
             body: PremiumPagination(
               currentPage: 1,
               totalPages: 5,
-              onPageChanged: (_) {},
+              onPageChanged: (page) => changedPage = page,
             ),
           ),
         ),
@@ -61,7 +62,7 @@ void main() {
             body: PremiumPagination(
               currentPage: 3,
               totalPages: 5,
-              onPageChanged: (_) {},
+              onPageChanged: (page) => changedPage = page,
             ),
           ),
         ),
@@ -81,14 +82,14 @@ void main() {
             body: PremiumPagination(
               currentPage: 5,
               totalPages: 5,
-              onPageChanged: (_) {},
+              onPageChanged: (page) => changedPage = page,
             ),
           ),
         ),
       );
 
       final nextNode = tester.getSemantics(find.byKey(const ValueKey('pagination_next')));
-      expect(nextNode.flagsCollection.isEnabled, isFalse);
+      expect(nextNode.flagsCollection.isEnabled, Tristate.isFalse);
       
       await tester.tap(find.byKey(const ValueKey('pagination_next')));
       await tester.pump();

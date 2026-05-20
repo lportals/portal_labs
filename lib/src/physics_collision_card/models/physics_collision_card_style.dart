@@ -40,6 +40,7 @@ class PhysicsCollisionCardStyle {
     this.gridBackgroundColor = const Color(0xFFFAFAFC),
     this.gridPadding = const EdgeInsets.all(16.0),
     this.gridDecoration,
+    this.showStars = false,
   });
 
   /// Outer container background color.
@@ -81,4 +82,7 @@ class PhysicsCollisionCardStyle {
   /// Custom decoration for the grid area (e.g. border, border radius).
   /// If null, a clean card design is automatically applied.
   final BoxDecoration? gridDecoration;
+
+  /// Toggle to draw a beautiful subtle background starfield behind the items.
+  final bool showStars;
 }

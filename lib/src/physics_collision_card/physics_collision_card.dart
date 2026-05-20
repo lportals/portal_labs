@@ -295,8 +295,9 @@ class _PhysicsCollisionCardState extends State<PhysicsCollisionCard>
         // Apply wall friction: tangent component is velocity.dy
         final double surfaceVelocity = body.velocity.dy - body.angularVelocity * r;
         double deltaVt = -surfaceVelocity / 3.0;
-        final double maxFriction = 0.3 * normalSpeed * (1.0 + restitution);
-        deltaVt = deltaVt.clamp(-maxFriction, maxFriction);
+        double maxFriction = 0.3 * normalSpeed * (1.0 + restitution);
+        final double limit = maxFriction.isNaN || maxFriction.isInfinite ? 0.0 : maxFriction.abs();
+        deltaVt = deltaVt.clamp(-limit, limit);
 
         body.velocity = Offset(body.velocity.dx, body.velocity.dy + deltaVt);
         body.angularVelocity -= deltaVt * 2.0 / r;
@@ -314,8 +315,9 @@ class _PhysicsCollisionCardState extends State<PhysicsCollisionCard>
         // Apply wall friction: tangent component is -velocity.dy
         final double surfaceVelocity = -body.velocity.dy - body.angularVelocity * r;
         double deltaVt = -surfaceVelocity / 3.0;
-        final double maxFriction = 0.3 * normalSpeed * (1.0 + restitution);
-        deltaVt = deltaVt.clamp(-maxFriction, maxFriction);
+        double maxFriction = 0.3 * normalSpeed * (1.0 + restitution);
+        final double limit = maxFriction.isNaN || maxFriction.isInfinite ? 0.0 : maxFriction.abs();
+        deltaVt = deltaVt.clamp(-limit, limit);
 
         body.velocity = Offset(body.velocity.dx, body.velocity.dy - deltaVt);
         body.angularVelocity -= deltaVt * 2.0 / r;
@@ -336,8 +338,9 @@ class _PhysicsCollisionCardState extends State<PhysicsCollisionCard>
         // Apply wall friction: tangent component is -velocity.dx
         final double surfaceVelocity = -body.velocity.dx - body.angularVelocity * r;
         double deltaVt = -surfaceVelocity / 3.0;
-        final double maxFriction = 0.3 * normalSpeed * (1.0 + restitution);
-        deltaVt = deltaVt.clamp(-maxFriction, maxFriction);
+        double maxFriction = 0.3 * normalSpeed * (1.0 + restitution);
+        final double limit = maxFriction.isNaN || maxFriction.isInfinite ? 0.0 : maxFriction.abs();
+        deltaVt = deltaVt.clamp(-limit, limit);
 
         body.velocity = Offset(body.velocity.dx - deltaVt, body.velocity.dy);
         body.angularVelocity -= deltaVt * 2.0 / r;
@@ -355,8 +358,9 @@ class _PhysicsCollisionCardState extends State<PhysicsCollisionCard>
         // Apply wall friction: tangent component is velocity.dx
         final double surfaceVelocity = body.velocity.dx - body.angularVelocity * r;
         double deltaVt = -surfaceVelocity / 3.0;
-        final double maxFriction = 0.3 * normalSpeed * (1.0 + restitution);
-        deltaVt = deltaVt.clamp(-maxFriction, maxFriction);
+        double maxFriction = 0.3 * normalSpeed * (1.0 + restitution);
+        final double limit = maxFriction.isNaN || maxFriction.isInfinite ? 0.0 : maxFriction.abs();
+        deltaVt = deltaVt.clamp(-limit, limit);
 
         body.velocity = Offset(body.velocity.dx + deltaVt, body.velocity.dy);
         body.angularVelocity -= deltaVt * 2.0 / r;
@@ -437,8 +441,9 @@ class _PhysicsCollisionCardState extends State<PhysicsCollisionCard>
 
       // Coulomb's law friction cap: |tangentImpulse| <= mu * normalImpulse
       const double mu = 0.35; // coefficient of friction
-      final double maxFriction = mu * impulseScalar;
-      tangentImpulse = tangentImpulse.clamp(-maxFriction, maxFriction);
+      double maxFriction = mu * impulseScalar;
+      final double limit = maxFriction.isNaN || maxFriction.isInfinite ? 0.0 : maxFriction.abs();
+      tangentImpulse = tangentImpulse.clamp(-limit, limit);
 
       final Offset tangentImpulseVec = tangentUnit * tangentImpulse;
       if (!b1.isDragged) {
@@ -647,6 +652,12 @@ class _PhysicsCollisionCardState extends State<PhysicsCollisionCard>
                         ),
                       ),
                     ),
+                  if (widget.style.showStars)
+                    const Positioned.fill(
+                      child: CustomPaint(
+                        painter: _StarPainter(),
+                      ),
+                    ),
                   for (final body in _bodies) _buildBodyWidget(body),
                 ],
               ),
@@ -719,5 +730,46 @@ class _GridPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant _GridPainter oldDelegate) =>
       oldDelegate.gridColor != gridColor;
+}
+
+/// A custom painter that draws a deterministic background starfield.
+///
+/// Uses a fixed seed random number generator to ensure that stars remain
+/// at the same coordinates across rebuilds and repaints.
+class _StarPainter extends CustomPainter {
+  /// Creates a const [_StarPainter].
+  const _StarPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final rand = math.Random(1337);
+    final paint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.fill;
+
+    // Draw around 22 subtle background stars
+    for (int i = 0; i < 22; i++) {
+      final double x = rand.nextDouble() * size.width;
+      final double y = rand.nextDouble() * size.height;
+      // Soft stars with random radius between 0.6 and 1.6
+      final double radius = 0.6 + rand.nextDouble() * 1.0;
+      // Random opacity between 0.15 and 0.65
+      final double opacity = 0.15 + rand.nextDouble() * 0.50;
+
+      paint.color = Colors.white.withValues(alpha: opacity);
+      canvas.drawCircle(Offset(x, y), radius, paint);
+
+      // Add a tiny subtle glow to every 4th star to make it look premium
+      if (i % 4 == 0) {
+        final glowPaint = Paint()
+          ..color = Colors.white.withValues(alpha: opacity * 0.3)
+          ..style = PaintingStyle.fill;
+        canvas.drawCircle(Offset(x, y), radius * 3.0, glowPaint);
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _StarPainter oldDelegate) => false;
 }
 

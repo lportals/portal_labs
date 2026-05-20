@@ -1,3 +1,4 @@
+import 'dart:ui' show Tristate;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:portal_labs/portal_labs.dart';
@@ -22,12 +23,12 @@ void main() {
       final minusNode = tester.getSemantics(find.byKey(const ValueKey('stepper_minus')));
       expect(minusNode.label, 'Decrement');
       expect(minusNode.flagsCollection.isButton, isTrue);
-      expect(minusNode.flagsCollection.isEnabled, isTrue);
+      expect(minusNode.flagsCollection.isEnabled, Tristate.isTrue);
       
       final plusNode = tester.getSemantics(find.byKey(const ValueKey('stepper_plus')));
       expect(plusNode.label, 'Increment');
       expect(plusNode.flagsCollection.isButton, isTrue);
-      expect(plusNode.flagsCollection.isEnabled, isTrue);
+      expect(plusNode.flagsCollection.isEnabled, Tristate.isTrue);
       
       handle.dispose();
     });
@@ -39,7 +40,7 @@ void main() {
           home: Scaffold(
             body: PremiumStepper(
               value: 10,
-              onChanged: (_) {},
+              onChanged: (val) => changedValue = val,
             ),
           ),
         ),
@@ -58,7 +59,7 @@ void main() {
           home: Scaffold(
             body: PremiumStepper(
               value: 10,
-              onChanged: (_) {},
+              onChanged: (val) => changedValue = val,
             ),
           ),
         ),
@@ -79,14 +80,14 @@ void main() {
             body: PremiumStepper(
               value: 0,
               max: 2,
-              onChanged: (_) {},
+              onChanged: (val) => changedValue = val,
             ),
           ),
         ),
       );
 
       final minusNode = tester.getSemantics(find.byKey(const ValueKey('stepper_minus')));
-      expect(minusNode.flagsCollection.isEnabled, isFalse);
+      expect(minusNode.flagsCollection.isEnabled, Tristate.isFalse);
       
       await tester.tap(find.byKey(const ValueKey('stepper_minus')));
       await tester.pump();
@@ -103,14 +104,14 @@ void main() {
             body: PremiumStepper(
               value: 2,
               max: 2,
-              onChanged: (_) {},
+              onChanged: (val) => changedValue = val,
             ),
           ),
         ),
       );
 
       final plusNode = tester.getSemantics(find.byKey(const ValueKey('stepper_plus')));
-      expect(plusNode.flagsCollection.isEnabled, isFalse);
+      expect(plusNode.flagsCollection.isEnabled, Tristate.isFalse);
       
       handle.dispose();
     });
