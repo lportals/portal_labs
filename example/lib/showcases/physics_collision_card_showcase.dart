@@ -67,16 +67,20 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
       'transparent': true,
     },
     {
-      'initials': '🔥',
-      'gradient': [const Color(0xFFEF4444), const Color(0xFFDC2626)],
-      'icon': Icons.local_fire_department_rounded,
-      'radius': 28.0,
+      'url': 'https://crystalpng.com/wp-content/uploads/2025/05/google-logo.png',
+      'initials': 'GO',
+      'radius': 32.0,
+      'fit': BoxFit.contain,
+      'padding': 0.0,
+      'transparent': true,
     },
     {
-      'initials': '⭐',
-      'gradient': [const Color(0xFF8B5CF6), const Color(0xFF7C3AED)],
-      'icon': Icons.star_rounded,
-      'radius': 28.0,
+      'url': 'https://cdn-icons-png.freepik.com/512/975/975645.png',
+      'initials': 'FK',
+      'radius': 26.0,
+      'fit': BoxFit.contain,
+      'padding': 0.0,
+      'transparent': true,
     },
   ];
 
@@ -229,7 +233,7 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
                   children: [
                     // Top: The Physics Simulation Grid Area Card
                     Padding(
-                      padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+                      padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
                       child: SizedBox(
                         height: 280, // Sized compact to fit beautifully on all device profiles
                         child: PhysicsCollisionCard(
@@ -240,7 +244,7 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
                             gridPadding: EdgeInsets.zero, // Outer padding managed by parent Column
                             gridDecoration: BoxDecoration(
                               color: const Color(0xFFF9FAFC),
-                              borderRadius: BorderRadius.circular(8), // Concentric: 24 (parent) - 16 (padding)
+                              borderRadius: BorderRadius.circular(16), // Concentric: 24 (parent) - 8 (padding)
                               border: Border.all(
                                 color: const Color(0xFFE5E7EB).withAlpha((255 * 0.4).round()),
                               ),
@@ -269,13 +273,13 @@ class _PhysicsCollisionCardShowcaseState extends State<PhysicsCollisionCardShowc
                     ),
 
                     // Divider between simulation box and controls, keeping visual padding margins
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 12),
                     const Divider(height: 1, color: Color(0xFFECECEF)),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 12),
 
                     // Bottom: Gravity / Controls Panel (resting directly on parent white card background)
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 24, left: 24, right: 24),
+                      padding: const EdgeInsets.only(bottom: 20, left: 16, right: 16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
