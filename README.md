@@ -1616,6 +1616,8 @@ FolderTabs(
 
 An interactive 2D physics simulation container. Circular elements (representing profile pictures, badges, tech brand icons, or emojis) bounce off walls, experience gravitational pull, collide elastically with each other, and support dragging and throwing using standard gestures.
 
+![Physics Collision Card Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/physics_collision_card.gif)
+
 #### Key Features
 
 - **Kinetic Vector Physics**: Simulates gravity forces, air resistance (damping), wall collisions, and circle-to-circle rigid body collisions.
