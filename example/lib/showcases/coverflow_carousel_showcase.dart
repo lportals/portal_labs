@@ -59,7 +59,8 @@ class _CoverflowCarouselShowcaseState extends State<CoverflowCarouselShowcase> {
       title: 'Coverflow Carousel',
       description:
           'A high-fidelity 3D perspective card carousel inspired by the classic iPod Coverflow. '
-          'Supports fluid horizontal swipe gestures, tap-to-focus on side cards, and dual-interactive slider navigation.',
+          'Supports fluid horizontal/vertical swipe gestures, tap-to-focus on side cards, adaptive 3D rotations, '
+          'left-sided vertical reflections, and dual-interactive slider navigation.',
       backgroundColor: Colors.white,
       codeSnippet: '''// Initialize controller
 final controller = CoverflowCarouselController(initialPage: 4);

@@ -2,12 +2,16 @@
 
 ## [0.27.0] - 2026-05-22
 
-- **New Component**: **Coverflow Carousel** — A premium 3D Coverflow carousel widget inspired by the classic iPod/iTunes interface, displaying children in 3D perspective rotated around the Y-axis and overlapping toward the center.
-  - **3D Perspective Projection**: Implements realistic 3D transformations with adjustable perspective factors, scale deltas, and maximum Y-axis rotation angles.
+- **New Component**: **Coverflow Carousel** — A premium 3D Coverflow carousel widget inspired by the classic iPod/iTunes interface, displaying children in 3D perspective rotated around the Y-axis (horizontal) or X-axis (vertical) and overlapping toward the center.
+  - **Dual-Orientation Support**: Introduced seamless switching between horizontal and vertical layouts using the `scrollDirection` parameter.
+  - **3D Perspective Projection**: Implements realistic 3D transformations with adjustable perspective factors, scale deltas, and maximum axis rotation angles.
+  - **Left-Side Vertical Reflections**: Designed automatic layout adaptation to render reflections on the left side of cards in vertical mode, preventing overlap with the right-sided slider control.
+  - **Clipping & Boundaries**: Integrated conditional `Clip.hardEdge` clipping and optimized fade limits (`maxVisibleDiff = 3.0`) in vertical mode to prevent cards from bleeding outside the widget boundaries.
   - **Symmetric Depth Sorting (Z-Ordering)**: Automatically sorts painting indices based on active center distance to keep foreground items on top of background cards.
-  - **Interactive Slider Sync**: Integrates a gesturally interactive custom slider below the carousel that stays perfectly synchronized with fractional scroll offsets.
+  - **Interactive Slider Sync**: Integrates a gesturally interactive custom slider (placed below the carousel in horizontal mode, or on the right side in vertical mode) that stays perfectly synchronized with fractional scroll offsets.
   - **Programmatic Controller**: Supports external controller commands to trigger organic spring-settling animations or instant jumps to arbitrary cards.
   - **Tactile Haptic Feedback**: Leverages system haptics to trigger light impact feedback as card boundaries are crossed.
+  - **Testing & Quality Assurance**: Created comprehensive widget test suites covering vertical drag gestures, vertical reflection placements, programmatic controls, and gesture swipe thresholds.
 
 ## [0.26.0] - 2026-05-19
 

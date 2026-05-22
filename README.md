@@ -78,7 +78,7 @@ external versioning conflicts.
 | 38 | **[Archive Folder](#archive-folder)**                         | Premium glassmorphic folder interaction with staggered item reveal and physics-based motion.                       | Interaction     | `/lib/src/archive_folder/`                 |
 | 39 | **[Folder Tabs](#folder-tabs)**                               | Physics-driven Manila file folder tab container with organic S-curves and dynamic proximity-based tab dissolving. | Layout          | `/lib/src/folder_tabs/`                    |
 | 40 | **[Physics Collision Card](#physics-collision-card)**         | Interactive 2D physics simulation container. Drag and toss elements to collide elastically with boundaries.       | Interaction     | `/lib/src/physics_collision_card/`          |
-| 41 | **[Coverflow Carousel](#coverflow-carousel)**                 | Premium 3D Coverflow carousel with Y-axis rotation, programmatic controllers, gestural controls, and haptic feedback. | Interaction     | `/lib/src/coverflow_carousel/`             |
+| 41 | **[Coverflow Carousel](#coverflow-carousel)**                 | Premium 3D Coverflow carousel with Y/X axis rotation, programmatic controllers, gestural controls, and dual-orientation support. | Interaction     | `/lib/src/coverflow_carousel/`             |
 
 ---
 
@@ -1657,15 +1657,18 @@ PhysicsCollisionCard(
 
 ### Coverflow Carousel
 
-A premium 3D Coverflow carousel widget inspired by the classic iPod interface. It displays a list of children in 3D perspective, rotated around the Y-axis and overlapping toward the center. It supports horizontal swipe gestures, tapping on side cards to bring them to the center, and dual-interactive scrolling via a custom slider track.
+A premium 3D Coverflow carousel widget inspired by the classic iPod interface. It displays a list of children in 3D perspective, rotated around the Y-axis (in horizontal mode) or X-axis (in vertical mode), overlapping toward the center. It supports horizontal/vertical swipe gestures, tapping on side cards to bring them to the center, and dual-interactive scrolling via a custom slider track.
 
 ![Coverflow Carousel Showcase](https://raw.githubusercontent.com/lportals/portal_labs/main/docs/gifs/coverflow_carousel.gif)
 
 #### Key Features
 
-- **3D Perspective Projection**: Implements realistic 3D transformation matrices with configurable perspective depth, scale variance, and Y-axis rotation angles.
+- **Dual-Orientation Support**: Seamlessly switch between horizontal and vertical layouts using the `scrollDirection` parameter.
+- **3D Perspective Projection**: Implements realistic 3D transformation matrices with configurable perspective depth, scale variance, and axis rotation angles (rotated around the Y-axis for horizontal flow and the X-axis for vertical flow).
+- **Left-Side Vertical Reflections**: Includes automatic layout adaptations for reflections. In vertical mode, card reflections are placed on the left side to prevent overlapping with controls and the slider track.
 - **Symmetric Depth Sorting (Z-Ordering)**: Automatically calculates active center distances and paints background cards in reverse order, avoiding visual clipping issues.
-- **Tactile Dragging & Sliders**: Includes horizontal gestures directly on cards and a synced, animated slider track below that behaves as a unified scroll controller.
+- **Tactile Dragging & Sliders**: Includes horizontal/vertical gestures directly on cards and a synced, animated slider track (placed below in horizontal mode, or on the right side in vertical mode) that behaves as a unified scroll controller.
+- **Clipping & Bounds Protection**: Automatically configures strict layout clipping (`Clip.hardEdge`) and optimized card fade-outs when in vertical mode to ensure it fits perfectly within bounds.
 - **Programmatic Controller API**: Exposes `CoverflowCarouselController` to easily trigger smooth springs or jump directly to specific cards from outside.
 - **Haptic Boundary Crossings**: Integrated high-fidelity haptic feedback triggers light impacts as cards cross visual thresholds.
 
@@ -1678,6 +1681,7 @@ final controller = CoverflowCarouselController(initialPage: 2);
 
 CoverflowCarousel(
   controller: controller,
+  scrollDirection: Axis.vertical, // Supports Axis.horizontal and Axis.vertical
   onIndexChanged: (index) => print('Active card index: $index'),
   style: const CoverflowCarouselStyle(
     cardWidth: 200.0,

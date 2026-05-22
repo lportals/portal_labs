@@ -57,7 +57,7 @@ class ShowcaseShell extends StatelessWidget {
       isScrollControlled: true,
       isDismissible: true,
       enableDrag: true,
-      useRootNavigator: true,
+      useRootNavigator: false, // Safer context navigation
       backgroundColor: Colors.transparent,
       builder: (_) => _InfoBottomSheet(
         title: title,
@@ -149,6 +149,7 @@ class _FloatingButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
+      behavior: HitTestBehavior.opaque,
       child: Container(
         width: 36,
         height: 36,
@@ -214,11 +215,12 @@ class _InfoBottomSheetState extends State<_InfoBottomSheet> {
                 color: Color(0xFFF2F2F7),
                 borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
               ),
-              child: Column(
+              child: ListView(
+                controller: scrollController,
+                padding: const EdgeInsets.fromLTRB(20, 12, 20, 40),
                 children: [
                   // Drag handle
-                  Padding(
-                    padding: const EdgeInsets.only(top: 12, bottom: 8),
+                  Center(
                     child: Container(
                       width: 36,
                       height: 4,
@@ -228,36 +230,31 @@ class _InfoBottomSheetState extends State<_InfoBottomSheet> {
                       ),
                     ),
                   ),
-                  // Scrollable content
-                  Expanded(
-                    child: ListView(
-                      controller: scrollController,
-                      padding: const EdgeInsets.fromLTRB(20, 8, 20, 40),
-                      children: [
-                        // Component label pill
-                        Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 4,
-                              ),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF111111),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: const Text(
-                                'portal_labs',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.2,
-                                ),
-                              ),
-                            ),
-                          ],
+                  const SizedBox(height: 16),
+                  // Component label pill
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
                         ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF111111),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: const Text(
+                          'portal_labs',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 0.2,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                         const SizedBox(height: 12),
                         // Title
                         Text(
@@ -396,9 +393,6 @@ class _InfoBottomSheetState extends State<_InfoBottomSheet> {
                         ),
                       ],
                     ),
-                  ),
-                ],
-              ),
             );
           },
         ),

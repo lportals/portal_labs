@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'dart:ui' as ui;
 import 'home_page.dart';
+
 
 void main() {
   // Ensure Flutter bindings are initialized for system overlay control.
@@ -37,9 +39,16 @@ class PortalLabsApp extends StatelessWidget {
       // Global interaction logic:
       // 1. Force BouncingScrollPhysics for a premium tactile feel on all platforms.
       // 2. Disable default scrollbars for a cleaner minimalist look.
+      // 3. Enable dragging with mouse and trackpad devices on web/desktop.
       scrollBehavior: const MaterialScrollBehavior().copyWith(
         physics: const BouncingScrollPhysics(),
         scrollbars: false,
+        dragDevices: {
+          ui.PointerDeviceKind.touch,
+          ui.PointerDeviceKind.mouse,
+          ui.PointerDeviceKind.trackpad,
+          ui.PointerDeviceKind.stylus,
+        },
       ),
 
       // Global wrapper for environment injection and accessibility.
