@@ -159,5 +159,52 @@ void main() {
       expect(find.byKey(const ValueKey('card_0')), findsNWidgets(2));
       expect(find.byKey(const ValueKey('card_2')), findsNWidgets(2));
     });
+
+    testWidgets('Should change index when vertical swipe gesture occurs in vertical mode', (
+      WidgetTester tester,
+    ) async {
+      int? updatedIndex;
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: CoverflowCarousel(
+              scrollDirection: Axis.vertical,
+              children: mockChildren,
+              onIndexChanged: (idx) => updatedIndex = idx,
+            ),
+          ),
+        ),
+      );
+
+      // Drag the vertical carousel upwards (swipe up to go down to card 1)
+      await tester.dragFrom(const Offset(400.0, 150.0), const Offset(0.0, -200.0));
+      await tester.pumpAndSettle();
+
+      // Index should be updated to 1
+      expect(updatedIndex, equals(1));
+    });
+
+    testWidgets('Should support reflection in vertical mode and layout correctly', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: CoverflowCarousel(
+              scrollDirection: Axis.vertical,
+              style: const CoverflowCarouselStyle(
+                enableReflection: true,
+                spacing: -100.0,
+              ),
+              children: mockChildren,
+            ),
+          ),
+        ),
+      );
+
+      // If reflection is enabled, cards are duplicated
+      expect(find.byKey(const ValueKey('card_0')), findsNWidgets(2));
+      expect(find.byKey(const ValueKey('card_2')), findsNWidgets(2));
+    });
   });
 }

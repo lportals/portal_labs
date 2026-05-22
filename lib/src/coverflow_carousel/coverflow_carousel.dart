@@ -74,6 +74,7 @@ class CoverflowCarousel extends StatefulWidget {
     this.initialIndex = 0,
     this.onIndexChanged,
     this.enableHaptics = true,
+    this.scrollDirection = Axis.horizontal,
   });
 
   /// The list of widgets to display in the carousel.
@@ -93,6 +94,9 @@ class CoverflowCarousel extends StatefulWidget {
 
   /// Whether to trigger a light haptic impact feedback when scrolling past cards.
   final bool enableHaptics;
+
+  /// The axis along which the carousel scrolls (horizontal or vertical).
+  final Axis scrollDirection;
 
   @override
   State<CoverflowCarousel> createState() => _CoverflowCarouselState();
@@ -220,78 +224,162 @@ class _CoverflowCarouselState extends State<CoverflowCarousel>
 
   @override
   Widget build(BuildContext context) {
+    final bool isHorizontal = widget.scrollDirection == Axis.horizontal;
+
     return LayoutBuilder(
       builder: (context, constraints) {
-        final double carouselHeight = widget.style.enableReflection
-            ? widget.style.cardHeight +
-                  widget.style.reflectionGap +
-                  (widget.style.cardHeight * 0.4) +
-                  60.0
-            : widget.style.cardHeight + 60.0;
+        final double carouselHeight = isHorizontal
+            ? (widget.style.enableReflection
+                ? widget.style.cardHeight +
+                      widget.style.reflectionGap +
+                      (widget.style.cardHeight * 0.4) +
+                      60.0
+                : widget.style.cardHeight + 60.0)
+            : widget.style.cardHeight * 2.0 + 60.0;
 
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // The 3D Coverflow view
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onHorizontalDragStart: (_) {
-                _animationController.stop();
-                setState(() => _state = CoverflowState.draggingCarousel);
-              },
-              onHorizontalDragUpdate: (details) {
-                // Increase scroll sensitivity by dividing the drag delta by a smaller factor
-                // of the card width (0.65x). This makes the carousel feel much lighter
-                // and responsive to gestures without requiring wide swipes across the screen.
-                final double cardStep = widget.style.cardWidth.clamp(
-                  100.0,
-                  double.infinity,
-                );
-                final double delta = -details.primaryDelta! / (cardStep * 0.65);
-                setState(() {
-                  _scrollOffset = (_scrollOffset + delta).clamp(
-                    0.0,
-                    (widget.children.length - 1).toDouble(),
-                  );
-                  _updateActiveIndexAndHaptics();
-                });
-              },
-              onHorizontalDragEnd: (details) {
-                final double velocity = details.primaryVelocity ?? 0.0;
-                int target;
-                if (velocity.abs() > 300) {
-                  // Implement dynamic momentum-based page snapping (fling).
-                  // Swiping quickly moves the carousel across multiple cards (1 page per 800px/s velocity).
-                  // This loosens the stiffness and allows natural momentum scrolling.
-                  final double pageChange = velocity / 800.0;
-                  target = (_scrollOffset - pageChange).round().clamp(
-                    0,
-                    widget.children.length - 1,
-                  );
-                } else {
-                  target = _scrollOffset.round();
-                }
-                _animateToPage(target);
-              },
-              child: SizedBox(
-                width: double.infinity,
-                height: carouselHeight,
-                child: Stack(
-                  children: _buildCoverflowCards(constraints),
+        final double carouselWidth = isHorizontal
+            ? constraints.maxWidth
+            : (constraints.maxWidth - (widget.style.showSlider ? 60.0 : 0.0));
+
+        Widget buildCarousel() {
+          return GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onHorizontalDragStart: isHorizontal
+                ? (_) {
+                    _animationController.stop();
+                    setState(() => _state = CoverflowState.draggingCarousel);
+                  }
+                : null,
+            onHorizontalDragUpdate: isHorizontal
+                ? (details) {
+                    final double cardStep = widget.style.cardWidth.clamp(
+                      100.0,
+                      double.infinity,
+                    );
+                    final double delta =
+                        -details.primaryDelta! / (cardStep * 0.65);
+                    setState(() {
+                      _scrollOffset = (_scrollOffset + delta).clamp(
+                        0.0,
+                        (widget.children.length - 1).toDouble(),
+                      );
+                      _updateActiveIndexAndHaptics();
+                    });
+                  }
+                : null,
+            onHorizontalDragEnd: isHorizontal
+                ? (details) {
+                    final double velocity = details.primaryVelocity ?? 0.0;
+                    int target;
+                    if (velocity.abs() > 300) {
+                      final double pageChange = velocity / 800.0;
+                      target = (_scrollOffset - pageChange).round().clamp(
+                        0,
+                        widget.children.length - 1,
+                      );
+                    } else {
+                      target = _scrollOffset.round();
+                    }
+                    _animateToPage(target);
+                  }
+                : null,
+            onVerticalDragStart: !isHorizontal
+                ? (_) {
+                    _animationController.stop();
+                    setState(() => _state = CoverflowState.draggingCarousel);
+                  }
+                : null,
+            onVerticalDragUpdate: !isHorizontal
+                ? (details) {
+                    final double cardStep = widget.style.cardHeight.clamp(
+                      100.0,
+                      double.infinity,
+                    );
+                    final double delta =
+                        -details.primaryDelta! / (cardStep * 0.65);
+                    setState(() {
+                      _scrollOffset = (_scrollOffset + delta).clamp(
+                        0.0,
+                        (widget.children.length - 1).toDouble(),
+                      );
+                      _updateActiveIndexAndHaptics();
+                    });
+                  }
+                : null,
+            onVerticalDragEnd: !isHorizontal
+                ? (details) {
+                    final double velocity = details.primaryVelocity ?? 0.0;
+                    int target;
+                    if (velocity.abs() > 300) {
+                      final double pageChange = velocity / 800.0;
+                      target = (_scrollOffset - pageChange).round().clamp(
+                        0,
+                        widget.children.length - 1,
+                      );
+                    } else {
+                      target = _scrollOffset.round();
+                    }
+                    _animateToPage(target);
+                  }
+                : null,
+            child: SizedBox(
+              width: isHorizontal ? double.infinity : carouselWidth,
+              height: carouselHeight,
+              child: Stack(
+                clipBehavior: isHorizontal ? Clip.none : Clip.hardEdge,
+                children: _buildCoverflowCards(
+                  constraints,
+                  carouselWidth,
+                  carouselHeight,
                 ),
               ),
             ),
-            const SizedBox(height: 16),
-            // Optional Index Text Label
-            if (widget.style.showIndexIndicator && widget.children.isNotEmpty)
-              Text('$_currentIntegerIndex', style: widget.style.indexTextStyle),
-            if (widget.style.showSlider && widget.style.showIndexIndicator)
+          );
+        }
+
+        if (isHorizontal) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              buildCarousel(),
               const SizedBox(height: 16),
-            // Optional Slider Track
-            if (widget.style.showSlider && widget.children.isNotEmpty)
-              _buildSlider(constraints),
-          ],
-        );
+              if (widget.style.showIndexIndicator && widget.children.isNotEmpty)
+                Text(
+                  '$_currentIntegerIndex',
+                  style: widget.style.indexTextStyle,
+                ),
+              if (widget.style.showSlider && widget.style.showIndexIndicator)
+                const SizedBox(height: 16),
+              if (widget.style.showSlider && widget.children.isNotEmpty)
+                _buildSlider(constraints, carouselHeight),
+            ],
+          );
+        } else {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(child: buildCarousel()),
+              if (widget.style.showSlider || widget.style.showIndexIndicator)
+                const SizedBox(width: 16),
+              if (widget.style.showSlider || widget.style.showIndexIndicator)
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (widget.style.showIndexIndicator &&
+                        widget.children.isNotEmpty) ...[
+                      Text(
+                        '$_currentIntegerIndex',
+                        style: widget.style.indexTextStyle,
+                      ),
+                      const SizedBox(height: 16),
+                    ],
+                    if (widget.style.showSlider && widget.children.isNotEmpty)
+                      _buildSlider(constraints, carouselHeight),
+                  ],
+                ),
+            ],
+          );
+        }
       },
     );
   }
@@ -303,19 +391,32 @@ class _CoverflowCarouselState extends State<CoverflowCarousel>
   /// scroll offset, so that cards furthest away are painted first and the active
   /// center card is painted last. Apply perspective transformations, horizontal
   /// ease-out spacing, and opacity blending to each card.
-  List<Widget> _buildCoverflowCards(BoxConstraints constraints) {
+  List<Widget> _buildCoverflowCards(
+    BoxConstraints constraints,
+    double carouselWidth,
+    double carouselHeight,
+  ) {
     if (widget.children.isEmpty) return const [];
 
+    final bool isHorizontal = widget.scrollDirection == Axis.horizontal;
     final double cardWidth = widget.style.cardWidth;
     final double cardHeight = widget.style.cardHeight;
-    final double centerX = (constraints.maxWidth - cardWidth) / 2;
-    // 20px vertical padding within the carousel stack
-    const double centerY = 20.0;
+    
+    // Calculate the total horizontal width including reflection space for vertical mode
+    // to keep the combined layout perfectly centered.
+    final double reflectionWidth = widget.style.enableReflection
+        ? cardWidth * 0.4 + widget.style.reflectionGap
+        : 0.0;
+    final double totalWidth = cardWidth + (isHorizontal ? 0.0 : reflectionWidth);
 
-    // Z-order: furthest from center paints first (behind), closest card paints last (on top).
-    // Tiebreaker: when two cards are equidistant (mid-transition), the card closest
-    // to the scroll target (the one being animated toward) paints on top, so the
-    // "arriving" card always wins over the "leaving" card visually.
+    final double centerX = isHorizontal
+        ? (carouselWidth - cardWidth) / 2
+        : ((carouselWidth - totalWidth) / 2 + reflectionWidth);
+
+    final double centerY = isHorizontal
+        ? 20.0
+        : (carouselHeight - cardHeight) / 2;
+
     final int scrollTarget = _scrollOffset.round();
     final sortedIndices = List<int>.generate(widget.children.length, (i) => i);
     sortedIndices.sort((a, b) {
@@ -323,7 +424,6 @@ class _CoverflowCarouselState extends State<CoverflowCarousel>
       final distB = (b - _scrollOffset).abs();
       final cmp = distB.compareTo(distA);
       if (cmp != 0) return cmp;
-      // Stable tiebreaker: card closer to the target (arriving card) paints on top
       final targetDistA = (a - scrollTarget).abs();
       final targetDistB = (b - scrollTarget).abs();
       return targetDistA.compareTo(targetDistB);
@@ -333,39 +433,36 @@ class _CoverflowCarouselState extends State<CoverflowCarousel>
       final double diff = index - _scrollOffset;
       final double absDiff = diff.abs();
 
-      // Don't render cards far off-screen to save GPU
-      if (absDiff > 6.0) return const Positioned(child: SizedBox.shrink());
+      final double maxVisibleDiff = isHorizontal ? 6.0 : 3.0;
+      if (absDiff > maxVisibleDiff) return const Positioned(child: SizedBox.shrink());
 
-      // 1. Opacity: fade cards that approach the far visual limit
       double opacity = 1.0;
-      if (absDiff > 4.0) {
-        opacity = (1.0 - (absDiff - 4.0)).clamp(0.0, 1.0);
+      final double fadeStart = isHorizontal ? 4.0 : 2.0;
+      final double fadeEnd = isHorizontal ? 5.0 : 3.0;
+      if (absDiff > fadeStart) {
+        opacity = (1.0 - (absDiff - fadeStart) / (fadeEnd - fadeStart))
+            .clamp(0.0, 1.0);
       }
 
-      // 2. Y-axis rotation and scale transition factor.
-      //    Transition rotation and scale over a 1.0 card span so they fold
-      //    quickly as they leave the center. This keeps side cards thin and
-      //    prevents wide/flat cards from overlapping messily.
       final double tRotation = absDiff.clamp(0.0, 1.0);
-      // Use a cubic ease-out curve so cards fold away quickly from the center
       final double smoothTRotation =
           1.0 - (1.0 - tRotation) * (1.0 - tRotation) * (1.0 - tRotation);
 
-      // Positive rotateY → left side of card comes toward viewer (faces right).
-      // Left cards (diff < 0) need to face right → positive rotateY
-      // Right cards (diff > 0) need to face left → negative rotateY
-      final double rotationY =
-          -diff.sign * smoothTRotation * widget.style.maxRotationAngle;
+      // Rotate Y for horizontal carousel; rotate X for vertical carousel.
+      // Symmetrical rotation sign ensures top cards look down and bottom cards look up.
+      final double rotationX = isHorizontal
+          ? 0.0
+          : diff.sign * smoothTRotation * widget.style.maxRotationAngle;
+      final double rotationY = isHorizontal
+          ? -diff.sign * smoothTRotation * widget.style.maxRotationAngle
+          : 0.0;
 
       final double scale =
           1.0 - (smoothTRotation * (1.0 - widget.style.scaleDelta));
 
-      // 3. Horizontal translation using centerOffset and sideSpacing.
-      //    Derive centerOffset and sideSpacing from widget.style.spacing so the
-      //    spacing slider works and dynamically adjusts the CoverFlow geometry.
-      //    - Center card to first side card transitions over centerOffset.
-      //    - Subsequent side cards stack compressed at 50% of the spacing.
-      final double baseStep = (cardWidth + widget.style.spacing).clamp(
+      // Calculate step size along the current scroll axis dimension
+      final double stepDimension = isHorizontal ? cardWidth : cardHeight;
+      final double baseStep = (stepDimension + widget.style.spacing).clamp(
         20.0,
         double.infinity,
       );
@@ -378,12 +475,14 @@ class _CoverflowCarouselState extends State<CoverflowCarousel>
 
       final double transitionPart = smoothTTranslation;
       final double stackedPart = absDiff - tTranslation;
-      final double translationX =
+      final double calculatedOffset =
           diff.sign *
           ((transitionPart * centerOffset) + (stackedPart * sideSpacing));
 
-      final cardWidget = widget.children[index];
+      final double translationX = isHorizontal ? calculatedOffset : 0.0;
+      final double translationY = isHorizontal ? 0.0 : calculatedOffset;
 
+      final cardWidget = widget.children[index];
 
       Widget cardContent = RepaintBoundary(
         child: GestureDetector(
@@ -412,7 +511,8 @@ class _CoverflowCarouselState extends State<CoverflowCarousel>
           alignment: Alignment.center,
           transform: Matrix4.identity()
             ..setEntry(3, 2, -widget.style.perspective)
-            ..translateByDouble(translationX, 0.0, 0.0, 1.0)
+            ..translateByDouble(translationX, translationY, 0.0, 1.0)
+            ..rotateX(rotationX)
             ..rotateY(rotationY)
             // ignore: deprecated_member_use
             ..scale(scale),
@@ -426,8 +526,9 @@ class _CoverflowCarouselState extends State<CoverflowCarousel>
   ///
   /// The card content is clipped using [ClipRRect]. To prevent shadow leak artifacts
   /// inside the reflection, we build the reflection using only the shadow-free
-  /// [cardContent], mirror it upside down, and apply a [ShaderMask] with a linear
-  /// gradient fade-out going from top (opaque) to bottom (transparent).
+  /// [cardContent], mirror it upside down (or sideways for vertical direction),
+  /// and apply a [ShaderMask] with a linear gradient fade-out going from the card
+  /// edge to the outer reflection boundary.
   Widget _buildCardWrapper(Widget child) {
     final cardContent = ClipRRect(
       borderRadius: BorderRadius.circular(widget.style.borderRadius),
@@ -452,25 +553,30 @@ class _CoverflowCarouselState extends State<CoverflowCarousel>
       return card;
     }
 
+    final bool isHorizontal = widget.scrollDirection == Axis.horizontal;
+
     return Stack(
       clipBehavior: Clip.none,
       children: [
         card,
         Positioned(
-          top: widget.style.cardHeight + widget.style.reflectionGap,
-          left: 0,
-          right: 0,
-          height: widget.style.cardHeight * 0.4,
+          top: isHorizontal ? widget.style.cardHeight + widget.style.reflectionGap : 0,
+          bottom: isHorizontal ? null : 0,
+          left: isHorizontal ? 0 : null,
+          right: isHorizontal ? 0 : widget.style.cardWidth + widget.style.reflectionGap,
+          height: isHorizontal ? widget.style.cardHeight * 0.4 : null,
+          width: isHorizontal ? null : widget.style.cardWidth * 0.4,
           child: Opacity(
             opacity: widget.style.reflectionOpacity,
             child: Align(
-              alignment: Alignment.topCenter,
-              heightFactor: 0.4,
+              alignment: isHorizontal ? Alignment.topCenter : Alignment.centerRight,
+              heightFactor: isHorizontal ? 0.4 : null,
+              widthFactor: isHorizontal ? null : 0.4,
               child: ShaderMask(
                 shaderCallback: (Rect bounds) {
                   return LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
+                    begin: isHorizontal ? Alignment.topCenter : Alignment.centerRight,
+                    end: isHorizontal ? Alignment.bottomCenter : Alignment.centerLeft,
                     colors: [Colors.white, Colors.white.withValues(alpha: 0.0)],
                     stops: const [0.0, 1.0],
                   ).createShader(bounds);
@@ -478,7 +584,11 @@ class _CoverflowCarouselState extends State<CoverflowCarousel>
                 blendMode: BlendMode.dstIn,
                 child: Transform(
                   alignment: Alignment.center,
-                  transform: Matrix4.diagonal3Values(1.0, -1.0, 1.0),
+                  transform: Matrix4.diagonal3Values(
+                    isHorizontal ? 1.0 : -1.0,
+                    isHorizontal ? -1.0 : 1.0,
+                    1.0,
+                  ),
                   child: cardContent,
                 ),
               ),
@@ -489,14 +599,16 @@ class _CoverflowCarouselState extends State<CoverflowCarousel>
     );
   }
 
-  Widget _buildSlider(BoxConstraints constraints) {
-    final double trackWidth = (constraints.maxWidth * 0.65).clamp(180.0, 340.0);
+  Widget _buildSlider(BoxConstraints constraints, double carouselHeight) {
+    final bool isHorizontal = widget.scrollDirection == Axis.horizontal;
+    final double trackLength = isHorizontal
+        ? (constraints.maxWidth * 0.65).clamp(180.0, 340.0)
+        : (carouselHeight * 0.65).clamp(180.0, 340.0);
     final int maxIndex = widget.children.length - 1;
     if (maxIndex <= 0) return const SizedBox.shrink();
 
     final double progress = _scrollOffset / maxIndex;
 
-    // Pattern matching to scale/elevate the slider thumb when active
     final double thumbScale = switch (_state) {
       CoverflowState.draggingSlider => 1.25,
       _ => 1.0,
@@ -512,32 +624,66 @@ class _CoverflowCarouselState extends State<CoverflowCarousel>
       onTapDown: (details) {
         _animationController.stop();
         setState(() => _state = CoverflowState.draggingSlider);
-        final double localX = details.localPosition.dx;
-        final double tappedProgress = (localX / trackWidth).clamp(0.0, 1.0);
+        final double localPos = isHorizontal
+            ? details.localPosition.dx
+            : details.localPosition.dy;
+        final double tappedProgress = (localPos / trackLength).clamp(0.0, 1.0);
         final int targetPage = (tappedProgress * maxIndex).round();
         _animateToPage(targetPage);
       },
-      onHorizontalDragStart: (_) {
-        _animationController.stop();
-        setState(() => _state = CoverflowState.draggingSlider);
-      },
-      onHorizontalDragUpdate: (details) {
-        final double delta = details.primaryDelta! / trackWidth * maxIndex;
-        setState(() {
-          _scrollOffset = (_scrollOffset + delta).clamp(
-            0.0,
-            maxIndex.toDouble(),
-          );
-          _updateActiveIndexAndHaptics();
-        });
-      },
-      onHorizontalDragEnd: (_) {
-        final int target = _scrollOffset.round();
-        _animateToPage(target);
-      },
+      onHorizontalDragStart: isHorizontal
+          ? (_) {
+              _animationController.stop();
+              setState(() => _state = CoverflowState.draggingSlider);
+            }
+          : null,
+      onHorizontalDragUpdate: isHorizontal
+          ? (details) {
+              final double delta =
+                  details.primaryDelta! / trackLength * maxIndex;
+              setState(() {
+                _scrollOffset = (_scrollOffset + delta).clamp(
+                  0.0,
+                  maxIndex.toDouble(),
+                );
+                _updateActiveIndexAndHaptics();
+              });
+            }
+          : null,
+      onHorizontalDragEnd: isHorizontal
+          ? (_) {
+              final int target = _scrollOffset.round();
+              _animateToPage(target);
+            }
+          : null,
+      onVerticalDragStart: !isHorizontal
+          ? (_) {
+              _animationController.stop();
+              setState(() => _state = CoverflowState.draggingSlider);
+            }
+          : null,
+      onVerticalDragUpdate: !isHorizontal
+          ? (details) {
+              final double delta =
+                  details.primaryDelta! / trackLength * maxIndex;
+              setState(() {
+                _scrollOffset = (_scrollOffset + delta).clamp(
+                  0.0,
+                  maxIndex.toDouble(),
+                );
+                _updateActiveIndexAndHaptics();
+              });
+            }
+          : null,
+      onVerticalDragEnd: !isHorizontal
+          ? (_) {
+              final int target = _scrollOffset.round();
+              _animateToPage(target);
+            }
+          : null,
       child: Container(
-        width: trackWidth,
-        height: widget.style.sliderThumbHeight + 12,
+        width: isHorizontal ? trackLength : widget.style.sliderThumbHeight + 12,
+        height: isHorizontal ? widget.style.sliderThumbHeight + 12 : trackLength,
         color: Colors.transparent,
         child: Stack(
           alignment: Alignment.center,
@@ -545,8 +691,8 @@ class _CoverflowCarouselState extends State<CoverflowCarousel>
           children: [
             // Slider Track Line
             Container(
-              width: trackWidth,
-              height: widget.style.sliderHeight,
+              width: isHorizontal ? trackLength : widget.style.sliderHeight,
+              height: isHorizontal ? widget.style.sliderHeight : trackLength,
               decoration: BoxDecoration(
                 color: widget.style.sliderTrackColor,
                 borderRadius: BorderRadius.circular(
@@ -556,14 +702,23 @@ class _CoverflowCarouselState extends State<CoverflowCarousel>
             ),
             // Draggable Thumb
             Positioned(
-              left: (trackWidth - widget.style.sliderThumbWidth) * progress,
+              left: isHorizontal
+                  ? (trackLength - widget.style.sliderThumbWidth) * progress
+                  : null,
+              top: !isHorizontal
+                  ? (trackLength - widget.style.sliderThumbWidth) * progress
+                  : null,
               child: AnimatedScale(
                 scale: thumbScale,
                 duration: const Duration(milliseconds: 200),
                 curve: Curves.easeOutBack,
                 child: Container(
-                  width: widget.style.sliderThumbWidth,
-                  height: widget.style.sliderThumbHeight,
+                  width: isHorizontal
+                      ? widget.style.sliderThumbWidth
+                      : widget.style.sliderThumbHeight,
+                  height: isHorizontal
+                      ? widget.style.sliderThumbHeight
+                      : widget.style.sliderThumbWidth,
                   decoration: BoxDecoration(
                     color: widget.style.sliderThumbColor,
                     borderRadius: BorderRadius.circular(100),

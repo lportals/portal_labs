@@ -19,6 +19,10 @@ class _CoverflowCarouselShowcaseState extends State<CoverflowCarouselShowcase> {
   late final CoverflowCarouselController _controller;
   int _currentIndex = 4; // Start at index 4 matching the screenshot
   bool _enableReflection = false;
+
+  /// Whether the carousel scrolls vertically.
+  bool _isVertical = false;
+
   double _spacing = -130.0; // Negative = heavy overlap (classic CoverFlow look)
   double _rotation = 70.0;  // 70° default gives iconic inward-facing side cards
 
@@ -76,12 +80,13 @@ CoverflowCarousel(
 controller.animateToPage(7);''',
       child: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(vertical: 24.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CoverflowCarousel(
                 controller: _controller,
+                scrollDirection: _isVertical ? Axis.vertical : Axis.horizontal,
                 onIndexChanged: (index) {
                   setState(() {
                     _currentIndex = index;
@@ -150,6 +155,16 @@ controller.animateToPage(7);''',
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  SwitchListTile.adaptive(
+                    title: const Text(
+                      'Vertical Orientation',
+                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                    ),
+                    contentPadding: EdgeInsets.zero,
+                    value: _isVertical,
+                    onChanged: (val) => setState(() => _isVertical = val),
+                  ),
+                  const SizedBox(height: 8),
                   SwitchListTile.adaptive(
                     title: const Text(
                       'Toggle Reflection',
