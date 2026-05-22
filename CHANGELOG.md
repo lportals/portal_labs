@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.27.0] - 2026-05-22
+
+- **New Component**: **Coverflow Carousel** — A premium 3D Coverflow carousel widget inspired by the classic iPod/iTunes interface, displaying children in 3D perspective rotated around the Y-axis and overlapping toward the center.
+  - **3D Perspective Projection**: Implements realistic 3D transformations with adjustable perspective factors, scale deltas, and maximum Y-axis rotation angles.
+  - **Symmetric Depth Sorting (Z-Ordering)**: Automatically sorts painting indices based on active center distance to keep foreground items on top of background cards.
+  - **Interactive Slider Sync**: Integrates a gesturally interactive custom slider below the carousel that stays perfectly synchronized with fractional scroll offsets.
+  - **Programmatic Controller**: Supports external controller commands to trigger organic spring-settling animations or instant jumps to arbitrary cards.
+  - **Tactile Haptic Feedback**: Leverages system haptics to trigger light impact feedback as card boundaries are crossed.
+
 ## [0.26.0] - 2026-05-19
 
 - **New Component**: **Physics Collision Card** — An interactive 2D rigid-body physics simulation container for circular elements (avatars, badges, tech brand icons) that bounce elastically off walls and each other.

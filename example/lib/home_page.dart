@@ -40,6 +40,8 @@ import 'showcases/cinematic_text_transition_showcase.dart';
 import 'showcases/archive_folder_showcase.dart';
 import 'showcases/folder_tabs_showcase.dart';
 import 'showcases/physics_collision_card_showcase.dart';
+import 'showcases/coverflow_carousel_showcase.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -397,6 +399,12 @@ class _SpringyGrid extends StatelessWidget {
         icon: Icons.bubble_chart_rounded,
         category: 'Interactions',
         page: PhysicsCollisionCardShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Coverflow Carousel',
+        icon: Icons.view_carousel_outlined,
+        category: 'Interactions',
+        page: CoverflowCarouselShowcase(),
       ),
     ];
 
