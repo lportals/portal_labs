@@ -206,5 +206,38 @@ void main() {
       expect(find.byKey(const ValueKey('card_0')), findsNWidgets(2));
       expect(find.byKey(const ValueKey('card_2')), findsNWidgets(2));
     });
+
+    testWidgets('Should not reset/restart animation when target card is tapped again while animating', (
+      WidgetTester tester,
+    ) async {
+      int? activeIndex = 0;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: CoverflowCarousel(
+              children: mockChildren,
+              onIndexChanged: (idx) => activeIndex = idx,
+            ),
+          ),
+        ),
+      );
+
+      // Tap on card 1 (right of the center card).
+      await tester.tapAt(const Offset(520.0, 150.0));
+      // Pump 100ms to start the animation
+      await tester.pump(const Duration(milliseconds: 100));
+
+      // Tap on card 1 again while the animation is in progress
+      await tester.tapAt(const Offset(520.0, 150.0));
+
+      // Pump 360ms more (total 460ms). If it had restarted, the 450ms animation
+      // from t=100ms would not have completed by 460ms.
+      // With the guard, the animation completes within the original 450ms timeframe.
+      await tester.pump(const Duration(milliseconds: 360));
+
+      // The carousel should have settled on card 1
+      expect(activeIndex, 1);
+    });
   });
 }

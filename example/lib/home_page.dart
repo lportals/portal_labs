@@ -116,7 +116,7 @@ class _HomePageState extends State<HomePage> {
                   DiscreteTab(
                     label: 'Feedback',
                     icon: Icons.auto_awesome_rounded,
-                    activeColor: const Color(0xFF5856D6),
+                    activeColor: const Color(0xFF111111),
                   ),
                 ],
                 onSelect: (index) => setState(() => _selectedIndex = index),
