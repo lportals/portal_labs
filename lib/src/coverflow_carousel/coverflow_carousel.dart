@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui' show lerpDouble;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -113,6 +114,15 @@ class _CoverflowCarouselState extends State<CoverflowCarousel>
 
   CoverflowState _state = CoverflowState.idle;
 
+  /// Guards tap-to-navigate during animation AND for a brief cooldown after.
+  ///
+  /// Without the post-animation cooldown, a double-click's second tap can
+  /// arrive just after the animation settles. The card layout has shifted by
+  /// then, so the same screen position now points to a different card —
+  /// typically the one the user just left — causing a snap-back effect.
+  bool _tapNavigationLocked = false;
+  Timer? _tapUnlockTimer;
+
   @override
   void initState() {
     super.initState();
@@ -125,7 +135,18 @@ class _CoverflowCarouselState extends State<CoverflowCarousel>
       if (status == AnimationStatus.completed ||
           status == AnimationStatus.dismissed) {
         if (mounted && _state == CoverflowState.animating) {
-          setState(() => _state = CoverflowState.idle);
+          setState(() {
+            _scrollOffset = _scrollTargetValue;
+            _state = CoverflowState.idle;
+          });
+          _updateActiveIndexAndHaptics();
+          // Keep tap navigation locked for a short window after the animation
+          // settles. The card layout shifts on completion and a late-arriving
+          // double-click second tap can hit a different card than intended.
+          _tapUnlockTimer?.cancel();
+          _tapUnlockTimer = Timer(const Duration(milliseconds: 250), () {
+            if (mounted) setState(() => _tapNavigationLocked = false);
+          });
         }
       }
     });
@@ -143,6 +164,7 @@ class _CoverflowCarouselState extends State<CoverflowCarousel>
 
   @override
   void dispose() {
+    _tapUnlockTimer?.cancel();
     _disconnectController(widget.controller);
     _animationController.dispose();
     super.dispose();
@@ -188,12 +210,25 @@ class _CoverflowCarouselState extends State<CoverflowCarousel>
   }
 
   void _animateToPage(int page, {Duration? duration, Curve? curve}) {
-    _animationController.stop();
-    _scrollStartValue = _scrollOffset;
-    _scrollTargetValue = page.toDouble().clamp(
+    final double target = page.toDouble().clamp(
       0.0,
       (widget.children.length - 1).toDouble(),
     );
+
+    // If already animating to the same target, ignore the call.
+    // This prevents jumpy resets on repeated programmatic animateToPage() calls.
+    if (_state == CoverflowState.animating && _scrollTargetValue == target) {
+      return;
+    }
+
+    _animationController.stop();
+    _scrollStartValue = _scrollOffset;
+    _scrollTargetValue = target;
+
+    // Engage the tap lock immediately — the post-animation cooldown timer
+    // (started in the status listener) will release it 250ms after settle.
+    _tapUnlockTimer?.cancel();
+    _tapNavigationLocked = true;
 
     setState(() => _state = CoverflowState.animating);
 
@@ -487,6 +522,12 @@ class _CoverflowCarouselState extends State<CoverflowCarousel>
       Widget cardContent = RepaintBoundary(
         child: GestureDetector(
           onTap: () {
+            // Block tap-to-navigate while animating or during the post-animation
+            // cooldown window. The cooldown guards against the race condition where
+            // a double-click's second tap arrives just after animation settle:
+            // the layout has shifted by then and the tap hits the wrong card
+            // (typically the one the user just left), causing a snap-back.
+            if (_tapNavigationLocked) return;
             if (_scrollOffset.round() != index) {
               _animateToPage(index);
             }

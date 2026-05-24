@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.27.1] - 2026-05-24
+
+- **Bug Fix**: **Coverflow Carousel** — Resolved a double-tap wobble-back issue where quickly tapping a side card twice caused the carousel to snap to the target and immediately revert to the previous card.
+  - **Root Cause (Part 1)**: While animating from card A → B, the card at index A becomes a visible "side card" mid-animation. A fast second tap on any card interrupted the in-flight spring animation by resetting `_scrollStartValue` to the current fractional offset, producing the characteristic wobble.
+  - **Root Cause (Part 2)**: A post-animation race condition where the second tap of a quick double-click arrived just after animation settlement. Because the card layout shifts on completion, the same screen coordinate now points to a different card (typically the one just left), triggering a snap-back.
+  - **Fix**: Introduced a `_tapNavigationLocked` flag with a **250ms post-animation cooldown**. The lock is engaged immediately when an animation starts and released 250ms after it settles, absorbing any late-arriving input events from the event queue. Drag/swipe navigation is unaffected.
+  - **Testing**: Added widget test `Should not reset/restart animation when target card is tapped again while animating` to the `CoverflowCarousel` test suite.
+
 ## [0.27.0] - 2026-05-22
 
 - **New Component**: **Coverflow Carousel** — A premium 3D Coverflow carousel widget inspired by the classic iPod/iTunes interface, displaying children in 3D perspective rotated around the Y-axis (horizontal) or X-axis (vertical) and overlapping toward the center.
