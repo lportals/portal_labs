@@ -191,3 +191,8 @@ export 'src/physics_collision_card/models/physics_collision_card_style.dart';
 export 'src/coverflow_carousel/coverflow_carousel.dart';
 export 'src/coverflow_carousel/models/coverflow_carousel_style.dart';
 
+// Stacked Cards
+export 'src/stacked_cards/stacked_cards.dart';
+export 'src/stacked_cards/models/stacked_cards_style.dart';
+
+

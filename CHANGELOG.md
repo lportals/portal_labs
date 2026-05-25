@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.28.0] - 2026-05-24
+
+- **New Component**: **Stacked Cards** — A premium gesture-driven stacked card carousel with horizontal swiping, spring snapping physics, rotation effects, and page indicator dot animations.
+  - **Kinetic Drag & Snap**: Smooth horizontal drag gestures tracking relative delta movements, paired with a custom spring curve (`PortalSpringCurve`) to snap cleanly onto card boundaries.
+  - **Clockwise Fan Effect**: Optional rotational slanting of background cards (toggled via `rotationEnabled`) for an elegant physical deck feel.
+  - **Dynamic Depth Layout**: Automates Z-ordering by rendering card lists in descending order, ensuring seamless layering during left/right swipes.
+  - **Morphing Dot Indicator**: A custom-drawn page indicator where the active dot smoothly morphs its width and color into a capsule pill driven by the scroll offset.
+  - **Settle-Limit Opacity Fading**: Background cards smoothly fade out as they get pushed past the configurable maximum visible card limit.
+  - **Tactile Haptic Feedback**: Leverages system haptics to trigger light impact feedback as card boundaries are crossed.
+
 ## [0.27.1] - 2026-05-24
 
 - **Bug Fix**: **Coverflow Carousel** — Resolved a double-tap wobble-back issue where quickly tapping a side card twice caused the carousel to snap to the target and immediately revert to the previous card.
