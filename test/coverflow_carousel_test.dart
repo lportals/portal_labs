@@ -19,10 +19,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CoverflowCarousel(
-              initialIndex: 2,
-              children: mockChildren,
-            ),
+            body: CoverflowCarousel(initialIndex: 2, children: mockChildren),
           ),
         ),
       );
@@ -52,7 +49,10 @@ void main() {
       );
 
       // Drag the carousel to the left using dragFrom
-      await tester.dragFrom(const Offset(400.0, 150.0), const Offset(-200.0, 0.0));
+      await tester.dragFrom(
+        const Offset(400.0, 150.0),
+        const Offset(-200.0, 0.0),
+      );
       await tester.pumpAndSettle();
 
       // Index should be updated to 1
@@ -160,84 +160,90 @@ void main() {
       expect(find.byKey(const ValueKey('card_2')), findsNWidgets(2));
     });
 
-    testWidgets('Should change index when vertical swipe gesture occurs in vertical mode', (
-      WidgetTester tester,
-    ) async {
-      int? updatedIndex;
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: CoverflowCarousel(
-              scrollDirection: Axis.vertical,
-              children: mockChildren,
-              onIndexChanged: (idx) => updatedIndex = idx,
-            ),
-          ),
-        ),
-      );
-
-      // Drag the vertical carousel upwards (swipe up to go down to card 1)
-      await tester.dragFrom(const Offset(400.0, 150.0), const Offset(0.0, -200.0));
-      await tester.pumpAndSettle();
-
-      // Index should be updated to 1
-      expect(updatedIndex, equals(1));
-    });
-
-    testWidgets('Should support reflection in vertical mode and layout correctly', (
-      WidgetTester tester,
-    ) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: CoverflowCarousel(
-              scrollDirection: Axis.vertical,
-              style: const CoverflowCarouselStyle(
-                enableReflection: true,
-                spacing: -100.0,
+    testWidgets(
+      'Should change index when vertical swipe gesture occurs in vertical mode',
+      (WidgetTester tester) async {
+        int? updatedIndex;
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: CoverflowCarousel(
+                scrollDirection: Axis.vertical,
+                children: mockChildren,
+                onIndexChanged: (idx) => updatedIndex = idx,
               ),
-              children: mockChildren,
             ),
           ),
-        ),
-      );
+        );
 
-      // If reflection is enabled, cards are duplicated
-      expect(find.byKey(const ValueKey('card_0')), findsNWidgets(2));
-      expect(find.byKey(const ValueKey('card_2')), findsNWidgets(2));
-    });
+        // Drag the vertical carousel upwards (swipe up to go down to card 1)
+        await tester.dragFrom(
+          const Offset(400.0, 150.0),
+          const Offset(0.0, -200.0),
+        );
+        await tester.pumpAndSettle();
 
-    testWidgets('Should not reset/restart animation when target card is tapped again while animating', (
-      WidgetTester tester,
-    ) async {
-      int? activeIndex = 0;
+        // Index should be updated to 1
+        expect(updatedIndex, equals(1));
+      },
+    );
 
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: CoverflowCarousel(
-              children: mockChildren,
-              onIndexChanged: (idx) => activeIndex = idx,
+    testWidgets(
+      'Should support reflection in vertical mode and layout correctly',
+      (WidgetTester tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: CoverflowCarousel(
+                scrollDirection: Axis.vertical,
+                style: const CoverflowCarouselStyle(
+                  enableReflection: true,
+                  spacing: -100.0,
+                ),
+                children: mockChildren,
+              ),
             ),
           ),
-        ),
-      );
+        );
 
-      // Tap on card 1 (right of the center card).
-      await tester.tapAt(const Offset(520.0, 150.0));
-      // Pump 100ms to start the animation
-      await tester.pump(const Duration(milliseconds: 100));
+        // If reflection is enabled, cards are duplicated
+        expect(find.byKey(const ValueKey('card_0')), findsNWidgets(2));
+        expect(find.byKey(const ValueKey('card_2')), findsNWidgets(2));
+      },
+    );
 
-      // Tap on card 1 again while the animation is in progress
-      await tester.tapAt(const Offset(520.0, 150.0));
+    testWidgets(
+      'Should not reset/restart animation when target card is tapped again while animating',
+      (WidgetTester tester) async {
+        int? activeIndex = 0;
 
-      // Pump 360ms more (total 460ms). If it had restarted, the 450ms animation
-      // from t=100ms would not have completed by 460ms.
-      // With the guard, the animation completes within the original 450ms timeframe.
-      await tester.pump(const Duration(milliseconds: 360));
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: CoverflowCarousel(
+                children: mockChildren,
+                onIndexChanged: (idx) => activeIndex = idx,
+              ),
+            ),
+          ),
+        );
 
-      // The carousel should have settled on card 1
-      expect(activeIndex, 1);
-    });
+        // Tap on card 1 (right of the center card).
+        await tester.tapAt(const Offset(520.0, 150.0));
+        // Pump 100ms to start the animation
+        await tester.pump(const Duration(milliseconds: 100));
+
+        // Tap on card 1 again while the animation is in progress
+        await tester.tapAt(const Offset(520.0, 150.0));
+
+        // Pump 360ms more (total 460ms). If it had restarted, the 450ms animation
+        // from t=100ms would not have completed by 460ms.
+        // With the guard, the animation completes within the original 450ms timeframe.
+        await tester.pump(const Duration(milliseconds: 360));
+
+        // The carousel should have settled on card 1
+        expect(activeIndex, 1);
+      },
+    );
   });
 }

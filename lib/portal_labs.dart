@@ -194,5 +194,3 @@ export 'src/coverflow_carousel/models/coverflow_carousel_style.dart';
 // Stacked Cards
 export 'src/stacked_cards/stacked_cards.dart';
 export 'src/stacked_cards/models/stacked_cards_style.dart';
-
-

@@ -43,8 +43,6 @@ import 'showcases/physics_collision_card_showcase.dart';
 import 'showcases/coverflow_carousel_showcase.dart';
 import 'showcases/stacked_cards_showcase.dart';
 
-
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 

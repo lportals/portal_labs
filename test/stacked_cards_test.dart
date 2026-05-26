@@ -60,7 +60,9 @@ void main() {
       );
 
       // Drag the topmost card to the left to reveal the next one (swipe left)
-      final TestGesture gesture = await tester.startGesture(const Offset(250, 250));
+      final TestGesture gesture = await tester.startGesture(
+        const Offset(250, 250),
+      );
       await gesture.moveBy(const Offset(-150, 0));
       await gesture.up();
       await tester.pumpAndSettle();
@@ -90,7 +92,9 @@ void main() {
       );
 
       // Drag to the right (swipe right) to go back to card 0
-      final TestGesture gesture = await tester.startGesture(const Offset(250, 250));
+      final TestGesture gesture = await tester.startGesture(
+        const Offset(250, 250),
+      );
       await gesture.moveBy(const Offset(150, 0));
       await gesture.up();
       await tester.pumpAndSettle();
@@ -136,9 +140,7 @@ void main() {
           home: Scaffold(
             body: StackedCards(
               style: const StackedCardsStyle(
-                shadows: [
-                  BoxShadow(color: Colors.blue, blurRadius: 10),
-                ],
+                shadows: [BoxShadow(color: Colors.blue, blurRadius: 10)],
               ),
               children: mockChildren,
             ),
@@ -147,10 +149,12 @@ void main() {
       );
 
       final Container container = tester.widget(
-        find.ancestor(
-          of: find.byKey(const ValueKey('card_0')),
-          matching: find.byType(Container),
-        ).first,
+        find
+            .ancestor(
+              of: find.byKey(const ValueKey('card_0')),
+              matching: find.byType(Container),
+            )
+            .first,
       );
 
       final BoxDecoration decoration = container.decoration as BoxDecoration;
@@ -167,9 +171,7 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: StackedCards(
-              style: const StackedCardsStyle(
-                alignment: Alignment.topLeft,
-              ),
+              style: const StackedCardsStyle(alignment: Alignment.topLeft),
               children: mockChildren,
             ),
           ),
@@ -178,25 +180,23 @@ void main() {
       await tester.pumpAndSettle();
 
       final Transform transform = tester.widget(
-        find.ancestor(
-          of: find.byKey(const ValueKey('card_0')),
-          matching: find.byType(Transform),
-        ).first,
+        find
+            .ancestor(
+              of: find.byKey(const ValueKey('card_0')),
+              matching: find.byType(Transform),
+            )
+            .first,
       );
 
       expect(transform.alignment, equals(Alignment.topLeft));
     });
 
-    testWidgets('Should respect custom snapCurve', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('Should respect custom snapCurve', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: StackedCards(
-              style: const StackedCardsStyle(
-                snapCurve: Curves.linear,
-              ),
+              style: const StackedCardsStyle(snapCurve: Curves.linear),
               children: mockChildren,
             ),
           ),

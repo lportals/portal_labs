@@ -55,9 +55,7 @@ class _StackedCardsShowcaseState extends State<StackedCardsShowcase> {
                 StackedCards(
                   rotationEnabled: _rotationEnabled,
                   showsScrollIndicator: _showsScrollIndicator,
-                  style: const StackedCardsStyle(
-                    shadows: [],
-                  ),
+                  style: const StackedCardsStyle(shadows: []),
                   children: [
                     Container(
                       key: const ValueKey('red_card'),
@@ -95,7 +93,10 @@ class _StackedCardsShowcaseState extends State<StackedCardsShowcase> {
                 ),
                 const SizedBox(height: 48),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 12,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
@@ -106,20 +107,25 @@ class _StackedCardsShowcaseState extends State<StackedCardsShowcase> {
                         offset: const Offset(0, 4),
                       ),
                     ],
-                    border: Border.all(color: const Color(0xFFE5E5EA), width: 0.5),
+                    border: Border.all(
+                      color: const Color(0xFFE5E5EA),
+                      width: 0.5,
+                    ),
                   ),
                   child: Column(
                     children: [
                       _buildControlRow(
                         label: 'Rotation Enabled',
                         value: _rotationEnabled,
-                        onChanged: (val) => setState(() => _rotationEnabled = val),
+                        onChanged: (val) =>
+                            setState(() => _rotationEnabled = val),
                       ),
                       const Divider(color: Color(0xFFF2F2F7), height: 1),
                       _buildControlRow(
                         label: 'Shows Scroll Indicator',
                         value: _showsScrollIndicator,
-                        onChanged: (val) => setState(() => _showsScrollIndicator = val),
+                        onChanged: (val) =>
+                            setState(() => _showsScrollIndicator = val),
                       ),
                     ],
                   ),

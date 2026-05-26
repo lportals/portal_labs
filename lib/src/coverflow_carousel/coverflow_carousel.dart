@@ -265,11 +265,11 @@ class _CoverflowCarouselState extends State<CoverflowCarousel>
       builder: (context, constraints) {
         final double carouselHeight = isHorizontal
             ? (widget.style.enableReflection
-                ? widget.style.cardHeight +
-                      widget.style.reflectionGap +
-                      (widget.style.cardHeight * 0.4) +
-                      60.0
-                : widget.style.cardHeight + 60.0)
+                  ? widget.style.cardHeight +
+                        widget.style.reflectionGap +
+                        (widget.style.cardHeight * 0.4) +
+                        60.0
+                  : widget.style.cardHeight + 60.0)
             : widget.style.cardHeight * 2.0 + 60.0;
 
         final double carouselWidth = isHorizontal
@@ -436,13 +436,14 @@ class _CoverflowCarouselState extends State<CoverflowCarousel>
     final bool isHorizontal = widget.scrollDirection == Axis.horizontal;
     final double cardWidth = widget.style.cardWidth;
     final double cardHeight = widget.style.cardHeight;
-    
+
     // Calculate the total horizontal width including reflection space for vertical mode
     // to keep the combined layout perfectly centered.
     final double reflectionWidth = widget.style.enableReflection
         ? cardWidth * 0.4 + widget.style.reflectionGap
         : 0.0;
-    final double totalWidth = cardWidth + (isHorizontal ? 0.0 : reflectionWidth);
+    final double totalWidth =
+        cardWidth + (isHorizontal ? 0.0 : reflectionWidth);
 
     final double centerX = isHorizontal
         ? (carouselWidth - cardWidth) / 2
@@ -469,14 +470,17 @@ class _CoverflowCarouselState extends State<CoverflowCarousel>
       final double absDiff = diff.abs();
 
       final double maxVisibleDiff = isHorizontal ? 6.0 : 3.0;
-      if (absDiff > maxVisibleDiff) return const Positioned(child: SizedBox.shrink());
+      if (absDiff > maxVisibleDiff)
+        return const Positioned(child: SizedBox.shrink());
 
       double opacity = 1.0;
       final double fadeStart = isHorizontal ? 4.0 : 2.0;
       final double fadeEnd = isHorizontal ? 5.0 : 3.0;
       if (absDiff > fadeStart) {
-        opacity = (1.0 - (absDiff - fadeStart) / (fadeEnd - fadeStart))
-            .clamp(0.0, 1.0);
+        opacity = (1.0 - (absDiff - fadeStart) / (fadeEnd - fadeStart)).clamp(
+          0.0,
+          1.0,
+        );
       }
 
       final double tRotation = absDiff.clamp(0.0, 1.0);
@@ -537,10 +541,7 @@ class _CoverflowCarouselState extends State<CoverflowCarousel>
       );
 
       if (opacity < 1.0) {
-        cardContent = Opacity(
-          opacity: opacity,
-          child: cardContent,
-        );
+        cardContent = Opacity(opacity: opacity, child: cardContent);
       }
 
       return Positioned(
@@ -601,23 +602,33 @@ class _CoverflowCarouselState extends State<CoverflowCarousel>
       children: [
         card,
         Positioned(
-          top: isHorizontal ? widget.style.cardHeight + widget.style.reflectionGap : 0,
+          top: isHorizontal
+              ? widget.style.cardHeight + widget.style.reflectionGap
+              : 0,
           bottom: isHorizontal ? null : 0,
           left: isHorizontal ? 0 : null,
-          right: isHorizontal ? 0 : widget.style.cardWidth + widget.style.reflectionGap,
+          right: isHorizontal
+              ? 0
+              : widget.style.cardWidth + widget.style.reflectionGap,
           height: isHorizontal ? widget.style.cardHeight * 0.4 : null,
           width: isHorizontal ? null : widget.style.cardWidth * 0.4,
           child: Opacity(
             opacity: widget.style.reflectionOpacity,
             child: Align(
-              alignment: isHorizontal ? Alignment.topCenter : Alignment.centerRight,
+              alignment: isHorizontal
+                  ? Alignment.topCenter
+                  : Alignment.centerRight,
               heightFactor: isHorizontal ? 0.4 : null,
               widthFactor: isHorizontal ? null : 0.4,
               child: ShaderMask(
                 shaderCallback: (Rect bounds) {
                   return LinearGradient(
-                    begin: isHorizontal ? Alignment.topCenter : Alignment.centerRight,
-                    end: isHorizontal ? Alignment.bottomCenter : Alignment.centerLeft,
+                    begin: isHorizontal
+                        ? Alignment.topCenter
+                        : Alignment.centerRight,
+                    end: isHorizontal
+                        ? Alignment.bottomCenter
+                        : Alignment.centerLeft,
                     colors: [Colors.white, Colors.white.withValues(alpha: 0.0)],
                     stops: const [0.0, 1.0],
                   ).createShader(bounds);
@@ -724,7 +735,9 @@ class _CoverflowCarouselState extends State<CoverflowCarousel>
           : null,
       child: Container(
         width: isHorizontal ? trackLength : widget.style.sliderThumbHeight + 12,
-        height: isHorizontal ? widget.style.sliderThumbHeight + 12 : trackLength,
+        height: isHorizontal
+            ? widget.style.sliderThumbHeight + 12
+            : trackLength,
         color: Colors.transparent,
         child: Stack(
           alignment: Alignment.center,

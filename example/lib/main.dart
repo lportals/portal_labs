@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'dart:ui' as ui;
 import 'home_page.dart';
 
-
 void main() {
   // Ensure Flutter bindings are initialized for system overlay control.
   WidgetsFlutterBinding.ensureInitialized();
