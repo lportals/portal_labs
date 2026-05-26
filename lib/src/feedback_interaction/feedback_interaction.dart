@@ -280,6 +280,7 @@ class _FeedbackInteractionState extends State<FeedbackInteraction>
               SizeTransition(
                 sizeFactor: _morphController,
                 axis: Axis.horizontal,
+                // ignore: deprecated_member_use
                 axisAlignment: -1.0,
                 child: Opacity(
                   opacity: ((_morphController.value - 0.4) / 0.6).clamp(

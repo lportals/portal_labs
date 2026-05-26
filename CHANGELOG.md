@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.28.3] - 2026-05-26
+
+- **Maintenance**: Resolved `axisAlignment` deprecation warnings on newer Flutter versions (v3.41.0-1.0.pre+) while maintaining backwards compatibility with older versions (down to v3.29.0) using warning suppression.
+- **Maintenance**: Fixed formatting issue (`curly_braces_in_flow_control_structures`) in `CoverflowCarousel` widget.
+
 ## [0.28.2] - 2026-05-26
 
 - **Maintenance**: Standardized codebase formatting across all files using `dart format` to achieve perfect pub.dev scores.
