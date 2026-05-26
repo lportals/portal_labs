@@ -370,6 +370,7 @@ class _SlotPickerItemWidgetState extends State<_SlotPickerItemWidget>
               if (_clampedAnimation.value > 0)
                 SizeTransition(
                   sizeFactor: _expandAnimation,
+                  // ignore: deprecated_member_use
                   axisAlignment: -1.0,
                   child: Padding(
                     padding: widget.style.contentPadding,

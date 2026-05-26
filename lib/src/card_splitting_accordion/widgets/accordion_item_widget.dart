@@ -235,6 +235,7 @@ class _AccordionItemWidgetState extends State<AccordionItemWidget>
                       _buildHeader(),
                       SizeTransition(
                         sizeFactor: _expansionAnimation,
+                        // ignore: deprecated_member_use
                         axisAlignment: -1,
                         child: _buildContent(),
                       ),

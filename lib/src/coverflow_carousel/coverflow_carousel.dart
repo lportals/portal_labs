@@ -470,8 +470,9 @@ class _CoverflowCarouselState extends State<CoverflowCarousel>
       final double absDiff = diff.abs();
 
       final double maxVisibleDiff = isHorizontal ? 6.0 : 3.0;
-      if (absDiff > maxVisibleDiff)
+      if (absDiff > maxVisibleDiff) {
         return const Positioned(child: SizedBox.shrink());
+      }
 
       double opacity = 1.0;
       final double fadeStart = isHorizontal ? 4.0 : 2.0;
