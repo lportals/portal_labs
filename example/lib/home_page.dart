@@ -41,6 +41,8 @@ import 'showcases/archive_folder_showcase.dart';
 import 'showcases/folder_tabs_showcase.dart';
 import 'showcases/physics_collision_card_showcase.dart';
 import 'showcases/coverflow_carousel_showcase.dart';
+import 'showcases/stacked_cards_showcase.dart';
+
 
 
 class HomePage extends StatefulWidget {
@@ -405,6 +407,12 @@ class _SpringyGrid extends StatelessWidget {
         icon: Icons.view_carousel_outlined,
         category: 'Interactions',
         page: CoverflowCarouselShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Stacked Cards',
+        icon: Icons.filter_none_rounded,
+        category: 'Interactions',
+        page: StackedCardsShowcase(),
       ),
     ];
 
