@@ -255,144 +255,144 @@ class _InfoBottomSheetState extends State<_InfoBottomSheet> {
                       ),
                     ],
                   ),
-                        const SizedBox(height: 12),
-                        // Title
-                        Text(
-                          widget.title,
-                          style: const TextStyle(
-                            color: Color(0xFF111111),
-                            fontSize: 24,
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: -0.8,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        // Description
-                        Text(
-                          widget.description,
-                          style: const TextStyle(
-                            color: Color(0xFF555555),
-                            fontSize: 15,
-                            height: 1.5,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        if (widget.infoItems != null &&
-                            widget.infoItems!.isNotEmpty) ...[
-                          const SizedBox(height: 24),
-                          ...widget.infoItems!.map(
-                            (item) => Padding(
-                              padding: const EdgeInsets.only(bottom: 12),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Padding(
-                                    padding: EdgeInsets.only(top: 6),
-                                    child: Icon(
-                                      Icons.circle,
-                                      size: 4,
-                                      color: Color(0xFF8E8E93),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: Text(
-                                      item,
-                                      style: const TextStyle(
-                                        color: Color(0xFF555555),
-                                        fontSize: 14,
-                                        height: 1.4,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                        const SizedBox(height: 24),
-                        // Code snippet header
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  const SizedBox(height: 12),
+                  // Title
+                  Text(
+                    widget.title,
+                    style: const TextStyle(
+                      color: Color(0xFF111111),
+                      fontSize: 24,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: -0.8,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  // Description
+                  Text(
+                    widget.description,
+                    style: const TextStyle(
+                      color: Color(0xFF555555),
+                      fontSize: 15,
+                      height: 1.5,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  if (widget.infoItems != null &&
+                      widget.infoItems!.isNotEmpty) ...[
+                    const SizedBox(height: 24),
+                    ...widget.infoItems!.map(
+                      (item) => Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              'Integration',
-                              style: TextStyle(
-                                color: Color(0xFF111111),
-                                fontSize: 13,
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: -0.2,
+                            const Padding(
+                              padding: EdgeInsets.only(top: 6),
+                              child: Icon(
+                                Icons.circle,
+                                size: 4,
+                                color: Color(0xFF8E8E93),
                               ),
                             ),
-                            GestureDetector(
-                              onTap: _copyCode,
-                              child: AnimatedSwitcher(
-                                duration: const Duration(milliseconds: 200),
-                                child: _copied
-                                    ? const Row(
-                                        key: ValueKey('copied'),
-                                        children: [
-                                          Icon(
-                                            Icons.check_rounded,
-                                            size: 14,
-                                            color: Color(0xFF34C759),
-                                          ),
-                                          SizedBox(width: 4),
-                                          Text(
-                                            'Copied',
-                                            style: TextStyle(
-                                              color: Color(0xFF34C759),
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    : const Row(
-                                        key: ValueKey('copy'),
-                                        children: [
-                                          Icon(
-                                            Icons.copy_rounded,
-                                            size: 14,
-                                            color: Color(0xFF8E8E93),
-                                          ),
-                                          SizedBox(width: 4),
-                                          Text(
-                                            'Copy',
-                                            style: TextStyle(
-                                              color: Color(0xFF8E8E93),
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                item,
+                                style: const TextStyle(
+                                  color: Color(0xFF555555),
+                                  fontSize: 14,
+                                  height: 1.4,
+                                ),
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 8),
-                        // Code block
-                        Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF1C1C1E),
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                          child: Text(
-                            widget.codeSnippet,
-                            style: const TextStyle(
-                              color: Color(0xFFE5E5EA),
-                              fontSize: 12.5,
-                              fontFamily: 'monospace',
-                              height: 1.6,
-                              letterSpacing: 0.1,
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
+                  ],
+                  const SizedBox(height: 24),
+                  // Code snippet header
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Integration',
+                        style: TextStyle(
+                          color: Color(0xFF111111),
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: -0.2,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: _copyCode,
+                        child: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 200),
+                          child: _copied
+                              ? const Row(
+                                  key: ValueKey('copied'),
+                                  children: [
+                                    Icon(
+                                      Icons.check_rounded,
+                                      size: 14,
+                                      color: Color(0xFF34C759),
+                                    ),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      'Copied',
+                                      style: TextStyle(
+                                        color: Color(0xFF34C759),
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : const Row(
+                                  key: ValueKey('copy'),
+                                  children: [
+                                    Icon(
+                                      Icons.copy_rounded,
+                                      size: 14,
+                                      color: Color(0xFF8E8E93),
+                                    ),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      'Copy',
+                                      style: TextStyle(
+                                        color: Color(0xFF8E8E93),
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  // Code block
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF1C1C1E),
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: Text(
+                      widget.codeSnippet,
+                      style: const TextStyle(
+                        color: Color(0xFFE5E5EA),
+                        fontSize: 12.5,
+                        fontFamily: 'monospace',
+                        height: 1.6,
+                        letterSpacing: 0.1,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             );
           },
         ),

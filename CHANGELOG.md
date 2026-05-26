@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.28.2] - 2026-05-26
+
+- **Maintenance**: Standardized codebase formatting across all files using `dart format` to achieve perfect pub.dev scores.
+
 ## [0.28.1] - 2026-05-25
 
 - **Documentation**: Modularized `README.md` by moving detailed component specs and showcase GIFs into individual files under `docs/components/` for faster page loading and improved SEO on GitHub and `pub.dev`.

@@ -24,7 +24,7 @@ class _CoverflowCarouselShowcaseState extends State<CoverflowCarouselShowcase> {
   bool _isVertical = false;
 
   double _spacing = -130.0; // Negative = heavy overlap (classic CoverFlow look)
-  double _rotation = 70.0;  // 70° default gives iconic inward-facing side cards
+  double _rotation = 70.0; // 70° default gives iconic inward-facing side cards
 
   static const List<Color> _cardColors = [
     Color(0xFFFF3B30), // Red
@@ -118,112 +118,143 @@ controller.animateToPage(7);''',
                           color: Colors.white.withValues(alpha: 0.15),
                           fontSize: 32,
                           fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 16),
+              // "Go to X" programmatic button matching the design in the screenshots
+              TextButton(
+                onPressed: () {
+                  _controller.animateToPage(
+                    targetPage,
+                    duration: const Duration(milliseconds: 650),
+                  );
+                },
+                style: TextButton.styleFrom(
+                  foregroundColor: const Color(0xFF007AFF),
+                  textStyle: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
                   ),
-                );
-              }).toList(),
-            ),
-            const SizedBox(height: 16),
-            // "Go to X" programmatic button matching the design in the screenshots
-            TextButton(
-              onPressed: () {
-                _controller.animateToPage(
-                  targetPage,
-                  duration: const Duration(milliseconds: 650),
-                );
-              },
-              style: TextButton.styleFrom(
-                foregroundColor: const Color(0xFF007AFF),
-                textStyle: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
+                ),
+                child: Text('Go to $targetPage'),
+              ),
+              const SizedBox(height: 16),
+              // Customization View mimicking SwiftUI glass card
+              Container(
+                constraints: const BoxConstraints(maxWidth: 340),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 12.0,
+                ),
+                decoration: BoxDecoration(
+                  color: const Color(0x0A000000), // Soft dark overlay
+                  borderRadius: BorderRadius.circular(16.0),
+                  border: Border.all(
+                    color: const Color(0x1F000000),
+                    width: 0.5,
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SwitchListTile.adaptive(
+                      title: const Text(
+                        'Vertical Orientation',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      contentPadding: EdgeInsets.zero,
+                      value: _isVertical,
+                      onChanged: (val) => setState(() => _isVertical = val),
+                    ),
+                    const SizedBox(height: 8),
+                    SwitchListTile.adaptive(
+                      title: const Text(
+                        'Toggle Reflection',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      contentPadding: EdgeInsets.zero,
+                      value: _enableReflection,
+                      onChanged: (val) =>
+                          setState(() => _enableReflection = val),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Card Spacing',
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          _spacing.toStringAsFixed(0),
+                          style: const TextStyle(
+                            fontSize: 11,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Slider(
+                      value: _spacing,
+                      min:
+                          -250.0, // Matches SwiftUI: Slider(value: $spacing, in: -250...90)
+                      max: 90.0,
+                      activeColor: Colors.black,
+                      onChanged: (val) => setState(() => _spacing = val),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Card Rotation',
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          '${_rotation.toStringAsFixed(0)}°',
+                          style: const TextStyle(
+                            fontSize: 11,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Slider(
+                      value: _rotation,
+                      min: 0.0,
+                      max:
+                          90.0, // Matches SwiftUI: Slider(value: $rotation, in: 0...190) limited to 90
+                      activeColor: Colors.black,
+                      onChanged: (val) => setState(() => _rotation = val),
+                    ),
+                  ],
                 ),
               ),
-              child: Text('Go to $targetPage'),
-            ),
-            const SizedBox(height: 16),
-            // Customization View mimicking SwiftUI glass card
-            Container(
-              constraints: const BoxConstraints(maxWidth: 340),
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
-              decoration: BoxDecoration(
-                color: const Color(0x0A000000), // Soft dark overlay
-                borderRadius: BorderRadius.circular(16.0),
-                border: Border.all(color: const Color(0x1F000000), width: 0.5),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SwitchListTile.adaptive(
-                    title: const Text(
-                      'Vertical Orientation',
-                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-                    ),
-                    contentPadding: EdgeInsets.zero,
-                    value: _isVertical,
-                    onChanged: (val) => setState(() => _isVertical = val),
-                  ),
-                  const SizedBox(height: 8),
-                  SwitchListTile.adaptive(
-                    title: const Text(
-                      'Toggle Reflection',
-                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-                    ),
-                    contentPadding: EdgeInsets.zero,
-                    value: _enableReflection,
-                    onChanged: (val) => setState(() => _enableReflection = val),
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Card Spacing',
-                        style: TextStyle(fontSize: 11, color: Colors.grey, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        _spacing.toStringAsFixed(0),
-                        style: const TextStyle(fontSize: 11, color: Colors.grey, fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                  Slider(
-                    value: _spacing,
-                    min: -250.0,   // Matches SwiftUI: Slider(value: $spacing, in: -250...90)
-                    max: 90.0,
-                    activeColor: Colors.black,
-                    onChanged: (val) => setState(() => _spacing = val),
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Card Rotation',
-                        style: TextStyle(fontSize: 11, color: Colors.grey, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        '${_rotation.toStringAsFixed(0)}°',
-                        style: const TextStyle(fontSize: 11, color: Colors.grey, fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                  Slider(
-                    value: _rotation,
-                    min: 0.0,
-                    max: 90.0,   // Matches SwiftUI: Slider(value: $rotation, in: 0...190) limited to 90
-                    activeColor: Colors.black,
-                    onChanged: (val) => setState(() => _rotation = val),
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }

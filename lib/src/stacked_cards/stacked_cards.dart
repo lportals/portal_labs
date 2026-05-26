@@ -115,7 +115,10 @@ class _StackedCardsState extends State<StackedCards>
   }
 
   void _updateActiveIndex() {
-    final int newIndex = _scrollOffset.round().clamp(0, widget.children.length - 1);
+    final int newIndex = _scrollOffset.round().clamp(
+      0,
+      widget.children.length - 1,
+    );
     if (newIndex != _currentIndex) {
       _currentIndex = newIndex;
       widget.onIndexChanged?.call(_currentIndex);
@@ -129,7 +132,10 @@ class _StackedCardsState extends State<StackedCards>
 
   /// Animates the stack to a specific card index.
   void _animateToPage(int page) {
-    final double target = page.toDouble().clamp(0.0, (widget.children.length - 1).toDouble());
+    final double target = page.toDouble().clamp(
+      0.0,
+      (widget.children.length - 1).toDouble(),
+    );
 
     // If we are already at the target page, immediately settle to idle to avoid
     // starting a redundant animation that triggers visual jumps/flickers.
@@ -145,7 +151,7 @@ class _StackedCardsState extends State<StackedCards>
     _animationController.stop();
     _scrollStartValue = _scrollOffset;
     _scrollTargetValue = target;
- 
+
     setState(() => _state = StackedCardsState.animating);
 
     // Calculate a dynamic duration based on the distance to travel.
@@ -177,7 +183,8 @@ class _StackedCardsState extends State<StackedCards>
               },
               onHorizontalDragUpdate: (details) {
                 // Use the exact card width as the divisor for a perfect 1:1 tracking feel.
-                final double delta = -details.primaryDelta! / widget.style.cardWidth;
+                final double delta =
+                    -details.primaryDelta! / widget.style.cardWidth;
                 setState(() {
                   if (!_hasDragged) {
                     _hasDragged = true;
@@ -200,9 +207,15 @@ class _StackedCardsState extends State<StackedCards>
                 if (velocity.abs() > 300) {
                   // A swift flick advances or goes back by exactly one card.
                   if (velocity < 0) {
-                    target = (_scrollOffset.floor() + 1).clamp(0, widget.children.length - 1);
+                    target = (_scrollOffset.floor() + 1).clamp(
+                      0,
+                      widget.children.length - 1,
+                    );
                   } else {
-                    target = (_scrollOffset.ceil() - 1).clamp(0, widget.children.length - 1);
+                    target = (_scrollOffset.ceil() - 1).clamp(
+                      0,
+                      widget.children.length - 1,
+                    );
                   }
                 } else {
                   // Standard snap to nearest card.
@@ -211,7 +224,10 @@ class _StackedCardsState extends State<StackedCards>
                 _animateToPage(target);
               },
               child: TweenAnimationBuilder<double>(
-                tween: Tween<double>(begin: 0.0, end: widget.rotationEnabled ? 1.0 : 0.0),
+                tween: Tween<double>(
+                  begin: 0.0,
+                  end: widget.rotationEnabled ? 1.0 : 0.0,
+                ),
                 duration: const Duration(milliseconds: 300),
                 curve: Curves.easeInOut,
                 builder: (context, rotationFactor, child) {
@@ -220,7 +236,10 @@ class _StackedCardsState extends State<StackedCards>
                     width: double.infinity,
                     child: Stack(
                       clipBehavior: Clip.none,
-                      children: _buildStackedCards(constraints.maxWidth, rotationFactor),
+                      children: _buildStackedCards(
+                        constraints.maxWidth,
+                        rotationFactor,
+                      ),
                     ),
                   );
                 },
@@ -238,12 +257,19 @@ class _StackedCardsState extends State<StackedCards>
 
   /// Builds and layers cards from back to front using descending index order.
   List<Widget> _buildStackedCards(double maxWidth, double rotationFactor) {
-    final double remainingCards = (widget.children.length - _scrollOffset).clamp(1.0, widget.style.maxStackedItems.toDouble());
+    final double remainingCards = (widget.children.length - _scrollOffset)
+        .clamp(1.0, widget.style.maxStackedItems.toDouble());
     final double actualStackExtension =
-        (remainingCards - 1.0) * widget.style.horizontalOffset * (1.0 - rotationFactor);
-    final double centerX = (maxWidth - widget.style.cardWidth - actualStackExtension) / 2;
+        (remainingCards - 1.0) *
+        widget.style.horizontalOffset *
+        (1.0 - rotationFactor);
+    final double centerX =
+        (maxWidth - widget.style.cardWidth - actualStackExtension) / 2;
 
-    final List<int> sortedIndices = List<int>.generate(widget.children.length, (i) => i);
+    final List<int> sortedIndices = List<int>.generate(
+      widget.children.length,
+      (i) => i,
+    );
     // Sort descending so smaller indices (front / swiped items) are painted last
     sortedIndices.sort((a, b) => b.compareTo(a));
 
@@ -275,8 +301,14 @@ class _StackedCardsState extends State<StackedCards>
         // We smoothly interpolate the translation based on the rotationFactor to create a stunning transition:
         // - When rotation is disabled (rotationFactor = 0.0), cards have standard depth translation offset.
         // - When rotation is enabled (rotationFactor = 1.0), cards pivot from the bottom-right corner with 0.0 translation.
-        final double clampedDiff = diff.clamp(0.0, widget.style.maxStackedItems.toDouble() - 1);
-        translationX = clampedDiff * widget.style.horizontalOffset * (1.0 - rotationFactor);
+        final double clampedDiff = diff.clamp(
+          0.0,
+          widget.style.maxStackedItems.toDouble() - 1,
+        );
+        translationX =
+            clampedDiff *
+            widget.style.horizontalOffset *
+            (1.0 - rotationFactor);
         scale = 1.0 - (clampedDiff * widget.style.scaleDelta);
         rotation = clampedDiff * widget.style.rotationAngle * rotationFactor;
         // Cards exceeding the max stacked limit are clamped to the last visible slot
@@ -284,11 +316,13 @@ class _StackedCardsState extends State<StackedCards>
         opacity = 1.0;
       }
 
-      final Alignment alignment = Alignment.lerp(
-        Alignment.center,
-        widget.style.alignment,
-        rotationFactor,
-      ) ?? Alignment.center;
+      final Alignment alignment =
+          Alignment.lerp(
+            Alignment.center,
+            widget.style.alignment,
+            rotationFactor,
+          ) ??
+          Alignment.center;
 
       if (opacity <= 0.0) {
         return const Positioned(child: SizedBox.shrink());
@@ -306,11 +340,12 @@ class _StackedCardsState extends State<StackedCards>
             transform: Matrix4.identity()
               ..rotateZ(rotation)
               // ignore: deprecated_member_use
-            ..scale(scale),
+              ..scale(scale),
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(widget.style.borderRadius),
-                boxShadow: widget.style.shadows ??
+                boxShadow:
+                    widget.style.shadows ??
                     [
                       BoxShadow(
                         color: widget.style.shadowColor,
@@ -353,7 +388,9 @@ class _StackedCardsState extends State<StackedCards>
         return Container(
           width: width,
           height: widget.style.indicatorSize,
-          margin: EdgeInsets.symmetric(horizontal: widget.style.indicatorSpacing / 2),
+          margin: EdgeInsets.symmetric(
+            horizontal: widget.style.indicatorSpacing / 2,
+          ),
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(widget.style.indicatorSize / 2),
