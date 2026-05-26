@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.28.4] - 2026-05-26
+
+- **Documentation**: Updated the components list in `README.md` to convert plain-text folder locations into clickable hyperlinks pointing directly to the source code on GitHub.
+
 ## [0.28.3] - 2026-05-26
 
 - **Maintenance**: Resolved `axisAlignment` deprecation warnings on newer Flutter versions (v3.41.0-1.0.pre+) while maintaining backwards compatibility with older versions (down to v3.29.0) using warning suppression.
