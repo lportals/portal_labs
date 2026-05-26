@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.28.1] - 2026-05-25
+
+- **Documentation**: Modularized `README.md` by moving detailed component specs and showcase GIFs into individual files under `docs/components/` for faster page loading and improved SEO on GitHub and `pub.dev`.
+- **Maintenance**: Resolved unused import warning in `StackedCards` widget.
+
 ## [0.28.0] - 2026-05-24
 
 - **New Component**: **Stacked Cards** — A premium gesture-driven stacked card carousel with horizontal swiping, spring snapping physics, rotation effects, and page indicator dot animations.

@@ -1,7 +1,6 @@
 import 'dart:ui' show lerpDouble;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../common/portal_animations.dart';
 import 'models/stacked_cards_style.dart';
 
 export 'models/stacked_cards_style.dart';
