@@ -194,3 +194,8 @@ export 'src/coverflow_carousel/models/coverflow_carousel_style.dart';
 // Stacked Cards
 export 'src/stacked_cards/stacked_cards.dart';
 export 'src/stacked_cards/models/stacked_cards_style.dart';
+
+// Quick Picker Interaction
+export 'src/quick_picker_interaction/quick_picker_interaction.dart';
+export 'src/quick_picker_interaction/models/quick_picker_option.dart';
+export 'src/quick_picker_interaction/models/quick_picker_style.dart';

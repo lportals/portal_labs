@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.29.0] - 2026-05-29
+
+- **New Component**: **Quick Picker Interaction** — A premium, high-fidelity option picker selector dropdown with a horizontal segmented capsule inside a floating bubble popover.
+  - **Text Sweep Transition**: Seamless integration with the existing `CinematicTextTransition` library configured without elasticity to perform smooth linear character sweeps (without bounce).
+  - **Icon Blur Transition**: An `AnimatedSwitcher` leveraging real-time Gaussian blurs (`ImageFilter.blur`) to dissolve and resolve icons upon value changes.
+  - **Rotating Chevron Arrow**: Dynamically rotates the dropdown chevron 180 degrees smoothly using `AnimatedRotation` when the picker is active.
+  - **Popover Option Selector Overlay**: Precisely positions a segmented options capsule above the trigger button, featuring a dynamic sliding selection pill background and custom-painted pointer triangle.
+  - **Tactile Haptic Feedback**: Triggers lightweight system haptic feedback on selector trigger taps and selection changes.
+  - **Robust Testing Suite**: Created high-fidelity widget test coverage validating state-machine transitions, disabled states, outside tap dismissals, and semantics discovery.
+
 ## [0.28.4] - 2026-05-26
 
 - **Documentation**: Updated the components list in `README.md` to convert plain-text folder locations into clickable hyperlinks pointing directly to the source code on GitHub.
