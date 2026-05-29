@@ -13,6 +13,7 @@ class CinematicTextTransitionStyle {
     this.enableHaptics = true,
     this.enableElasticity = true,
     this.textAlign = TextAlign.center,
+    this.stackAlignment = Alignment.center,
   });
 
   /// The text style for the characters.
@@ -30,6 +31,12 @@ class CinematicTextTransitionStyle {
   /// How the text should be aligned within its container.
   final TextAlign textAlign;
 
+  /// The alignment of the layers within the internal transition Stack.
+  /// Use [Alignment.centerLeft] when the widget is inside a left-anchored
+  /// container (e.g. [QuickPickerInteraction]) to prevent the entering layer
+  /// from jumping horizontally when the exiting layer finishes fading out.
+  final Alignment stackAlignment;
+
   /// Creates a copy of this style with the given fields replaced.
   CinematicTextTransitionStyle copyWith({
     TextStyle? textStyle,
@@ -37,6 +44,7 @@ class CinematicTextTransitionStyle {
     bool? enableHaptics,
     bool? enableElasticity,
     TextAlign? textAlign,
+    Alignment? stackAlignment,
   }) {
     return CinematicTextTransitionStyle(
       textStyle: textStyle ?? this.textStyle,
@@ -44,6 +52,7 @@ class CinematicTextTransitionStyle {
       enableHaptics: enableHaptics ?? this.enableHaptics,
       enableElasticity: enableElasticity ?? this.enableElasticity,
       textAlign: textAlign ?? this.textAlign,
+      stackAlignment: stackAlignment ?? this.stackAlignment,
     );
   }
 }

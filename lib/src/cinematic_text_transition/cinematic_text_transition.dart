@@ -80,7 +80,7 @@ class _CinematicTextTransitionState extends State<CinematicTextTransition>
         return Semantics(
           label: _currentText,
           child: Stack(
-            alignment: Alignment.center,
+            alignment: widget.style.stackAlignment,
             clipBehavior: Clip.none,
             children: [
               // 1. Exiting Layer (Sequential Fall Out)
@@ -104,9 +104,9 @@ class _CinematicTextTransitionState extends State<CinematicTextTransition>
     final chars = text.split('');
     final int count = chars.length;
 
-    const double charWindow = 0.4;
+    final double charWindow = isExiting ? 0.35 : 0.4;
     final double layerStart = isExiting ? 0.0 : 0.4;
-    final double layerEnd = isExiting ? 0.6 : 1.0;
+    final double layerEnd = isExiting ? 0.35 : 1.0;
 
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -157,13 +157,20 @@ class _CinematicTextTransitionState extends State<CinematicTextTransition>
           }
         }
 
+        final charWidget = Text(
+          chars[i],
+          style: widget.style.textStyle,
+          maxLines: 1,
+          softWrap: false,
+        );
+
         return Opacity(
           opacity: opacity.clamp(0.0, 1.0),
           child: Transform.translate(
             offset: Offset(0, yOffset),
             child: Transform.scale(
               scale: scale,
-              child: Text(chars[i], style: widget.style.textStyle),
+              child: charWidget,
             ),
           ),
         );

@@ -42,6 +42,7 @@ import 'showcases/folder_tabs_showcase.dart';
 import 'showcases/physics_collision_card_showcase.dart';
 import 'showcases/coverflow_carousel_showcase.dart';
 import 'showcases/stacked_cards_showcase.dart';
+import 'showcases/quick_picker_showcase.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -411,6 +412,12 @@ class _SpringyGrid extends StatelessWidget {
         icon: Icons.filter_none_rounded,
         category: 'Interactions',
         page: StackedCardsShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Quick Picker',
+        icon: Icons.unfold_more_rounded,
+        category: 'Interactions',
+        page: QuickPickerShowcase(),
       ),
     ];
 
