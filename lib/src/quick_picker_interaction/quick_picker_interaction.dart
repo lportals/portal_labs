@@ -187,21 +187,22 @@ class _QuickPickerInteractionState extends State<QuickPickerInteraction> {
           cursor: widget.enabled
               ? SystemMouseCursors.click
               : SystemMouseCursors.basic,
-          child: GestureDetector(
-            onTapDown: widget.enabled
+          child: Listener(
+            onPointerDown: widget.enabled
                 ? (_) => setState(() => _isPressed = true)
                 : null,
-            onTapUp: widget.enabled
+            onPointerUp: widget.enabled
                 ? (_) => setState(() => _isPressed = false)
                 : null,
-            onTapCancel: widget.enabled
-                ? () => setState(() => _isPressed = false)
+            onPointerCancel: widget.enabled
+                ? (_) => setState(() => _isPressed = false)
                 : null,
-            onTap: widget.enabled ? _toggleMenu : null,
-            child: AnimatedScale(
-              scale: _isPressed ? widget.style.pressScale : 1.0,
-              duration: const Duration(milliseconds: 100),
-              curve: Curves.easeOut,
+            child: GestureDetector(
+              onTap: widget.enabled ? _toggleMenu : null,
+              child: AnimatedScale(
+                scale: _isPressed ? widget.style.pressScale : 1.0,
+                duration: const Duration(milliseconds: 100),
+                curve: Curves.easeOut,
               child: Opacity(
                 opacity: widget.enabled ? 1.0 : 0.6,
                 child: AnimatedContainer(
@@ -362,8 +363,9 @@ class _QuickPickerInteractionState extends State<QuickPickerInteraction> {
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 }
 
 /// The animated overlay menu popup displaying horizontal segmented options.
