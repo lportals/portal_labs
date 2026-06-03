@@ -199,3 +199,8 @@ export 'src/stacked_cards/models/stacked_cards_style.dart';
 export 'src/quick_picker_interaction/quick_picker_interaction.dart';
 export 'src/quick_picker_interaction/models/quick_picker_option.dart';
 export 'src/quick_picker_interaction/models/quick_picker_style.dart';
+
+// Circular Color Picker
+export 'src/circular_color_picker/circular_color_picker.dart';
+export 'src/circular_color_picker/models/circular_color_picker_style.dart';
+

@@ -83,6 +83,7 @@ external versioning conflicts.
 | 41 | **[Coverflow Carousel](docs/components/coverflow_carousel.md)**                 | Premium 3D Coverflow carousel with Y/X axis rotation, programmatic controllers, gestural controls, and dual-orientation support. | Interaction     | **[lib/src/coverflow_carousel](lib/src/coverflow_carousel)** |
 | 42 | **[Stacked Cards](docs/components/stacked_cards.md)**                           | Premium gesture-driven stacked card carousel with horizontal swiping, spring snapping, and rotation.               | Interaction     | **[lib/src/stacked_cards](lib/src/stacked_cards)** |
 | 43 | **[Quick Picker Interaction](docs/components/quick_picker_interaction.md)**     | Premium option selector dropdown with sliding segmented capsule, cinematic text sweep, and icon blur transitions.  | Interaction     | **[lib/src/quick_picker_interaction](lib/src/quick_picker_interaction)** |
+| 44 | **[Circular Color Picker](docs/components/circular_color_picker.md)**           | Premium circular color selector with spring-based center-bound sliding and smooth slide-back animations.           | Interaction     | **[lib/src/circular_color_picker](lib/src/circular_color_picker)** |
 
 
 > 💡 **Tip:** Click on any component's name in the table above to view its live demonstration GIF, key features, and integration code snippet.

@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.30.0] - 2026-06-03
+
+- **New Component**: **Circular Color Picker** — An interactive, premium color picker arranged in a ring layout.
+  - **Center-bound Spring Physics**: Selected colors slide to the center using a natural spring animation (`PortalSpringCurve`) and expand in size and border width.
+  - **Circle-bound Smooth Slide**: Previously selected colors slide back to their slot on the outer ring with a smooth cubic easing transition (`Curves.easeInOutCubic`).
+  - **Polar Layout**: Calculates item coordinate bounds dynamically using polar layout mathematics within the Stack to ensure correct hit-testing boundaries.
+  - **Tactile Feedback**: Triggers lightweight system haptics (`HapticFeedback.lightImpact`) on selection changes.
+  - **Showcase Integration**: Built a clean showcase example displaying the color picker and a dynamic "Finish & Save" button that updates its theme dynamically to match the user's selected color.
+
 ## [0.29.0] - 2026-05-29
 
 - **New Component**: **Quick Picker Interaction** — A premium, high-fidelity option picker selector dropdown with a horizontal segmented capsule inside a floating bubble popover.
