@@ -94,7 +94,7 @@ class PremiumFlipCounter extends StatelessWidget {
               duration: const Duration(milliseconds: 500),
               curve: Curves.easeOutBack,
               width: width,
-              height: height,
+              height: height * 1.5,
               color: Colors.transparent,
               clipBehavior: Clip.hardEdge,
               child: _ReelDigit(
@@ -218,7 +218,7 @@ class _ReelDigitState extends State<_ReelDigit>
 
   @override
   Widget build(BuildContext context) {
-    final double totalHeight = widget.height * 2.0;
+    final double totalHeight = widget.height * 1.5;
 
     return SizedBox(
       width: widget.width,
@@ -234,7 +234,7 @@ class _ReelDigitState extends State<_ReelDigit>
               Colors.black,
               Colors.transparent,
             ],
-            stops: [0.0, 0.15, 0.85, 1.0],
+            stops: [0.0, 0.17, 0.83, 1.0],
           ).createShader(rect);
         },
         blendMode: BlendMode.dstIn,

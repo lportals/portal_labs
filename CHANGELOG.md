@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.32.0] - 2026-06-05
+
+- **New Component**: **Score Gauge & Segmented Strength Indicator** — A set of status visualization widgets consisting of a custom-painted semicircular score gauge and a segmented horizontal strength bar.
+  - **Semicircular Arc Gauge**: Features a custom-painted gradient sweep track, outer tick marks, and an animated value pointer that slides smoothly along the arc's inner edge.
+  - **Segmented Bar**: Draws a row of rounded, color-coded segments representing levels of strength or progress (e.g. for password strength evaluation) that animates with physics-based spring curves.
+  - **Spring Physics Animations**: Driven by a custom harmonic oscillator curve (`PortalSpringCurve`) to animate value transitions smoothly and natively without lag.
+  - **Tactile Haptics**: Integrates light impact haptic feedback (`HapticFeedback.lightImpact`) on score value updates.
+  - **Typographic & Style Customization**: Fully customizable styling via `ScoreGaugeStyle` including thickness, colors, ticks, arrow sizing, gap margins, and segment counts.
+
 ## [0.31.0] - 2026-06-04
 
 - **New Component**: **Slider Control** — A premium vertical pill-shaped slider widget with a dynamic gradient fill, floating value badge, and snap-to-step physics.
