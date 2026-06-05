@@ -84,6 +84,7 @@ external versioning conflicts.
 | 42 | **[Stacked Cards](docs/components/stacked_cards.md)**                           | Premium gesture-driven stacked card carousel with horizontal swiping, spring snapping, and rotation.               | Interaction     | **[lib/src/stacked_cards](lib/src/stacked_cards)** |
 | 43 | **[Quick Picker Interaction](docs/components/quick_picker_interaction.md)**     | Premium option selector dropdown with sliding segmented capsule, cinematic text sweep, and icon blur transitions.  | Interaction     | **[lib/src/quick_picker_interaction](lib/src/quick_picker_interaction)** |
 | 44 | **[Circular Color Picker](docs/components/circular_color_picker.md)**           | Premium circular color selector with spring-based center-bound sliding and smooth slide-back animations.           | Interaction     | **[lib/src/circular_color_picker](lib/src/circular_color_picker)** |
+| 45 | **[Slider Control](docs/components/slider_control.md)**                         | Premium vertical pill-shaped slider with a gradient fill, floating value badge, and snap mechanics.               | Numeric Input   | **[lib/src/slider_control](lib/src/slider_control)** |
 
 
 > 💡 **Tip:** Click on any component's name in the table above to view its live demonstration GIF, key features, and integration code snippet.

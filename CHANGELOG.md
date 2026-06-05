@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.31.0] - 2026-06-04
+
+- **New Component**: **Slider Control** — A premium vertical pill-shaped slider widget with a dynamic gradient fill, floating value badge, and snap-to-step physics.
+  - **Gradient Fill**: Features a smooth GPU-accelerated gradient fill (`CustomPainter`) morphing from cool colors at minimum to warm colors at maximum.
+  - **Floating Value Badge**: A circular badge displaying the current value floats next to the pill, fading in during drag gestures and fading out after 1.5 seconds of inactivity.
+  - **Overdamped Spring snap**: Simulates physical snap-to-step mechanics via a custom harmonic oscillator curve (`_SpringSettle`) upon release.
+  - **Tactile feedback & scale**: Integrates platform selection haptics (`HapticFeedback.selectionClick`) on step crossings and scales down the pill elastically on press.
+  - **Proportional Scaling**: Ensures fonts, limit labels, tick lines, and indicator arrows automatically adjust in size and margins when scaling track and tick dimensions, avoiding overlapping.
+  - **Capsule Rounding**: Defaulted track border radius to `999.0` to preserve the capsule aesthetic under large scale adjustments.
+  - **Tap-to-seek gesture**: Added gesture support to instantly snap to the vertical value tapped along the track.
+  - **Screen Reader Semantics**: Integrated Flutter `Semantics` tags representing slider control roles, custom value announcements, and semantic accessibility actions (increase/decrease values).
+  - **Total Customization**: Customizable visual style via `SliderControlStyle` including badge anchor, tick marks, and customizable arrow indicator color (`arrowColor`).
+  - **Release Callback (`onChangeEnd`)**: Added an optional `onChangeEnd` callback that fires with the final snapped value once the user releases the vertical drag gesture.
+
 ## [0.30.0] - 2026-06-03
 
 - **New Component**: **Circular Color Picker** — An interactive, premium color picker arranged in a ring layout.
