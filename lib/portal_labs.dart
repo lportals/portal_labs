@@ -204,3 +204,6 @@ export 'src/quick_picker_interaction/models/quick_picker_style.dart';
 export 'src/circular_color_picker/circular_color_picker.dart';
 export 'src/circular_color_picker/models/circular_color_picker_style.dart';
 
+// Slider Control
+export 'src/slider_control/slider_control.dart';
+export 'src/slider_control/models/slider_control_style.dart';
