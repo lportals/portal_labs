@@ -545,7 +545,6 @@ class _ScoreGaugePainter extends CustomPainter {
 class _PulsingLabel extends StatefulWidget {
   /// Creates a [_PulsingLabel] widget.
   const _PulsingLabel({
-    super.key,
     required this.text,
     required this.style,
   });
