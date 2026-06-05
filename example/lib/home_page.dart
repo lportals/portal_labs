@@ -45,6 +45,7 @@ import 'showcases/stacked_cards_showcase.dart';
 import 'showcases/quick_picker_showcase.dart';
 import 'showcases/circular_color_picker_showcase.dart';
 import 'showcases/slider_control_showcase.dart';
+import 'showcases/score_gauge_showcase.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -432,6 +433,12 @@ class _SpringyGrid extends StatelessWidget {
         icon: Icons.vertical_align_center_rounded,
         category: 'Inputs',
         page: SliderControlShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Score Gauge',
+        icon: Icons.speed_rounded,
+        category: 'Feedback',
+        page: ScoreGaugeShowcase(),
       ),
     ];
 

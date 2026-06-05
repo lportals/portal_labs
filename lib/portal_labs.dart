@@ -207,3 +207,8 @@ export 'src/circular_color_picker/models/circular_color_picker_style.dart';
 // Slider Control
 export 'src/slider_control/slider_control.dart';
 export 'src/slider_control/models/slider_control_style.dart';
+
+// Score Gauge
+export 'src/score_gauge/score_gauge.dart';
+export 'src/score_gauge/models/score_gauge_style.dart';
+
