@@ -46,6 +46,7 @@ import 'showcases/quick_picker_showcase.dart';
 import 'showcases/circular_color_picker_showcase.dart';
 import 'showcases/slider_control_showcase.dart';
 import 'showcases/score_gauge_showcase.dart';
+import 'showcases/bloom_color_picker_showcase.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -439,6 +440,12 @@ class _SpringyGrid extends StatelessWidget {
         icon: Icons.speed_rounded,
         category: 'Feedback',
         page: ScoreGaugeShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Bloom Picker',
+        icon: Icons.filter_vintage_rounded,
+        category: 'Inputs',
+        page: BloomColorPickerShowcase(),
       ),
     ];
 
