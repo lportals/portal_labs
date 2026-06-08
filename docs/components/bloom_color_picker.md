@@ -1,5 +1,7 @@
 # Bloom Color Picker
 
+![Bloom Color Picker Demonstration](../gifs/bloom_color_picker.gif)
+
 A premium color picker with a "Bloom" concentric peeling expansion effect, radial dual-ring color wheel, and dynamic lightness slider.
 
 #### Key Features
