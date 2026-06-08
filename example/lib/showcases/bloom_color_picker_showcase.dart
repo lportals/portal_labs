@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:portal_labs/portal_labs.dart';
 import '../showcase_shell.dart';
 
+/// Showcase for the [BloomColorPicker] widget.
+/// Displays a single centered instance with the default configuration.
 class BloomColorPickerShowcase extends StatefulWidget {
   const BloomColorPickerShowcase({super.key});
 
@@ -10,33 +12,26 @@ class BloomColorPickerShowcase extends StatefulWidget {
 }
 
 class _BloomColorPickerShowcaseState extends State<BloomColorPickerShowcase> {
-  Color _color = const Color(0xFFF7C13F);
+  Color _currentColor = const Color(0xFFF7C13F);
 
   @override
   Widget build(BuildContext context) {
     return ShowcaseShell(
       title: 'Bloom Color Picker',
-      description: 'A premium color picker with a "Bloom" expansion effect, overlapping circular color wheel, and dynamic lightness slider.',
+      description:
+          'A premium color picker with a "Bloom" expansion effect, radial color wheel, and dynamic lightness slider.',
       codeSnippet: '''
 BloomColorPicker(
-  initialColor: const Color(0xFFF7C13F),
-  onColorChanged: (color) {
-    setState(() => _color = color);
-  },
-  style: BloomColorPickerStyle(
-    closedRadius: 24.0,
-    bloomRadius: 120.0,
-  ),
+  initialColor: _currentColor,
+  onColorChanged: (color) => setState(() => _currentColor = color),
 )
 ''',
-      child: Container(
-        height: 400,
-        alignment: Alignment.center,
+      child: Center(
         child: BloomColorPicker(
-          initialColor: _color,
-          onColorChanged: (c) {
+          initialColor: _currentColor,
+          onColorChanged: (color) {
             setState(() {
-              _color = c;
+              _currentColor = color;
             });
           },
         ),

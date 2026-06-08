@@ -1,23 +1,32 @@
 import 'package:flutter/material.dart';
 
+/// Layout alignment options for the `BloomColorPicker`.
+enum BloomColorPickerAlignment {
+  /// The color circle indicator is on the left, and the hex pill is on the right.
+  circleLeft,
+
+  /// The color circle indicator is on the right, and the hex pill is on the left.
+  circleRight,
+}
+
 /// Defines the visual styling and layout properties for the `BloomColorPicker`.
 class BloomColorPickerStyle {
   /// Creates a new `BloomColorPickerStyle`.
   const BloomColorPickerStyle({
     this.closedRadius = 24.0,
-    this.bloomRadius = 120.0,
-    this.innerRingRadius = 90.0,
+    double? bloomRadius,
     this.sliderWidth = 24.0,
-    this.sliderHeight = 160.0,
     this.pillBackgroundColor = const Color(0xFFFFFFFF),
     this.pillTextColor = const Color(0xFF1A1A1A),
     this.iconColor = const Color(0xFF8A8A8A),
     this.textStyle,
-    this.animationDuration = const Duration(milliseconds: 600),
-    this.animationCurve = const ElasticOutCurve(0.9), // Spring-like feel
+    this.animationDuration = const Duration(milliseconds: 500),
+    this.animationCurve = Curves.easeOutCubic, // Smooth ease-out feel
     this.hapticFeedback = true,
     this.showHexPill = true,
-  });
+    this.alignment = BloomColorPickerAlignment.circleLeft,
+  }) : bloomRadius = bloomRadius ?? closedRadius * 5.0;
+
 
   /// The radius of the color indicator in the closed state.
   final double closedRadius;
@@ -28,14 +37,8 @@ class BloomColorPickerStyle {
   /// Whether to show the hex code pill in the closed state.
   final bool showHexPill;
 
-  /// The radius of the inner color wheel ring.
-  final double innerRingRadius;
-
   /// The width of the lightness/opacity slider.
   final double sliderWidth;
-
-  /// The height of the lightness/opacity slider.
-  final double sliderHeight;
 
   /// The background color of the hex code pill in the closed state.
   final Color pillBackgroundColor;
@@ -55,16 +58,17 @@ class BloomColorPickerStyle {
   /// The easing curve for the state transition animations.
   final Curve animationCurve;
 
-  /// Whether to trigger haptic feedback on interactions.
+   /// Whether to trigger haptic feedback on interactions.
   final bool hapticFeedback;
+
+  /// The alignment of the closed picker components.
+  final BloomColorPickerAlignment alignment;
 
   /// Creates a copy of this style with given fields replaced by new values.
   BloomColorPickerStyle copyWith({
     double? closedRadius,
     double? bloomRadius,
-    double? innerRingRadius,
     double? sliderWidth,
-    double? sliderHeight,
     Color? pillBackgroundColor,
     Color? pillTextColor,
     Color? iconColor,
@@ -73,13 +77,12 @@ class BloomColorPickerStyle {
     Curve? animationCurve,
     bool? hapticFeedback,
     bool? showHexPill,
+    BloomColorPickerAlignment? alignment,
   }) {
     return BloomColorPickerStyle(
       closedRadius: closedRadius ?? this.closedRadius,
       bloomRadius: bloomRadius ?? this.bloomRadius,
-      innerRingRadius: innerRingRadius ?? this.innerRingRadius,
       sliderWidth: sliderWidth ?? this.sliderWidth,
-      sliderHeight: sliderHeight ?? this.sliderHeight,
       pillBackgroundColor: pillBackgroundColor ?? this.pillBackgroundColor,
       pillTextColor: pillTextColor ?? this.pillTextColor,
       iconColor: iconColor ?? this.iconColor,
@@ -88,6 +91,7 @@ class BloomColorPickerStyle {
       animationCurve: animationCurve ?? this.animationCurve,
       hapticFeedback: hapticFeedback ?? this.hapticFeedback,
       showHexPill: showHexPill ?? this.showHexPill,
+      alignment: alignment ?? this.alignment,
     );
   }
 }
