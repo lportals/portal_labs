@@ -216,3 +216,8 @@ export 'src/slider_control/models/slider_control_style.dart';
 export 'src/score_gauge/score_gauge.dart';
 export 'src/score_gauge/models/score_gauge_style.dart';
 
+// Scrollable Subgroups
+export 'src/scrollable_subgroups/scrollable_subgroups.dart';
+export 'src/scrollable_subgroups/models/scrollable_subgroups_data.dart';
+export 'src/scrollable_subgroups/models/scrollable_subgroups_style.dart';
+

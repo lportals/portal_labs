@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.34.0] - 2026-06-21
+
+- **New Component**: **Scrollable Subgroups** — A premium scrollable list widget
+  that groups items under sticky section headers, built entirely on Slivers.
+  - **Sliver Architecture**: Leverages `SliverMainAxisGroup` and
+    `SliverPersistentHeader` to achieve highly performant, native sticky headers
+    with custom heights and text styles.
+  - **Collision-Aware Opacity Fade**: Animates a smooth linear fade-out of the
+    previous group's content exactly as the next group's header collides/touches
+    and begins pushing it, preventing layout overlaps.
+  - **Dynamic Bottom Rounding**: Detects when only the sticky header remains
+    visible in the viewport for its group, and dynamically animates its bottom
+    corners to rounded (with the style's corner radius) to close the visual card.
+  - **Opaque Backdrop Blocking**: Wraps the sticky header in a square,
+    scaffold-colored background to prevent scrolling list items from showing
+    through the rounded top corners.
+  - **Total Customization**: Customizable visual style via
+    `ScrollableSubgroupsStyle` (spacing, height, padding, corner radius, and scaffold background color) and generic type parameter `<T>` with separate builders for headers, prefix sub-headers, and item rows.
+  - **Standard Scroll Integration**: Exposes `controller`, `physics`, `primary`,
+    and `shrinkWrap` configurations to control layout behavior programmatically.
+
 ## [0.33.0] - 2026-06-08
 
 - **New Component**: **Bloom Color Picker** — A premium color picker with a
