@@ -48,6 +48,7 @@ import 'showcases/slider_control_showcase.dart';
 import 'showcases/score_gauge_showcase.dart';
 import 'showcases/bloom_color_picker_showcase.dart';
 import 'showcases/scrollable_subgroups_showcase.dart';
+import 'showcases/tournament_standings_showcase.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -453,6 +454,12 @@ class _SpringyGrid extends StatelessWidget {
         icon: Icons.format_list_bulleted_rounded,
         category: 'Layout',
         page: ScrollableSubgroupsShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Tournament',
+        icon: Icons.emoji_events_outlined,
+        category: 'Layout',
+        page: TournamentStandingsShowcase(),
       ),
     ];
 

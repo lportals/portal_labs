@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.35.0] - 2026-06-23
+
+- **New Component**: **Tournament Standings** — A premium split-panel tournament standings
+  and bracket viewer inspired by the FIFA World Cup 2026 application UI.
+  - **Dynamic Sliding Stage Indicator**: Features a spring-animated stage tab bar
+    highlighting selected phases (GS, R32, R16, QF, SF, F) using physics-driven
+    motions.
+  - **Condensed Left Panel Standings**: Swaps between fully detailed group stats in the
+    Group Stage and abbreviated teams with qualification indicators in bracket stages.
+  - **Custom Bracket Connection Painter**: Renders orthogonally connected tree lines
+    generically for variable knockout round positions.
+  - **Interactive Path Highlighting**: Highlights connection paths and match cards
+    advancing a clicked team through the tournament bracket.
+  - **Premium Polish & Haptics**: Uses `PortalSpringCurve` for transitions and integrates
+    lightweight haptics for premium tactile feel.
+
 ## [0.34.0] - 2026-06-21
 
 - **New Component**: **Scrollable Subgroups** — A premium scrollable list widget
