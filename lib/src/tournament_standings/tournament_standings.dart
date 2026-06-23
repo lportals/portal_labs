@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../common/portal_animations.dart';
 import 'models/tournament_standings_models.dart';
 import 'models/tournament_standings_style.dart';
 
@@ -105,53 +104,15 @@ class _TournamentStandingsState extends State<TournamentStandings>
   }
 
   void _scrollToStageColumn({bool animate = true}) {
-    final visibleStages = TournamentStage.values
-        .where((stage) => _selectedStages.contains(stage))
-        .toList();
-
-    if (visibleStages.isEmpty) return;
-
-    final firstStage = visibleStages.first;
-    final colIndex = TournamentStage.values.indexOf(firstStage);
-    if (colIndex <= 0) {
-      if (_bracketScrollController.hasClients) {
-        if (animate) {
-          _bracketScrollController.animateTo(
-            0.0,
-            duration: const Duration(milliseconds: 500),
-            curve: const PortalSpringCurve(),
-          );
-        } else {
-          _bracketScrollController.jumpTo(0.0);
-        }
-      }
-      return;
-    }
-
-    const double colMargin = 24.0;
-    final double groupColWidth = math.max(widget.style.matchCardWidth * 1.6, 320.0);
-    final double matchColWidth = widget.style.matchCardWidth;
-
-    double targetScroll = 0.0;
-    for (int i = 0; i < colIndex; i++) {
-      if (TournamentStage.values[i] == TournamentStage.groupStage) {
-        targetScroll += groupColWidth + colMargin * 2;
-      } else {
-        targetScroll += matchColWidth + colMargin * 2;
-      }
-    }
-
     if (_bracketScrollController.hasClients) {
       if (animate) {
         _bracketScrollController.animateTo(
-          targetScroll.clamp(0.0, _bracketScrollController.position.maxScrollExtent),
-          duration: const Duration(milliseconds: 500),
-          curve: const PortalSpringCurve(),
+          0.0,
+          duration: const Duration(milliseconds: 350),
+          curve: Curves.easeInOutCubic,
         );
       } else {
-        _bracketScrollController.jumpTo(
-          targetScroll.clamp(0.0, _bracketScrollController.position.maxScrollExtent),
-        );
+        _bracketScrollController.jumpTo(0.0);
       }
     }
   }
@@ -165,8 +126,8 @@ class _TournamentStandingsState extends State<TournamentStandings>
       _endStage = end;
     });
 
-    // Restart the bracket connector line animation on stage change
-    _lineAnimController.forward(from: 0.0);
+    // Maintain the fully drawn lines when changing stages, rather than replaying from 0
+    _lineAnimController.value = 1.0;
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _scrollToStageColumn();
@@ -262,23 +223,40 @@ class _TournamentStandingsState extends State<TournamentStandings>
     if (detailLevel == _GroupDetailLevel.condensed) {
       return ListView.builder(
         physics: const ClampingScrollPhysics(),
-        padding: EdgeInsets.zero,
+        clipBehavior: Clip.none,
+        padding: const EdgeInsets.only(top: 4, bottom: 48, left: 4, right: 4),
         itemCount: widget.data.groups.length,
         itemBuilder: (context, index) {
           final group = widget.data.groups[index];
           return Container(
-            margin: const EdgeInsets.only(bottom: 10),
+            margin: const EdgeInsets.only(bottom: 12),
             decoration: BoxDecoration(
               color: cardBg,
               borderRadius: BorderRadius.circular(10),
               border: Border.all(color: borderColor),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.08),
+                  blurRadius: 12,
+                  offset: const Offset(0, 4),
+                ),
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.04),
+                  blurRadius: 2,
+                  offset: const Offset(0, 1),
+                ),
+              ],
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 // Minimal header
-                Padding(
+                Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                  decoration: BoxDecoration(
+                    color: theme.dividerColor.withValues(alpha: 0.04),
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+                  ),
                   child: Text(
                     'Group ${group.id}',
                     style: TextStyle(
@@ -289,8 +267,8 @@ class _TournamentStandingsState extends State<TournamentStandings>
                   ),
                 ),
                 Container(
-                  height: 0.5,
-                  color: theme.dividerColor.withValues(alpha: 0.08),
+                  height: 1.0,
+                  color: theme.dividerColor.withValues(alpha: 0.15),
                 ),
                 ...group.standings.asMap().entries.map((entry) {
                   final idx = entry.key;
@@ -410,21 +388,27 @@ class _TournamentStandingsState extends State<TournamentStandings>
 
     return ListView.builder(
       physics: const ClampingScrollPhysics(),
-      padding: EdgeInsets.zero,
+      clipBehavior: Clip.none,
+      padding: const EdgeInsets.only(top: 4, bottom: 48, left: 4, right: 4),
       itemCount: widget.data.groups.length,
       itemBuilder: (context, index) {
         final group = widget.data.groups[index];
         return Container(
-          margin: EdgeInsets.only(bottom: isMedium ? 10 : 14),
+          margin: EdgeInsets.only(bottom: isMedium ? 12 : 16),
           decoration: BoxDecoration(
             color: cardBg,
             borderRadius: BorderRadius.circular(isMedium ? 10 : 14),
             border: Border.all(color: borderColor),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.06),
-                blurRadius: 8,
-                offset: const Offset(0, 3),
+                color: Colors.black.withValues(alpha: 0.08),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+              ),
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.04),
+                blurRadius: 2,
+                offset: const Offset(0, 1),
               ),
             ],
           ),
@@ -1361,6 +1345,10 @@ class _TournamentStageRangeSelectorState extends State<TournamentStageRangeSelec
   final GlobalKey _trackKey = GlobalKey();
 
   int? _anchorIndex;
+  bool _isDraggingBlock = false;
+  int _initialTouchIndex = 0;
+  int _initialStartIdx = 0;
+  int _initialEndIdx = 0;
 
   int _getIndexFromGlobal(Offset globalPos, int itemCount) {
     final RenderBox? box = _trackKey.currentContext?.findRenderObject() as RenderBox?;
@@ -1373,40 +1361,92 @@ class _TournamentStageRangeSelectorState extends State<TournamentStageRangeSelec
   }
 
   void _handleTouchStart(Offset globalPos) {
-    final int touchIndex = _getIndexFromGlobal(globalPos, widget.stages.length);
+    final RenderBox? box = _trackKey.currentContext?.findRenderObject() as RenderBox?;
+    if (box == null) return;
+
+    final localOffset = box.globalToLocal(globalPos);
+    final double dx = localOffset.dx;
+    final int itemCount = widget.stages.length;
+    final double innerWidth = box.size.width - 4.0;
+    final double itemWidth = innerWidth / itemCount;
+
     final int currentStartIdx = widget.stages.indexOf(widget.startStage);
     final int currentEndIdx = widget.stages.indexOf(widget.endStage);
 
-    if (touchIndex == currentStartIdx) {
-      _anchorIndex = currentEndIdx;
-    } else if (touchIndex == currentEndIdx) {
-      _anchorIndex = currentStartIdx;
+    final double activeLeft = currentStartIdx * itemWidth + 2.0;
+    final double activeRight = (currentEndIdx + 1) * itemWidth + 2.0;
+
+    final bool touchedActivePill = dx >= activeLeft && dx <= activeRight;
+    final bool touchedLeftHandle = dx >= activeLeft && dx < (activeLeft + 16.0);
+    final bool touchedRightHandle = dx > (activeRight - 16.0) && dx <= activeRight;
+
+    if (touchedActivePill && !touchedLeftHandle && !touchedRightHandle) {
+      _isDraggingBlock = true;
+      _initialTouchIndex = ((dx - 2.0) / itemWidth).floor().clamp(0, itemCount - 1);
+      _initialStartIdx = currentStartIdx;
+      _initialEndIdx = currentEndIdx;
     } else {
-      _anchorIndex = touchIndex;
-      widget.onChanged(widget.stages[touchIndex], widget.stages[touchIndex]);
+      _isDraggingBlock = false;
+      final int touchIndex = ((dx - 2.0) / itemWidth).floor().clamp(0, itemCount - 1);
+
+      if (touchIndex == currentStartIdx) {
+        _anchorIndex = currentEndIdx;
+      } else if (touchIndex == currentEndIdx) {
+        _anchorIndex = currentStartIdx;
+      } else {
+        _anchorIndex = touchIndex;
+        widget.onChanged(widget.stages[touchIndex], widget.stages[touchIndex]);
+      }
     }
-    
+
     if (widget.enableHaptics) HapticFeedback.selectionClick();
   }
 
   void _handleTouchUpdate(Offset globalPos) {
-    if (_anchorIndex == null) return;
-    
-    final int currentIndex = _getIndexFromGlobal(globalPos, widget.stages.length);
-    final int currentMin = math.min(_anchorIndex!, currentIndex);
-    final int currentMax = math.max(_anchorIndex!, currentIndex);
+    final int itemCount = widget.stages.length;
+    final int currentIndex = _getIndexFromGlobal(globalPos, itemCount);
 
-    final int previousMin = widget.stages.indexOf(widget.startStage);
-    final int previousMax = widget.stages.indexOf(widget.endStage);
+    if (_isDraggingBlock) {
+      final int delta = currentIndex - _initialTouchIndex;
+      int newStartIdx = _initialStartIdx + delta;
+      int newEndIdx = _initialEndIdx + delta;
 
-    if (currentMin != previousMin || currentMax != previousMax) {
-      if (widget.enableHaptics) HapticFeedback.selectionClick();
-      widget.onChanged(widget.stages[currentMin], widget.stages[currentMax]);
+      final int rangeLength = _initialEndIdx - _initialStartIdx;
+
+      if (newStartIdx < 0) {
+        newStartIdx = 0;
+        newEndIdx = newStartIdx + rangeLength;
+      } else if (newEndIdx >= itemCount) {
+        newEndIdx = itemCount - 1;
+        newStartIdx = newEndIdx - rangeLength;
+      }
+
+      final int previousMin = widget.stages.indexOf(widget.startStage);
+      final int previousMax = widget.stages.indexOf(widget.endStage);
+
+      if (newStartIdx != previousMin || newEndIdx != previousMax) {
+        if (widget.enableHaptics) HapticFeedback.selectionClick();
+        widget.onChanged(widget.stages[newStartIdx], widget.stages[newEndIdx]);
+      }
+    } else {
+      if (_anchorIndex == null) return;
+      
+      final int currentMin = math.min(_anchorIndex!, currentIndex);
+      final int currentMax = math.max(_anchorIndex!, currentIndex);
+
+      final int previousMin = widget.stages.indexOf(widget.startStage);
+      final int previousMax = widget.stages.indexOf(widget.endStage);
+
+      if (currentMin != previousMin || currentMax != previousMax) {
+        if (widget.enableHaptics) HapticFeedback.selectionClick();
+        widget.onChanged(widget.stages[currentMin], widget.stages[currentMax]);
+      }
     }
   }
 
   void _handleTouchEnd() {
     _anchorIndex = null;
+    _isDraggingBlock = false;
   }
 
   @override

@@ -27,21 +27,18 @@ class TournamentStandingsShowcase extends StatelessWidget {
 )''',
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: SizedBox(
-            height: 700,
-            child: TournamentStandings(
-              data: mockData,
-              style: const TournamentStandingsStyle(
-                matchCardBackgroundColor: Colors.white,
-              ),
-              onTeamTap: (team) {
-                debugPrint('Tapped team: ${team.name}');
-              },
-              onMatchTap: (match) {
-                debugPrint('Tapped match: ${match.id}');
-              },
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: TournamentStandings(
+            data: mockData,
+            style: const TournamentStandingsStyle(
+              matchCardBackgroundColor: Colors.white,
             ),
+            onTeamTap: (team) {
+              debugPrint('Tapped team: ${team.name}');
+            },
+            onMatchTap: (match) {
+              debugPrint('Tapped match: ${match.id}');
+            },
           ),
         ),
       ),
