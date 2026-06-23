@@ -39,6 +39,7 @@ class TournamentStandingsShowcase extends StatelessWidget {
                   data: mockData,
                   style: const TournamentStandingsStyle(
                     accentColor: Color(0xFF007AFF),
+                    matchCardBackgroundColor: Colors.white,
                   ),
                   onTeamTap: (team) {
                     debugPrint('Tapped team: ${team.name}');
@@ -57,35 +58,35 @@ class TournamentStandingsShowcase extends StatelessWidget {
 
   TournamentStandingsData _getMockWorldCupData() {
     // 1. Teams definition
-    const mex = TournamentTeam(id: 'mex', name: 'Mexico', code: 'MEX', played: 2, wins: 2, points: 6, goalsFor: 3, goalsAgainst: 0);
-    const kor = TournamentTeam(id: 'kor', name: 'Korea Republic', code: 'KOR', played: 2, wins: 1, losses: 1, points: 3, goalsFor: 1, goalsAgainst: 1);
-    const cze = TournamentTeam(id: 'cze', name: 'Czechia', code: 'CZE', played: 2, draws: 1, losses: 1, points: 1, goalsFor: 1, goalsAgainst: 2);
-    const rsa = TournamentTeam(id: 'rsa', name: 'South Africa', code: 'RSA', played: 2, draws: 1, losses: 1, points: 1, goalsFor: 1, goalsAgainst: 3);
+    const mex = TournamentTeam(id: 'mex', name: 'Mexico', code: 'MEX', primaryColor: Color(0xFF006341), played: 2, wins: 2, points: 6, goalsFor: 3, goalsAgainst: 0);
+    const kor = TournamentTeam(id: 'kor', name: 'Korea Republic', code: 'KOR', primaryColor: Color(0xFFC60C30), played: 2, wins: 1, losses: 1, points: 3, goalsFor: 1, goalsAgainst: 1);
+    const cze = TournamentTeam(id: 'cze', name: 'Czechia', code: 'CZE', primaryColor: Color(0xFF11457E), played: 2, draws: 1, losses: 1, points: 1, goalsFor: 1, goalsAgainst: 2);
+    const rsa = TournamentTeam(id: 'rsa', name: 'South Africa', code: 'RSA', primaryColor: Color(0xFF007A4B), played: 2, draws: 1, losses: 1, points: 1, goalsFor: 1, goalsAgainst: 3);
 
-    const can = TournamentTeam(id: 'can', name: 'Canada', code: 'CAN', played: 2, wins: 1, draws: 1, points: 4, goalsFor: 7, goalsAgainst: 1);
-    const sui = TournamentTeam(id: 'sui', name: 'Switzerland', code: 'SUI', played: 2, wins: 1, draws: 1, points: 4, goalsFor: 4, goalsAgainst: 1);
-    const bih = TournamentTeam(id: 'bih', name: 'Bosnia-Herz.', code: 'BIH', played: 2, draws: 1, losses: 1, points: 1, goalsFor: 1, goalsAgainst: 4);
-    const qat = TournamentTeam(id: 'qat', name: 'Qatar', code: 'QAT', played: 2, draws: 1, losses: 1, points: 1, goalsFor: 1, goalsAgainst: 7);
+    const can = TournamentTeam(id: 'can', name: 'Canada', code: 'CAN', primaryColor: Color(0xFFFF0000), played: 2, wins: 1, draws: 1, points: 4, goalsFor: 7, goalsAgainst: 1);
+    const sui = TournamentTeam(id: 'sui', name: 'Switzerland', code: 'SUI', primaryColor: Color(0xFFD52B1E), played: 2, wins: 1, draws: 1, points: 4, goalsFor: 4, goalsAgainst: 1);
+    const bih = TournamentTeam(id: 'bih', name: 'Bosnia-Herz.', code: 'BIH', primaryColor: Color(0xFF002F6C), played: 2, draws: 1, losses: 1, points: 1, goalsFor: 1, goalsAgainst: 4);
+    const qat = TournamentTeam(id: 'qat', name: 'Qatar', code: 'QAT', primaryColor: Color(0xFF8A1538), played: 2, draws: 1, losses: 1, points: 1, goalsFor: 1, goalsAgainst: 7);
 
-    const bra = TournamentTeam(id: 'bra', name: 'Brazil', code: 'BRA', played: 2, wins: 1, draws: 1, points: 4, goalsFor: 4, goalsAgainst: 1);
-    const mar = TournamentTeam(id: 'mar', name: 'Morocco', code: 'MAR', played: 2, wins: 1, draws: 1, points: 4, goalsFor: 2, goalsAgainst: 1);
-    const sco = TournamentTeam(id: 'sco', name: 'Scotland', code: 'SCO', played: 2, wins: 1, losses: 1, points: 3, goalsFor: 1, goalsAgainst: 1);
-    const hai = TournamentTeam(id: 'hai', name: 'Haiti', code: 'HAI', played: 2, losses: 2, points: 0, goalsFor: 0, goalsAgainst: 5);
+    const bra = TournamentTeam(id: 'bra', name: 'Brazil', code: 'BRA', primaryColor: Color(0xFFFEDF00), played: 2, wins: 1, draws: 1, points: 4, goalsFor: 4, goalsAgainst: 1);
+    const mar = TournamentTeam(id: 'mar', name: 'Morocco', code: 'MAR', primaryColor: Color(0xFFC1272D), played: 2, wins: 1, draws: 1, points: 4, goalsFor: 2, goalsAgainst: 1);
+    const sco = TournamentTeam(id: 'sco', name: 'Scotland', code: 'SCO', primaryColor: Color(0xFF0065BD), played: 2, wins: 1, losses: 1, points: 3, goalsFor: 1, goalsAgainst: 1);
+    const hai = TournamentTeam(id: 'hai', name: 'Haiti', code: 'HAI', primaryColor: Color(0xFF00209F), played: 2, losses: 2, points: 0, goalsFor: 0, goalsAgainst: 5);
 
-    const usa = TournamentTeam(id: 'usa', name: 'USA', code: 'USA', played: 2, wins: 2, points: 6, goalsFor: 5, goalsAgainst: 0);
-    const aus = TournamentTeam(id: 'aus', name: 'Australia', code: 'AUS', played: 2, wins: 1, losses: 1, points: 3, goalsFor: 1, goalsAgainst: 1);
-    const par = TournamentTeam(id: 'par', name: 'Paraguay', code: 'PAR', played: 2, wins: 1, losses: 1, points: 3, goalsFor: 1, goalsAgainst: 3);
-    const tur = TournamentTeam(id: 'tur', name: 'Turkey', code: 'TUR', played: 2, losses: 2, points: 0, goalsFor: 0, goalsAgainst: 3);
+    const usa = TournamentTeam(id: 'usa', name: 'USA', code: 'USA', primaryColor: Color(0xFF0A3161), played: 2, wins: 2, points: 6, goalsFor: 5, goalsAgainst: 0);
+    const aus = TournamentTeam(id: 'aus', name: 'Australia', code: 'AUS', primaryColor: Color(0xFF002B7F), played: 2, wins: 1, losses: 1, points: 3, goalsFor: 1, goalsAgainst: 1);
+    const par = TournamentTeam(id: 'par', name: 'Paraguay', code: 'PAR', primaryColor: Color(0xFFD52B1E), played: 2, wins: 1, losses: 1, points: 3, goalsFor: 1, goalsAgainst: 3);
+    const tur = TournamentTeam(id: 'tur', name: 'Turkey', code: 'TUR', primaryColor: Color(0xFFE30A17), played: 2, losses: 2, points: 0, goalsFor: 0, goalsAgainst: 3);
 
-    const ger = TournamentTeam(id: 'ger', name: 'Germany', code: 'GER', played: 2, wins: 2, points: 6, goalsFor: 4, goalsAgainst: 1);
-    const civ = TournamentTeam(id: 'civ', name: 'Ivory Coast', code: 'CIV', played: 2, wins: 1, losses: 1, points: 3, goalsFor: 2, goalsAgainst: 2);
-    const ecu = TournamentTeam(id: 'ecu', name: 'Ecuador', code: 'ECU', played: 2, draws: 1, losses: 1, points: 1, goalsFor: 2, goalsAgainst: 3);
-    const cuw = TournamentTeam(id: 'cuw', name: 'Curacao', code: 'CUW', played: 2, draws: 1, losses: 1, points: 1, goalsFor: 1, goalsAgainst: 3);
+    const ger = TournamentTeam(id: 'ger', name: 'Germany', code: 'GER', primaryColor: Color(0xFF000000), played: 2, wins: 2, points: 6, goalsFor: 4, goalsAgainst: 1);
+    const civ = TournamentTeam(id: 'civ', name: 'Ivory Coast', code: 'CIV', primaryColor: Color(0xFFFF8200), played: 2, wins: 1, losses: 1, points: 3, goalsFor: 2, goalsAgainst: 2);
+    const ecu = TournamentTeam(id: 'ecu', name: 'Ecuador', code: 'ECU', primaryColor: Color(0xFFFFD100), played: 2, draws: 1, losses: 1, points: 1, goalsFor: 2, goalsAgainst: 3);
+    const cuw = TournamentTeam(id: 'cuw', name: 'Curacao', code: 'CUW', primaryColor: Color(0xFF002B7F), played: 2, draws: 1, losses: 1, points: 1, goalsFor: 1, goalsAgainst: 3);
 
-    const ned = TournamentTeam(id: 'ned', name: 'Netherlands', code: 'NED', played: 2, wins: 2, points: 6, goalsFor: 5, goalsAgainst: 1);
-    const jpn = TournamentTeam(id: 'jpn', name: 'Japan', code: 'JPN', played: 2, wins: 1, losses: 1, points: 3, goalsFor: 2, goalsAgainst: 2);
-    const swe = TournamentTeam(id: 'swe', name: 'Sweden', code: 'SWE', played: 2, draws: 1, losses: 1, points: 1, goalsFor: 2, goalsAgainst: 3);
-    const tun = TournamentTeam(id: 'tun', name: 'Tunisia', code: 'TUN', played: 2, draws: 1, losses: 1, points: 1, goalsFor: 1, goalsAgainst: 4);
+    const ned = TournamentTeam(id: 'ned', name: 'Netherlands', code: 'NED', primaryColor: Color(0xFFFF4F00), played: 2, wins: 2, points: 6, goalsFor: 5, goalsAgainst: 1);
+    const jpn = TournamentTeam(id: 'jpn', name: 'Japan', code: 'JPN', primaryColor: Color(0xFF0005A0), played: 2, wins: 1, losses: 1, points: 3, goalsFor: 2, goalsAgainst: 2);
+    const swe = TournamentTeam(id: 'swe', name: 'Sweden', code: 'SWE', primaryColor: Color(0xFF006AA7), played: 2, draws: 1, losses: 1, points: 1, goalsFor: 2, goalsAgainst: 3);
+    const tun = TournamentTeam(id: 'tun', name: 'Tunisia', code: 'TUN', primaryColor: Color(0xFFE30A17), played: 2, draws: 1, losses: 1, points: 1, goalsFor: 1, goalsAgainst: 4);
 
     // 2. Groups mapping
     final groups = [

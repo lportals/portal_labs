@@ -180,55 +180,16 @@ class _TournamentStandingsState extends State<TournamentStandings>
   }
 
   Widget _buildTopHeader(ThemeData theme, TournamentStandingsStyle style) {
-    final activeColor = style.accentColor ?? theme.primaryColor;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: theme.dividerColor.withValues(alpha: 0.08),
+      child: Center(
+        child: Text(
+          'FIFA World Cup 2026',
+          style: theme.textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.bold,
+            letterSpacing: 0.3,
           ),
         ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 32,
-                height: 32,
-                decoration: BoxDecoration(
-                  color: activeColor.withValues(alpha: 0.15),
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: Icon(
-                    Icons.emoji_events_outlined,
-                    color: activeColor,
-                    size: 18,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Text(
-                'FIFA World Cup 2026',
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 0.3,
-                ),
-              ),
-            ],
-          ),
-          IconButton(
-            icon: Icon(Icons.close, size: 20, color: theme.iconTheme.color),
-            onPressed: () {},
-            style: IconButton.styleFrom(
-              backgroundColor: theme.dividerColor.withValues(alpha: 0.05),
-              padding: const EdgeInsets.all(8),
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -299,10 +260,13 @@ class _TournamentStandingsState extends State<TournamentStandings>
                   final isOnBubble = idx == 2;
 
                   Color barColor = Colors.transparent;
-                  if (advances) {
-                    barColor = Colors.green.shade400;
-                  } else if (isOnBubble) {
-                    barColor = Colors.amber.shade500;
+                  final onlyGroupStageSelected = _startStage == TournamentStage.groupStage && _endStage == TournamentStage.groupStage;
+                  if (!onlyGroupStageSelected) {
+                    if (advances) {
+                      barColor = Colors.green.shade400;
+                    } else if (isOnBubble) {
+                      barColor = Colors.amber.shade500;
+                    }
                   }
 
                   final isHighlighted = _highlightedTeamId == team.id;
@@ -332,24 +296,48 @@ class _TournamentStandingsState extends State<TournamentStandings>
                                 ? const BorderRadius.vertical(bottom: Radius.circular(10))
                                 : null,
                           ),
-                          child: Row(
+                          child: Stack(
+                            alignment: Alignment.centerLeft,
+                            clipBehavior: Clip.none,
                             children: [
-                              Container(
-                                width: 3,
-                                height: 12,
-                                decoration: BoxDecoration(
-                                  color: barColor,
-                                  borderRadius: BorderRadius.circular(1),
+                              Positioned(
+                                left: -6.0,
+                                top: -5.0,
+                                bottom: -5.0,
+                                width: 4,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: team.primaryColor ?? Color(team.code.hashCode | 0xFF000000),
+                                    borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(isLastRow ? 10 : 0),
+                                    ),
+                                  ),
                                 ),
                               ),
-                              const SizedBox(width: 6),
-                              Text(
-                                team.code,
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  fontWeight: isHighlighted ? FontWeight.w800 : FontWeight.w600,
-                                  color: isHighlighted ? accent : theme.textTheme.bodyMedium?.color,
-                                ),
+                              Row(
+                                children: [
+                                  // Margin to offset content due to color bar
+                                  const SizedBox(width: 4),
+                                  if (widget.style.showQualificationIndicators) ...[
+                                    Container(
+                                      width: 3,
+                                      height: 12,
+                                      decoration: BoxDecoration(
+                                        color: barColor,
+                                        borderRadius: BorderRadius.circular(1),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 4),
+                                  ],
+                                  Text(
+                                    team.code,
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: isHighlighted ? FontWeight.w800 : FontWeight.w600,
+                                      color: isHighlighted ? accent : theme.textTheme.bodyMedium?.color,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -431,15 +419,18 @@ class _TournamentStandingsState extends State<TournamentStandings>
                 ),
                 child: Row(
                   children: [
-                    Text(
-                      group.name.toUpperCase(),
-                      style: theme.textTheme.labelSmall?.copyWith(
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 1.2,
-                        color: theme.textTheme.bodyMedium?.color,
+                    Expanded(
+                      child: Text(
+                        group.name.toUpperCase(),
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 1.2,
+                          color: theme.textTheme.bodyMedium?.color,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
                     ),
-                    const Spacer(),
                     // Stat column headers aligned with stat cells below
                     ...statHeaders.map((h) => SizedBox(
                           width: 26,
@@ -467,13 +458,17 @@ class _TournamentStandingsState extends State<TournamentStandings>
 
                 // Promotion indicator color
                 Color qualColor = Colors.transparent;
-                if (advancesAutomatically) {
-                  qualColor = accent;
-                } else if (isOnBubble) {
-                  qualColor = Colors.amber.shade500;
+                final onlyGroupStageSelected = _startStage == TournamentStage.groupStage && _endStage == TournamentStage.groupStage;
+                if (!onlyGroupStageSelected) {
+                  if (advancesAutomatically) {
+                    qualColor = Colors.green.shade400;
+                  } else if (isOnBubble) {
+                    qualColor = Colors.amber.shade500;
+                  }
                 }
 
                 final isLastRow = rank == group.standings.length;
+                final double paddingVal = isMedium ? 8.0 : 12.0;
                 final gd = team.goalDifference;
                 final gdStr = gd >= 0 ? '+$gd' : '$gd';
 
@@ -499,73 +494,97 @@ class _TournamentStandingsState extends State<TournamentStandings>
                           ? BorderRadius.vertical(bottom: Radius.circular(isMedium ? 10 : 14))
                           : null,
                     ),
-                    padding: EdgeInsets.symmetric(horizontal: isMedium ? 8 : 12, vertical: 9),
-                    child: Row(
+                    padding: EdgeInsets.symmetric(horizontal: paddingVal, vertical: 9),
+                    child: Stack(
+                      alignment: Alignment.centerLeft,
+                      clipBehavior: Clip.none,
                       children: [
-                        // Qualification bar
-                        if (widget.style.showQualificationIndicators) ...[
-                          Container(
-                            width: 3,
-                            height: 20,
-                            decoration: BoxDecoration(
-                              color: qualColor,
-                              borderRadius: BorderRadius.circular(1.5),
+                        // Left Team Color Bar (when isMedium is true)
+                        if (isMedium)
+                          Positioned(
+                            left: -paddingVal,
+                            top: -9,
+                            bottom: -9,
+                            width: 4,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: team.primaryColor ?? Color(team.code.hashCode | 0xFF000000),
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(isLastRow ? 10 : 0),
+                                ),
+                              ),
                             ),
                           ),
-                          SizedBox(width: isMedium ? 5 : 7),
-                        ],
-                        // Rank number
-                        SizedBox(
-                          width: isMedium ? 10 : 14,
-                          child: Text(
-                            '$rank',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700,
-                              color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.7),
+                        Row(
+                          children: [
+                            // Qualification bar
+                            if (widget.style.showQualificationIndicators && !isMedium) ...[
+                              Container(
+                                width: 3,
+                                height: 20,
+                                decoration: BoxDecoration(
+                                  color: qualColor,
+                                  borderRadius: BorderRadius.circular(1.5),
+                                ),
+                              ),
+                              SizedBox(width: isMedium ? 5 : 7),
+                            ],
+                            // Rank number
+                            SizedBox(
+                              width: isMedium ? 10 : 14,
+                              child: Text(
+                                '$rank',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.7),
+                                ),
+                              ),
                             ),
-                          ),
+                            SizedBox(width: isMedium ? 4 : 6),
+                            // Flag (Only when not in medium mode)
+                            if (!isMedium) ...[
+                              if (team.flagUrl != null)
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(2),
+                                  child: Image.network(
+                                    team.flagUrl!,
+                                    width: 20,
+                                    height: 13,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (_, _, _) => _buildFlagFallback(team.code),
+                                  ),
+                                )
+                              else
+                                _buildFlagFallback(team.code),
+                              const SizedBox(width: 8),
+                            ],
+                            // Team name
+                            Expanded(
+                              child: Text(
+                                isMedium ? team.code : team.name,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: isHighlighted ? FontWeight.w700 : FontWeight.w500,
+                                  color: isHighlighted
+                                      ? accent
+                                      : theme.textTheme.bodyMedium?.color,
+                                ),
+                              ),
+                            ),
+                            // Stats cells: GD PTS
+                            if (!isMedium) ...[
+                              statCell('${team.played}'),
+                              statCell('${team.wins}'),
+                              statCell('${team.draws}'),
+                              statCell('${team.losses}'),
+                              statCell(gdStr),
+                            ],
+                            statCell('${team.points}', bold: true, highlighted: isHighlighted),
+                          ],
                         ),
-                        SizedBox(width: isMedium ? 4 : 6),
-                        // Flag
-                        if (team.flagUrl != null)
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(2),
-                            child: Image.network(
-                              team.flagUrl!,
-                              width: isMedium ? 16 : 20,
-                              height: isMedium ? 11 : 13,
-                              fit: BoxFit.cover,
-                              errorBuilder: (_, _, _) => _buildFlagFallback(team.code),
-                            ),
-                          )
-                        else
-                          _buildFlagFallback(team.code),
-                        SizedBox(width: isMedium ? 6 : 8),
-                        // Team name
-                        Expanded(
-                          child: Text(
-                            isMedium ? team.code : team.name,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: isHighlighted ? FontWeight.w700 : FontWeight.w500,
-                              color: isHighlighted
-                                  ? accent
-                                  : theme.textTheme.bodyMedium?.color,
-                            ),
-                          ),
-                        ),
-                        // Stats cells: GD PTS
-                        if (!isMedium) ...[
-                          statCell('${team.played}'),
-                          statCell('${team.wins}'),
-                          statCell('${team.draws}'),
-                          statCell('${team.losses}'),
-                          statCell(gdStr),
-                        ],
-                        statCell('${team.points}', bold: true, highlighted: isHighlighted),
                       ],
                     ),
                   ),
@@ -614,7 +633,13 @@ class _TournamentStandingsState extends State<TournamentStandings>
         final double remWidth = availableWidth - ((visibleCount - 1) * colMargin) - (2 * horizontalPadding);
 
         // Dynamically scale card dimensions based on the number of columns to keep proportions beautiful
-        final double cardHeightScale = visibleCount >= 4 ? 0.70 : (visibleCount == 3 ? 0.85 : 1.0);
+        final double cardHeightScale = visibleCount >= 6
+            ? 0.48
+            : (visibleCount == 5
+                ? 0.58
+                : (visibleCount == 4
+                    ? 0.70
+                    : (visibleCount == 3 ? 0.85 : 1.0)));
         final double cardHeight = style.matchCardHeight * cardHeightScale;
         final double cardSpacing = style.matchCardSpacing * cardHeightScale;
 
@@ -624,7 +649,7 @@ class _TournamentStandingsState extends State<TournamentStandings>
         if (visibleCount == 1) {
           if (visibleStages.first == TournamentStage.groupStage) {
             groupColWidth = availableWidth - (2 * horizontalPadding);
-            colWidth = style.matchCardWidth;
+            colWidth = style.matchCardWidth * cardHeightScale;
           } else {
             groupColWidth = 0.0;
             colWidth = availableWidth - (2 * horizontalPadding);
@@ -637,18 +662,18 @@ class _TournamentStandingsState extends State<TournamentStandings>
             final calcGroupWidth = remWidth * groupRatio;
             final calcColWidth = (remWidth * matchRatio) / (visibleCount - 1);
 
-            // Clamp appropriately: 3+ columns clamps group to 70-120, 2 columns clamps group to 160-200
+            // Clamp appropriately
             if (visibleCount == 2) {
               groupColWidth = calcGroupWidth.clamp(160.0, 220.0);
-              colWidth = calcColWidth.clamp(140.0, style.matchCardWidth);
+              colWidth = calcColWidth.clamp(140.0 * cardHeightScale, style.matchCardWidth * cardHeightScale);
             } else {
               groupColWidth = calcGroupWidth.clamp(70.0, 120.0);
-              colWidth = calcColWidth.clamp(105.0, style.matchCardWidth);
+              colWidth = calcColWidth.clamp(110.0 * cardHeightScale, style.matchCardWidth * cardHeightScale);
             }
           } else {
             final calcColWidth = remWidth / visibleCount;
             groupColWidth = 0.0;
-            colWidth = calcColWidth.clamp(105.0, style.matchCardWidth);
+            colWidth = calcColWidth.clamp(110.0 * cardHeightScale, style.matchCardWidth * cardHeightScale);
           }
         }
 
@@ -694,49 +719,83 @@ class _TournamentStandingsState extends State<TournamentStandings>
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: visibleStages.map((stage) {
+                    children: stages.map((stage) {
+                      final isSelected = _selectedStages.contains(stage);
+                      final double targetWidth = stage == TournamentStage.groupStage ? groupColWidth : colWidth;
+                      final double width = isSelected ? targetWidth : 0.0;
+                      final double marginRight = isSelected ? colMargin : 0.0;
+
                       if (stage == TournamentStage.groupStage) {
-                        return Container(
-                          width: groupColWidth,
-                          margin: EdgeInsets.only(right: colMargin),
-                          child: _buildGroupStandingsColumn(
-                            theme,
-                            style,
-                            isCondensed: visibleCount >= 3,
-                            isMedium: visibleCount == 2,
+                        return AnimatedContainer(
+                          duration: const Duration(milliseconds: 350),
+                          curve: Curves.easeInOutCubic,
+                          clipBehavior: Clip.hardEdge,
+                          decoration: const BoxDecoration(
+                            color: Colors.transparent,
+                          ),
+                          width: width,
+                          margin: EdgeInsets.only(right: marginRight),
+                          child: OverflowBox(
+                            minWidth: targetWidth,
+                            maxWidth: targetWidth,
+                            alignment: Alignment.topLeft,
+                            child: SizedBox(
+                              width: targetWidth,
+                              child: _buildGroupStandingsColumn(
+                                theme,
+                                style,
+                                isCondensed: visibleCount >= 3,
+                                isMedium: visibleCount == 2,
+                              ),
+                            ),
                           ),
                         );
                       }
 
                       final colIndex = knockoutStages.indexOf(stage);
+                      final displayColIndex = colIndex != -1 ? colIndex : 0;
                       final matchesInStage = widget.data.bracketMatches
                           .where((m) => m.stage == stage)
                           .toList()
                         ..sort((a, b) => a.roundIndex.compareTo(b.roundIndex));
 
-                      return Container(
-                        width: colWidth,
-                        margin: EdgeInsets.only(right: colMargin),
-                        child: Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            ...matchesInStage.map((match) {
-                              final double slotHeight =
-                                  (cardHeight + cardSpacing) *
-                                      math.pow(2, colIndex);
-                              final double y = (match.roundIndex * slotHeight) +
-                                  (slotHeight / 2) -
-                                  (cardHeight / 2);
+                      return AnimatedContainer(
+                        duration: const Duration(milliseconds: 350),
+                        curve: Curves.easeInOutCubic,
+                        clipBehavior: Clip.hardEdge,
+                        decoration: const BoxDecoration(
+                          color: Colors.transparent,
+                        ),
+                        width: width,
+                        margin: EdgeInsets.only(right: marginRight),
+                        child: OverflowBox(
+                          minWidth: targetWidth,
+                          maxWidth: targetWidth,
+                          alignment: Alignment.topLeft,
+                          child: SizedBox(
+                            width: targetWidth,
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                ...matchesInStage.map((match) {
+                                  final double slotHeight =
+                                      (cardHeight + cardSpacing) *
+                                          math.pow(2, displayColIndex);
+                                  final double y = (match.roundIndex * slotHeight) +
+                                      (slotHeight / 2) -
+                                      (cardHeight / 2);
 
-                              return Positioned(
-                                top: y,
-                                left: 0,
-                                right: 0,
-                                height: cardHeight,
-                                child: _buildBracketMatchCard(theme, style, match, cardHeightScale: cardHeightScale),
-                              );
-                            }),
-                          ],
+                                  return Positioned(
+                                    top: y,
+                                    left: 0,
+                                    right: 0,
+                                    height: cardHeight,
+                                    child: _buildBracketMatchCard(theme, style, match, cardHeightScale: cardHeightScale),
+                                  );
+                                }),
+                              ],
+                            ),
+                          ),
                         ),
                       );
                     }).toList(),
@@ -847,8 +906,10 @@ class _TournamentStandingsState extends State<TournamentStandings>
     final double flagH = math.max(9.0, 12.0 * cardHeightScale);
     final double flagSpacing = math.max(4.0, 8.0 * cardHeightScale);
 
+    final double paddingVal = math.max(6.0, 12.0 * cardHeightScale);
+
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: math.max(6.0, 12.0 * cardHeightScale)),
+      padding: EdgeInsets.symmetric(horizontal: paddingVal),
       decoration: BoxDecoration(
         color: isHighlighted
             ? (style.accentColor ?? theme.primaryColor).withValues(alpha: 0.08)
@@ -860,64 +921,92 @@ class _TournamentStandingsState extends State<TournamentStandings>
           bottomRight: Radius.circular(!isTop ? 12 * cardHeightScale : 0),
         ),
       ),
-      child: Row(
+      child: Stack(
+        alignment: Alignment.centerLeft,
+        clipBehavior: Clip.none,
         children: [
-          if (team != null) ...[
-            if (team.flagUrl != null)
-              ClipRRect(
-                borderRadius: BorderRadius.circular(2),
-                child: Image.network(
-                  team.flagUrl!,
-                  width: flagW,
-                  height: flagH,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, _, _) => _buildFlagFallback(team.code),
-                ),
-              )
-            else
-              _buildFlagFallback(team.code),
-            SizedBox(width: flagSpacing),
-            Expanded(
-              child: Text(
-                team.code,
-                style: textStyle.copyWith(
-                  fontSize: scaledFontSize,
-                  fontWeight: isWinner ? FontWeight.bold : FontWeight.normal,
-                  color: isHighlighted ? (style.accentColor ?? theme.primaryColor) : null,
-                ),
-              ),
-            ),
-            if (score != null) ...[
-              if (penalties != null)
-                Text(
-                  '($penalties)',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.5),
-                    fontSize: math.max(7.0, 9.0 * cardHeightScale),
+          // Left Team Color Bar (when cardHeightScale < 0.8)
+          if (team != null && cardHeightScale < 0.8)
+            Positioned(
+              left: -paddingVal,
+              top: 0,
+              bottom: 0,
+              width: 4,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: team.primaryColor ?? Color(team.code.hashCode | 0xFF000000),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(isTop ? 12 * cardHeightScale : 0),
+                    bottomLeft: Radius.circular(!isTop ? 12 * cardHeightScale : 0),
                   ),
                 ),
-              SizedBox(width: math.max(3.0, 6.0 * cardHeightScale)),
-              Text(
-                '$score',
-                style: scoreStyle.copyWith(
-                  fontSize: scaledScoreSize,
-                  color: isWinner ? (style.accentColor ?? theme.primaryColor) : Colors.grey.shade500,
-                ),
-              ),
-            ],
-          ] else ...[
-            _buildFlagFallback('TBD'),
-            SizedBox(width: flagSpacing),
-            Expanded(
-              child: Text(
-                'TBD',
-                style: textStyle.copyWith(
-                  fontSize: scaledFontSize,
-                  color: Colors.grey.shade500,
-                ),
               ),
             ),
-          ],
+          Row(
+            children: [
+              if (team != null) ...[
+                // Flag (Only when cardHeightScale >= 0.8)
+                if (cardHeightScale >= 0.8) ...[
+                  if (team.flagUrl != null)
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(2),
+                      child: Image.network(
+                        team.flagUrl!,
+                        width: flagW,
+                        height: flagH,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, _, _) => _buildFlagFallback(team.code),
+                      ),
+                    )
+                  else
+                    _buildFlagFallback(team.code),
+                  SizedBox(width: flagSpacing),
+                ],
+                Expanded(
+                  child: Text(
+                    team.code,
+                    style: textStyle.copyWith(
+                      fontSize: scaledFontSize,
+                      fontWeight: isWinner ? FontWeight.bold : FontWeight.normal,
+                      color: isHighlighted ? (style.accentColor ?? theme.primaryColor) : null,
+                    ),
+                  ),
+                ),
+                if (score != null) ...[
+                  if (penalties != null)
+                    Text(
+                      '($penalties)',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.5),
+                        fontSize: math.max(7.0, 9.0 * cardHeightScale),
+                      ),
+                    ),
+                  SizedBox(width: math.max(3.0, 6.0 * cardHeightScale)),
+                  Text(
+                    '$score',
+                    style: scoreStyle.copyWith(
+                      fontSize: scaledScoreSize,
+                      color: isWinner ? (style.accentColor ?? theme.primaryColor) : Colors.grey.shade500,
+                    ),
+                  ),
+                ],
+              ] else ...[
+                if (cardHeightScale >= 0.8) ...[
+                  _buildFlagFallback('TBD'),
+                  SizedBox(width: flagSpacing),
+                ],
+                Expanded(
+                  child: Text(
+                    'TBD',
+                    style: textStyle.copyWith(
+                      fontSize: scaledFontSize,
+                      color: Colors.grey.shade500,
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
         ],
       ),
     );
@@ -1037,11 +1126,25 @@ class BracketLinesPainter extends CustomPainter {
         // Path coordinates (midpoint is exactly halfway across the margin)
         final double midX = currentEndX + (colMargin / 2);
 
-        final path = Path()
-          ..moveTo(currentEndX, currentY)
-          ..lineTo(midX, currentY)
-          ..lineTo(midX, nextY)
-          ..lineTo(nextStartX, nextY);
+        final double cornerRadius = math.min(12.0, (colMargin / 2).abs());
+        final double verticalDistance = (nextY - currentY).abs();
+        final double actualRadius = math.min(cornerRadius, verticalDistance / 2);
+        final double signY = nextY > currentY ? 1.0 : -1.0;
+
+        final path = Path();
+        path.moveTo(currentEndX, currentY);
+        
+        if (actualRadius > 0) {
+          path.lineTo(midX - actualRadius, currentY);
+          path.quadraticBezierTo(midX, currentY, midX, currentY + actualRadius * signY);
+          path.lineTo(midX, nextY - actualRadius * signY);
+          path.quadraticBezierTo(midX, nextY, midX + actualRadius, nextY);
+        } else {
+          path.lineTo(midX, currentY);
+          path.lineTo(midX, nextY);
+        }
+        
+        path.lineTo(nextStartX, nextY);
 
         // Determine if this path should be highlighted
         bool shouldHighlight = false;
@@ -1162,15 +1265,15 @@ class _TournamentStageRangeSelectorState extends State<TournamentStageRangeSelec
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     
-    final Color inactiveBg = theme.dividerColor.withValues(alpha: 0.08);
-    final Color activeBg = widget.accentColor.withValues(alpha: 0.15);
-    final Color activeStroke = widget.accentColor;
+    final Color inactiveBg = const Color(0xFF2C2C2E);
+    final Color activeBg = Colors.white.withValues(alpha: 0.30);
+    final Color activeStroke = const Color(0xFF2C2C2E);
     
     final Color labelActive = theme.textTheme.bodyMedium?.color ?? Colors.black;
     final Color labelInactive = (theme.textTheme.bodySmall?.color ?? Colors.grey).withValues(alpha: 0.45);
     
-    final Color segmentActiveColor = widget.accentColor;
-    final Color segmentInactiveColor = (theme.textTheme.bodySmall?.color ?? Colors.grey).withValues(alpha: 0.35);
+    final Color segmentActiveColor = Colors.white;
+    final Color segmentInactiveColor = Colors.white.withValues(alpha: 0.30);
 
     final int startIdx = widget.stages.indexOf(widget.startStage);
     final int endIdx = widget.stages.indexOf(widget.endStage);
@@ -1242,7 +1345,7 @@ class _TournamentStageRangeSelectorState extends State<TournamentStageRangeSelec
                         clipBehavior: Clip.antiAlias,
                         decoration: BoxDecoration(
                           color: activeBg,
-                          borderRadius: BorderRadius.circular(12), // More rounded corners
+                          borderRadius: BorderRadius.circular(10), // Matched interior border radius (12 - 2px padding = 10px)
                         ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.stretch,

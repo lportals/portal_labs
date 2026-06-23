@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 /// The stages of a tournament.
 enum TournamentStage {
@@ -69,6 +69,7 @@ class TournamentTeam {
     required this.name,
     required this.code,
     this.flagUrl,
+    this.primaryColor,
     this.played = 0,
     this.wins = 0,
     this.draws = 0,
@@ -89,6 +90,9 @@ class TournamentTeam {
 
   /// Path or URL to the team's flag image.
   final String? flagUrl;
+
+  /// The primary brand color of the team.
+  final Color? primaryColor;
 
   /// Number of matches played.
   final int played;
