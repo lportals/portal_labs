@@ -5,6 +5,19 @@ import '../common/portal_animations.dart';
 import 'models/tournament_standings_models.dart';
 import 'models/tournament_standings_style.dart';
 
+/// Detail level for the group standings column, determined dynamically
+/// by the actual allocated width rather than the visible stage count.
+enum _GroupDetailLevel {
+  /// Full detail: flags, all stats (GP, W, D, L, GD, PTS), qualification indicators.
+  full,
+
+  /// Medium detail: team code + PTS column, left team brand color bar.
+  medium,
+
+  /// Condensed: team code only, left team brand color bar.
+  condensed,
+}
+
 /// A premium split-panel tournament standings and bracket viewer.
 ///
 /// Features a custom sliding stage selector, condensed group tables that remain
@@ -41,12 +54,14 @@ class TournamentStandings extends StatefulWidget {
 }
 
 class _TournamentStandingsState extends State<TournamentStandings>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late TournamentStage _startStage;
   late TournamentStage _endStage;
   String? _highlightedTeamId;
 
   late final ScrollController _bracketScrollController;
+  late final AnimationController _lineAnimController;
+  late final CurvedAnimation _lineAnimation;
 
   Set<TournamentStage> get _selectedStages {
     final startIdx = TournamentStage.values.indexOf(_startStage);
@@ -67,6 +82,15 @@ class _TournamentStandingsState extends State<TournamentStandings>
       _endStage = TournamentStage.final_;
     }
     _bracketScrollController = ScrollController();
+    _lineAnimController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    );
+    _lineAnimation = CurvedAnimation(
+      parent: _lineAnimController,
+      curve: Curves.linear,
+    );
+    _lineAnimController.forward();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _scrollToStageColumn(animate: false);
@@ -75,6 +99,7 @@ class _TournamentStandingsState extends State<TournamentStandings>
 
   @override
   void dispose() {
+    _lineAnimController.dispose();
     _bracketScrollController.dispose();
     super.dispose();
   }
@@ -140,6 +165,9 @@ class _TournamentStandingsState extends State<TournamentStandings>
       _endStage = end;
     });
 
+    // Restart the bracket connector line animation on stage change
+    _lineAnimController.forward(from: 0.0);
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _scrollToStageColumn();
     });
@@ -153,6 +181,8 @@ class _TournamentStandingsState extends State<TournamentStandings>
         _highlightedTeamId = teamId;
       }
     });
+    // Restart animation to animate the newly highlighted pathway from 0.0
+    _lineAnimController.forward(from: 0.0);
   }
 
   @override
@@ -182,20 +212,30 @@ class _TournamentStandingsState extends State<TournamentStandings>
   Widget _buildTopHeader(ThemeData theme, TournamentStandingsStyle style) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-      child: Center(
-        child: Text(
-          'FIFA World Cup 2026',
-          style: theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-            letterSpacing: 0.3,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.network(
+            'https://www.edigitalagency.com.au/wp-content/uploads/new-FIFA-World-Cup-2026-logo-black-PNG-large-size.png',
+            height: 45,
+            fit: BoxFit.contain,
+            errorBuilder: (context, error, stackTrace) => const SizedBox.shrink(),
           ),
-        ),
+          const SizedBox(height: 10),
+          Text(
+            'FIFA World Cup 2026',
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+              letterSpacing: 0.3,
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildStageSelector(ThemeData theme, TournamentStandingsStyle style) {
-    final activeColor = style.accentColor ?? theme.primaryColor;
+    final activeColor = style.accentColor ?? theme.colorScheme.onSurface;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       child: TournamentStageRangeSelector(
@@ -213,14 +253,13 @@ class _TournamentStandingsState extends State<TournamentStandings>
   Widget _buildGroupStandingsColumn(
     ThemeData theme,
     TournamentStandingsStyle style, {
-    required bool isCondensed,
-    required bool isMedium,
+    required _GroupDetailLevel detailLevel,
   }) {
-    final accent = style.accentColor ?? theme.primaryColor;
+    final accent = style.accentColor ?? theme.colorScheme.onSurface;
     final cardBg = style.matchCardBackgroundColor ?? theme.cardColor;
     final borderColor = style.matchCardBorderColor ?? theme.dividerColor.withValues(alpha: 0.10);
 
-    if (isCondensed) {
+    if (detailLevel == _GroupDetailLevel.condensed) {
       return ListView.builder(
         physics: const ClampingScrollPhysics(),
         padding: EdgeInsets.zero,
@@ -256,18 +295,7 @@ class _TournamentStandingsState extends State<TournamentStandings>
                 ...group.standings.asMap().entries.map((entry) {
                   final idx = entry.key;
                   final team = entry.value;
-                  final advances = idx < 2;
-                  final isOnBubble = idx == 2;
 
-                  Color barColor = Colors.transparent;
-                  final onlyGroupStageSelected = _startStage == TournamentStage.groupStage && _endStage == TournamentStage.groupStage;
-                  if (!onlyGroupStageSelected) {
-                    if (advances) {
-                      barColor = Colors.green.shade400;
-                    } else if (isOnBubble) {
-                      barColor = Colors.amber.shade500;
-                    }
-                  }
 
                   final isHighlighted = _highlightedTeamId == team.id;
                   final isLastRow = idx == group.standings.length - 1;
@@ -287,7 +315,7 @@ class _TournamentStandingsState extends State<TournamentStandings>
                         },
                         child: AnimatedContainer(
                           duration: const Duration(milliseconds: 200),
-                          padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 6.0),
+                          padding: const EdgeInsets.only(top: 5.0, bottom: 5.0, left: 8.0, right: 6.0),
                           decoration: BoxDecoration(
                             color: isHighlighted
                                 ? accent.withValues(alpha: 0.10)
@@ -301,7 +329,7 @@ class _TournamentStandingsState extends State<TournamentStandings>
                             clipBehavior: Clip.none,
                             children: [
                               Positioned(
-                                left: -6.0,
+                                left: -8.0,
                                 top: -5.0,
                                 bottom: -5.0,
                                 width: 4,
@@ -314,31 +342,20 @@ class _TournamentStandingsState extends State<TournamentStandings>
                                   ),
                                 ),
                               ),
-                              Row(
-                                children: [
-                                  // Margin to offset content due to color bar
-                                  const SizedBox(width: 4),
-                                  if (widget.style.showQualificationIndicators) ...[
-                                    Container(
-                                      width: 3,
-                                      height: 12,
-                                      decoration: BoxDecoration(
-                                        color: barColor,
-                                        borderRadius: BorderRadius.circular(1),
+                               Row(
+                                  children: [
+                                    // Margin to offset content due to color bar
+                                    const SizedBox(width: 2),
+                                    Text(
+                                      team.code,
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: isHighlighted ? FontWeight.w800 : FontWeight.w600,
+                                        color: isHighlighted ? accent : theme.textTheme.bodyMedium?.color,
                                       ),
                                     ),
-                                    const SizedBox(width: 4),
                                   ],
-                                  Text(
-                                    team.code,
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: isHighlighted ? FontWeight.w800 : FontWeight.w600,
-                                      color: isHighlighted ? accent : theme.textTheme.bodyMedium?.color,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
                             ],
                           ),
                         ),
@@ -353,8 +370,17 @@ class _TournamentStandingsState extends State<TournamentStandings>
       );
     }
 
+    // Derive convenience boolean from the detail level for the non-condensed path
+    final bool isMedium = detailLevel == _GroupDetailLevel.medium;
+
+    // Check if +4 stages are currently selected to hide PTS in medium mode
+    final bool hasFourOrMoreStages = _selectedStages.length >= 4;
+    final bool hidePtsColumn = isMedium && hasFourOrMoreStages;
+
     // Column header labels for the stats table
-    final statHeaders = isMedium ? ['PTS'] : ['GP', 'W', 'D', 'L', 'GD', 'PTS'];
+    final statHeaders = isMedium 
+        ? (hidePtsColumn ? <String>[] : ['PTS']) 
+        : ['GP', 'W', 'D', 'L', 'GD', 'PTS'];
 
     TextStyle statHeaderStyle(bool bold) => TextStyle(
           fontSize: 9,
@@ -409,12 +435,7 @@ class _TournamentStandingsState extends State<TournamentStandings>
               Container(
                 padding: EdgeInsets.symmetric(horizontal: isMedium ? 8 : 12, vertical: 9),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      accent.withValues(alpha: 0.18),
-                      accent.withValues(alpha: 0.06),
-                    ],
-                  ),
+                  color: theme.dividerColor.withValues(alpha: 0.04),
                   borderRadius: BorderRadius.vertical(top: Radius.circular(isMedium ? 10 : 14)),
                 ),
                 child: Row(
@@ -425,7 +446,7 @@ class _TournamentStandingsState extends State<TournamentStandings>
                         style: theme.textTheme.labelSmall?.copyWith(
                           fontWeight: FontWeight.w800,
                           letterSpacing: 1.2,
-                          color: theme.textTheme.bodyMedium?.color,
+                          color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.65),
                         ),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
@@ -446,10 +467,10 @@ class _TournamentStandingsState extends State<TournamentStandings>
               // Divider line below header
               Container(
                 height: 1,
-                color: accent.withValues(alpha: 0.10),
+                color: theme.dividerColor.withValues(alpha: 0.15),
               ),
               // ── Standings rows ─────────────────────────────
-              ...group.standings.asMap().entries.map((entry) {
+              ...group.standings.asMap().entries.expand((entry) {
                 final rank = entry.key + 1;
                 final team = entry.value;
                 final isHighlighted = _highlightedTeamId == team.id;
@@ -472,7 +493,7 @@ class _TournamentStandingsState extends State<TournamentStandings>
                 final gd = team.goalDifference;
                 final gdStr = gd >= 0 ? '+$gd' : '$gd';
 
-                return GestureDetector(
+                final rowWidget = GestureDetector(
                   onTap: () {
                     _toggleTeamHighlight(team.id);
                     widget.onTeamTap?.call(team);
@@ -543,22 +564,21 @@ class _TournamentStandingsState extends State<TournamentStandings>
                             ),
                             SizedBox(width: isMedium ? 4 : 6),
                             // Flag (Only when not in medium mode)
-                            if (!isMedium) ...[
-                              if (team.flagUrl != null)
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(2),
-                                  child: Image.network(
-                                    team.flagUrl!,
-                                    width: 20,
-                                    height: 13,
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (_, _, _) => _buildFlagFallback(team.code),
-                                  ),
-                                )
-                              else
-                                _buildFlagFallback(team.code),
-                              const SizedBox(width: 8),
+                            if (team.flagUrl != null && !isMedium) ...[
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(2),
+                                child: Image.network(
+                                  team.flagUrl!,
+                                  width: 20,
+                                  height: 13,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (_, _, _) => _buildFlagFallback(team.code),
+                                ),
+                              )
+                            ] else if (!isMedium) ...[
+                              _buildFlagFallback(team.code),
                             ],
+                            if (!isMedium) const SizedBox(width: 8),
                             // Team name
                             Expanded(
                               child: Text(
@@ -582,13 +602,30 @@ class _TournamentStandingsState extends State<TournamentStandings>
                               statCell('${team.losses}'),
                               statCell(gdStr),
                             ],
-                            statCell('${team.points}', bold: true, highlighted: isHighlighted),
+                            if (!hidePtsColumn)
+                              statCell('${team.points}', bold: true, highlighted: isHighlighted),
                           ],
                         ),
                       ],
                     ),
                   ),
                 );
+
+                // If rank is 2, insert a qualification cut-off line below it
+                if (rank == 2) {
+                  return [
+                    rowWidget,
+                    Container(
+                      height: 1.0,
+                      margin: EdgeInsets.symmetric(horizontal: paddingVal),
+                      color: onlyGroupStageSelected 
+                          ? theme.dividerColor.withValues(alpha: 0.15) 
+                          : Colors.green.shade400.withValues(alpha: 0.45),
+                    ),
+                  ];
+                }
+
+                return [rowWidget];
               }),
             ],
           ),
@@ -627,55 +664,71 @@ class _TournamentStandingsState extends State<TournamentStandings>
         final double availableWidth = constraints.maxWidth;
         final int visibleCount = visibleStages.length;
 
-        // Spacing parameters
-        final double colMargin = visibleCount >= 3 ? 12.0 : 20.0;
-        final double horizontalPadding = 12.0;
-        final double remWidth = availableWidth - ((visibleCount - 1) * colMargin) - (2 * horizontalPadding);
+        // ── Proportional Column Layout System ─────────────────────
+        // Uses a weight-based distribution so every combination of
+        // selected stages behaves consistently and adapts to the
+        // actual available width instead of using hardcoded pixel
+        // breakpoints per stage count.
 
-        // Dynamically scale card dimensions based on the number of columns to keep proportions beautiful
-        final double cardHeightScale = visibleCount >= 6
-            ? 0.48
-            : (visibleCount == 5
-                ? 0.58
-                : (visibleCount == 4
-                    ? 0.70
-                    : (visibleCount == 3 ? 0.85 : 1.0)));
+        final bool hasGroupStage = visibleStages.contains(TournamentStage.groupStage);
+        final int knockoutCount = visibleCount - (hasGroupStage ? 1 : 0);
+
+        // Adaptive inter-column margins: tighter spacing when more columns are visible
+        final double colMargin = visibleCount <= 2 ? 20.0 : (visibleCount <= 4 ? 14.0 : 10.0);
+
+        // Account for inter-column gaps and the horizontal scroll padding (16px each side)
+        const double scrollPaddingH = 16.0;
+        final double totalGaps = visibleCount > 1 ? (visibleCount - 1) * colMargin : 0;
+        final double distributableWidth = (availableWidth - totalGaps - (2 * scrollPaddingH)).clamp(0.0, double.infinity);
+
+        // Weight-based proportional allocation:
+        // The group column receives 1.6× the width of each knockout column,
+        // ensuring the group table always gets adequate space while knockout
+        // columns share the remainder evenly.
+        const double groupWeight = 1.6;
+        const double knockoutWeight = 1.0;
+
+        double groupColWidth = 0;
+        double colWidth = 0;
+
+        if (visibleCount == 1) {
+          // Single column fills the entire visible area
+          if (hasGroupStage) {
+            groupColWidth = distributableWidth;
+          } else {
+            colWidth = distributableWidth;
+          }
+        } else {
+          final double totalWeight =
+              (hasGroupStage ? groupWeight : 0) + (knockoutCount * knockoutWeight);
+          final double unitWidth = distributableWidth / totalWeight;
+
+          groupColWidth = hasGroupStage ? unitWidth * groupWeight : 0;
+          colWidth = knockoutCount > 0 ? unitWidth * knockoutWeight : 0;
+        }
+
+        // Determine group detail level from the ACTUAL allocated width
+        // instead of from the number of visible stages.
+        final _GroupDetailLevel groupDetailLevel;
+        if (groupColWidth >= 260) {
+          groupDetailLevel = _GroupDetailLevel.full;
+        } else if (groupColWidth >= 85) {
+          groupDetailLevel = _GroupDetailLevel.medium;
+        } else {
+          groupDetailLevel = _GroupDetailLevel.condensed;
+        }
+
+        // Card scaling derived from actual column width vs. ideal card width
+        final double cardHeightScale = knockoutCount > 0
+            ? (colWidth / style.matchCardWidth).clamp(0.45, 1.0)
+            : 1.0;
         final double cardHeight = style.matchCardHeight * cardHeightScale;
         final double cardSpacing = style.matchCardSpacing * cardHeightScale;
 
-        double groupColWidth;
-        double colWidth;
-
-        if (visibleCount == 1) {
-          if (visibleStages.first == TournamentStage.groupStage) {
-            groupColWidth = availableWidth - (2 * horizontalPadding);
-            colWidth = style.matchCardWidth * cardHeightScale;
-          } else {
-            groupColWidth = 0.0;
-            colWidth = availableWidth - (2 * horizontalPadding);
-          }
-        } else {
-          // N > 1
-          if (visibleStages.contains(TournamentStage.groupStage)) {
-            final double groupRatio = visibleCount == 2 ? 0.45 : 0.30;
-            final double matchRatio = 1.0 - groupRatio;
-            final calcGroupWidth = remWidth * groupRatio;
-            final calcColWidth = (remWidth * matchRatio) / (visibleCount - 1);
-
-            // Clamp appropriately
-            if (visibleCount == 2) {
-              groupColWidth = calcGroupWidth.clamp(160.0, 220.0);
-              colWidth = calcColWidth.clamp(140.0 * cardHeightScale, style.matchCardWidth * cardHeightScale);
-            } else {
-              groupColWidth = calcGroupWidth.clamp(70.0, 120.0);
-              colWidth = calcColWidth.clamp(110.0 * cardHeightScale, style.matchCardWidth * cardHeightScale);
-            }
-          } else {
-            final calcColWidth = remWidth / visibleCount;
-            groupColWidth = 0.0;
-            colWidth = calcColWidth.clamp(110.0 * cardHeightScale, style.matchCardWidth * cardHeightScale);
-          }
-        }
+        // Determine flag visibility in knockout cards from the actual
+        // column width — not from cardHeightScale — so that selecting
+        // GS+R32 vs SF+F with the same column count behaves identically.
+        final bool showFlagsInKnockout = colWidth >= 120;
 
         int maxMatches = 16;
         if (knockoutStages.isNotEmpty) {
@@ -697,39 +750,44 @@ class _TournamentStandingsState extends State<TournamentStandings>
             child: SingleChildScrollView(
               controller: _bracketScrollController,
               scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.only(left: 12.0, right: 12.0, top: 40.0, bottom: 40.0),
+              clipBehavior: Clip.none,
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 40.0),
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
                   Positioned.fill(
-                    child: CustomPaint(
-                      painter: BracketLinesPainter(
-                        stages: visibleStages,
-                        matches: widget.data.bracketMatches,
-                        highlightedTeamId: _highlightedTeamId,
-                        style: style,
-                        theme: theme,
-                        colWidth: colWidth,
-                        groupColWidth: groupColWidth,
-                        colMargin: colMargin,
-                        cardHeight: cardHeight,
-                        cardSpacing: cardSpacing,
+                    child: AnimatedBuilder(
+                      animation: _lineAnimation,
+                      builder: (context, _) => CustomPaint(
+                        painter: BracketLinesPainter(
+                          stages: visibleStages,
+                          matches: widget.data.bracketMatches,
+                          highlightedTeamId: _highlightedTeamId,
+                          style: style,
+                          theme: theme,
+                          colWidth: colWidth,
+                          groupColWidth: groupColWidth,
+                          colMargin: colMargin,
+                          cardHeight: cardHeight,
+                          cardSpacing: cardSpacing,
+                          animationProgress: _lineAnimation.value,
+                        ),
                       ),
                     ),
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: stages.map((stage) {
+                    children: visibleStages.map((stage) {
                       final isSelected = _selectedStages.contains(stage);
+                      final isLastSelected = stage == visibleStages.last;
                       final double targetWidth = stage == TournamentStage.groupStage ? groupColWidth : colWidth;
                       final double width = isSelected ? targetWidth : 0.0;
-                      final double marginRight = isSelected ? colMargin : 0.0;
+                      final double marginRight = (isSelected && !isLastSelected) ? colMargin : 0.0;
 
                       if (stage == TournamentStage.groupStage) {
                         return AnimatedContainer(
                           duration: const Duration(milliseconds: 350),
                           curve: Curves.easeInOutCubic,
-                          clipBehavior: Clip.hardEdge,
                           decoration: const BoxDecoration(
                             color: Colors.transparent,
                           ),
@@ -744,8 +802,7 @@ class _TournamentStandingsState extends State<TournamentStandings>
                               child: _buildGroupStandingsColumn(
                                 theme,
                                 style,
-                                isCondensed: visibleCount >= 3,
-                                isMedium: visibleCount == 2,
+                                detailLevel: groupDetailLevel,
                               ),
                             ),
                           ),
@@ -762,7 +819,6 @@ class _TournamentStandingsState extends State<TournamentStandings>
                       return AnimatedContainer(
                         duration: const Duration(milliseconds: 350),
                         curve: Curves.easeInOutCubic,
-                        clipBehavior: Clip.hardEdge,
                         decoration: const BoxDecoration(
                           color: Colors.transparent,
                         ),
@@ -785,12 +841,57 @@ class _TournamentStandingsState extends State<TournamentStandings>
                                       (slotHeight / 2) -
                                       (cardHeight / 2);
 
+                                  // Map this card's column index to its transition entry point on the animation timeline.
+                                  // The line leading INTO this column starts drawing at (displayColIndex - 1) / totalSegments
+                                  // and finishes drawing at displayColIndex / totalSegments.
+                                  // When the line finishes drawing (or progress passes that point), we trigger a bouncy scale feedback.
+                                  final int knockoutCount = knockoutStages.length;
+                                  final double totalSegments = knockoutCount > 1 ? (knockoutCount - 1).toDouble() : 1.0;
+                                  final double lineArrivalProgress = displayColIndex > 0 
+                                      ? (displayColIndex.toDouble() / totalSegments).clamp(0.0, 1.0)
+                                      : 0.0;
+
                                   return Positioned(
                                     top: y,
                                     left: 0,
                                     right: 0,
                                     height: cardHeight,
-                                    child: _buildBracketMatchCard(theme, style, match, cardHeightScale: cardHeightScale),
+                                    child: AnimatedBuilder(
+                                      animation: _lineAnimation,
+                                      builder: (context, child) {
+                                        final double currentProgress = _lineAnimation.value;
+                                        
+                                        // If a team is selected and is in this match, we trigger a bounce scale when the line reaches it
+                                        final bool isHighlightedMatch = (match.teamA != null && _highlightedTeamId == match.teamA!.id) || 
+                                                                        (match.teamB != null && _highlightedTeamId == match.teamB!.id);
+                                        
+                                        double scaleFactor = 1.0;
+                                        final bool isReached = currentProgress >= lineArrivalProgress;
+
+                                        if (isHighlightedMatch && isReached) {
+                                          final double diff = currentProgress - lineArrivalProgress;
+                                          if (diff < 0.25) {
+                                            final double t = diff / 0.25;
+                                            // Scale bounce animation
+                                            scaleFactor = 1.0 + (math.sin(t * math.pi) * 0.12);
+                                          } else {
+                                            scaleFactor = 1.05;
+                                          }
+                                        }
+
+                                        return Transform.scale(
+                                          scale: scaleFactor,
+                                          child: _buildBracketMatchCard(
+                                            theme, 
+                                            style, 
+                                            match, 
+                                            cardHeightScale: cardHeightScale, 
+                                            showFlags: showFlagsInKnockout,
+                                            isReached: isReached,
+                                          ),
+                                        );
+                                      },
+                                    ),
                                   );
                                 }),
                               ],
@@ -814,12 +915,17 @@ class _TournamentStandingsState extends State<TournamentStandings>
     TournamentStandingsStyle style,
     BracketMatch match, {
     double cardHeightScale = 1.0,
+    bool showFlags = true,
+    bool isReached = true,
   }) {
     final isAHighlighted = match.teamA != null && _highlightedTeamId == match.teamA!.id;
     final isBHighlighted = match.teamB != null && _highlightedTeamId == match.teamB!.id;
 
     final cardBg = style.matchCardBackgroundColor ?? theme.cardColor;
     final borderColor = style.matchCardBorderColor ?? theme.dividerColor.withValues(alpha: 0.08);
+
+    final isHighlightedMatch = isAHighlighted || isBHighlighted;
+    final isSelectedAndReached = isHighlightedMatch && isReached;
 
     return GestureDetector(
       onTap: () {
@@ -832,52 +938,59 @@ class _TournamentStandingsState extends State<TournamentStandings>
         decoration: BoxDecoration(
           color: cardBg,
           borderRadius: BorderRadius.circular(12 * cardHeightScale),
-          border: Border.all(
-            color: borderColor,
+            border: Border.all(
+              color: isSelectedAndReached 
+                  ? (style.accentColor ?? theme.colorScheme.onSurface)
+                  : borderColor,
+              width: isSelectedAndReached ? 1.5 : 1.0,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: isSelectedAndReached
+                    ? (style.accentColor ?? theme.colorScheme.onSurface).withValues(alpha: 0.12)
+                    : Colors.black.withValues(alpha: 0.04),
+                blurRadius: isSelectedAndReached ? 12 * cardHeightScale : 6 * cardHeightScale,
+                offset: Offset(0, isSelectedAndReached ? 5 * cardHeightScale : 3 * cardHeightScale),
+              ),
+            ],
           ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.04),
-              blurRadius: 6 * cardHeightScale,
-              offset: Offset(0, 3 * cardHeightScale),
-            ),
-          ],
-        ),
-        child: Column(
-          children: [
-            Expanded(
-              child: _buildBracketTeamRow(
-                theme,
-                style,
-                match.teamA,
-                match.scoreA,
-                match.penaltyScoreA,
-                isAHighlighted,
-                match.winner == match.teamA && match.isCompleted,
-                true,
-                cardHeightScale,
+          child: Column(
+            children: [
+              Expanded(
+                child: _buildBracketTeamRow(
+                  theme,
+                  style,
+                  match.teamA,
+                  match.scoreA,
+                  match.penaltyScoreA,
+                  isAHighlighted && isReached,
+                  match.winner == match.teamA && match.isCompleted,
+                  true,
+                  cardHeightScale,
+                  showFlags: showFlags,
+                ),
               ),
-            ),
-            Container(
-              height: 1,
-              color: borderColor,
-            ),
-            Expanded(
-              child: _buildBracketTeamRow(
-                theme,
-                style,
-                match.teamB,
-                match.scoreB,
-                match.penaltyScoreB,
-                isBHighlighted,
-                match.winner == match.teamB && match.isCompleted,
-                false,
-                cardHeightScale,
+              Container(
+                height: 1,
+                color: borderColor,
               ),
-            ),
-          ],
+              Expanded(
+                child: _buildBracketTeamRow(
+                  theme,
+                  style,
+                  match.teamB,
+                  match.scoreB,
+                  match.penaltyScoreB,
+                  isBHighlighted && isReached,
+                  match.winner == match.teamB && match.isCompleted,
+                  false,
+                  cardHeightScale,
+                  showFlags: showFlags,
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
     );
   }
 
@@ -890,8 +1003,9 @@ class _TournamentStandingsState extends State<TournamentStandings>
     bool isHighlighted,
     bool isWinner,
     bool isTop,
-    double cardHeightScale,
-  ) {
+    double cardHeightScale, {
+    bool showFlags = true,
+  }) {
     final textStyle = style.matchCardTextStyle ?? theme.textTheme.bodyMedium ?? const TextStyle();
     final scoreStyle = style.scoreTextStyle ?? theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold) ?? const TextStyle();
 
@@ -912,7 +1026,7 @@ class _TournamentStandingsState extends State<TournamentStandings>
       padding: EdgeInsets.symmetric(horizontal: paddingVal),
       decoration: BoxDecoration(
         color: isHighlighted
-            ? (style.accentColor ?? theme.primaryColor).withValues(alpha: 0.08)
+            ? (style.accentColor ?? theme.colorScheme.onSurface).withValues(alpha: 0.08)
             : Colors.transparent,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(isTop ? 12 * cardHeightScale : 0),
@@ -925,8 +1039,8 @@ class _TournamentStandingsState extends State<TournamentStandings>
         alignment: Alignment.centerLeft,
         clipBehavior: Clip.none,
         children: [
-          // Left Team Color Bar (when cardHeightScale < 0.8)
-          if (team != null && cardHeightScale < 0.8)
+          // Left Team Color Bar (when flags are not shown)
+          if (team != null && !showFlags)
             Positioned(
               left: -paddingVal,
               top: 0,
@@ -945,8 +1059,8 @@ class _TournamentStandingsState extends State<TournamentStandings>
           Row(
             children: [
               if (team != null) ...[
-                // Flag (Only when cardHeightScale >= 0.8)
-                if (cardHeightScale >= 0.8) ...[
+                // Flag (Only when showFlags is true)
+                if (showFlags) ...[
                   if (team.flagUrl != null)
                     ClipRRect(
                       borderRadius: BorderRadius.circular(2),
@@ -968,7 +1082,7 @@ class _TournamentStandingsState extends State<TournamentStandings>
                     style: textStyle.copyWith(
                       fontSize: scaledFontSize,
                       fontWeight: isWinner ? FontWeight.bold : FontWeight.normal,
-                      color: isHighlighted ? (style.accentColor ?? theme.primaryColor) : null,
+                      color: isHighlighted ? (style.accentColor ?? theme.colorScheme.onSurface) : null,
                     ),
                   ),
                 ),
@@ -986,12 +1100,12 @@ class _TournamentStandingsState extends State<TournamentStandings>
                     '$score',
                     style: scoreStyle.copyWith(
                       fontSize: scaledScoreSize,
-                      color: isWinner ? (style.accentColor ?? theme.primaryColor) : Colors.grey.shade500,
+                      color: isWinner ? (style.accentColor ?? theme.colorScheme.onSurface) : Colors.grey.shade500,
                     ),
                   ),
                 ],
               ] else ...[
-                if (cardHeightScale >= 0.8) ...[
+                if (showFlags) ...[
                   _buildFlagFallback('TBD'),
                   SizedBox(width: flagSpacing),
                 ],
@@ -1027,6 +1141,7 @@ class BracketLinesPainter extends CustomPainter {
     required this.colMargin,
     required this.cardHeight,
     required this.cardSpacing,
+    this.animationProgress = 1.0,
   });
 
   /// The knockout stages in order.
@@ -1059,15 +1174,18 @@ class BracketLinesPainter extends CustomPainter {
   /// Vertical spacing between match cards.
   final double cardSpacing;
 
+  /// Progress of the drawing animation (0.0 = nothing drawn, 1.0 = fully drawn).
+  final double animationProgress;
+
   @override
   void paint(Canvas canvas, Size size) {
     final linePaint = Paint()
-      ..color = style.connectingLineColor ?? theme.dividerColor.withValues(alpha: 0.15)
+      ..color = style.connectingLineColor ?? Colors.grey.shade400
       ..strokeWidth = style.connectingLineThickness
       ..style = PaintingStyle.stroke;
 
     final highlightPaint = Paint()
-      ..color = style.accentColor ?? theme.primaryColor
+      ..color = style.accentColor ?? theme.colorScheme.onSurface
       ..strokeWidth = style.connectingLineThickness + 1.0
       ..style = PaintingStyle.stroke;
 
@@ -1084,6 +1202,25 @@ class BracketLinesPainter extends CustomPainter {
       final currentMatches = matches.where((m) => m.stage == currentStage).toList();
       final nextMatches = matches.where((m) => m.stage == nextStage).toList();
 
+      // Find the visual index of this transition among visible knockout stages
+      final List<TournamentStage> visibleKnockoutStages = stages.where((s) => s != TournamentStage.groupStage).toList();
+      final int transitionsCount = visibleKnockoutStages.length - 1;
+      final int transitionIndex = visibleKnockoutStages.indexOf(currentStage);
+
+      // Determine local progress for this transition segment
+      double stageProgress = 1.0;
+      if (transitionsCount > 0 && transitionIndex >= 0) {
+        final double segmentMin = transitionIndex / transitionsCount;
+        final double segmentMax = (transitionIndex + 1) / transitionsCount;
+        if (animationProgress <= segmentMin) {
+          stageProgress = 0.0;
+        } else if (animationProgress >= segmentMax) {
+          stageProgress = 1.0;
+        } else {
+          stageProgress = (animationProgress - segmentMin) / (segmentMax - segmentMin);
+        }
+      }
+
       for (final match in currentMatches) {
         if (match.nextMatchId == null) continue;
 
@@ -1096,8 +1233,6 @@ class BracketLinesPainter extends CustomPainter {
 
         // Calculate positioning
         // Current match column X coordinates based on single-side right margin
-        final knockoutStages = stages.where((s) => s != TournamentStage.groupStage).toList();
-
         double currentStartX = 0.0;
         for (int i = 0; i < c; i++) {
           if (stages[i] == TournamentStage.groupStage) {
@@ -1112,8 +1247,8 @@ class BracketLinesPainter extends CustomPainter {
         final double nextStartX = currentStartX + colWidth + colMargin;
 
         // Calculate Y coordinates using relative stage indices based on visible knockout stages
-        final int currentStageIndex = knockoutStages.indexOf(currentStage);
-        final int nextStageIndex = knockoutStages.indexOf(nextMatch.stage);
+        final int currentStageIndex = visibleKnockoutStages.indexOf(currentStage);
+        final int nextStageIndex = visibleKnockoutStages.indexOf(nextMatch.stage);
 
         final double currentSlotHeight = (cardHeight + cardSpacing) * math.pow(2, currentStageIndex);
         final double currentY = (match.roundIndex * currentSlotHeight) +
@@ -1154,7 +1289,19 @@ class BracketLinesPainter extends CustomPainter {
           }
         }
 
-        canvas.drawPath(path, shouldHighlight ? highlightPaint : linePaint);
+        // Draw the background connector lines (always visible)
+        canvas.drawPath(path, linePaint);
+
+        // If this path is highlighted, we animate the highlight "lighting up" sequentially
+        if (shouldHighlight) {
+          // If the animation has progressed past this transition segment, light it up
+          for (final metric in path.computeMetrics()) {
+            final drawLength = metric.length * stageProgress;
+            if (drawLength > 0) {
+              canvas.drawPath(metric.extractPath(0, drawLength), highlightPaint);
+            }
+          }
+        }
       }
     }
   }
@@ -1163,7 +1310,8 @@ class BracketLinesPainter extends CustomPainter {
   bool shouldRepaint(covariant BracketLinesPainter oldDelegate) {
     return oldDelegate.highlightedTeamId != highlightedTeamId ||
         oldDelegate.stages != stages ||
-        oldDelegate.matches != matches;
+        oldDelegate.matches != matches ||
+        oldDelegate.animationProgress != animationProgress;
   }
 }
 
@@ -1390,13 +1538,18 @@ class _TournamentStageRangeSelectorState extends State<TournamentStageRangeSelec
                         return SizedBox(
                           width: itemWidth,
                           child: Center(
-                            child: SizedBox(
-                              width: 24,
-                              height: 18,
-                              child: CustomPaint(
-                                painter: _StepLinesPainter(
-                                  stepIndex: i,
-                                  color: isSelected ? segmentActiveColor : segmentInactiveColor,
+                            child: AnimatedScale(
+                              duration: const Duration(milliseconds: 200),
+                              scale: isSelected ? 1.25 : 1.0,
+                              curve: Curves.elasticOut,
+                              child: SizedBox(
+                                width: 24,
+                                height: 18,
+                                child: CustomPaint(
+                                  painter: _StepLinesPainter(
+                                    stepIndex: i,
+                                    color: isSelected ? segmentActiveColor : segmentInactiveColor,
+                                  ),
                                 ),
                               ),
                             ),
