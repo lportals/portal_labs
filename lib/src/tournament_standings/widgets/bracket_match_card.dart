@@ -14,6 +14,7 @@ class BracketMatchCard extends StatelessWidget {
     this.cardHeightScale = 1.0,
     this.showFlags = true,
     this.isReached = true,
+    this.showDateHeader = false,
     this.onMatchTap,
   });
 
@@ -23,6 +24,7 @@ class BracketMatchCard extends StatelessWidget {
   final double cardHeightScale;
   final bool showFlags;
   final bool isReached;
+  final bool showDateHeader;
   final ValueChanged<BracketMatch>? onMatchTap;
 
   @override
@@ -31,6 +33,7 @@ class BracketMatchCard extends StatelessWidget {
       valueListenable: highlightedTeamNotifier,
       builder: (context, highlightedTeamId, child) {
         final theme = Theme.of(context);
+        final double paddingVal = math.max(6.0, 12.0 * cardHeightScale);
         
         final isAHighlighted = match.teamA != null && highlightedTeamId == match.teamA!.id;
         final isBHighlighted = match.teamB != null && highlightedTeamId == match.teamB!.id;
@@ -71,6 +74,33 @@ class BracketMatchCard extends StatelessWidget {
             ),
             child: Column(
               children: [
+                if (showDateHeader && match.matchDate != null) ...[
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: paddingVal,
+                      vertical: 5.0 * cardHeightScale,
+                    ),
+                    decoration: BoxDecoration(
+                      color: theme.dividerColor.withValues(alpha: 0.04),
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(12 * cardHeightScale),
+                      ),
+                    ),
+                    child: Text(
+                      _formatMatchDate(match.matchDate!),
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        fontSize: math.max(8.0, 9.5 * cardHeightScale),
+                        fontWeight: FontWeight.w700,
+                        color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.55),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 1,
+                    color: borderColor,
+                  ),
+                ],
                 Expanded(
                   child: _buildBracketTeamRow(
                     theme: theme,
@@ -80,7 +110,7 @@ class BracketMatchCard extends StatelessWidget {
                     penalties: match.penaltyScoreA,
                     isHighlighted: isAHighlighted && isReached,
                     isWinner: match.winner == match.teamA && match.isCompleted,
-                    isTop: true,
+                    isTop: !showDateHeader,
                     cardHeightScale: cardHeightScale,
                     showFlags: showFlags,
                   ),
@@ -186,6 +216,7 @@ class BracketMatchCard extends StatelessWidget {
                         width: flagW,
                         height: flagH,
                         fit: BoxFit.cover,
+                        gaplessPlayback: true,
                         errorBuilder: (_, _, _) => buildFlagFallback(team.code),
                       ),
                     )
@@ -253,5 +284,22 @@ class BracketMatchCard extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _formatMatchDate(DateTime date) {
+    final weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    final months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    
+    final weekday = weekdays[date.weekday - 1];
+    final month = months[date.month - 1];
+    final day = date.day;
+    
+    final hourNum = date.hour;
+    final minuteNum = date.minute;
+    final period = hourNum >= 12 ? 'PM' : 'AM';
+    final displayHour = hourNum % 12 == 0 ? 12 : hourNum % 12;
+    final displayMinute = minuteNum.toString().padLeft(2, '0');
+    
+    return '$weekday, $month $day · $displayHour:$displayMinute $period';
   }
 }

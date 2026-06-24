@@ -164,6 +164,7 @@ class _TournamentStandingsState extends State<TournamentStandings>
             'https://www.edigitalagency.com.au/wp-content/uploads/new-FIFA-World-Cup-2026-logo-black-PNG-large-size.png',
             height: 45,
             fit: BoxFit.contain,
+            gaplessPlayback: true,
             errorBuilder: (context, error, stackTrace) =>
                 const SizedBox.shrink(),
           ),
@@ -489,6 +490,7 @@ class _TournamentStandingsState extends State<TournamentStandings>
                                           cardHeightScale: cardHeightScale,
                                           showFlags: showFlagsInKnockout,
                                           isReached: isReached,
+                                          showDateHeader: visibleCount <= 2,
                                           onMatchTap: widget.onMatchTap,
                                         ),
                                       );

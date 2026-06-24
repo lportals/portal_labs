@@ -93,20 +93,17 @@ class TournamentStandingsShowcase extends StatelessWidget {
     final bracket = <BracketMatch>[
       // --- ROUND OF 32 ---
       // Left feeding into R16 Match 1 (r16_1)
-      const BracketMatch(id: 'r32_1', stage: TournamentStage.roundOf32, teamA: ger, teamB: kor, scoreA: 3, scoreB: 1, isCompleted: true, nextMatchId: 'r16_1', roundIndex: 0),
-      const BracketMatch(id: 'r32_2', stage: TournamentStage.roundOf32, teamA: sui, teamB: cze, scoreA: 1, scoreB: 2, isCompleted: true, nextMatchId: 'r16_1', roundIndex: 1),
-
+      BracketMatch(id: 'r32_1', stage: TournamentStage.roundOf32, teamA: ger, teamB: kor, scoreA: 3, scoreB: 1, isCompleted: true, nextMatchId: 'r16_1', roundIndex: 0, matchDate: DateTime(2026, 6, 29, 16, 30)),
+      BracketMatch(id: 'r32_2', stage: TournamentStage.roundOf32, teamA: sui, teamB: cze, scoreA: 1, scoreB: 2, isCompleted: true, nextMatchId: 'r16_1', roundIndex: 1, matchDate: DateTime(2026, 6, 30, 17, 0)),
       // Left feeding into R16 Match 2 (r16_2)
-      const BracketMatch(id: 'r32_3', stage: TournamentStage.roundOf32, teamA: mar, teamB: bih, scoreA: 2, scoreB: 0, isCompleted: true, nextMatchId: 'r16_2', roundIndex: 2),
-      const BracketMatch(id: 'r32_4', stage: TournamentStage.roundOf32, teamA: mex, teamB: qat, scoreA: 4, scoreB: 1, isCompleted: true, nextMatchId: 'r16_2', roundIndex: 3),
-
+      BracketMatch(id: 'r32_3', stage: TournamentStage.roundOf32, teamA: mar, teamB: bih, scoreA: 2, scoreB: 0, isCompleted: true, nextMatchId: 'r16_2', roundIndex: 2, matchDate: DateTime(2026, 6, 28, 15, 0)),
+      BracketMatch(id: 'r32_4', stage: TournamentStage.roundOf32, teamA: mex, teamB: qat, scoreA: 4, scoreB: 1, isCompleted: true, nextMatchId: 'r16_2', roundIndex: 3, matchDate: DateTime(2026, 6, 29, 21, 0)),
       // Left feeding into R16 Match 3 (r16_3)
-      const BracketMatch(id: 'r32_5', stage: TournamentStage.roundOf32, teamA: bra, teamB: aus, scoreA: 2, scoreB: 1, isCompleted: true, nextMatchId: 'r16_3', roundIndex: 4),
-      const BracketMatch(id: 'r32_6', stage: TournamentStage.roundOf32, teamA: jpn, teamB: civ, scoreA: 0, scoreB: 1, isCompleted: true, nextMatchId: 'r16_3', roundIndex: 5),
-
+      BracketMatch(id: 'r32_5', stage: TournamentStage.roundOf32, teamA: bra, teamB: aus, scoreA: 2, scoreB: 1, isCompleted: true, nextMatchId: 'r16_3', roundIndex: 4, matchDate: DateTime(2026, 7, 2, 19, 0)),
+      BracketMatch(id: 'r32_6', stage: TournamentStage.roundOf32, teamA: jpn, teamB: civ, scoreA: 0, scoreB: 1, isCompleted: true, nextMatchId: 'r16_3', roundIndex: 5, matchDate: DateTime(2026, 7, 2, 15, 0)),
       // Left feeding into R16 Match 4 (r16_4)
-      const BracketMatch(id: 'r32_7', stage: TournamentStage.roundOf32, teamA: usa, teamB: par, scoreA: 3, scoreB: 0, isCompleted: true, nextMatchId: 'r16_4', roundIndex: 6),
-      const BracketMatch(id: 'r32_8', stage: TournamentStage.roundOf32, teamA: ned, teamB: ecu, scoreA: 2, scoreB: 1, isCompleted: true, nextMatchId: 'r16_4', roundIndex: 7),
+      BracketMatch(id: 'r32_7', stage: TournamentStage.roundOf32, teamA: usa, teamB: par, scoreA: 3, scoreB: 0, isCompleted: true, nextMatchId: 'r16_4', roundIndex: 6, matchDate: DateTime(2026, 7, 1, 20, 0)),
+      BracketMatch(id: 'r32_8', stage: TournamentStage.roundOf32, teamA: ned, teamB: ecu, scoreA: 2, scoreB: 1, isCompleted: true, nextMatchId: 'r16_4', roundIndex: 7, matchDate: DateTime(2026, 7, 3, 18, 0)),
 
       // Placeholders for remaining R32 to keep matching tree vertical dimensions complete (16 positions)
       ...List.generate(8, (i) {
@@ -116,28 +113,28 @@ class TournamentStandingsShowcase extends StatelessWidget {
       }),
 
       // --- ROUND OF 16 ---
-      const BracketMatch(id: 'r16_1', stage: TournamentStage.roundOf16, teamA: ger, teamB: cze, scoreA: 2, scoreB: 0, isCompleted: true, nextMatchId: 'qf_1', roundIndex: 0),
-      const BracketMatch(id: 'r16_2', stage: TournamentStage.roundOf16, teamA: mar, teamB: mex, scoreA: 1, scoreB: 2, isCompleted: true, nextMatchId: 'qf_1', roundIndex: 1),
-      const BracketMatch(id: 'r16_3', stage: TournamentStage.roundOf16, teamA: bra, teamB: civ, scoreA: 3, scoreB: 1, isCompleted: true, nextMatchId: 'qf_2', roundIndex: 2),
-      const BracketMatch(id: 'r16_4', stage: TournamentStage.roundOf16, teamA: usa, teamB: ned, scoreA: 2, scoreB: 1, isCompleted: true, nextMatchId: 'qf_2', roundIndex: 3),
+      BracketMatch(id: 'r16_1', stage: TournamentStage.roundOf16, teamA: ger, teamB: cze, scoreA: 2, scoreB: 0, isCompleted: true, nextMatchId: 'qf_1', roundIndex: 0, matchDate: DateTime(2026, 7, 5, 18, 0)),
+      BracketMatch(id: 'r16_2', stage: TournamentStage.roundOf16, teamA: mar, teamB: mex, scoreA: 1, scoreB: 2, isCompleted: true, nextMatchId: 'qf_1', roundIndex: 1, matchDate: DateTime(2026, 7, 5, 21, 0)),
+      BracketMatch(id: 'r16_3', stage: TournamentStage.roundOf16, teamA: bra, teamB: civ, scoreA: 3, scoreB: 1, isCompleted: true, nextMatchId: 'qf_2', roundIndex: 2, matchDate: DateTime(2026, 7, 6, 18, 0)),
+      BracketMatch(id: 'r16_4', stage: TournamentStage.roundOf16, teamA: usa, teamB: ned, scoreA: 2, scoreB: 1, isCompleted: true, nextMatchId: 'qf_2', roundIndex: 3, matchDate: DateTime(2026, 7, 6, 21, 0)),
       // R16 right-side placeholders
-      const BracketMatch(id: 'r16_5', stage: TournamentStage.roundOf16, teamA: null, teamB: null, nextMatchId: 'qf_3', roundIndex: 4),
-      const BracketMatch(id: 'r16_6', stage: TournamentStage.roundOf16, teamA: null, teamB: null, nextMatchId: 'qf_3', roundIndex: 5),
-      const BracketMatch(id: 'r16_7', stage: TournamentStage.roundOf16, teamA: null, teamB: null, nextMatchId: 'qf_4', roundIndex: 6),
-      const BracketMatch(id: 'r16_8', stage: TournamentStage.roundOf16, teamA: null, teamB: null, nextMatchId: 'qf_4', roundIndex: 7),
+      BracketMatch(id: 'r16_5', stage: TournamentStage.roundOf16, teamA: null, teamB: null, nextMatchId: 'qf_3', roundIndex: 4, matchDate: DateTime(2026, 7, 7, 18, 0)),
+      BracketMatch(id: 'r16_6', stage: TournamentStage.roundOf16, teamA: null, teamB: null, nextMatchId: 'qf_3', roundIndex: 5, matchDate: DateTime(2026, 7, 7, 21, 0)),
+      BracketMatch(id: 'r16_7', stage: TournamentStage.roundOf16, teamA: null, teamB: null, nextMatchId: 'qf_4', roundIndex: 6, matchDate: DateTime(2026, 7, 8, 18, 0)),
+      BracketMatch(id: 'r16_8', stage: TournamentStage.roundOf16, teamA: null, teamB: null, nextMatchId: 'qf_4', roundIndex: 7, matchDate: DateTime(2026, 7, 8, 21, 0)),
 
       // --- QUARTER FINALS ---
-      const BracketMatch(id: 'qf_1', stage: TournamentStage.quarterFinal, teamA: ger, teamB: mex, scoreA: 1, scoreB: 2, isCompleted: true, nextMatchId: 'sf_1', roundIndex: 0),
-      const BracketMatch(id: 'qf_2', stage: TournamentStage.quarterFinal, teamA: bra, teamB: usa, scoreA: 1, scoreB: 2, isCompleted: true, nextMatchId: 'sf_1', roundIndex: 1),
-      const BracketMatch(id: 'qf_3', stage: TournamentStage.quarterFinal, teamA: null, teamB: null, nextMatchId: 'sf_2', roundIndex: 2),
-      const BracketMatch(id: 'qf_4', stage: TournamentStage.quarterFinal, teamA: null, teamB: null, nextMatchId: 'sf_2', roundIndex: 3),
+      BracketMatch(id: 'qf_1', stage: TournamentStage.quarterFinal, teamA: ger, teamB: mex, scoreA: 1, scoreB: 2, isCompleted: true, nextMatchId: 'sf_1', roundIndex: 0, matchDate: DateTime(2026, 7, 10, 18, 0)),
+      BracketMatch(id: 'qf_2', stage: TournamentStage.quarterFinal, teamA: bra, teamB: usa, scoreA: 1, scoreB: 2, isCompleted: true, nextMatchId: 'sf_1', roundIndex: 1, matchDate: DateTime(2026, 7, 10, 21, 0)),
+      BracketMatch(id: 'qf_3', stage: TournamentStage.quarterFinal, teamA: null, teamB: null, nextMatchId: 'sf_2', roundIndex: 2, matchDate: DateTime(2026, 7, 11, 18, 0)),
+      BracketMatch(id: 'qf_4', stage: TournamentStage.quarterFinal, teamA: null, teamB: null, nextMatchId: 'sf_2', roundIndex: 3, matchDate: DateTime(2026, 7, 11, 21, 0)),
 
       // --- SEMI FINALS ---
-      const BracketMatch(id: 'sf_1', stage: TournamentStage.semiFinal, teamA: mex, teamB: usa, scoreA: 1, scoreB: 2, isCompleted: true, nextMatchId: 'f_1', roundIndex: 0),
-      const BracketMatch(id: 'sf_2', stage: TournamentStage.semiFinal, teamA: null, teamB: null, nextMatchId: 'f_1', roundIndex: 1),
+      BracketMatch(id: 'sf_1', stage: TournamentStage.semiFinal, teamA: mex, teamB: usa, scoreA: 1, scoreB: 2, isCompleted: true, nextMatchId: 'f_1', roundIndex: 0, matchDate: DateTime(2026, 7, 14, 20, 0)),
+      BracketMatch(id: 'sf_2', stage: TournamentStage.semiFinal, teamA: null, teamB: null, nextMatchId: 'f_1', roundIndex: 1, matchDate: DateTime(2026, 7, 15, 20, 0)),
 
       // --- FINAL ---
-      const BracketMatch(id: 'f_1', stage: TournamentStage.final_, teamA: usa, teamB: null, roundIndex: 0),
+      BracketMatch(id: 'f_1', stage: TournamentStage.final_, teamA: usa, teamB: null, roundIndex: 0, matchDate: DateTime(2026, 7, 19, 21, 0)),
     ];
 
     return TournamentStandingsData(
