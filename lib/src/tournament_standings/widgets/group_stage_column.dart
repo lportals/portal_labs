@@ -16,6 +16,7 @@ enum GroupDetailLevel {
   condensed,
 }
 
+/// Builds a fallback widget containing the first two letters of the country code when the flag image is missing.
 Widget buildFlagFallback(String code) {
   return Container(
     width: 18,
@@ -33,7 +34,11 @@ Widget buildFlagFallback(String code) {
   );
 }
 
+/// A widget that displays the standings list for all groups in a scrollable column.
+///
+/// Automatically adjusts its layout, statistics columns, and padding depending on [detailLevel].
 class GroupStandingsColumn extends StatelessWidget {
+  /// Creates a [GroupStandingsColumn].
   const GroupStandingsColumn({
     super.key,
     required this.data,
@@ -45,12 +50,25 @@ class GroupStandingsColumn extends StatelessWidget {
     this.onTeamTap,
   });
 
+  /// Additional vertical padding applied at the top of the column to align with adjacent knockout stages.
   final double topPadding;
+
+  /// The global tournament standings data.
   final TournamentStandingsData data;
+
+  /// Custom styling guidelines for the standings widget.
   final TournamentStandingsStyle style;
+
+  /// The level of detail to render based on the current column width.
   final GroupDetailLevel detailLevel;
+
+  /// The set of all selected and active tournament stages.
   final Set<TournamentStage> selectedStages;
+
+  /// Notifier that triggers a visual highlight when a team code/name matches this value.
   final ValueNotifier<String?> highlightedTeamNotifier;
+
+  /// Optional callback invoked when a team row is tapped.
   final ValueChanged<TournamentTeam>? onTeamTap;
 
   @override

@@ -5,7 +5,11 @@ import '../models/tournament_standings_models.dart';
 import '../models/tournament_standings_style.dart';
 import 'group_stage_column.dart' show buildFlagFallback;
 
+/// A card widget that displays information for a single match in the bracket.
+///
+/// Features highlighted teams, scores, flag assets, and an optional date header.
 class BracketMatchCard extends StatelessWidget {
+  /// Creates a [BracketMatchCard].
   const BracketMatchCard({
     super.key,
     required this.match,
@@ -18,13 +22,28 @@ class BracketMatchCard extends StatelessWidget {
     this.onMatchTap,
   });
 
+  /// The bracket match info to render.
   final BracketMatch match;
+
+  /// Custom styling guidelines for the bracket match card.
   final TournamentStandingsStyle style;
+
+  /// Notifier that triggers a visual highlight when a team code/name matches this value.
   final ValueNotifier<String?> highlightedTeamNotifier;
+
+  /// A scaling factor to adjust size dynamically depending on column width.
   final double cardHeightScale;
+
+  /// Whether to render flag network images.
   final bool showFlags;
+
+  /// Whether the connection path animation has reached this card.
   final bool isReached;
+
+  /// Whether to display a header container with the formatted date of the match.
   final bool showDateHeader;
+
+  /// Optional callback invoked when the card is tapped.
   final ValueChanged<BracketMatch>? onMatchTap;
 
   @override
