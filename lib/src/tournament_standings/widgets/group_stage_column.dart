@@ -41,8 +41,11 @@ class GroupStandingsColumn extends StatelessWidget {
     required this.detailLevel,
     required this.selectedStages,
     required this.highlightedTeamNotifier,
+    this.topPadding = 4.0,
     this.onTeamTap,
   });
+
+  final double topPadding;
 
   final TournamentStandingsData data;
   final TournamentStandingsStyle style;
@@ -60,7 +63,7 @@ class GroupStandingsColumn extends StatelessWidget {
 
     if (detailLevel == GroupDetailLevel.condensed) {
       return Padding(
-        padding: const EdgeInsets.only(top: 4, bottom: 48, left: 4, right: 4),
+        padding: EdgeInsets.only(top: topPadding, bottom: 48, left: 4, right: 4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: data.groups.map((group) {
@@ -230,7 +233,7 @@ class GroupStandingsColumn extends StatelessWidget {
     }
 
     return Padding(
-      padding: const EdgeInsets.only(top: 4, bottom: 48, left: 4, right: 4),
+      padding: EdgeInsets.only(top: topPadding, bottom: 48, left: 4, right: 4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: data.groups.map((group) {

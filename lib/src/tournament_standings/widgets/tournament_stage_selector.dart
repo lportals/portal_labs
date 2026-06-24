@@ -170,7 +170,7 @@ class _TournamentStageRangeSelectorState extends State<TournamentStageRangeSelec
     return LayoutBuilder(
       builder: (context, constraints) {
         final double outerWidth = constraints.maxWidth;
-        final double innerWidth = outerWidth - 4.0; // 2px padding on each side
+        final double innerWidth = outerWidth - 8.0; // 2px label margin + 2px track padding on each side
         final double itemWidth = innerWidth / widget.stages.length;
 
         return Column(
@@ -214,101 +214,104 @@ class _TournamentStageRangeSelectorState extends State<TournamentStageRangeSelec
               ),
             ),
             // Track Container
-            Container(
-              key: _trackKey,
-              height: 54.0,
-              padding: const EdgeInsets.all(2.0),
-              decoration: BoxDecoration(
-                color: inactiveBg,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onPanDown: (details) => _handleTouchStart(details.globalPosition),
-                onPanUpdate: (details) => _handleTouchUpdate(details.globalPosition),
-                onPanEnd: (details) => _handleTouchEnd(),
-                onPanCancel: () => _handleTouchEnd(),
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    // Animated active pill background
-                    AnimatedPositioned(
-                      duration: const Duration(milliseconds: 200),
-                      curve: Curves.easeOutCubic,
-                      left: startIdx * itemWidth,
-                      top: 0,
-                      bottom: 0,
-                      width: ((endIdx - startIdx) + 1) * itemWidth,
-                      child: Container(
-                        clipBehavior: Clip.antiAlias,
-                        decoration: BoxDecoration(
-                          color: activeBg,
-                          borderRadius: BorderRadius.circular(10), // Matched interior border radius (12 - 2px padding = 10px)
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            // Left grab handle indicator (White cap with mini chevron)
-                            Container(
-                              width: 16,
-                              color: Colors.white,
-                              child: Center(
-                                child: Icon(
-                                  Icons.chevron_left,
-                                  size: 12,
-                                  color: activeStroke,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2.0),
+              child: Container(
+                key: _trackKey,
+                height: 54.0,
+                padding: const EdgeInsets.all(2.0),
+                decoration: BoxDecoration(
+                  color: inactiveBg,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onPanDown: (details) => _handleTouchStart(details.globalPosition),
+                  onPanUpdate: (details) => _handleTouchUpdate(details.globalPosition),
+                  onPanEnd: (details) => _handleTouchEnd(),
+                  onPanCancel: () => _handleTouchEnd(),
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      // Animated active pill background
+                      AnimatedPositioned(
+                        duration: const Duration(milliseconds: 200),
+                        curve: Curves.easeOutCubic,
+                        left: startIdx * itemWidth,
+                        top: 0,
+                        bottom: 0,
+                        width: ((endIdx - startIdx) + 1) * itemWidth,
+                        child: Container(
+                          clipBehavior: Clip.antiAlias,
+                          decoration: BoxDecoration(
+                            color: activeBg,
+                            borderRadius: BorderRadius.circular(10), // Matched interior border radius (12 - 2px padding = 10px)
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              // Left grab handle indicator (White cap with mini chevron)
+                              Container(
+                                width: 16,
+                                color: Colors.white,
+                                child: Center(
+                                  child: Icon(
+                                    Icons.chevron_left,
+                                    size: 12,
+                                    color: activeStroke,
+                                  ),
                                 ),
                               ),
-                            ),
-                            // Middle space showing the parent's activeBg
-                            const Expanded(
-                              child: SizedBox.shrink(),
-                            ),
-                            // Right grab handle indicator (White cap with mini chevron)
-                            Container(
-                              width: 16,
-                              color: Colors.white,
-                              child: Center(
-                                child: Icon(
-                                  Icons.chevron_right,
-                                  size: 12,
-                                  color: activeStroke,
+                              // Middle space showing the parent's activeBg
+                              const Expanded(
+                                child: SizedBox.shrink(),
+                              ),
+                              // Right grab handle indicator (White cap with mini chevron)
+                              Container(
+                                width: 16,
+                                color: Colors.white,
+                                child: Center(
+                                  child: Icon(
+                                    Icons.chevron_right,
+                                    size: 12,
+                                    color: activeStroke,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    // Items (Icons only)
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: List.generate(widget.stages.length, (i) {
-                        final isSelected = i >= startIdx && i <= endIdx;
-                        return SizedBox(
-                          width: itemWidth,
-                          child: Center(
-                            child: AnimatedScale(
-                              duration: const Duration(milliseconds: 200),
-                              scale: isSelected ? 1.25 : 1.0,
-                              curve: Curves.elasticOut,
-                              child: SizedBox(
-                                width: 24,
-                                height: 18,
-                                child: CustomPaint(
-                                  painter: StepLinesPainter(
-                                    stepIndex: i,
-                                    color: isSelected ? segmentActiveColor : segmentInactiveColor,
-                                    isSelected: isSelected,
+                      // Items (Icons only)
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: List.generate(widget.stages.length, (i) {
+                          final isSelected = i >= startIdx && i <= endIdx;
+                          return SizedBox(
+                            width: itemWidth,
+                            child: Center(
+                              child: AnimatedScale(
+                                duration: const Duration(milliseconds: 200),
+                                scale: isSelected ? 1.25 : 1.0,
+                                curve: Curves.elasticOut,
+                                child: SizedBox(
+                                  width: 24,
+                                  height: 18,
+                                  child: CustomPaint(
+                                    painter: StepLinesPainter(
+                                      stepIndex: i,
+                                      color: isSelected ? segmentActiveColor : segmentInactiveColor,
+                                      isSelected: isSelected,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        );
-                      }),
-                    ),
-                  ],
+                          );
+                        }),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

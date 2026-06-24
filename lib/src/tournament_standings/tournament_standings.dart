@@ -122,8 +122,8 @@ class _TournamentStandingsState extends State<TournamentStandings>
       _endStage = end;
     });
 
-    // Maintain the fully drawn lines when changing stages, rather than replaying from 0
-    _lineAnimController.value = 1.0;
+    // Replay the line drawing animation from 0.0 when selected stages change to sync with transitions
+    _lineAnimController.forward(from: 0.0);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _scrollToStageColumn();
@@ -227,13 +227,13 @@ class _TournamentStandingsState extends State<TournamentStandings>
         );
         final int knockoutCount = visibleCount - (hasGroupStage ? 1 : 0);
 
-        // Adaptive inter-column margins: tighter spacing when more columns are visible
+        // Adaptive inter-column margins: tighter spacing to optimize horizontal space
         final double colMargin = visibleCount <= 2
-            ? 20.0
-            : (visibleCount <= 4 ? 14.0 : 10.0);
+            ? 12.0
+            : (visibleCount <= 4 ? 8.0 : 6.0);
 
-        // Account for inter-column gaps and the horizontal scroll padding (16px each side)
-        const double scrollPaddingH = 16.0;
+        // Account for inter-column gaps and the horizontal scroll padding (8px each side)
+        const double scrollPaddingH = 8.0;
         final double totalGaps = visibleCount > 1
             ? (visibleCount - 1) * colMargin
             : 0;
@@ -244,10 +244,8 @@ class _TournamentStandingsState extends State<TournamentStandings>
             );
 
         // Weight-based proportional allocation:
-        // The group column receives 1.6× the width of each knockout column,
-        // ensuring the group table always gets adequate space while knockout
-        // columns share the remainder evenly.
-        const double groupWeight = 1.6;
+        // Set to 1.0 to make all columns (group stage and knockout stages) equal in width.
+        const double groupWeight = 1.0;
         const double knockoutWeight = 1.0;
 
         double groupColWidth = 0;
@@ -337,9 +335,13 @@ class _TournamentStandingsState extends State<TournamentStandings>
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: visibleStages.map((stage) {
+                  children: TournamentStage.values.map((stage) {
                     final isSelected = _selectedStages.contains(stage);
-                    final isLastSelected = stage == visibleStages.last;
+                    final lastSelectedStage = TournamentStage.values.lastWhere(
+                      (s) => _selectedStages.contains(s),
+                      orElse: () => TournamentStage.values.last,
+                    );
+                    final isLastSelected = stage == lastSelectedStage;
                     final double targetWidth =
                         stage == TournamentStage.groupStage
                         ? groupColWidth
@@ -371,6 +373,7 @@ class _TournamentStandingsState extends State<TournamentStandings>
                               detailLevel: groupDetailLevel,
                               selectedStages: _selectedStages,
                               highlightedTeamNotifier: _highlightedTeamNotifier,
+                              topPadding: cardSpacing / 2,
                               onTeamTap: widget.onTeamTap,
                             ),
                           ),
@@ -378,7 +381,12 @@ class _TournamentStandingsState extends State<TournamentStandings>
                       );
                     }
 
-                    final colIndex = knockoutStages.indexOf(stage);
+                    final int colIndex = _selectedStages.contains(stage)
+                        ? knockoutStages.indexOf(stage)
+                        : TournamentStage.values
+                            .sublist(0, TournamentStage.values.indexOf(stage))
+                            .where((s) => s != TournamentStage.groupStage && _selectedStages.contains(s))
+                            .length;
                     final displayColIndex = colIndex != -1 ? colIndex : 0;
                     final matchesInStage =
                         widget.data.bracketMatches
@@ -433,8 +441,8 @@ class _TournamentStandingsState extends State<TournamentStandings>
 
                                 return Positioned(
                                   top: y,
-                                  left: 4.0,
-                                  right: 4.0,
+                                  left: 2.0,
+                                  right: 2.0,
                                   height: cardHeight,
                                   child: AnimatedBuilder(
                                     animation: _lineAnimation,
@@ -624,10 +632,10 @@ class BracketLinesPainter extends CustomPainter {
             currentStartX += colWidth + colMargin;
           }
         }
-        final double currentEndX = currentStartX + colWidth - 4.0;
+        final double currentEndX = currentStartX + colWidth - 2.0;
 
         // Next match column X coordinates
-        final double nextStartX = currentStartX + colWidth + colMargin + 4.0;
+        final double nextStartX = currentStartX + colWidth + colMargin + 2.0;
 
         // Calculate Y coordinates using relative stage indices based on visible knockout stages
         final int currentStageIndex = visibleKnockoutStages.indexOf(
