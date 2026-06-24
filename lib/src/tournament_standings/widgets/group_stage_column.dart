@@ -59,13 +59,11 @@ class GroupStandingsColumn extends StatelessWidget {
     final borderColor = style.matchCardBorderColor ?? theme.dividerColor.withValues(alpha: 0.10);
 
     if (detailLevel == GroupDetailLevel.condensed) {
-      return ListView.builder(
-        physics: const ClampingScrollPhysics(),
-        clipBehavior: Clip.none,
+      return Padding(
         padding: const EdgeInsets.only(top: 4, bottom: 48, left: 4, right: 4),
-        itemCount: data.groups.length,
-        itemBuilder: (context, index) {
-          final group = data.groups[index];
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: data.groups.map((group) {
             return Container(
               margin: const EdgeInsets.only(bottom: 12),
               decoration: BoxDecoration(
@@ -189,7 +187,8 @@ class GroupStandingsColumn extends StatelessWidget {
                 ],
               ),
             );
-        },
+          }).toList(),
+        ),
       );
     }
 
@@ -230,13 +229,11 @@ class GroupStandingsColumn extends StatelessWidget {
       );
     }
 
-    return ListView.builder(
-      physics: const ClampingScrollPhysics(),
-      clipBehavior: Clip.none,
+    return Padding(
       padding: const EdgeInsets.only(top: 4, bottom: 48, left: 4, right: 4),
-      itemCount: data.groups.length,
-      itemBuilder: (context, index) {
-        final group = data.groups[index];
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: data.groups.map((group) {
           return Container(
             margin: EdgeInsets.only(bottom: isMedium ? 12 : 16),
             decoration: BoxDecoration(
@@ -437,7 +434,8 @@ class GroupStandingsColumn extends StatelessWidget {
               ],
             ),
           );
-      },
+        }).toList(),
+      ),
     );
   }
 }

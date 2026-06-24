@@ -49,6 +49,7 @@ class BracketMatchCard extends StatelessWidget {
             onMatchTap?.call(match);
           },
           child: Container(
+            clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
               color: cardBg,
               borderRadius: BorderRadius.circular(12 * cardHeightScale),
@@ -193,12 +194,18 @@ class BracketMatchCard extends StatelessWidget {
                   SizedBox(width: flagSpacing),
                 ],
                 Expanded(
-                  child: Text(
-                    team.code,
-                    style: textStyle.copyWith(
-                      fontSize: scaledFontSize,
-                      fontWeight: isWinner ? FontWeight.bold : FontWeight.normal,
-                      color: isHighlighted ? (style.accentColor ?? theme.colorScheme.onSurface) : null,
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      team.code,
+                      maxLines: 1,
+                      softWrap: false,
+                      style: textStyle.copyWith(
+                        fontSize: scaledFontSize,
+                        fontWeight: isWinner ? FontWeight.bold : FontWeight.normal,
+                        color: isHighlighted ? (style.accentColor ?? theme.colorScheme.onSurface) : null,
+                      ),
                     ),
                   ),
                 ),
@@ -226,11 +233,17 @@ class BracketMatchCard extends StatelessWidget {
                   SizedBox(width: flagSpacing),
                 ],
                 Expanded(
-                  child: Text(
-                    'TBD',
-                    style: textStyle.copyWith(
-                      fontSize: scaledFontSize,
-                      color: Colors.grey.shade500,
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'TBD',
+                      maxLines: 1,
+                      softWrap: false,
+                      style: textStyle.copyWith(
+                        fontSize: scaledFontSize,
+                        color: Colors.grey.shade500,
+                      ),
                     ),
                   ),
                 ),

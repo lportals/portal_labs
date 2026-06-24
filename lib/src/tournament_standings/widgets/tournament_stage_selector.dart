@@ -186,17 +186,26 @@ class _TournamentStageRangeSelectorState extends State<TournamentStageRangeSelec
                     width: itemWidth,
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 12.0),
-                      child: AnimatedDefaultTextStyle(
-                        duration: const Duration(milliseconds: 200),
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-                          color: isSelected ? labelActive : labelInactive,
-                          letterSpacing: 0.5,
-                        ),
-                        child: Text(
-                          widget.labels[i],
-                          textAlign: TextAlign.center,
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () {
+                          if (widget.enableHaptics) {
+                            HapticFeedback.selectionClick();
+                          }
+                          widget.onChanged(widget.stages[i], widget.stages[i]);
+                        },
+                        child: AnimatedDefaultTextStyle(
+                          duration: const Duration(milliseconds: 200),
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
+                            color: isSelected ? labelActive : labelInactive,
+                            letterSpacing: 0.5,
+                          ),
+                          child: Text(
+                            widget.labels[i],
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
                     ),

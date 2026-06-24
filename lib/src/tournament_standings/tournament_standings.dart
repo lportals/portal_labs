@@ -198,8 +198,6 @@ class _TournamentStandingsState extends State<TournamentStandings>
     );
   }
 
-
-
   Widget _buildKnockoutBracketView(
     ThemeData theme,
     TournamentStandingsStyle style,
@@ -295,219 +293,209 @@ class _TournamentStandingsState extends State<TournamentStandings>
         // GS+R32 vs SF+F with the same column count behaves identically.
         final bool showFlagsInKnockout = colWidth >= 120;
 
-        int maxMatches = 16;
+        int maxMatches = 0;
         if (knockoutStages.isNotEmpty) {
           final firstKnockout = knockoutStages.first;
-          final matchCount = widget.data.bracketMatches
+          maxMatches = widget.data.bracketMatches
               .where((m) => m.stage == firstKnockout)
               .length;
-          if (matchCount > 0) {
-            maxMatches = matchCount;
-          }
-        } else {
-          maxMatches = 4; // Default compact height when only groups are shown
         }
 
-        final double contentHeight =
-            (cardHeight + cardSpacing) * maxMatches + 100.0;
+        final double knockoutHeight = (cardHeight + cardSpacing) * maxMatches;
 
         return SingleChildScrollView(
-          child: SizedBox(
-            height: contentHeight,
-            child: SingleChildScrollView(
-              controller: _bracketScrollController,
-              scrollDirection: Axis.horizontal,
+          child: SingleChildScrollView(
+            controller: _bracketScrollController,
+            scrollDirection: Axis.horizontal,
+            clipBehavior: Clip.none,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 8.0,
+              vertical: 16.0,
+            ),
+            child: Stack(
               clipBehavior: Clip.none,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 40.0,
-              ),
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Positioned.fill(
-                    child: AnimatedBuilder(
-                      animation: _lineAnimation,
-                      builder: (context, _) => CustomPaint(
-                        painter: BracketLinesPainter(
-                          stages: visibleStages,
-                          matches: widget.data.bracketMatches,
-                          highlightedTeamId: _highlightedTeamNotifier.value,
-                          style: style,
-                          theme: theme,
-                          colWidth: colWidth,
-                          groupColWidth: groupColWidth,
-                          colMargin: colMargin,
-                          cardHeight: cardHeight,
-                          cardSpacing: cardSpacing,
-                          animationProgress: _lineAnimation.value,
-                        ),
+              children: [
+                Positioned.fill(
+                  child: AnimatedBuilder(
+                    animation: _lineAnimation,
+                    builder: (context, _) => CustomPaint(
+                      painter: BracketLinesPainter(
+                        stages: visibleStages,
+                        matches: widget.data.bracketMatches,
+                        highlightedTeamId: _highlightedTeamNotifier.value,
+                        style: style,
+                        theme: theme,
+                        colWidth: colWidth,
+                        groupColWidth: groupColWidth,
+                        colMargin: colMargin,
+                        cardHeight: cardHeight,
+                        cardSpacing: cardSpacing,
+                        animationProgress: _lineAnimation.value,
                       ),
                     ),
                   ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: visibleStages.map((stage) {
-                      final isSelected = _selectedStages.contains(stage);
-                      final isLastSelected = stage == visibleStages.last;
-                      final double targetWidth =
-                          stage == TournamentStage.groupStage
-                          ? groupColWidth
-                          : colWidth;
-                      final double width = isSelected ? targetWidth : 0.0;
-                      final double marginRight = (isSelected && !isLastSelected)
-                          ? colMargin
-                          : 0.0;
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: visibleStages.map((stage) {
+                    final isSelected = _selectedStages.contains(stage);
+                    final isLastSelected = stage == visibleStages.last;
+                    final double targetWidth =
+                        stage == TournamentStage.groupStage
+                        ? groupColWidth
+                        : colWidth;
+                    final double width = isSelected ? targetWidth : 0.0;
+                    final double marginRight = (isSelected && !isLastSelected)
+                        ? colMargin
+                        : 0.0;
 
-                      if (stage == TournamentStage.groupStage) {
-                        return AnimatedContainer(
-                          duration: const Duration(milliseconds: 350),
-                          curve: Curves.easeInOutCubic,
-                          decoration: const BoxDecoration(
-                            color: Colors.transparent,
-                          ),
-                          width: width,
-                          margin: EdgeInsets.only(right: marginRight),
-                          child: OverflowBox(
-                            minWidth: targetWidth,
-                            maxWidth: targetWidth,
-                            alignment: Alignment.topLeft,
-                            child: SizedBox(
-                              width: targetWidth,
-                              child: GroupStandingsColumn(
-                                data: widget.data,
-                                style: style,
-                                detailLevel: groupDetailLevel,
-                                selectedStages: _selectedStages,
-                                highlightedTeamNotifier:
-                                    _highlightedTeamNotifier,
-                                onTeamTap: widget.onTeamTap,
-                              ),
-                            ),
-                          ),
-                        );
-                      }
-
-                      final colIndex = knockoutStages.indexOf(stage);
-                      final displayColIndex = colIndex != -1 ? colIndex : 0;
-                      final matchesInStage =
-                          widget.data.bracketMatches
-                              .where((m) => m.stage == stage)
-                              .toList()
-                            ..sort(
-                              (a, b) => a.roundIndex.compareTo(b.roundIndex),
-                            );
-
+                    if (stage == TournamentStage.groupStage) {
                       return AnimatedContainer(
                         duration: const Duration(milliseconds: 350),
                         curve: Curves.easeInOutCubic,
+                        clipBehavior: Clip.hardEdge,
                         decoration: const BoxDecoration(
                           color: Colors.transparent,
                         ),
                         width: width,
                         margin: EdgeInsets.only(right: marginRight),
-                        child: OverflowBox(
-                          minWidth: targetWidth,
-                          maxWidth: targetWidth,
-                          alignment: Alignment.topLeft,
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          physics: const NeverScrollableScrollPhysics(),
+                          clipBehavior: Clip.none,
                           child: SizedBox(
                             width: targetWidth,
-                            child: Stack(
-                              clipBehavior: Clip.none,
-                              children: [
-                                ...matchesInStage.map((match) {
-                                  final double slotHeight =
-                                      (cardHeight + cardSpacing) *
-                                      math.pow(2, displayColIndex);
-                                  final double y =
-                                      (match.roundIndex * slotHeight) +
-                                      (slotHeight / 2) -
-                                      (cardHeight / 2);
-
-                                  // Map this card's column index to its transition entry point on the animation timeline.
-                                  // The line leading INTO this column starts drawing at (displayColIndex - 1) / totalSegments
-                                  // and finishes drawing at displayColIndex / totalSegments.
-                                  // When the line finishes drawing (or progress passes that point), we trigger a bouncy scale feedback.
-                                  final int knockoutCount =
-                                      knockoutStages.length;
-                                  final double totalSegments = knockoutCount > 1
-                                      ? (knockoutCount - 1).toDouble()
-                                      : 1.0;
-                                  final double lineArrivalProgress =
-                                      displayColIndex > 0
-                                      ? (displayColIndex.toDouble() /
-                                                totalSegments)
-                                            .clamp(0.0, 1.0)
-                                      : 0.0;
-
-                                  return Positioned(
-                                    top: y,
-                                    left: 0,
-                                    right: 0,
-                                    height: cardHeight,
-                                    child: AnimatedBuilder(
-                                      animation: _lineAnimation,
-                                      builder: (context, child) {
-                                        final double currentProgress =
-                                            _lineAnimation.value;
-
-                                        // If a team is selected and is in this match, we trigger a bounce scale when the line reaches it
-                                        final bool isHighlightedMatch =
-                                            (match.teamA != null &&
-                                                _highlightedTeamNotifier
-                                                        .value ==
-                                                    match.teamA!.id) ||
-                                            (match.teamB != null &&
-                                                _highlightedTeamNotifier
-                                                        .value ==
-                                                    match.teamB!.id);
-
-                                        double scaleFactor = 1.0;
-                                        final bool isReached =
-                                            currentProgress >=
-                                            lineArrivalProgress;
-
-                                        if (isHighlightedMatch && isReached) {
-                                          final double diff =
-                                              currentProgress -
-                                              lineArrivalProgress;
-                                          if (diff < 0.25) {
-                                            final double t = diff / 0.25;
-                                            // Scale bounce animation
-                                            scaleFactor =
-                                                1.0 +
-                                                (math.sin(t * math.pi) * 0.12);
-                                          } else {
-                                            scaleFactor = 1.05;
-                                          }
-                                        }
-
-                                        return Transform.scale(
-                                          scale: scaleFactor,
-                                          child: BracketMatchCard(
-                                            match: match,
-                                            style: style,
-                                            highlightedTeamNotifier:
-                                                _highlightedTeamNotifier,
-                                            cardHeightScale: cardHeightScale,
-                                            showFlags: showFlagsInKnockout,
-                                            isReached: isReached,
-                                            onMatchTap: widget.onMatchTap,
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  );
-                                }),
-                              ],
+                            child: GroupStandingsColumn(
+                              data: widget.data,
+                              style: style,
+                              detailLevel: groupDetailLevel,
+                              selectedStages: _selectedStages,
+                              highlightedTeamNotifier: _highlightedTeamNotifier,
+                              onTeamTap: widget.onTeamTap,
                             ),
                           ),
                         ),
                       );
-                    }).toList(),
-                  ),
-                ],
-              ),
+                    }
+
+                    final colIndex = knockoutStages.indexOf(stage);
+                    final displayColIndex = colIndex != -1 ? colIndex : 0;
+                    final matchesInStage =
+                        widget.data.bracketMatches
+                            .where((m) => m.stage == stage)
+                            .toList()
+                          ..sort(
+                            (a, b) => a.roundIndex.compareTo(b.roundIndex),
+                          );
+
+                    return AnimatedContainer(
+                      duration: const Duration(milliseconds: 350),
+                      curve: Curves.easeInOutCubic,
+                      clipBehavior: Clip.hardEdge,
+                      decoration: const BoxDecoration(
+                        color: Colors.transparent,
+                      ),
+                      width: width,
+                      margin: EdgeInsets.only(right: marginRight),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        physics: const NeverScrollableScrollPhysics(),
+                        clipBehavior: Clip.none,
+                        child: SizedBox(
+                          width: targetWidth,
+                          height: knockoutHeight,
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              ...matchesInStage.map((match) {
+                                final double slotHeight =
+                                    (cardHeight + cardSpacing) *
+                                    math.pow(2, displayColIndex);
+                                final double y =
+                                    (match.roundIndex * slotHeight) +
+                                    (slotHeight / 2) -
+                                    (cardHeight / 2);
+
+                                // Map this card's column index to its transition entry point on the animation timeline.
+                                // The line leading INTO this column starts drawing at (displayColIndex - 1) / totalSegments
+                                // and finishes drawing at displayColIndex / totalSegments.
+                                // When the line finishes drawing (or progress passes that point), we trigger a bouncy scale feedback.
+                                final int knockoutCount = knockoutStages.length;
+                                final double totalSegments = knockoutCount > 1
+                                    ? (knockoutCount - 1).toDouble()
+                                    : 1.0;
+                                final double lineArrivalProgress =
+                                    displayColIndex > 0
+                                    ? (displayColIndex.toDouble() /
+                                              totalSegments)
+                                          .clamp(0.0, 1.0)
+                                    : 0.0;
+
+                                return Positioned(
+                                  top: y,
+                                  left: 4.0,
+                                  right: 4.0,
+                                  height: cardHeight,
+                                  child: AnimatedBuilder(
+                                    animation: _lineAnimation,
+                                    builder: (context, child) {
+                                      final double currentProgress =
+                                          _lineAnimation.value;
+
+                                      // If a team is selected and is in this match, we trigger a bounce scale when the line reaches it
+                                      final bool isHighlightedMatch =
+                                          (match.teamA != null &&
+                                              _highlightedTeamNotifier.value ==
+                                                  match.teamA!.id) ||
+                                          (match.teamB != null &&
+                                              _highlightedTeamNotifier.value ==
+                                                  match.teamB!.id);
+
+                                      double scaleFactor = 1.0;
+                                      final bool isReached =
+                                          currentProgress >=
+                                          lineArrivalProgress;
+
+                                      if (isHighlightedMatch && isReached) {
+                                        final double diff =
+                                            currentProgress -
+                                            lineArrivalProgress;
+                                        if (diff < 0.25) {
+                                          final double t = diff / 0.25;
+                                          // Scale bounce animation
+                                          scaleFactor =
+                                              1.0 +
+                                              (math.sin(t * math.pi) * 0.12);
+                                        } else {
+                                          scaleFactor = 1.05;
+                                        }
+                                      }
+
+                                      return Transform.scale(
+                                        scale: scaleFactor,
+                                        child: BracketMatchCard(
+                                          match: match,
+                                          style: style,
+                                          highlightedTeamNotifier:
+                                              _highlightedTeamNotifier,
+                                          cardHeightScale: cardHeightScale,
+                                          showFlags: showFlagsInKnockout,
+                                          isReached: isReached,
+                                          onMatchTap: widget.onMatchTap,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                );
+                              }),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ],
             ),
           ),
         );
@@ -636,10 +624,10 @@ class BracketLinesPainter extends CustomPainter {
             currentStartX += colWidth + colMargin;
           }
         }
-        final double currentEndX = currentStartX + colWidth;
+        final double currentEndX = currentStartX + colWidth - 4.0;
 
         // Next match column X coordinates
-        final double nextStartX = currentStartX + colWidth + colMargin;
+        final double nextStartX = currentStartX + colWidth + colMargin + 4.0;
 
         // Calculate Y coordinates using relative stage indices based on visible knockout stages
         final int currentStageIndex = visibleKnockoutStages.indexOf(
@@ -660,9 +648,9 @@ class BracketLinesPainter extends CustomPainter {
             (nextMatch.roundIndex * nextSlotHeight) + (nextSlotHeight / 2);
 
         // Path coordinates (midpoint is exactly halfway across the margin)
-        final double midX = currentEndX + (colMargin / 2);
+        final double midX = (currentEndX + nextStartX) / 2;
 
-        final double cornerRadius = math.min(12.0, (colMargin / 2).abs());
+        final double cornerRadius = math.min(12.0, ((nextStartX - currentEndX) / 2).abs());
         final double verticalDistance = (nextY - currentY).abs();
         final double actualRadius = math.min(
           cornerRadius,
