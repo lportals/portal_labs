@@ -406,6 +406,7 @@ class _TournamentStandingsState extends State<TournamentStandings>
                         builder: (context, _) => CustomPaint(
                           painter: BracketLinesPainter(
                             stages: renderedStages,
+                            selectedStages: _selectedStages,
                             matches: widget.data.bracketMatches,
                             highlightedTeamId: _highlightedTeamNotifier.value,
                             style: style,
@@ -588,6 +589,7 @@ class BracketLinesPainter extends CustomPainter {
   /// Creates a [BracketLinesPainter].
   const BracketLinesPainter({
     required this.stages,
+    required this.selectedStages,
     required this.matches,
     required this.highlightedTeamId,
     required this.style,
@@ -601,6 +603,9 @@ class BracketLinesPainter extends CustomPainter {
 
   /// The knockout stages in order.
   final List<TournamentStage> stages;
+
+  /// The set of active selected stages in the range selector.
+  final Set<TournamentStage> selectedStages;
 
   /// All bracket matches.
   final List<BracketMatch> matches;
@@ -666,7 +671,7 @@ class BracketLinesPainter extends CustomPainter {
       ..isAntiAlias = true;
 
     final List<TournamentStage> visibleKnockoutStages = stages
-        .where((s) => s != TournamentStage.groupStage)
+        .where((s) => s != TournamentStage.groupStage && selectedStages.contains(s))
         .toList();
 
     // Loop through stages to connect col `c` to col `c + 1`
@@ -674,9 +679,13 @@ class BracketLinesPainter extends CustomPainter {
       final currentStage = stages[c];
       final nextStage = stages[c + 1];
 
-      // If either stage is groupStage, do not paint connecting lines
+      // If either stage is groupStage, or if either stage is not selected/active in the selector, do not paint connecting lines
       if (currentStage == TournamentStage.groupStage ||
-          nextStage == TournamentStage.groupStage) {
+          nextStage == TournamentStage.groupStage ||
+          !selectedStages.contains(currentStage) ||
+          !selectedStages.contains(nextStage) ||
+          (stageWidths[currentStage] ?? 0.0) < 1.0 ||
+          (stageWidths[nextStage] ?? 0.0) < 1.0) {
         continue;
       }
 
@@ -809,6 +818,7 @@ class BracketLinesPainter extends CustomPainter {
   bool shouldRepaint(covariant BracketLinesPainter oldDelegate) {
     return oldDelegate.highlightedTeamId != highlightedTeamId ||
         oldDelegate.stages != stages ||
+        oldDelegate.selectedStages != selectedStages ||
         oldDelegate.matches != matches ||
         oldDelegate.stageWidths != stageWidths ||
         oldDelegate.stageMargins != stageMargins ||
