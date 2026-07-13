@@ -48,113 +48,137 @@ class BracketMatchCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<String?>(
-      valueListenable: highlightedTeamNotifier,
-      builder: (context, highlightedTeamId, child) {
-        final theme = Theme.of(context);
-        final double paddingVal = math.max(6.0, 12.0 * cardHeightScale);
-        
-        final isAHighlighted = match.teamA != null && highlightedTeamId == match.teamA!.id;
-        final isBHighlighted = match.teamB != null && highlightedTeamId == match.teamB!.id;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final cardBg = style.matchCardBackgroundColor ?? Theme.of(context).cardColor;
+        final double width = constraints.maxWidth;
+        final double height = constraints.maxHeight;
 
-        final cardBg = style.matchCardBackgroundColor ?? theme.cardColor;
-        final borderColor = style.matchCardBorderColor ?? theme.dividerColor.withValues(alpha: 0.08);
-
-        final isHighlightedMatch = isAHighlighted || isBHighlighted;
-        final isSelectedAndReached = isHighlightedMatch && isReached;
-
-        return GestureDetector(
-          onTap: () {
-            if (style.enableHaptics) {
-              HapticFeedback.selectionClick();
-            }
-            onMatchTap?.call(match);
-          },
-          child: Container(
-            clipBehavior: Clip.antiAlias,
+        // If the card is extremely squished during resize/shrink animations,
+        // render an empty background to avoid layout overflows and console noise.
+        if (width < 40.0 || height < 20.0) {
+          return Container(
             decoration: BoxDecoration(
               color: cardBg,
               borderRadius: BorderRadius.circular(12 * cardHeightScale),
-              border: Border.all(
-                color: isSelectedAndReached 
-                    ? (style.accentColor ?? theme.colorScheme.onSurface)
-                    : borderColor,
-                width: isSelectedAndReached ? 1.5 : 1.0,
+            ),
+          );
+        }
+
+        // Dynamically hide flags and date header if the card is too narrow to avoid overflows
+        final bool effectiveShowFlags = showFlags && width >= 80.0;
+        final bool effectiveShowDateHeader = showDateHeader && width >= 100.0;
+
+        return ValueListenableBuilder<String?>(
+          valueListenable: highlightedTeamNotifier,
+          builder: (context, highlightedTeamId, child) {
+            final theme = Theme.of(context);
+            final double paddingVal = math.max(6.0, 12.0 * cardHeightScale);
+            
+            final isAHighlighted = match.teamA != null && highlightedTeamId == match.teamA!.id;
+            final isBHighlighted = match.teamB != null && highlightedTeamId == match.teamB!.id;
+
+            final borderColor = style.matchCardBorderColor ?? theme.dividerColor.withValues(alpha: 0.08);
+
+            final isHighlightedMatch = isAHighlighted || isBHighlighted;
+            final isSelectedAndReached = isHighlightedMatch && isReached;
+
+            return GestureDetector(
+              onTap: () {
+                if (style.enableHaptics) {
+                  HapticFeedback.selectionClick();
+                }
+                onMatchTap?.call(match);
+              },
+              child: Container(
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                  color: cardBg,
+                  borderRadius: BorderRadius.circular(12 * cardHeightScale),
+                  border: Border.all(
+                    color: isSelectedAndReached 
+                        ? (style.accentColor ?? theme.colorScheme.onSurface)
+                        : borderColor,
+                    width: isSelectedAndReached ? 1.5 : 1.0,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: isSelectedAndReached
+                          ? (style.accentColor ?? theme.colorScheme.onSurface).withValues(alpha: 0.12)
+                          : Colors.black.withValues(alpha: 0.04),
+                      blurRadius: isSelectedAndReached ? 12 * cardHeightScale : 6 * cardHeightScale,
+                      offset: Offset(0, isSelectedAndReached ? 5 * cardHeightScale : 3 * cardHeightScale),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    if (effectiveShowDateHeader && match.matchDate != null) ...[
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: paddingVal,
+                          vertical: 5.0 * cardHeightScale,
+                        ),
+                        decoration: BoxDecoration(
+                          color: theme.dividerColor.withValues(alpha: 0.04),
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(12 * cardHeightScale),
+                          ),
+                        ),
+                        child: Text(
+                          _formatMatchDate(match.matchDate!),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            fontSize: math.max(8.0, 9.5 * cardHeightScale),
+                            fontWeight: FontWeight.w700,
+                            color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.55),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 1,
+                        color: borderColor,
+                      ),
+                    ],
+                    Expanded(
+                      child: _buildBracketTeamRow(
+                        theme: theme,
+                        style: style,
+                        team: match.teamA,
+                        score: match.scoreA,
+                        penalties: match.penaltyScoreA,
+                        isHighlighted: isAHighlighted && isReached,
+                        isWinner: match.winner == match.teamA && match.isCompleted,
+                        isTop: !effectiveShowDateHeader,
+                        cardHeightScale: cardHeightScale,
+                        showFlags: effectiveShowFlags,
+                      ),
+                    ),
+                    Container(
+                      height: 1,
+                      color: borderColor,
+                    ),
+                    Expanded(
+                      child: _buildBracketTeamRow(
+                        theme: theme,
+                        style: style,
+                        team: match.teamB,
+                        score: match.scoreB,
+                        penalties: match.penaltyScoreB,
+                        isHighlighted: isBHighlighted && isReached,
+                        isWinner: match.winner == match.teamB && match.isCompleted,
+                        isTop: false,
+                        cardHeightScale: cardHeightScale,
+                        showFlags: effectiveShowFlags,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: isSelectedAndReached
-                      ? (style.accentColor ?? theme.colorScheme.onSurface).withValues(alpha: 0.12)
-                      : Colors.black.withValues(alpha: 0.04),
-                  blurRadius: isSelectedAndReached ? 12 * cardHeightScale : 6 * cardHeightScale,
-                  offset: Offset(0, isSelectedAndReached ? 5 * cardHeightScale : 3 * cardHeightScale),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                if (showDateHeader && match.matchDate != null) ...[
-                  Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: paddingVal,
-                      vertical: 5.0 * cardHeightScale,
-                    ),
-                    decoration: BoxDecoration(
-                      color: theme.dividerColor.withValues(alpha: 0.04),
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(12 * cardHeightScale),
-                      ),
-                    ),
-                    child: Text(
-                      _formatMatchDate(match.matchDate!),
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        fontSize: math.max(8.0, 9.5 * cardHeightScale),
-                        fontWeight: FontWeight.w700,
-                        color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.55),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 1,
-                    color: borderColor,
-                  ),
-                ],
-                Expanded(
-                  child: _buildBracketTeamRow(
-                    theme: theme,
-                    style: style,
-                    team: match.teamA,
-                    score: match.scoreA,
-                    penalties: match.penaltyScoreA,
-                    isHighlighted: isAHighlighted && isReached,
-                    isWinner: match.winner == match.teamA && match.isCompleted,
-                    isTop: !showDateHeader,
-                    cardHeightScale: cardHeightScale,
-                    showFlags: showFlags,
-                  ),
-                ),
-                Container(
-                  height: 1,
-                  color: borderColor,
-                ),
-                Expanded(
-                  child: _buildBracketTeamRow(
-                    theme: theme,
-                    style: style,
-                    team: match.teamB,
-                    score: match.scoreB,
-                    penalties: match.penaltyScoreB,
-                    isHighlighted: isBHighlighted && isReached,
-                    isWinner: match.winner == match.teamB && match.isCompleted,
-                    isTop: false,
-                    cardHeightScale: cardHeightScale,
-                    showFlags: showFlags,
-                  ),
-                ),
-              ],
-            ),
-          ),
+            );
+          },
         );
       },
     );
