@@ -62,8 +62,8 @@ class _TournamentStandingsState extends State<TournamentStandings>
 
   // Cached layout values from the previous settled build pass.
   // These become the "from" snapshot when a new stage transition begins.
-  Map<TournamentStage, double> _cachedStageWidths = {};
-  Map<TournamentStage, double> _cachedStageMargins = {};
+  final Map<TournamentStage, double> _cachedStageWidths = {};
+  final Map<TournamentStage, double> _cachedStageMargins = {};
   double _cachedCardHeightScale = 1.0;
 
   // "From" snapshot captured at the moment of stage change.
@@ -253,9 +253,7 @@ class _TournamentStandingsState extends State<TournamentStandings>
         .where((stage) => _selectedStages.contains(stage))
         .toList();
 
-    final knockoutStages = visibleStages
-        .where((s) => s != TournamentStage.groupStage)
-        .toList();
+
 
     // Wrap in AnimatedBuilder so the build re-runs on every layout
     // animation tick, producing smoothly interpolated values.
@@ -349,15 +347,7 @@ class _TournamentStandingsState extends State<TournamentStandings>
           final double cardHeight = style.matchCardHeight * cardHeightScale;
           final double cardSpacing = style.matchCardSpacing * cardHeightScale;
 
-          double getXForStage(TournamentStage stage) {
-            double x = 0;
-            for (final s in TournamentStage.values) {
-              if (s == stage) break;
-              x += currentWidths[s] ?? 0.0;
-              x += currentMargins[s] ?? 0.0;
-            }
-            return x;
-          }
+
 
           final groupWidth = currentWidths[TournamentStage.groupStage] ?? 0.0;
           final GroupDetailLevel groupDetailLevel;
@@ -585,6 +575,7 @@ class _TournamentStandingsState extends State<TournamentStandings>
   }
 }
 
+/// A custom painter that draws connecting bracket lines between stages in a knockout tournament.
 class BracketLinesPainter extends CustomPainter {
   /// Creates a [BracketLinesPainter].
   const BracketLinesPainter({

@@ -117,7 +117,7 @@ class TournamentStandingsShowcase extends StatelessWidget {
       BracketMatch(id: 'r16_1', stage: TournamentStage.roundOf16, teamA: ger, teamB: cze, scoreA: 2, scoreB: 0, isCompleted: true, nextMatchId: 'qf_1', roundIndex: 0, matchDate: DateTime(2026, 7, 5, 18, 0)),
       BracketMatch(id: 'r16_2', stage: TournamentStage.roundOf16, teamA: mar, teamB: mex, scoreA: 1, scoreB: 2, isCompleted: true, nextMatchId: 'qf_1', roundIndex: 1, matchDate: DateTime(2026, 7, 5, 21, 0)),
       BracketMatch(id: 'r16_3', stage: TournamentStage.roundOf16, teamA: bra, teamB: civ, scoreA: 3, scoreB: 1, isCompleted: true, nextMatchId: 'qf_2', roundIndex: 2, matchDate: DateTime(2026, 7, 6, 18, 0)),
-      BracketMatch(id: 'r16_4', stage: TournamentStage.roundOf16, teamA: usa, teamB: ned, scoreA: 2, scoreB: 1, isCompleted: true, nextMatchId: 'qf_2', roundIndex: 3, matchDate: DateTime(2026, 7, 6, 21, 0)),
+      BracketMatch(id: 'r16_4', stage: TournamentStage.roundOf16, teamA: usa, teamB: ned, scoreA: 1, scoreB: 1, penaltyScoreA: 5, penaltyScoreB: 4, isCompleted: true, nextMatchId: 'qf_2', roundIndex: 3, matchDate: DateTime(2026, 7, 6, 21, 0)),
       // R16 right-side placeholders
       BracketMatch(id: 'r16_5', stage: TournamentStage.roundOf16, teamA: null, teamB: null, nextMatchId: 'qf_3', roundIndex: 4, matchDate: DateTime(2026, 7, 7, 18, 0)),
       BracketMatch(id: 'r16_6', stage: TournamentStage.roundOf16, teamA: null, teamB: null, nextMatchId: 'qf_3', roundIndex: 5, matchDate: DateTime(2026, 7, 7, 21, 0)),

@@ -174,6 +174,7 @@ class BracketMatchCard extends StatelessWidget {
                         showFlags: effectiveShowFlags,
                       ),
                     ),
+
                   ],
                 ),
               ),
@@ -284,21 +285,28 @@ class BracketMatchCard extends StatelessWidget {
                   ),
                 ),
                 if (score != null) ...[
-                  if (penalties != null)
-                    Text(
-                      '($penalties)',
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.5),
-                        fontSize: math.max(7.0, 9.0 * cardHeightScale),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        '$score',
+                        style: scoreStyle.copyWith(
+                          fontSize: scaledScoreSize,
+                          color: isWinner ? (style.accentColor ?? theme.colorScheme.onSurface) : Colors.grey.shade500,
+                        ),
                       ),
-                    ),
-                  SizedBox(width: math.max(3.0, 6.0 * cardHeightScale)),
-                  Text(
-                    '$score',
-                    style: scoreStyle.copyWith(
-                      fontSize: scaledScoreSize,
-                      color: isWinner ? (style.accentColor ?? theme.colorScheme.onSurface) : Colors.grey.shade500,
-                    ),
+                      if (penalties != null) ...[
+                        const SizedBox(width: 1),
+                        Text(
+                          '($penalties)',
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.5),
+                            fontSize: math.max(7.0, 9.0 * cardHeightScale),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ],
                   ),
                 ],
               ] else ...[

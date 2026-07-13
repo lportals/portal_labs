@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import '../models/tournament_standings_models.dart';
 import '../painters/step_lines_painter.dart';
 
+/// A custom widget designed to select a range of stages for a tournament bracket view.
 class TournamentStageRangeSelector extends StatefulWidget {
   /// Creates a [TournamentStageRangeSelector].
   const TournamentStageRangeSelector({

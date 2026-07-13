@@ -2,14 +2,20 @@ import 'package:flutter/material.dart';
 
 /// Custom painter to draw the parallel line segments representing stages.
 class StepLinesPainter extends CustomPainter {
+  /// Creates a [StepLinesPainter] instance.
   const StepLinesPainter({
     required this.stepIndex,
     required this.color,
     required this.isSelected,
   });
 
+  /// The index position of the tick or step on the selector track.
   final int stepIndex;
+
+  /// The active color used to paint the line.
   final Color color;
+
+  /// Whether this tick segment is currently within the active selection range.
   final bool isSelected;
 
   @override
