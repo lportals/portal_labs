@@ -23,6 +23,7 @@ class TournamentStandings extends StatefulWidget {
     this.onMatchTap,
     this.stageLabelBuilder,
     this.stageIconBuilder,
+    this.headerBuilder,
   });
 
   /// The tournament standings and bracket matches data.
@@ -45,6 +46,9 @@ class TournamentStandings extends StatefulWidget {
 
   /// Optional builder to provide custom icons for each stage in the slider range selector.
   final Widget Function(BuildContext context, TournamentStage stage, bool isSelected)? stageIconBuilder;
+
+  /// Optional builder to customize the top logo/title header section.
+  final Widget Function(BuildContext context)? headerBuilder;
 
   @override
   State<TournamentStandings> createState() => _TournamentStandingsState();
@@ -217,6 +221,9 @@ class _TournamentStandingsState extends State<TournamentStandings>
   }
 
   Widget _buildTopHeader(ThemeData theme, TournamentStandingsStyle style) {
+    if (widget.headerBuilder != null) {
+      return widget.headerBuilder!(context);
+    }
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       child: Column(

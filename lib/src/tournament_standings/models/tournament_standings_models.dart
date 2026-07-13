@@ -68,7 +68,7 @@ class TournamentTeam {
     required this.id,
     required this.name,
     required this.code,
-    this.flagUrl,
+    this.logoUrl,
     this.primaryColor,
     this.played = 0,
     this.wins = 0,
@@ -88,8 +88,8 @@ class TournamentTeam {
   /// Abbreviated code (e.g. "ARG").
   final String code;
 
-  /// Path or URL to the team's flag image.
-  final String? flagUrl;
+  /// Path or URL to the team's flag or brand logo image.
+  final String? logoUrl;
 
   /// The primary brand color of the team.
   final Color? primaryColor;

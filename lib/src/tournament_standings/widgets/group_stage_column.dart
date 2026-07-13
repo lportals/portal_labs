@@ -274,11 +274,11 @@ class GroupStandingsColumn extends StatelessWidget {
                                     SizedBox(width: isMedium ? 4 : 6),
                                     // Flag
                                     if (!isMedium) ...[
-                                      if (team.flagUrl != null)
+                                      if (team.logoUrl != null)
                                         ClipRRect(
                                           borderRadius: BorderRadius.circular(2),
                                           child: Image.network(
-                                            team.flagUrl!,
+                                            team.logoUrl!,
                                             width: 20,
                                             height: 13,
                                             fit: BoxFit.cover,

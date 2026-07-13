@@ -33,3 +33,24 @@ TournamentStandings(
   onMatchTap: (match) => print('Tapped match: ${match.id}'),
 )
 ```
+
+#### Advanced Use Cases
+
+##### 1. Multi-Sport Support (e.g. Basketball, eSports)
+This widget dynamically scales layout, hides flags and adapts.
+- **Deactivate Flags**: If your sport doesn't require flags, simply omit `flagUrl` in `TournamentTeam` models, and the widget will render beautiful primary color indicators to the left of the team names instead.
+- **Auto-adapt Stages**: If a tennis or basketball tournament has no Group Stage, the widget automatically detects and starts the layout at `R32` or `QF` based on active stages in the data.
+
+##### 2. Double-Leg Tournaments (e.g. UEFA Champions League, Copa Libertadores)
+For stages featuring home-and-away legs, you can manage scores and details elegantly:
+- **Cumulative Scores**: Map the sum of both legs into `scoreA` and `scoreB` (e.g. `3` vs `2`) to keep the bracket tree progression logic correct.
+- **Venue and Info Field**: Pass descriptive text in the `venue` parameter (e.g., `venue: "Leg 1: 1-2 | Leg 2: 2-0"`), which displays automatically inside the card metadata.
+- **Detail Bottom Sheet**: Trigger custom detail dialogues inside the `onMatchTap` callback:
+  ```dart
+  onMatchTap: (match) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => UCLMatchDetailsSheet(match: match),
+    );
+  }
+  ```

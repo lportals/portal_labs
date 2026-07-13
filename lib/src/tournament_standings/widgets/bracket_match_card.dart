@@ -256,11 +256,11 @@ class BracketMatchCard extends StatelessWidget {
               if (team != null) ...[
                 // Flag (Only when showFlags is true)
                 if (showFlags) ...[
-                  if (team.flagUrl != null)
+                  if (team.logoUrl != null)
                     ClipRRect(
                       borderRadius: BorderRadius.circular(2),
                       child: Image.network(
-                        team.flagUrl!,
+                        team.logoUrl!,
                         width: flagW,
                         height: flagH,
                         fit: BoxFit.cover,
