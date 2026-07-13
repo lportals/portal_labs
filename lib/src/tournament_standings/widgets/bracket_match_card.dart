@@ -66,8 +66,9 @@ class BracketMatchCard extends StatelessWidget {
         }
 
         // Dynamically hide flags and date header if the card is too narrow to avoid overflows
-        final bool effectiveShowFlags = showFlags && width >= 80.0;
-        final bool effectiveShowDateHeader = showDateHeader && width >= 100.0;
+        final bool effectiveShowFlags = showFlags && width >= 90.0;
+        final bool effectiveShowDateHeader = showDateHeader && width >= 110.0;
+        final bool showScores = width >= 55.0;
 
         return ValueListenableBuilder<String?>(
           valueListenable: highlightedTeamNotifier,
@@ -154,6 +155,7 @@ class BracketMatchCard extends StatelessWidget {
                         isTop: !effectiveShowDateHeader,
                         cardHeightScale: cardHeightScale,
                         showFlags: effectiveShowFlags,
+                        showScores: showScores,
                       ),
                     ),
                     Container(
@@ -172,6 +174,7 @@ class BracketMatchCard extends StatelessWidget {
                         isTop: false,
                         cardHeightScale: cardHeightScale,
                         showFlags: effectiveShowFlags,
+                        showScores: showScores,
                       ),
                     ),
 
@@ -196,6 +199,7 @@ class BracketMatchCard extends StatelessWidget {
     required bool isTop,
     required double cardHeightScale,
     required bool showFlags,
+    required bool showScores,
   }) {
     final textStyle = style.matchCardTextStyle ?? theme.textTheme.bodyMedium ?? const TextStyle();
     final scoreStyle = style.scoreTextStyle ?? theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold) ?? const TextStyle();
@@ -269,22 +273,18 @@ class BracketMatchCard extends StatelessWidget {
                   SizedBox(width: flagSpacing),
                 ],
                 Expanded(
-                  child: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      team.code,
-                      maxLines: 1,
-                      softWrap: false,
-                      style: textStyle.copyWith(
-                        fontSize: scaledFontSize,
-                        fontWeight: isWinner ? FontWeight.bold : FontWeight.normal,
-                        color: isHighlighted ? (style.accentColor ?? theme.colorScheme.onSurface) : null,
-                      ),
+                  child: Text(
+                    team.code,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: textStyle.copyWith(
+                      fontSize: scaledFontSize,
+                      fontWeight: isWinner ? FontWeight.bold : FontWeight.normal,
+                      color: isHighlighted ? (style.accentColor ?? theme.colorScheme.onSurface) : null,
                     ),
                   ),
                 ),
-                if (score != null) ...[
+                if (score != null && showScores) ...[
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [

@@ -16,6 +16,7 @@ class TournamentStageRangeSelector extends StatefulWidget {
     required this.onChanged,
     this.accentColor = const Color(0xFF007AFF),
     this.enableHaptics = true,
+    this.stageIconBuilder,
   });
 
   /// The currently selected start stage (inclusive).
@@ -38,6 +39,9 @@ class TournamentStageRangeSelector extends StatefulWidget {
 
   /// Whether to emit haptic feedback on each tick during drag.
   final bool enableHaptics;
+
+  /// Optional builder to supply custom icons for each stage key.
+  final Widget Function(BuildContext context, TournamentStage stage, bool isSelected)? stageIconBuilder;
 
   @override
   State<TournamentStageRangeSelector> createState() => _TournamentStageRangeSelectorState();
@@ -283,7 +287,6 @@ class _TournamentStageRangeSelectorState extends State<TournamentStageRangeSelec
                           ),
                         ),
                       ),
-                      // Items (Icons only)
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: List.generate(widget.stages.length, (i) {

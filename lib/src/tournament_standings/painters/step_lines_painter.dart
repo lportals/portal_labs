@@ -105,7 +105,7 @@ class StepLinesPainter extends CustomPainter {
       numLines = 4;
       strokeW = 1.0;
     } else if (stepIndex == 3) {
-      numLines = 2;
+      numLines = 3;
       strokeW = 1.2;
     } else if (stepIndex == 4) {
       numLines = 2;

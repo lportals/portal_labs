@@ -21,6 +21,8 @@ class TournamentStandings extends StatefulWidget {
     this.initialStage = TournamentStage.groupStage,
     this.onTeamTap,
     this.onMatchTap,
+    this.stageLabelBuilder,
+    this.stageIconBuilder,
   });
 
   /// The tournament standings and bracket matches data.
@@ -37,6 +39,12 @@ class TournamentStandings extends StatefulWidget {
 
   /// Callback when a match is tapped.
   final ValueChanged<BracketMatch>? onMatchTap;
+
+  /// Optional builder to customize the stage names in the slider and column headers (localization).
+  final String Function(BuildContext context, TournamentStage stage)? stageLabelBuilder;
+
+  /// Optional builder to provide custom icons for each stage in the slider range selector.
+  final Widget Function(BuildContext context, TournamentStage stage, bool isSelected)? stageIconBuilder;
 
   @override
   State<TournamentStandings> createState() => _TournamentStandingsState();
@@ -73,22 +81,31 @@ class _TournamentStandingsState extends State<TournamentStandings>
   bool _hasLayoutSnapshot = false;
 
   Set<TournamentStage> get _selectedStages {
-    final startIdx = TournamentStage.values.indexOf(_startStage);
-    final endIdx = TournamentStage.values.indexOf(_endStage);
+    final activeStages = widget.data.activeStages;
+    if (activeStages.isEmpty) return {};
+    final startIdx = activeStages.indexOf(_startStage);
+    final endIdx = activeStages.indexOf(_endStage);
+    if (startIdx == -1 || endIdx == -1) return {activeStages.first};
     final minIdx = math.min(startIdx, endIdx);
     final maxIdx = math.max(startIdx, endIdx);
-    return TournamentStage.values.sublist(minIdx, maxIdx + 1).toSet();
+    return activeStages.sublist(minIdx, maxIdx + 1).toSet();
   }
 
   @override
   void initState() {
     super.initState();
-    if (widget.initialStage == TournamentStage.groupStage) {
+    final activeStages = widget.data.activeStages;
+    if (activeStages.isNotEmpty) {
+      if (activeStages.contains(widget.initialStage)) {
+        _startStage = widget.initialStage;
+        _endStage = widget.initialStage;
+      } else {
+        _startStage = activeStages.first;
+        _endStage = activeStages.first;
+      }
+    } else {
       _startStage = TournamentStage.groupStage;
       _endStage = TournamentStage.groupStage;
-    } else {
-      _startStage = TournamentStage.roundOf32;
-      _endStage = TournamentStage.final_;
     }
     _bracketScrollController = ScrollController();
     _lineAnimController = AnimationController(
@@ -228,18 +245,20 @@ class _TournamentStandingsState extends State<TournamentStandings>
 
   Widget _buildStageSelector(ThemeData theme, TournamentStandingsStyle style) {
     final activeColor = style.accentColor ?? theme.colorScheme.onSurface;
+    final activeStages = widget.data.activeStages;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       child: TournamentStageRangeSelector(
         startStage: _startStage,
         endStage: _endStage,
-        stages: TournamentStage.values,
-        labels: TournamentStage.values
-            .map((s) => s.shortLabel.toUpperCase())
+        stages: activeStages,
+        labels: activeStages
+            .map((s) => widget.stageLabelBuilder?.call(context, s) ?? s.shortLabel.toUpperCase())
             .toList(),
         onChanged: _onStageRangeChanged,
         accentColor: activeColor,
         enableHaptics: widget.style.enableHaptics,
+        stageIconBuilder: widget.stageIconBuilder,
       ),
     );
   }

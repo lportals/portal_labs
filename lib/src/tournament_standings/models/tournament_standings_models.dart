@@ -238,4 +238,18 @@ class TournamentStandingsData {
 
   /// All knockout stage matches.
   final List<BracketMatch> bracketMatches;
+
+  /// Dynamically computes the ordered list of active stages in this tournament.
+  List<TournamentStage> get activeStages {
+    final stages = <TournamentStage>{};
+    if (groups.isNotEmpty) {
+      stages.add(TournamentStage.groupStage);
+    }
+    for (final match in bracketMatches) {
+      stages.add(match.stage);
+    }
+    final list = stages.toList();
+    list.sort((a, b) => a.index.compareTo(b.index));
+    return list;
+  }
 }

@@ -35,6 +35,10 @@ class TournamentStandingsShowcase extends StatelessWidget {
               style: const TournamentStandingsStyle(
                 matchCardBackgroundColor: Colors.white,
               ),
+              stageLabelBuilder: (context, stage) {
+                if (stage == TournamentStage.groupStage) return 'GROUPS';
+                return stage.shortLabel.toUpperCase();
+              },
               onTeamTap: (team) {
                 debugPrint('Tapped team: ${team.name}');
               },
