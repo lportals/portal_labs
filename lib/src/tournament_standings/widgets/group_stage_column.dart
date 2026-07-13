@@ -293,16 +293,19 @@ class GroupStandingsColumn extends StatelessWidget {
                                   ],
                                   // Team name/code
                                   Expanded(
-                                    child: Text(
-                                      (isCondensed || isMedium) ? team.code : team.name,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      style: TextStyle(
-                                        fontSize: isCondensed ? 10 : 12,
-                                        fontWeight: isHighlighted
-                                            ? (isCondensed ? FontWeight.w800 : FontWeight.w700)
-                                            : (isCondensed ? FontWeight.w600 : FontWeight.w500),
-                                        color: isHighlighted ? accent : theme.textTheme.bodyMedium?.color,
+                                    child: FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        (isCondensed || isMedium) ? team.code : team.name,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                          fontSize: isCondensed ? 10 : 12,
+                                          fontWeight: isHighlighted
+                                              ? (isCondensed ? FontWeight.w800 : FontWeight.w700)
+                                              : (isCondensed ? FontWeight.w600 : FontWeight.w500),
+                                          color: isHighlighted ? accent : theme.textTheme.bodyMedium?.color,
+                                        ),
                                       ),
                                     ),
                                   ),

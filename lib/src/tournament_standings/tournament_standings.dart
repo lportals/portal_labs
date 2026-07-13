@@ -303,6 +303,7 @@ class _TournamentStandingsState extends State<TournamentStandings>
         final double knockoutHeight = (cardHeight + cardSpacing) * maxMatches;
 
         return SingleChildScrollView(
+          padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom + 16.0),
           child: SingleChildScrollView(
             controller: _bracketScrollController,
             scrollDirection: Axis.horizontal,
@@ -356,7 +357,7 @@ class _TournamentStandingsState extends State<TournamentStandings>
                       return AnimatedContainer(
                         duration: const Duration(milliseconds: 350),
                         curve: Curves.easeInOutCubic,
-                        clipBehavior: Clip.hardEdge,
+                        clipBehavior: isSelected ? Clip.none : Clip.hardEdge,
                         decoration: const BoxDecoration(
                           color: Colors.transparent,
                         ),
@@ -400,7 +401,7 @@ class _TournamentStandingsState extends State<TournamentStandings>
                     return AnimatedContainer(
                       duration: const Duration(milliseconds: 350),
                       curve: Curves.easeInOutCubic,
-                      clipBehavior: Clip.hardEdge,
+                      clipBehavior: isSelected ? Clip.none : Clip.hardEdge,
                       decoration: const BoxDecoration(
                         color: Colors.transparent,
                       ),

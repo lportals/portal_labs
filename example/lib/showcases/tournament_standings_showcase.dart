@@ -26,6 +26,7 @@ class TournamentStandingsShowcase extends StatelessWidget {
   onMatchTap: (match) => print('Tapped Match \${match.id}'),
 )''',
       child: SafeArea(
+        bottom: false,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: SelectionContainer.disabled(
