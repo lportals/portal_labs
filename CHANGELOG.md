@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.36.0] - 2026-07-13
+
+- **Feature**: Multi-Sport & Custom Builders on **Tournament Standings**
+  - **Dynamic Stage Filtering**: Widget automatically detects and renders only stages containing real match data (omits empty round columns).
+  - **Generalize Brand Logos**: Renamed `flagUrl` to `logoUrl` in `TournamentTeam` models to support club shields, logos, or flags.
+  - **Custom Title & Header Builder**: Added `headerBuilder` parameter to easily override the default FIFA title and image with custom branding.
+  - **Custom Label Builder**: Added `stageLabelBuilder` to allow custom localized stage names in column titles and slider.
+  - **FIFA Penalty Format**: Formatted shootout scores consecutively as `score(penalties)` (e.g. `1(5)`) matching the official FIFA app layout.
+  - **Responsive Sizing Fixes**: Resolved Console layout overflow warnings during column-collapsing animations using real-time width constraints and clean ellipsis.
+
 ## [0.35.0] - 2026-06-23
 
 - **New Component**: **Tournament Standings** — A premium split-panel tournament standings
