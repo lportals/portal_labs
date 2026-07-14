@@ -89,6 +89,8 @@ external versioning conflicts.
 | 46 | **[Score Gauge](docs/components/score_gauge.md)**                               | Animated semicircular gauge for credit/security scores with a sliding pointer and segmented strength indicator.                  | Status Display  | **[lib/src/score_gauge](lib/src/score_gauge)**                                       |
 | 47 | **[Bloom Color Picker](docs/components/bloom_color_picker.md)**                 | Premium color picker with a "Bloom" concentric peeling expansion, radial dual-ring swatches, and arc lightness slider.           | Selection       | **[lib/src/bloom_color_picker](lib/src/bloom_color_picker)**                         |
 | 48 | **[Scrollable Subgroups](docs/components/scrollable_subgroups.md)**             | Premium scrollable list widget that groups items under sticky section headers, built entirely on Slivers.                         | Layout          | **[lib/src/scrollable_subgroups](lib/src/scrollable_subgroups)**                     |
+| 49 | **[Tournament Standings](docs/components/tournament_standings.md)**           | Split-panel tournament standings and bracket viewer with spring stage selection tabs and visual connector lines.                  | Layout          | **[lib/src/tournament_standings](lib/src/tournament_standings)**                     |
+
 
 > 💡 **Tip:** Click on any component's name in the table above to view its live
 > demonstration GIF, key features, and integration code snippet.

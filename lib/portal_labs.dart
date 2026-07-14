@@ -221,3 +221,9 @@ export 'src/scrollable_subgroups/scrollable_subgroups.dart';
 export 'src/scrollable_subgroups/models/scrollable_subgroups_data.dart';
 export 'src/scrollable_subgroups/models/scrollable_subgroups_style.dart';
 
+// Tournament Standings
+export 'src/tournament_standings/tournament_standings.dart';
+export 'src/tournament_standings/models/tournament_standings_models.dart';
+export 'src/tournament_standings/models/tournament_standings_style.dart';
+
+
