@@ -90,6 +90,7 @@ external versioning conflicts.
 | 47 | **[Bloom Color Picker](docs/components/bloom_color_picker.md)**                 | Premium color picker with a "Bloom" concentric peeling expansion, radial dual-ring swatches, and arc lightness slider.           | Selection       | **[lib/src/bloom_color_picker](lib/src/bloom_color_picker)**                         |
 | 48 | **[Scrollable Subgroups](docs/components/scrollable_subgroups.md)**             | Premium scrollable list widget that groups items under sticky section headers, built entirely on Slivers.                         | Layout          | **[lib/src/scrollable_subgroups](lib/src/scrollable_subgroups)**                     |
 | 49 | **[Tournament Standings](docs/components/tournament_standings.md)**           | Split-panel tournament standings and bracket viewer with spring stage selection tabs and visual connector lines.                  | Layout          | **[lib/src/tournament_standings](lib/src/tournament_standings)**                     |
+| 50 | **[Swipeable Action Tile](docs/components/swipeable_action_tile.md)**           | Premium physics-based swipeable list tile that reveals custom actions with momentum and spring snapping.                  | Interaction          | **[lib/src/swipeable_action_tile](lib/src/swipeable_action_tile)**                     |
 
 
 > 💡 **Tip:** Click on any component's name in the table above to view its live
