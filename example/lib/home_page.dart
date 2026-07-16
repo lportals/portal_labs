@@ -49,6 +49,7 @@ import 'showcases/score_gauge_showcase.dart';
 import 'showcases/bloom_color_picker_showcase.dart';
 import 'showcases/scrollable_subgroups_showcase.dart';
 import 'showcases/tournament_standings_showcase.dart';
+import 'showcases/swipeable_action_tile_showcase.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -460,6 +461,12 @@ class _SpringyGrid extends StatelessWidget {
         icon: Icons.emoji_events_outlined,
         category: 'Layout',
         page: TournamentStandingsShowcase(),
+      ),
+      _ComponentItem(
+        title: 'Swipeable Action',
+        icon: Icons.swipe_rounded,
+        category: 'Interactions',
+        page: SwipeableActionTileShowcase(),
       ),
     ];
 
