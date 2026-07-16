@@ -2,7 +2,7 @@ name: portal_labs
 description: >
   A curated collection of premium, zero-dependency Flutter UI components
   and experimental interactions. Built with 100% vanilla Flutter/Dart.
-version: 0.36.0
+version: 0.37.0
 
 homepage: https://luisportal.com/labs
 repository: https://github.com/lportals/portal_labs

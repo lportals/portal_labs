@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.37.0] - 2026-07-15
+
+- **New Component**: **Swipeable Action Tile** — A premium physics-based swipeable list tile that reveals custom actions with momentum and spring snapping.
+  - **Bidirectional Swiping**: Supports dragging left-to-right to reveal start actions and right-to-left to reveal end actions.
+  - **Momentum & Friction**: Implements custom friction when dragging past limits or when no actions exist.
+  - **Spring Physics Engine**: Uses `SpringSimulation` for a natural, momentum-based expansion and collapse feel that matches premium OS interactions.
+  - **Total Reusability**: Fully decoupled widget/style architecture exposing `SwipeableActionTileStyle` to customize spring description, haptics, and sizes.
+
 ## [0.36.0] - 2026-07-13
 
 - **Feature**: Multi-Sport & Custom Builders on **Tournament Standings**

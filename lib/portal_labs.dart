@@ -226,4 +226,7 @@ export 'src/tournament_standings/tournament_standings.dart';
 export 'src/tournament_standings/models/tournament_standings_models.dart';
 export 'src/tournament_standings/models/tournament_standings_style.dart';
 
-
+// Swipeable Action Tile
+export 'src/swipeable_action_tile/swipeable_action_tile.dart';
+export 'src/swipeable_action_tile/models/swipeable_action_tile_style.dart';
+export 'src/swipeable_action_tile/models/swipe_action.dart';
