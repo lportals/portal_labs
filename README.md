@@ -1,6 +1,6 @@
 # Portal Labs
 
-A specialized collection of **40+ premium, high-performance, and
+A specialized collection of **50+ premium, high-performance, and
 dependency-free** Flutter UI components and advanced interactions. Built
 exclusively with vanilla Flutter and Dart to ensure maximum portability and
 long-term stability.
