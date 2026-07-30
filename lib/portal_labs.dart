@@ -230,3 +230,7 @@ export 'src/tournament_standings/models/tournament_standings_style.dart';
 export 'src/swipeable_action_tile/swipeable_action_tile.dart';
 export 'src/swipeable_action_tile/models/swipeable_action_tile_style.dart';
 export 'src/swipeable_action_tile/models/swipe_action.dart';
+
+// Emotion Selector
+export 'src/emotion_selector/emotion_selector.dart';
+export 'src/emotion_selector/models/emotion_selector_style.dart';

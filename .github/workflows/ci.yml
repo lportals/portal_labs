@@ -48,8 +48,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: quality
     if: github.event_name == 'release' && github.event.action == 'published'
-    permissions:
-      id-token: write  # Required for OIDC auth with pub.dev
 
     steps:
       - uses: actions/checkout@v4
@@ -63,5 +61,10 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Publish to pub.dev (via OIDC - no token needed)
+      - name: Setup pub.dev credentials
+        run: |
+          mkdir -p ~/.pub-cache
+          echo '${{ secrets.PUB_CREDENTIALS }}' > ~/.pub-cache/credentials.json
+
+      - name: Publish to pub.dev
         run: dart pub publish --force
