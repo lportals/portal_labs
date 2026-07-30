@@ -78,10 +78,17 @@ class ShowcaseShell extends StatelessWidget {
           elevation: 0,
           scrolledUnderElevation: 0,
           centerTitle: true,
+          iconTheme: IconThemeData(
+            color: ThemeData.estimateBrightnessForColor(backgroundColor) == Brightness.dark
+                ? Colors.white
+                : Colors.black,
+          ),
           title: Text(
             title,
-            style: const TextStyle(
-              color: Colors.black,
+            style: TextStyle(
+              color: ThemeData.estimateBrightnessForColor(backgroundColor) == Brightness.dark
+                  ? Colors.white
+                  : Colors.black,
               fontSize: 16,
               fontWeight: FontWeight.w600,
               letterSpacing: -0.3,

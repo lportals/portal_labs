@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.38.0] - 2026-07-30
+
+- **New Component**: **Emotion Selector** — A premium, physics-based emotion selector widget modeled after modern health tracking UIs.
+  - **Dynamic Layout Morphing**: Pills smoothly expand and shrink into small circular icons using interruptible spring animations.
+  - **Premium Haptics**: Uses HapticFeedback.lightImpact() and HapticFeedback.mediumImpact() to provide an immersive tactile feel.
+  - **Flexible Builder**: Exposes `expandedContentBuilder` to let developers inject fully customizable selection widgets inside the expanded state.
+  - **Dart 3 Pattern Matching**: Uses clean, expressive switch expressions to manage the dynamic width and height constraints without boilerplate.
+
 ## [0.37.0] - 2026-07-15
 
 - **New Component**: **Swipeable Action Tile** — A premium physics-based swipeable list tile that reveals custom actions with momentum and spring snapping.
