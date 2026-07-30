@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widget_previews.dart';
 import 'emotion_selector.dart';
 
+/// Preview for the idle state of the EmotionSelector.
 @Preview(name: 'Idle State', group: 'Emotion Selector', size: Size(400, 400))
 Widget emotionSelectorIdlePreview() {
   return Scaffold(

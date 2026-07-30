@@ -370,7 +370,9 @@ class _EmotionSelectorState extends State<EmotionSelector> {
 /// CustomPainter that renders all Apple Health State of Mind shape icons with rounded tips.
 class EmotionShapePainter extends CustomPainter {
 
+  /// Creates an [EmotionShapePainter] for the given [index].
   const EmotionShapePainter({required this.index});
+  /// The integer index corresponding to a specific emotion shape.
   final int index;
 
   @override
@@ -588,6 +590,7 @@ Color _lighten(Color color, [double amount = 0.1]) {
 /// This creates the authentic physical "resorte" bounce Emil Kowalski advocates for.
 class SpringCurve extends Curve {
 
+  /// Creates a [SpringCurve] with configurable physics parameters.
   SpringCurve({
     double mass = 1.0,
     double stiffness = 150.0,
