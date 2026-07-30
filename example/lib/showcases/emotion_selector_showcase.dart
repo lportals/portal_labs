@@ -1,8 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:portal_labs/portal_labs.dart';
-import 'package:portal_labs/src/emotion_selector/models/emotion_selector_style.dart';
-import 'package:portal_labs/src/emotion_selector/emotion_selector.dart';
 import '../showcase_shell.dart';
 
 class EmotionSelectorShowcase extends StatefulWidget {
@@ -21,6 +19,23 @@ class _EmotionSelectorShowcaseState extends State<EmotionSelectorShowcase> {
       title: 'Emotion Selector',
       description: 'A premium, physics-based emotion selector modeled after modern health tracking UIs. Features interruptible spring animations, layout morphing, and haptic feedback.',
       backgroundColor: const Color(0xFF111111),
+      codeSnippet: '''
+EmotionSelector(
+  onSubmitted: (index) {
+    print('Selected index: \$index');
+  },
+  expandedContentBuilder: (context, index) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text('Emotions', style: TextStyle(color: Colors.white)),
+        Divider(),
+        Text('Context', style: TextStyle(color: Colors.white70)),
+      ],
+    );
+  },
+)
+''',
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 16),
         child: Center(
@@ -28,12 +43,12 @@ class _EmotionSelectorShowcaseState extends State<EmotionSelectorShowcase> {
             mainAxisSize: MainAxisSize.min,
             children: [
             EmotionSelector(
-              title: 'How are you feeling?',
               onSubmitted: (index) {
                 setState(() {
                   _lastSelected = const EmotionSelectorStyle().emotionStyles[index];
                 });
               },
+              title: 'How are you feeling?',
               expandedContentBuilder: (context, index) {
                 return ClipRRect(
                       borderRadius: BorderRadius.circular(24),
@@ -95,40 +110,6 @@ class _EmotionSelectorShowcaseState extends State<EmotionSelectorShowcase> {
               ),
             ],
           ),
-        ),
-      ),
-      codeSnippet: '''
-EmotionSelector(
-  onSubmitted: (index) {
-    print('Selected index: \$index');
-  },
-  expandedContentBuilder: (context, index) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text('Emotions', style: TextStyle(color: Colors.white)),
-        Divider(),
-        Text('Context', style: TextStyle(color: Colors.white70)),
-      ],
-    );
-  },
-)
-''',
-    );
-  }
-
-  Widget _buildTag(String label) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Text(
-        label,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 11,
         ),
       ),
     );

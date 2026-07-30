@@ -1,5 +1,4 @@
 import 'dart:math' as math;
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +9,15 @@ import 'models/emotion_selector_style.dart';
 /// Built with a custom dynamic pushing layout engine that maintains exact gaps between all items,
 /// pushing adjacent pills outwards as the selected pill expands.
 class EmotionSelector extends StatefulWidget {
+
+  /// Creates an [EmotionSelector].
+  const EmotionSelector({
+    super.key,
+    this.style = const EmotionSelectorStyle(),
+    this.onSubmitted,
+    this.expandedContentBuilder,
+    this.title,
+  });
   /// The style configuration for the component.
   final EmotionSelectorStyle style;
 
@@ -21,15 +29,6 @@ class EmotionSelector extends StatefulWidget {
 
   /// Optional title displayed above the selector that morphs to match the active emotion's gradient.
   final String? title;
-
-  /// Creates an [EmotionSelector].
-  const EmotionSelector({
-    super.key,
-    this.style = const EmotionSelectorStyle(),
-    this.onSubmitted,
-    this.expandedContentBuilder,
-    this.title,
-  });
 
   @override
   State<EmotionSelector> createState() => _EmotionSelectorState();
@@ -115,7 +114,6 @@ class _EmotionSelectorState extends State<EmotionSelector> {
 
     const Duration springDuration = Duration(milliseconds: 850);
     final Curve springCurve = SpringCurve(
-      mass: 1.0,
       stiffness: 100.0, // Greatly reduced stiffness for a softer, 'lazy' pull
       damping: 12.0,    // Adjusted to keep a subtle 9% bounce
       durationSecs: 0.85,
@@ -232,7 +230,7 @@ class _EmotionSelectorState extends State<EmotionSelector> {
                           : Colors.white.withValues(alpha: 0.08); // Glass silhouette
 
                   final Border? border = (isSelectedMode && !isThisSelected)
-                      ? Border.all(color: Colors.white.withValues(alpha: 0.18), width: 1.0)
+                      ? Border.all(color: Colors.white.withValues(alpha: 0.18))
                       : null;
 
                   final double glowAlpha = isThisSelected ? 0.60 : 0.0;
@@ -371,9 +369,9 @@ class _EmotionSelectorState extends State<EmotionSelector> {
 
 /// CustomPainter that renders all Apple Health State of Mind shape icons with rounded tips.
 class EmotionShapePainter extends CustomPainter {
-  final int index;
 
   const EmotionShapePainter({required this.index});
+  final int index;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -448,15 +446,6 @@ class EmotionShapePainter extends CustomPainter {
 }
 
 class _PressableBubble extends StatefulWidget {
-  final double width;
-  final double height;
-  final double borderRadius;
-  final Color color;
-  final Border? border;
-  final double glowAlpha;
-  final Curve springCurve;
-  final Duration springDuration;
-  final Widget child;
 
   const _PressableBubble({
     required this.width,
@@ -469,6 +458,15 @@ class _PressableBubble extends StatefulWidget {
     required this.springDuration,
     required this.child,
   });
+  final double width;
+  final double height;
+  final double borderRadius;
+  final Color color;
+  final Border? border;
+  final double glowAlpha;
+  final Curve springCurve;
+  final Duration springDuration;
+  final Widget child;
 
   @override
   State<_PressableBubble> createState() => _PressableBubbleState();
@@ -513,15 +511,15 @@ class _PressableBubbleState extends State<_PressableBubble> {
 }
 
 class _ExpandedContent extends StatelessWidget {
-  final EmotionStyle style;
-  final Widget expandedContent;
-  final VoidCallback onSubmit;
 
   const _ExpandedContent({
     required this.style,
     required this.expandedContent,
     required this.onSubmit,
   });
+  final EmotionStyle style;
+  final Widget expandedContent;
+  final VoidCallback onSubmit;
 
   @override
   Widget build(BuildContext context) {
@@ -589,8 +587,6 @@ Color _lighten(Color color, [double amount = 0.1]) {
 /// A custom mathematical curve using Flutter's actual Physics engine (SpringSimulation)
 /// This creates the authentic physical "resorte" bounce Emil Kowalski advocates for.
 class SpringCurve extends Curve {
-  final SpringSimulation _sim;
-  final double _durationSecs;
 
   SpringCurve({
     double mass = 1.0,
@@ -604,6 +600,8 @@ class SpringCurve extends Curve {
           1.0, // Final position
           0.0, // Initial velocity
         );
+  final SpringSimulation _sim;
+  final double _durationSecs;
 
   @override
   double transformInternal(double t) {

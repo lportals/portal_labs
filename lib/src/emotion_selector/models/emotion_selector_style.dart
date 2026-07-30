@@ -4,14 +4,6 @@ import 'package:flutter/material.dart';
 /// Provides extensive customization for colors, shapes, and animations
 /// to ensure total reusability.
 class EmotionSelectorStyle {
-  /// Defines the visual properties for each emotion state in the selector.
-  final List<EmotionStyle> emotionStyles;
-
-  /// The duration of the expansion and morphing animations.
-  final Duration animationDuration;
-
-  /// The curve used for animations to provide a natural, spring-like feel.
-  final Curve animationCurve;
 
   /// Creates an [EmotionSelectorStyle].
   const EmotionSelectorStyle({
@@ -45,6 +37,14 @@ class EmotionSelectorStyle {
     this.animationDuration = const Duration(milliseconds: 600),
     this.animationCurve = Curves.fastLinearToSlowEaseIn,
   });
+  /// Defines the visual properties for each emotion state in the selector.
+  final List<EmotionStyle> emotionStyles;
+
+  /// The duration of the expansion and morphing animations.
+  final Duration animationDuration;
+
+  /// The curve used for animations to provide a natural, spring-like feel.
+  final Curve animationCurve;
 
   /// Creates a copy of this style with the given fields replaced with the new values.
   EmotionSelectorStyle copyWith({
@@ -62,6 +62,13 @@ class EmotionSelectorStyle {
 
 /// Defines the style and properties for a single emotion option.
 class EmotionStyle {
+
+  /// Creates an [EmotionStyle].
+  const EmotionStyle({
+    required this.color,
+    required this.icon,
+    required this.label,
+  });
   /// The background color of the emotion pill.
   final Color color;
 
@@ -70,11 +77,4 @@ class EmotionStyle {
 
   /// The semantic label or title for the emotion.
   final String label;
-
-  /// Creates an [EmotionStyle].
-  const EmotionStyle({
-    required this.color,
-    required this.icon,
-    required this.label,
-  });
 }

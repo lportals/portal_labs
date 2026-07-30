@@ -10,7 +10,7 @@ void main() {
         const MaterialApp(
           home: Scaffold(
             body: EmotionSelector(
-              style: EmotionSelectorStyle(),
+              
             ),
           ),
         ),
